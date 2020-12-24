@@ -384,6 +384,14 @@ def get_job_description(driver):
 
 
 def send_notification(message, data, output_channel_pk):
+    """This function gets a message template and places the retrieved data into that.
+    Then sends it to specified output channel
+
+    Args:
+        message (str): message template
+        data (dict): dictionary that includes retrieved data
+        output_channel_pk (int): primary key of output channel
+    """
     not_tasks.send_message_to_telegram_channel(
         message.replace("link", strip_tags(data["link"]))
         .replace("lang", data["language"].upper())
