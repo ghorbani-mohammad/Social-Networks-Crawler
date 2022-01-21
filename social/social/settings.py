@@ -1,4 +1,4 @@
-from pathlib import Path
+    from pathlib import Path
 from envparse import env
 
 DEBUG = True
@@ -46,16 +46,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social.wsgi.application'
 
-DB_PORT = env.str('DB_PORT')
-DB_USER = env.str('DB_USER')
-DB_PASS = env.str('DB_PASS')
+DB_USER = env.str('POSTGRES_USER')
+DB_PASS = env.str('POSTGRES_PASSWORD')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'OPTIONS': {'options': '-c search_path=army'},
+        'HOST': 'social_db',
         'NAME': 'postgres',
-        'HOST': 'postgres',
-        'PORT': DB_PORT,
+        'PORT': 5432,
         'USER': DB_USER,
         'PASSWORD': DB_PASS,
     },
