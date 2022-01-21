@@ -1,13 +1,13 @@
 from pathlib import Path
+import environ
 
+
+DEBUG = True
+env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^*jn0v@w^li1n^@qj34p&$^g2p+ee5abxr*5$^-gf^f3+rl*u4'
-DEBUG = True
+ALLOWED_HOSTS = ['localhost']
 
-ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,11 +48,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social.wsgi.application'
 
+DB_PORT = env.str('DB_PORT')
+DB_USER = env.str('DB_USER')
+DB_PASS = env.str('DB_PASS')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'OPTIONS': {'options': '-c search_path=army'},
+        'NAME': 'postgres',
+        'HOST': 'postgres',
+        'PORT': DB_PORT,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASS,
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
