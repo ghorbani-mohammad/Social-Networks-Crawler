@@ -19,7 +19,7 @@ services:
       - .:/app
     ports:
       - 8030:80
-    command: "sleep 10000"
+    command: ["python", "/app/social/manage.py", "runserver", "0:80"]
     environment:
       DEBUG: 'True'
 
