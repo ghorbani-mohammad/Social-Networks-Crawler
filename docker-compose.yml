@@ -10,8 +10,8 @@ services:
     ports:
       - 8030:80
     command: ["python", "/app/social/manage.py", "runserver", "0:80"]
-    environment:
-      DEBUG: 'True'
+    env_file:
+      - .env
 
   social_celery:
     container_name: social_celery
@@ -23,6 +23,7 @@ services:
       - .:/app
     depends_on:
       - social_redis
+    
 
   social_beat:
     container_name: social_beat
@@ -34,6 +35,8 @@ services:
       - .:/app
     depends_on:
       - social_redis
+    env_file:
+      - .env
 
   social_redis:
     container_name : social_redis
