@@ -7,6 +7,8 @@ services:
     restart: unless-stopped
     volumes:
       - social_db:/var/lib/postgresql/data
+    env_file:
+      - .env
   
   social_api:
     container_name: social_api
