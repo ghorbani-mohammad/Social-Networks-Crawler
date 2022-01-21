@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  social_db:
+    container_name: social_db
+    image: postgres:13.4-alpine
+    restart: unless-stopped
+    volumes:
+      - social_db:/var/lib/postgresql/data
+
+  social_api:
+    container_name: social_api
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - social_db
+    volumes:
+      - .:/app
+    ports:
+      - 8030:80
+    environment:
+      DEBUG: 'True'
+
+  social_celery:
+    container_name: social_celery
+    build: .
+    working_dir: /app/social
+    command: ["celery", "-A", "social", "worker", "-l", "info"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    depends_on:
+      - social_db
+      - social_redis
+
+  social_beat:
+    container_name: social_beat
+    build: .
+    working_dir: /app/social
+    command: ["celery", "-A", "social", "beat", "-l", "info"]
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    depends_on:
+      - social_db
+      - social_redis
+
+  social_redis:
+    container_name : social_redis
+    image: redis:6.2-alpine
+    restart: unless-stopped
+
+volumes:
+  social_db:
