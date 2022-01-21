@@ -23,6 +23,8 @@ services:
       - .:/app
     depends_on:
       - social_redis
+    env_file:
+      - .env
     
 
   social_beat:
