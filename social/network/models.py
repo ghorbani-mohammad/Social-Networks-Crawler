@@ -22,6 +22,9 @@ class Channel(BaseModel):
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
 
+    class Meta:
+        unique_together = ('network', 'username')
+
     @property
     def today_posts_count(self):
         return 10
