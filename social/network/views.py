@@ -48,6 +48,6 @@ class PostViewSet(ModelViewSet):
         DjangoFilterBackend,
         filters.OrderingFilter,
     ]
-    filterset_fields = ["network"]
+    filterset_fields = ["channel"]
     search_fields = ["body"]
     ordering_fields = ["views_count", "share_count"]
