@@ -14,8 +14,11 @@ logger = get_task_logger(__name__)
 def telegram(account_id):
     account = models.Account.objects.get(pk=account_id)
     client = TelegramClient(
-        account.phone_number, settings.TELEGRAM_API_ID, settings.TELEGRAM_API_HASH
+        'telegram_sessions/' + account.phone_number,
+        settings.TELEGRAM_API_ID,
+        settings.TELEGRAM_API_HASH,
     )
+    client.start()
     print(client)
 
     async def test():
