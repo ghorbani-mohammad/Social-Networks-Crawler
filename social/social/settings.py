@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'network',
+    'telegram',
 ]
 
 MIDDLEWARE = [
@@ -91,3 +92,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Tehran'
+
+
+TELEGRAM_API_ID = env.str('TELEGRAM_API_ID')
+TELEGRAM_API_HASH = env.str('TELEGRAM_API_HASH')
