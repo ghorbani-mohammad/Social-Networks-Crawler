@@ -16,3 +16,4 @@ def telegram(account_id):
         account.phone_number, settings.TELEGRAM_API_ID, settings.TELEGRAM_API_HASH
     )
     print(client)
+    client.connect()
