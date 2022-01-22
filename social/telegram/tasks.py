@@ -17,5 +17,10 @@ def telegram(account_id):
         account.phone_number, settings.TELEGRAM_API_ID, settings.TELEGRAM_API_HASH
     )
     print(client)
-    asyncio.run(print(client.connect()))
+
+    def test():
+        result = client.connect()
+        print(result)
+
+    asyncio.run(test())
     asyncio.run(print(client.is_user_authorized()))
