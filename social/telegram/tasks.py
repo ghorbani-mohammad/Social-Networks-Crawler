@@ -18,7 +18,6 @@ def telegram(account_id):
         settings.TELEGRAM_API_ID,
         settings.TELEGRAM_API_HASH,
     )
-    # client.start()
     print(client)
 
     async def test():
@@ -27,4 +26,6 @@ def telegram(account_id):
         result = client.is_user_authorized()
         print(result)
 
-    asyncio.run(test())
+    task = asyncio.loop.create_task(test())
+    asyncio.loop.run_until_complete(task)
+    # asyncio.run(test())
