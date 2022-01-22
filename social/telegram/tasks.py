@@ -21,6 +21,7 @@ def telegram(account_id):
     async def test():
         result = client.connect()
         print(result)
+        result = client.is_user_authorized()
+        print(result)
 
     asyncio.run(test())
-    asyncio.run(print(client.is_user_authorized()))
