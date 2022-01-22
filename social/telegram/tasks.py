@@ -18,7 +18,7 @@ def telegram(account_id):
         settings.TELEGRAM_API_ID,
         settings.TELEGRAM_API_HASH,
     )
-    client.start()
+    # client.start()
     print(client)
 
     async def test():
