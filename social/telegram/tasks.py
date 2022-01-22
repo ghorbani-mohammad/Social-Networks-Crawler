@@ -18,3 +18,4 @@ def telegram(account_id):
     )
     print(client)
     asyncio.run(client.connect())
+    print(client.is_user_authorized())
