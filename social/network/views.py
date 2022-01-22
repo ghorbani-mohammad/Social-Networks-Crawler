@@ -37,3 +37,17 @@ class ChannelViewSet(ModelViewSet):
     filterset_fields = ["status", "network"]
     search_fields = ["username"]
     ordering_fields = ["username"]
+
+
+class PostViewSet(ModelViewSet):
+    queryset = models.Post.objects.order_by("-id")
+    serializer_class = serializers.PostSerializer
+    pagination_class = ListPagination
+    filter_backends = [
+        filters.SearchFilter,
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ["network"]
+    search_fields = ["body"]
+    ordering_fields = ["views_count", "share_count"]

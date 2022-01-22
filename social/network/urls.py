@@ -6,6 +6,7 @@ from . import views
 router = SimpleRouter()
 router.register("network", views.NetworkViewSet, basename="network")
 router.register("channel", views.ChannelViewSet, basename="channel")
+router.register("post", views.PostViewSet, basename="post")
 urlpatterns = []
 
 urlpatterns += router.urls

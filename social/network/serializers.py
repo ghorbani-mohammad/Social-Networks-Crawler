@@ -21,3 +21,16 @@ class ChannelSerializer(serializers.ModelSerializer):
             "today_posts_count",
             "created_at",
         )
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Post
+        fields = (
+            "id",
+            "body",
+            "channel",
+            "views_count",
+            "share_count",
+            "created_at",
+        )
