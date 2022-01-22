@@ -15,6 +15,7 @@ class PublisherSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "username",
+            "description",
             "network",
             "is_channel",
             "status",
