@@ -1,6 +1,7 @@
 import json
 import asyncio
 from telethon import TelegramClient, events
+from telethon.tl.functions.channels import GetFullChannelRequest
 from asgiref.sync import sync_to_async
 
 from django.conf import settings
@@ -62,6 +63,7 @@ def get_code(account_id):
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
     loop.run_until_complete(task)
+    client.disconnect()
 
 
 @shared_task(name="sign_in")
@@ -79,6 +81,7 @@ def sign_in(account_id, code):
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
     loop.run_until_complete(task)
+    client.disconnect()
 
 
 @shared_task(name="get_messages")
@@ -95,6 +98,7 @@ def get_messages(account_id):
             await insert_to_db(sender.username, event)
 
     client.run_until_disconnected()
+    client.disconnect()
 
 
 @shared_task(name="set_channels_list")
@@ -110,3 +114,21 @@ def get_channels_list():
     if channels:
         return json.loads(channels)
     return []
+
+
+@shared_task(name="get_channel_info")
+def get_channel_info(account_id, channel_id):
+    _, client = get_account_client(account_id)
+
+    async def main():
+        await client.connect()
+        channel = await client.get_entity(channel_id)
+        channel_full_info = await client(GetFullChannelRequest(channel=channel))
+        print(json(channel_full_info))
+        print()
+        print(json(channel_full_info.full_chat))
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
+    client.disconnect()

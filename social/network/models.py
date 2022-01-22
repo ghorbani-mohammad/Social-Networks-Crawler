@@ -21,6 +21,7 @@ class Channel(BaseModel):
     description = models.TextField(null=True, blank=True)
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
+    data = models.JSONField(null=True, blank=True)
 
     class Meta:
         unique_together = ('network', 'username')
