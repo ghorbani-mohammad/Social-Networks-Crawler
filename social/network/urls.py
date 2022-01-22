@@ -5,6 +5,7 @@ from . import views
 
 router = SimpleRouter()
 router.register("network", views.NetworkViewSet, basename="network")
+router.register("publisher", views.PublisherViewSet, basename="publisher")
 urlpatterns = []
 
 urlpatterns += router.urls

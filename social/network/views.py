@@ -13,7 +13,7 @@ class ListPagination(PageNumberPagination):
 
 class NetworkViewSet(ModelViewSet):
     queryset = models.Network.objects.order_by("-id")
-    serializer_class = serializers.PackageSerializer
+    serializer_class = serializers.NetworkSerializer
     pagination_class = ListPagination
     filter_backends = [
         filters.SearchFilter,
@@ -23,3 +23,17 @@ class NetworkViewSet(ModelViewSet):
     filterset_fields = ["status"]
     search_fields = ["name"]
     ordering_fields = ["name"]
+
+
+class PublisherViewSet(ModelViewSet):
+    queryset = models.Publisher.objects.order_by("-id")
+    serializer_class = serializers.PublisherSerializer
+    pagination_class = ListPagination
+    filter_backends = [
+        filters.SearchFilter,
+        DjangoFilterBackend,
+        filters.OrderingFilter,
+    ]
+    filterset_fields = ["status", "network"]
+    search_fields = ["username"]
+    ordering_fields = ["username"]

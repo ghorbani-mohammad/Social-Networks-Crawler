@@ -22,6 +22,10 @@ class Publisher(BaseModel):
     is_channel = models.BooleanField(default=False)
     status = models.BooleanField(default=True)
 
+    @property
+    def today_posts_count(self):
+        return 10
+
     def __str__(self):
         return f'({self.pk} - {self.username})'
 
