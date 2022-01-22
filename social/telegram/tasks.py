@@ -21,7 +21,9 @@ def telegram(account_id):
 
     async def test():
         result = await client.connect()
+        print(result)
         result = await client.is_user_authorized()
+        print(result)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(test())
