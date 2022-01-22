@@ -19,4 +19,5 @@ class ChannelSerializer(serializers.ModelSerializer):
             "network",
             "status",
             "today_posts_count",
+            "created_at",
         )
