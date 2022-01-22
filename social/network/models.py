@@ -31,7 +31,7 @@ class Channel(BaseModel):
 
 
 class Post(BaseModel):
-    body = models.CharField(max_length=100)
+    body = models.TextField(max_length=100)
     channel = models.ForeignKey(
         Channel, on_delete=models.CASCADE, related_name='posts', null=True
     )
