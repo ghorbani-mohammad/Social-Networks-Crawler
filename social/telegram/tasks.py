@@ -39,10 +39,14 @@ def set_channels_list_async():
 
 
 @sync_to_async
-def insert_to_db(channel_username, text):
-    # todo: use cache
+def insert_to_db(channel_username, event):
+    # todo: use cache for getting channel
     channel = net_models.Channel.objects.get(username=channel_username)
-    net_models.Post.objects.create(body=text, channel=channel)
+    message_id = event.message.id
+    channel_id = event.message.peer_id.channel_id
+    text = event.message.message
+    data = {'message_id': message_id, 'channel_id': channel_id}
+    net_models.Post.objects.create(body=text, channel=channel, data=data)
 
 
 @shared_task(name="get_code")
@@ -88,7 +92,7 @@ def get_messages(account_id):
         await set_channels_list_async()
         channels = get_channels_list()
         if sender.username in channels:
-            await insert_to_db(sender.username, event.raw_text)
+            await insert_to_db(sender.username, event)
 
     client.run_until_disconnected()
 

@@ -40,6 +40,7 @@ class Post(BaseModel):
     )
     views_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
+    data = models.JSONField(null=True)
 
     def __str__(self):
         return f'({self.pk} - {self.channel})'
