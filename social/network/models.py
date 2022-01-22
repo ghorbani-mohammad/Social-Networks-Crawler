@@ -10,7 +10,10 @@ class Network(BaseModel):
 
     @property
     def today_posts_count(self):
-        return 10
+        counter = 0
+        for channel in self.channels.all():
+            counter += channel.posts.count()
+        return counter
 
     def __str__(self):
         return f'({self.pk} - {self.name})'
@@ -19,7 +22,9 @@ class Network(BaseModel):
 class Channel(BaseModel):
     username = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    network = models.ForeignKey(Network, on_delete=models.CASCADE)
+    network = models.ForeignKey(
+        Network, on_delete=models.CASCADE, related_name='channels'
+    )
     status = models.BooleanField(default=True)
     data = models.JSONField(null=True, blank=True)
 
@@ -28,7 +33,7 @@ class Channel(BaseModel):
 
     @property
     def today_posts_count(self):
-        return 10
+        return self.posts.count()
 
     def __str__(self):
         return f'({self.pk} - {self.username} - {self.network})'
