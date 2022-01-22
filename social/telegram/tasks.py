@@ -31,6 +31,20 @@ def save_phone_code_hash(account_id, hash_code):
     account.save()
 
 
+@sync_to_async
+def set_channels_list_async():
+    channels = [channel.username for channel in net_models.Channel.objects.all()]
+    if len(channels):
+        cache.set('telegram_channels', json.dumps(channels))
+
+
+@sync_to_async
+def insert_to_db(channel_username, text):
+    # todo: use cache
+    channel = net_models.Channel.objects.get(username=channel_username)
+    net_models.Post.objects.create(body=text, channel=channel)
+
+
 @shared_task(name="get_code")
 def get_code(account_id):
     account, client = get_account_client(account_id)
@@ -71,13 +85,24 @@ def get_messages(account_id):
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
         sender = await event.get_sender()
+        await set_channels_list_async()
+        channels = get_channels_list()
+        if sender.username in channels:
+            await insert_to_db(sender.username, event.raw_text)
 
     client.run_until_disconnected()
 
 
-@shared_task(name="update_channels_list")
-def update_channels_list():
+@shared_task(name="set_channels_list")
+def set_channels_list():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
-    print(channels)
     if len(channels):
         cache.set('telegram_channels', json.dumps(channels))
+
+
+@shared_task(name="get_channels_list")
+def get_channels_list():
+    channels = cache.get('telegram_channels')
+    if channels:
+        return json.loads(channels)
+    return []
