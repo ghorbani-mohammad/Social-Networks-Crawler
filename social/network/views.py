@@ -25,9 +25,9 @@ class NetworkViewSet(ModelViewSet):
     ordering_fields = ["name"]
 
 
-class PublisherViewSet(ModelViewSet):
-    queryset = models.Publisher.objects.order_by("-id")
-    serializer_class = serializers.PublisherSerializer
+class ChannelViewSet(ModelViewSet):
+    queryset = models.Channel.objects.order_by("-id")
+    serializer_class = serializers.ChannelSerializer
     pagination_class = ListPagination
     filter_backends = [
         filters.SearchFilter,

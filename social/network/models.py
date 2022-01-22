@@ -16,7 +16,7 @@ class Network(BaseModel):
         return f'({self.pk} - {self.name})'
 
 
-class Publisher(BaseModel):
+class Channel(BaseModel):
     username = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
@@ -33,11 +33,11 @@ class Publisher(BaseModel):
 
 class Post(BaseModel):
     body = models.CharField(max_length=100)
-    publisher = models.ForeignKey(
-        Publisher, on_delete=models.CASCADE, related_name='posts', null=True
+    channel = models.ForeignKey(
+        Channel, on_delete=models.CASCADE, related_name='posts', null=True
     )
     views_count = models.IntegerField(default=0)
     share_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'({self.pk} - {self.publisher})'
+        return f'({self.pk} - {self.channel})'

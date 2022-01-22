@@ -9,9 +9,9 @@ class NetworkSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "url", "status", "today_posts_count")
 
 
-class PublisherSerializer(serializers.ModelSerializer):
+class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Publisher
+        model = models.Channel
         fields = (
             "id",
             "username",
