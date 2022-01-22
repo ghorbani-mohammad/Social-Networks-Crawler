@@ -33,6 +33,18 @@ def save_phone_code_hash(account_id, hash_code):
 
 
 @sync_to_async
+def update_channel_info(channel_username, info):
+    channel = net_models.Channel.objects.get(username=channel_username)
+    data = {}
+    data['channel_id'] = info.full_chat.id
+    data['about'] = info.full_chat.about
+    data['participants_count'] = info.full_chat.participants_count
+    data['unread_count'] = info.full_chat.unread_count
+    channel.data = data
+    channel.save()
+
+
+@sync_to_async
 def set_channels_list_async():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
     if len(channels):
@@ -117,16 +129,14 @@ def get_channels_list():
 
 
 @shared_task(name="get_channel_info")
-def get_channel_info(account_id, channel_id):
+def get_channel_info(account_id, channel_username):
     _, client = get_account_client(account_id)
 
     async def main():
         await client.connect()
-        channel = await client.get_entity(channel_id)
-        channel_full_info = await client(GetFullChannelRequest(channel=channel))
-        print(json(channel_full_info))
-        print()
-        print(json(channel_full_info.full_chat))
+        channel = await client.get_entity(channel_username)
+        info = await client(GetFullChannelRequest(channel=channel))
+        await update_channel_info(channel_username, info)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
