@@ -18,7 +18,7 @@ def telegram(account_id):
     )
     print(client)
 
-    def test():
+    async def test():
         result = client.connect()
         print(result)
 
