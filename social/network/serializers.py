@@ -17,7 +17,6 @@ class ChannelSerializer(serializers.ModelSerializer):
             "username",
             "description",
             "network",
-            "is_channel",
             "status",
             "today_posts_count",
         )

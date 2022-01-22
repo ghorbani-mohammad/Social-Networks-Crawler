@@ -11,7 +11,7 @@ class NetworkAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 @admin.register(models.Channel)
 class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = ("pk", "username", "network", "is_channel", "status", "created_at")
+    list_display = ("pk", "username", "network", "status", "created_at")
 
 
 @admin.register(models.Post)

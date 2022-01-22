@@ -20,7 +20,6 @@ class Channel(BaseModel):
     username = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     network = models.ForeignKey(Network, on_delete=models.CASCADE)
-    is_channel = models.BooleanField(default=False)
     status = models.BooleanField(default=True)
 
     @property
