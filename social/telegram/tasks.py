@@ -22,7 +22,28 @@ def get_code(account_id):
     async def main():
         await client.connect()
         await client.is_user_authorized()
-        await client.send_code_request(account.phone_number)
+        result = await client.send_code_request(account.phone_number)
+        account.phone_code_hash = result.phone_code_hash
+        account.save()
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
+
+
+@shared_task(name="sign_in")
+def sign_in(account_id, code):
+    account = models.Account.objects.get(pk=account_id)
+    client = TelegramClient(
+        'telegram_sessions/' + account.phone_number,
+        settings.TELEGRAM_API_ID,
+        settings.TELEGRAM_API_HASH,
+    )
+
+    async def main():
+        await client.connect()
+        myself = await client.sign_in(account.phone_number, code)
+        print(myself)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
