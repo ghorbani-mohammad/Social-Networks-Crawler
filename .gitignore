@@ -14,3 +14,4 @@ venv
 social/celerybeat-schedule
 social/celerybeat.pid
 social/static
+telegram_sessions/
