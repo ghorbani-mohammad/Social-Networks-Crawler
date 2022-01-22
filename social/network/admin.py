@@ -6,7 +6,7 @@ from . import models
 
 @admin.register(models.Network)
 class NetworkAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = ("pk", "name", "url", "status")
+    list_display = ("pk", "name", "url", "status", "today_posts_count")
 
 
 @admin.register(models.Publisher)

@@ -2,10 +2,15 @@ from django.db import models
 
 from reusable.models import BaseModel
 
+
 class Network(BaseModel):
     name = models.CharField(max_length=100)
     url = models.URLField()
     status = models.BooleanField(default=True)
+
+    @property
+    def today_posts_count(self):
+        return 10
 
     def __str__(self):
         return f'({self.pk} - {self.name})'
