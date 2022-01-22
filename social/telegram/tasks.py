@@ -17,7 +17,7 @@ logger = get_task_logger(__name__)
 def get_account_client(account_id):
     account = models.Account.objects.get(pk=account_id)
     client = TelegramClient(
-        'telegram_sessions/' + account.phone_number,
+        '/app/telegram_sessions/' + account.phone_number,
         settings.TELEGRAM_API_ID,
         settings.TELEGRAM_API_HASH,
     )
