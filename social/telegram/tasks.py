@@ -1,3 +1,4 @@
+import asyncio
 from telethon import TelegramClient
 
 from django.conf import settings
@@ -16,4 +17,4 @@ def telegram(account_id):
         account.phone_number, settings.TELEGRAM_API_ID, settings.TELEGRAM_API_HASH
     )
     print(client)
-    client.connect()
+    asyncio.run(client.connect())
