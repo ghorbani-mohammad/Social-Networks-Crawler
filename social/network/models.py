@@ -1,6 +1,7 @@
-from django.db import models
+from django.db import models, transaction
 
 from reusable.models import BaseModel
+from linkedin import tasks as lin_tasks
 
 
 class Network(BaseModel):
@@ -37,6 +38,12 @@ class Channel(BaseModel):
 
     def __str__(self):
         return f'({self.pk} - {self.username} - {self.network})'
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            if self.network.name == 'Linkedin':
+                transaction.on_commit(lambda: lin_tasks.get_company_info.delay(self.pk))
 
 
 class Post(BaseModel):

@@ -11,5 +11,6 @@ pip-tools
 psycopg2-binary
 redis
 requests
+selenium
 telethon
 unidecode

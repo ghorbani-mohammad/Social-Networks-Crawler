@@ -57,6 +57,15 @@ services:
     image: redis:6.2-alpine
     restart: unless-stopped
 
+  social_firefox:
+    container_name : social_firefox
+    image: selenium/standalone-firefox:4.1.1-20220121
+    ports:
+      - 4444:4444
+      - 7900:7900
+    shm_size: 2g
+    restart: unless-stopped
+
 volumes:
   social_db:
 
