@@ -4,7 +4,7 @@ from envparse import env
 DEBUG = True
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^*jn0v@w^li1n^@qj34p&$^g2p+ee5abxr*5$^-gf^f3+rl*u4'
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '88.99.18.187']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
