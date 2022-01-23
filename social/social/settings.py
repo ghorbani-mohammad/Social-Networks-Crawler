@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'network',
     'telegram',
+    'linkedin',
 ]
 
 MIDDLEWARE = [
