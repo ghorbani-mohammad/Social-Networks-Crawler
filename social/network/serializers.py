@@ -14,6 +14,7 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = models.Channel
         fields = (
             "id",
+            "name",
             "username",
             "description",
             "network",

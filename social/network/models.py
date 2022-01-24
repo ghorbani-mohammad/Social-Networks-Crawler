@@ -21,6 +21,7 @@ class Network(BaseModel):
 
 
 class Channel(BaseModel):
+    name = models.CharField(max_length=100, null=True, blank=True)
     username = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     network = models.ForeignKey(
