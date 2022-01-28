@@ -32,7 +32,7 @@ def login():
         EC.presence_of_element_located((By.ID, "global-nav-search"))
     )
 
-    pickle.dump(driver.get_cookies(), open("cookies.pkl", "wb"))
+    pickle.dump(driver.get_cookies(), open("social/cookies.pkl", "wb"))
 
 
 @shared_task(name="get_company_info")
