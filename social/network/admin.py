@@ -20,6 +20,7 @@ class NetworkAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = (
         "pk",
+        "name",
         "username",
         "network",
         "status",
