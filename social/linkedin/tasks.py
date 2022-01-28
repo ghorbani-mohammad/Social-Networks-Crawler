@@ -43,7 +43,7 @@ def get_company_info(channel_id):
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,
     )
-    cookies = pickle.load(open("cookies.pkl", "rb"))
+    cookies = pickle.load(open("social/cookies.pkl", "rb"))
     driver.get(company_url)
     for cookie in cookies:
         driver.add_cookie(cookie)
