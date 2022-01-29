@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'network',
     'telegram',
     'linkedin',
+    'twitter',
     'corsheaders',
 ]
 
