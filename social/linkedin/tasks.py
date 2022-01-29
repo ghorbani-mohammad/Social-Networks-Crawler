@@ -53,10 +53,9 @@ def store_posts(channel_id, post_id, body, reactions_counter, comments_counter):
         'comments_counter': comments_counter,
     }
     if not exists:
-        post = net_models.Post.objects.create(
+        net_models.Post.objects.create(
             channel_id=channel_id, network_id=post_id, body=body, data=data
         )
-        post.save()
     else:
         post = net_models.Post.objects.get(network_id=post_id)
         post.data = data
@@ -65,15 +64,11 @@ def store_posts(channel_id, post_id, body, reactions_counter, comments_counter):
 
 def scroll(driver, counter):
     SCROLL_PAUSE_TIME = 0.5
-    # Get scroll height
     last_height = driver.execute_script("return document.body.scrollHeight")
     scroll_counter = 0
     while True:
-        # Scroll down to bottom
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        # Wait to load page
         time.sleep(SCROLL_PAUSE_TIME)
-        # Calculate new scroll height and compare with last scroll height
         new_height = driver.execute_script("return document.body.scrollHeight")
         scroll_counter += 1
         if new_height == last_height or scroll_counter > counter:

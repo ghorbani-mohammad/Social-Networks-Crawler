@@ -1,6 +1,7 @@
 from django.db import models, transaction
 
 from reusable.models import BaseModel
+from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
 
 
@@ -47,6 +48,8 @@ class Channel(BaseModel):
                 transaction.on_commit(
                     lambda: lin_tasks.get_channel_posts.delay(self.pk)
                 )
+            elif self.network.name == 'Twitter':
+                transaction.on_commit(lambda: twi_tasks.get_posts.delay(self.pk))
 
 
 class Post(BaseModel):
