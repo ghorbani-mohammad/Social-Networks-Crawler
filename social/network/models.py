@@ -38,17 +38,20 @@ class Channel(BaseModel):
         return self.posts.count()
 
     def __str__(self):
-        return f'({self.pk} - {self.username} - {self.network})'
+        return f'({self.pk} - {self.name} - {self.network})'
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
             super().save(*args, **kwargs)
             if self.network.name == 'Linkedin':
-                transaction.on_commit(lambda: lin_tasks.get_company_info.delay(self.pk))
+                transaction.on_commit(
+                    lambda: lin_tasks.get_channel_posts.delay(self.pk)
+                )
 
 
 class Post(BaseModel):
     body = models.TextField(max_length=100)
+    network_id = models.CharField(max_length=100, null=True, blank=True)
     channel = models.ForeignKey(
         Channel, on_delete=models.CASCADE, related_name='posts', null=True
     )
