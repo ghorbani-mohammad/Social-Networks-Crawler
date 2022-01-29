@@ -1,5 +1,6 @@
 import time
 import pickle
+import traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -37,8 +38,7 @@ def login():
         )
         pickle.dump(driver.get_cookies(), open("/app/social/cookies.pkl", "wb"))
     except Exception as e:
-        print(e)
-        logger.error(e)
+        logger.error(traceback.format_exc())
     finally:
         driver.close()
 
@@ -119,10 +119,8 @@ def get_channel_posts(channel_id):
                         channel_id, id, body, reactions_counter, comments_counter
                     )
             except Exception as e:
-                print(e)
-                logger.error(e)
+                logger.error(traceback.format_exc())
     except Exception as e:
-        print(e)
-        logger.error(e)
+        logger.error(traceback.format_exc())
     finally:
         driver.quit()
