@@ -95,9 +95,9 @@ def get_channel_posts(channel_id):
         driver.add_cookie(cookie)
     driver.get(company_url)
     try:
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_all_elements_located((By.XPATH, '//span[@dir="ltr"]'))
-        )
+        # WebDriverWait(driver, 10).until(
+        #     EC.presence_of_all_elements_located((By.XPATH, '//span[@dir="ltr"]'))
+        # )
         time.sleep(5)
         scroll(driver, 2)
         articles = driver.find_elements_by_class_name("feed-shared-update-v2")
