@@ -125,4 +125,4 @@ def get_channel_posts(channel_id):
         print(e)
         logger.error(e)
     finally:
-        driver.close()
+        driver.quit()
