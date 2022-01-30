@@ -52,6 +52,32 @@ def get_post_detail(article):
     return detail
 
 
+def get_comment_detail(article):
+    detail = {}
+    detail['id'] = int(
+        article.find_element(
+            By.XPATH,
+            ".//a[@role='link' and @dir='auto' and starts-with(@id,'id__')]",
+        )
+        .get_attribute('href')
+        .split('/')[-1]
+    )
+    detail['body'] = article.find_element(
+        By.XPATH,
+        ".//div[@dir='auto' and starts-with(@id,'id__') and not(@style) and @lang]//span",
+    ).text
+    for item in ['reply', 'retweet', 'like']:
+        detail[f'{item}_count'] = int(
+            article.find_element(
+                By.XPATH,
+                f".//div[@role='button' and @data-testid='{item}']",
+            )
+            .get_attribute('aria-label')
+            .split()[0]
+        )
+    return detail
+
+
 @shared_task(name="store_twitter_posts")
 def store_twitter_posts(
     channel_id, post_id, body, replies_counter, retweets_counter, likes_counter
@@ -74,8 +100,8 @@ def store_twitter_posts(
         post.save()
 
 
-@shared_task(name="get_posts")
-def get_posts(channel_id):
+@shared_task(name="get_twitter_posts")
+def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     channel_url = channel.username
     driver = webdriver.Remote(
@@ -84,7 +110,6 @@ def get_posts(channel_id):
     )
     driver.get(channel_url)
     scroll(driver, 2)
-    articles = driver.find_elements(By.TAG_NAME, "article")
     time.sleep(10)
     articles = driver.find_elements(By.TAG_NAME, "article")
     for article in articles:
@@ -99,5 +124,34 @@ def get_posts(channel_id):
                 post_detail['like_count'],
             )
         except Exception as e:
+            logger.error(e)
+    driver.quit()
+
+
+@shared_task(name="get_twitter_post_comments")
+def get_twitter_post_comments(post_id):
+    post = net_models.Post.objects.get(pk=post_id)
+    driver = webdriver.Remote(
+        "http://social_firefox:4444/wd/hub",
+        DesiredCapabilities.FIREFOX,
+    )
+    driver.get(f"{post.channel.username}/status/{post.network_id}")
+    scroll(driver, 2)
+    time.sleep(10)
+    articles = driver.find_elements(By.TAG_NAME, "article")
+    for article in articles:
+        try:
+            post_detail = get_comment_detail(article)
+            # store on different tables?
+            store_twitter_posts.delay(
+                post.channel_id,
+                post_detail['id'],
+                post_detail['body'],
+                post_detail['reply_count'],
+                post_detail['retweet_count'],
+                post_detail['like_count'],
+            )
+        except Exception as e:
+            print(e)
             logger.error(e)
     driver.quit()
