@@ -27,17 +27,10 @@ def scroll(driver, counter):
 
 
 @shared_task(name="store_post")
-def store_posts(channel_id, post_id, body):
-    exists = net_models.Post.objects.filter(
-        network_id=post_id, channel_id=channel_id
-    ).exists()
+def store_posts(channel_id, body):
+    exists = net_models.Post.objects.filter(body=body, channel_id=channel_id).exists()
     if not exists:
-        net_models.Post.objects.create(
-            channel_id=channel_id, network_id=post_id, body=body
-        )
-    else:
-        post = net_models.Post.objects.get(network_id=post_id)
-        post.save()
+        net_models.Post.objects.create(channel_id=channel_id, body=body)
 
 
 @shared_task(name="get_posts")
@@ -58,7 +51,6 @@ def get_posts(channel_id):
             By.XPATH,
             ".//div[@dir='auto' and starts-with(@id,'id__') and not(contains(@data-testid, 'socialContext'))]",
         )
-        post_id = body.get_attribute("id")
         post_body = body.text
-        store_posts.delay(channel_id, post_id, post_body)
+        store_posts.delay(channel_id, post_body)
     driver.quit()
