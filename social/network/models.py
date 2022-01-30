@@ -53,8 +53,8 @@ class Channel(BaseModel):
 
 
 class Post(BaseModel):
-    body = models.TextField(max_length=100)
-    network_id = models.CharField(max_length=100, null=True, blank=True)
+    body = models.TextField()
+    network_id = models.CharField(max_length=200, null=True, blank=True)
     channel = models.ForeignKey(
         Channel, on_delete=models.CASCADE, related_name='posts', null=True
     )
