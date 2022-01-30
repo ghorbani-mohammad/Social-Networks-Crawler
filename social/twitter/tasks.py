@@ -28,6 +28,18 @@ def scroll(driver, counter):
 
 def get_post_detail(article):
     detail = {}
+    detail['id'] = int(
+        article.find_element(
+            By.XPATH,
+            ".//a[@role='link' and @dir='auto' and starts-with(@id,'id__')]",
+        )
+        .get_attribute('href')
+        .split('/')[-1]
+    )
+    detail['body'] = article.find_element(
+        By.XPATH,
+        ".//div[@dir='auto' and starts-with(@id,'id__') and not(contains(@data-testid, 'socialContext'))]",
+    ).text
     for item in ['reply', 'retweet', 'like']:
         detail[f'{item}_count'] = int(
             article.find_element(
@@ -77,24 +89,11 @@ def get_posts(channel_id):
     articles = driver.find_elements(By.TAG_NAME, "article")
     for article in articles:
         try:
-            body = article.find_element(
-                By.XPATH,
-                ".//div[@dir='auto' and starts-with(@id,'id__') and not(contains(@data-testid, 'socialContext'))]",
-            )
-            post_id = int(
-                article.find_element(
-                    By.XPATH,
-                    ".//a[@role='link' and @dir='auto' and starts-with(@id,'id__')]",
-                )
-                .get_attribute('href')
-                .split('/')[-1]
-            )
-            post_body = body.text
             post_detail = get_post_detail(article)
             store_twitter_posts.delay(
                 channel_id,
-                post_id,
-                post_body,
+                post_detail['id'],
+                post_detail['body'],
                 post_detail['reply_count'],
                 post_detail['retweet_count'],
                 post_detail['like_count'],
