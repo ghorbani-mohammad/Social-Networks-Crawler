@@ -4,8 +4,6 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth
 
-from . import models
-
 
 def hourly_iterate(start, finish):
     result = []
@@ -38,8 +36,8 @@ def get_count_statics(qs, type, start=None, end=None):
     result = []
     if type == 'hourly':
         # todo: remove start and end
-        start = models.Post.objects.first().created_at
-        end = start + timezone.timedelta(hours=20)
+        # start = qs.first().created_at
+        # end = start + timezone.timedelta(hours=20)
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(hours=12))
         qs = qs.filter(created_at__gte=start, created_at__lte=end)
@@ -54,8 +52,8 @@ def get_count_statics(qs, type, start=None, end=None):
             result.append({'hour': hour, 'count': count['count'] if count else 0})
     elif type == 'daily':
         # todo: remove start and end
-        start = models.Post.objects.first().created_at
-        end = start + timezone.timedelta(days=10)
+        # start = qs.first().created_at
+        # end = start + timezone.timedelta(days=10)
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(days=7))
         qs = qs.filter(created_at__gte=start, created_at__lte=end)
@@ -70,8 +68,8 @@ def get_count_statics(qs, type, start=None, end=None):
             result.append({'day': day, 'count': count['count'] if count else 0})
     elif type == 'monthly':
         # todo: remove start and end
-        start = models.Post.objects.first().created_at - relativedelta(months=10)
-        end = timezone.localtime()
+        # start = qs.first().created_at - relativedelta(months=10)
+        # end = timezone.localtime()
         start = start or timezone.localtime()
         end = end or (start - relativedelta(months=7))
         qs = qs.filter(created_at__gte=start, created_at__lte=end)

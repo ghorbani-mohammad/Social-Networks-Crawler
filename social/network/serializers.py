@@ -39,5 +39,5 @@ class PostSerializer(serializers.ModelSerializer):
 
 class PostCountInputSerializer(serializers.Serializer):
     type = serializers.CharField()
-    date_after = serializers.DateField(required=False, default=None)
-    date_end = serializers.DateField(required=False, default=None)
+    date_after = serializers.DateTimeField(required=False, default=None)
+    date_end = serializers.DateTimeField(required=False, default=None)
