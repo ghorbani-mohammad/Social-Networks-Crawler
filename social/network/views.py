@@ -70,6 +70,6 @@ class PostCountAPIView(ListAPIView):
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
         response.data['statics'] = utils.get_count_statics(
-            qs, data['type'], data['date_after'], data['date_end']
+            qs, data['type'], data['date_after'], data['date_before']
         )
         return response
