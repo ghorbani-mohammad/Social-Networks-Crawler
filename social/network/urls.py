@@ -9,6 +9,7 @@ router.register("channel", views.ChannelViewSet, basename="channel")
 router.register("post", views.PostViewSet, basename="post")
 urlpatterns = [
     path("count_post/", views.PostCountAPIView.as_view(), name="count-post"),
+    path("search_post/", views.SearchCountAPIView.as_view(), name="search-post"),
 ]
 
 urlpatterns += router.urls

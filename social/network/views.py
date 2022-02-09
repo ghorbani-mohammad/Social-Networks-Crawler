@@ -59,6 +59,25 @@ class PostCountAPIView(ListAPIView):
     queryset = models.Post.objects.order_by("-id")
     serializer_class = serializers.PostSerializer
     pagination_class = ListPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = filters.PostCountFilter
+
+    def list(self, request):
+        serializer = serializers.PostCountInputSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        response = super().list(request)
+        qs = self.filter_queryset(self.get_queryset())
+        response.data['statics'] = utils.get_count_statics(
+            qs, data['type'], data['date_after'], data['date_before']
+        )
+        return response
+
+
+class SearchCountAPIView(ListAPIView):
+    queryset = models.Post.objects.order_by("-id")
+    serializer_class = serializers.PostSerializer
+    pagination_class = ListPagination
     filter_backends = [rf_filters.SearchFilter, DjangoFilterBackend]
     filterset_class = filters.PostCountFilter
     search_fields = ["body"]
