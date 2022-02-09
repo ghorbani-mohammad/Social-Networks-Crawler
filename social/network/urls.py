@@ -7,6 +7,8 @@ router = SimpleRouter()
 router.register("network", views.NetworkViewSet, basename="network")
 router.register("channel", views.ChannelViewSet, basename="channel")
 router.register("post", views.PostViewSet, basename="post")
-urlpatterns = []
+urlpatterns = [
+    path("count_post/", views.PostCountAPIView.as_view(), name="count-post"),
+]
 
 urlpatterns += router.urls

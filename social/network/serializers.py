@@ -35,3 +35,9 @@ class PostSerializer(serializers.ModelSerializer):
             "share_count",
             "created_at",
         )
+
+
+class PostCountInputSerializer(serializers.Serializer):
+    type = serializers.CharField()
+    date_after = serializers.DateField(required=False, default=None)
+    date_end = serializers.DateField(required=False, default=None)

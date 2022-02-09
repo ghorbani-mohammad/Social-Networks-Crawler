@@ -10,6 +10,7 @@ ipython
 linkedin-scraper==2.9.0 
 pip-tools
 psycopg2-binary
+python-dateutil
 redis
 requests
 selenium

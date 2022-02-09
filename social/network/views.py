@@ -1,9 +1,11 @@
-from rest_framework import filters
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 
-from . import models, serializers
+from rest_framework import filters as rf_filters
+from rest_framework.generics import ListAPIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import PageNumberPagination
+
+from . import models, serializers, filters, utils
 
 
 class ListPagination(PageNumberPagination):
@@ -16,9 +18,9 @@ class NetworkViewSet(ModelViewSet):
     serializer_class = serializers.NetworkSerializer
     pagination_class = ListPagination
     filter_backends = [
-        filters.SearchFilter,
+        rf_filters.SearchFilter,
         DjangoFilterBackend,
-        filters.OrderingFilter,
+        rf_filters.OrderingFilter,
     ]
     filterset_fields = ["status"]
     search_fields = ["name"]
@@ -30,9 +32,9 @@ class ChannelViewSet(ModelViewSet):
     serializer_class = serializers.ChannelSerializer
     pagination_class = ListPagination
     filter_backends = [
-        filters.SearchFilter,
+        rf_filters.SearchFilter,
         DjangoFilterBackend,
-        filters.OrderingFilter,
+        rf_filters.OrderingFilter,
     ]
     filterset_fields = ["status", "network"]
     search_fields = ["username"]
@@ -44,10 +46,30 @@ class PostViewSet(ModelViewSet):
     serializer_class = serializers.PostSerializer
     pagination_class = ListPagination
     filter_backends = [
-        filters.SearchFilter,
+        rf_filters.SearchFilter,
         DjangoFilterBackend,
-        filters.OrderingFilter,
+        rf_filters.OrderingFilter,
     ]
     filterset_fields = ["channel", "channel__network"]
     search_fields = ["body"]
     ordering_fields = ["views_count", "share_count"]
+
+
+class PostCountAPIView(ListAPIView):
+    queryset = models.Post.objects.order_by("-id")
+    serializer_class = serializers.PostSerializer
+    pagination_class = ListPagination
+    filter_backends = [rf_filters.SearchFilter, DjangoFilterBackend]
+    filterset_class = filters.PostCountFilter
+    search_fields = ["body"]
+
+    def list(self, request):
+        serializer = serializers.PostCountInputSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        response = super().list(request)
+        qs = self.filter_queryset(self.get_queryset())
+        response.data['statics'] = utils.get_count_statics(
+            qs, data['type'], data['date_after'], data['date_end']
+        )
+        return response
