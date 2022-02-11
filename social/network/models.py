@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models, transaction
 
 from reusable.models import BaseModel
@@ -36,7 +37,8 @@ class Channel(BaseModel):
 
     @property
     def today_posts_count(self):
-        return self.posts.count()
+        today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        return self.posts.filter(created_at__gte=today).count()
 
     def __str__(self):
         return f'({self.pk} - {self.name} - {self.network})'
