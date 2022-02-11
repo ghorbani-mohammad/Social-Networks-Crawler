@@ -27,6 +27,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "today_posts_count",
         "created_at",
     )
+    list_filter = ("network",)
 
 
 @admin.register(models.Post)
