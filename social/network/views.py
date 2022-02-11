@@ -1,9 +1,9 @@
-from django_filters.rest_framework import DjangoFilterBackend
-
+from django.utils import timezone
 from rest_framework import filters as rf_filters
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
 
 from . import models, serializers, filters, utils
 
@@ -70,6 +70,24 @@ class PostCountAPIView(ListAPIView):
         qs = self.filter_queryset(self.get_queryset())
         response.data['statics'] = utils.get_count_statics(
             qs, data['type'], data['date_after'], data['date_before']
+        )
+        today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        response.data['today_posts'] = (
+            self.get_queryset().filter(created_at__gte=today).count()
+        )
+        response.data['channel_posts'] = (
+            (self.get_queryset().filter(channel_id=request.GET['channel']).count())
+            if 'channel' in request.GET
+            else self.get_queryset().count()
+        )
+        response.data['network_posts'] = (
+            (
+                self.get_queryset()
+                .filter(channel__network_id=request.GET['channel__network'])
+                .count()
+            )
+            if 'channel__network' in request.GET
+            else self.get_queryset().count()
         )
         return response
 
