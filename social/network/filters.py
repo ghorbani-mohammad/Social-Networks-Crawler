@@ -1,10 +1,10 @@
-from django_filters import FilterSet, DateFromToRangeFilter
+from django_filters import FilterSet, DateTimeFromToRangeFilter
 
 from . import models
 
 
 class PostCountFilter(FilterSet):
-    date = DateFromToRangeFilter(field_name="created_at")
+    date = DateTimeFromToRangeFilter(field_name="created_at")
 
     class Meta:
         model = models.Post
