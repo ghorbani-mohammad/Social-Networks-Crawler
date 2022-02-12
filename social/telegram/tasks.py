@@ -44,24 +44,7 @@ def update_channel_info(channel_username, info):
     channel.save()
 
 
-def update_message_views(account_id, channel_id, message_id):
-    print('hi')
-    account, client = get_account_client(account_id)
-
-    async def main():
-        message = await client.get_messages(channel_id, ids=message_id)
-        print(message.text)
-        with client:
-            client.loop.run_until_complete(main())
-
-    loop = asyncio.get_event_loop()
-    task = loop.create_task(main())
-    loop.run_until_complete(task)
-    client.disconnect()
-
-
-def update_message_views2(account_id):
-    print('hi2')
+def get_message_statics_info(account_id):
     account, client = get_account_client(account_id)
     client.start()
 
@@ -179,3 +162,13 @@ def get_channel_info(account_id, channel_username):
     task = loop.create_task(main())
     loop.run_until_complete(task)
     client.disconnect()
+
+
+@shared_task(name="update_message_statics")
+def update_message_statics():
+    channels = net_models.Channel.objects.filter(network__name='Telegram')
+    for channel in channels:
+        posts = channel.posts.filter(views_count__isnull=True)
+        for post in posts:
+            print(post)
+        # get_message_statics_info(post.channel.account.id)
