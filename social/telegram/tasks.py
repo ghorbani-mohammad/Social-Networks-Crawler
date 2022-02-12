@@ -71,7 +71,8 @@ def update_message_views2(account_id):
                 peer='eghtesadonline', id=[178932], increment=False
             )
         )
-        print(result)
+        print(result.views)
+        print(result.views.views)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
