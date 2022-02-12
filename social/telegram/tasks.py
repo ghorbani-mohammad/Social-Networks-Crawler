@@ -6,7 +6,7 @@ from telethon.tl.functions.channels import (
     JoinChannelRequest,
     LeaveChannelRequest,
 )
-from telethon.functions.messages import GetRepliesRequest
+from telethon.tl.functions.messages import GetRepliesRequest
 from asgiref.sync import sync_to_async
 
 from django.conf import settings
