@@ -6,6 +6,7 @@ from telethon.tl.functions.channels import (
     JoinChannelRequest,
     LeaveChannelRequest,
 )
+from telethon.functions.messages import GetRepliesRequest
 from asgiref.sync import sync_to_async
 
 from django.conf import settings
@@ -202,6 +203,21 @@ def leave_channel(account_id, channel_username):
         await client.connect()
         channel = await client.get_entity(channel_username)
         await client(LeaveChannelRequest(channel))
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
+    client.disconnect()
+
+
+@shared_task(name="get_message_comments")
+def get_message_comments(account_id, channel_username, msg_id):
+    _, client = get_account_client(account_id)
+
+    async def main():
+        await client.connect()
+        result = await client(GetRepliesRequest(peer=channel_username, msg_id=msg_id))
+        print(result)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
