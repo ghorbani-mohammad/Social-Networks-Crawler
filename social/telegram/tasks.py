@@ -1,6 +1,6 @@
 import json
 import asyncio
-from telethon import TelegramClient, events
+from telethon import TelegramClient, events, functions
 from telethon.tl.functions.channels import GetFullChannelRequest
 from asgiref.sync import sync_to_async
 
@@ -60,22 +60,21 @@ def update_message_views(account_id, channel_id, message_id):
     client.disconnect()
 
 
-def update_message_views2(account_id, channel_id, message_id):
+def update_message_views2(account_id):
     print('hi2')
-    from telethon import functions
+    account, client = get_account_client(account_id)
 
-    account = models.Account.objects.get(pk=account_id)
-    with TelegramClient(
-        '/app/telegram_sessions/' + account.phone_number,
-        settings.TELEGRAM_API_ID,
-        settings.TELEGRAM_API_HASH,
-    ) as client:
-        result = client(
+    async def main():
+        result = await client(
             functions.messages.GetMessagesViewsRequest(
-                peer='username', id=[42], increment=False
+                peer='eghtesadonline', id=[178932], increment=False
             )
         )
         print(result.stringify())
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
 
 
 @sync_to_async
