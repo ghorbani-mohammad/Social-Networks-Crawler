@@ -60,6 +60,20 @@ def update_message_views(account_id, channel_id, message_id):
     client.disconnect()
 
 
+def update_message_views2(account_id, channel_id, message_id):
+    print('hi2')
+    from telethon import functions
+
+    account, client = get_account_client(account_id)
+
+    result = client(
+        functions.messages.GetMessagesViewsRequest(
+            peer='eghtesadonline', id=[42], increment=False
+        )
+    )
+    print(result.stringify())
+
+
 @sync_to_async
 def set_channels_list_async():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
