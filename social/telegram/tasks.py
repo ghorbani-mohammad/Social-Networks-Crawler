@@ -179,7 +179,7 @@ def get_channel_info(account_id, channel_username):
 def update_message_statics(account_id):
     channels = net_models.Channel.objects.filter(network__name='Telegram')
     for channel in channels:
-        today = timezone.localdate() - timezone.timedelta(hours=8)
+        today = timezone.localtime() - timezone.timedelta(hours=8)
         posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
         post_ids_array = []
         for post in posts:
