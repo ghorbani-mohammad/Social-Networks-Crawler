@@ -190,6 +190,21 @@ def join_channel(account_id, channel_username):
     client.disconnect()
 
 
+@shared_task(name="leave_channel")
+def leave_channel(account_id, channel_username):
+    _, client = get_account_client(account_id)
+
+    async def main():
+        await client.connect()
+        channel = await client.get_entity(channel_username)
+        await client(LeaveChannelRequest(input_channel))
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
+    client.disconnect()
+
+
 @shared_task(name="update_message_statics")
 def update_message_statics(account_id):
     channels = net_models.Channel.objects.filter(network__name='Telegram')
