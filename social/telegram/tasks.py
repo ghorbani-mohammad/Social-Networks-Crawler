@@ -87,8 +87,8 @@ def insert_to_db(channel_username, event):
 def update_message_info(channel_username, message_id, views_count, forwards_count):
     channel = net_models.Channel.objects.get(username=channel_username)
     post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
-    post.views_count = views_count
-    post.share_count = forwards_count
+    post.views_count = views_count or 0
+    post.share_count = forwards_count or 0
     print(views_count, forwards_count)
     post.save()
 
