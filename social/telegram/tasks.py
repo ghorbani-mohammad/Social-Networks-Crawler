@@ -89,7 +89,6 @@ def update_message_info(channel_username, message_id, views_count, forwards_coun
     post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
     post.views_count = views_count or 0
     post.share_count = forwards_count or 0
-    print(views_count, forwards_count)
     post.save()
 
 
@@ -179,7 +178,7 @@ def get_channel_info(account_id, channel_username):
 def update_message_statics():
     channels = net_models.Channel.objects.filter(network__name='Telegram')
     for channel in channels:
-        posts = channel.posts.filter(views_count=0)
+        posts = channel.posts.filter(views_count=0).order_by('-created_at')
         # post_ids = post.values_list('id')
         post_ids_array = []
         for post in posts:
