@@ -76,6 +76,7 @@ def update_message_views2(account_id):
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
     loop.run_until_complete(task)
+    client.disconnect()
 
 
 @sync_to_async
