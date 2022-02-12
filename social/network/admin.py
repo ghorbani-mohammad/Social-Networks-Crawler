@@ -1,3 +1,5 @@
+from pytz import timezone as tz
+
 from django.contrib import admin
 from reusable.admins import ReadOnlyAdminDateFields
 
@@ -32,5 +34,9 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 @admin.register(models.Post)
 class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = ("pk", "channel", "views_count", "share_count", "created_at")
+    list_display = ("pk", "channel", "views_count", "share_count", "get_created_at")
     list_filter = ("channel__network",)
+
+    @admin.display(ordering="created_at", description="created_at")
+    def get_created_at(self, instance):
+        return instance.created_at.astimezone(tz('Asia/Tehran'))

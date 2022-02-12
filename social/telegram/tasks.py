@@ -5,6 +5,7 @@ from telethon.tl.functions.channels import GetFullChannelRequest
 from asgiref.sync import sync_to_async
 
 from django.conf import settings
+from django.utils import timezone
 from django.core.cache import cache
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -178,7 +179,8 @@ def get_channel_info(account_id, channel_username):
 def update_message_statics(account_id):
     channels = net_models.Channel.objects.filter(network__name='Telegram')
     for channel in channels:
-        posts = channel.posts.filter(views_count__isnull=True).order_by('-created_at')
+        today = timezone.localdate() - timezone.timedelta(hours=8)
+        posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
         post_ids_array = []
         for post in posts:
             if post.data and 'message_id' in post.data:
