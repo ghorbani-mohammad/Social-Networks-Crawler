@@ -201,7 +201,7 @@ def leave_channel(account_id, channel_username):
     async def main():
         await client.connect()
         channel = await client.get_entity(channel_username)
-        await client(LeaveChannelRequest(input_channel))
+        await client(LeaveChannelRequest(channel))
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
