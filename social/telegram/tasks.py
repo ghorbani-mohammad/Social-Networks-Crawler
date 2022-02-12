@@ -45,6 +45,7 @@ def update_channel_info(channel_username, info):
 
 
 def update_message_views(account_id, channel_id, message_id):
+    print('hi')
     account, client = get_account_client(account_id)
 
     async def main():
@@ -52,6 +53,11 @@ def update_message_views(account_id, channel_id, message_id):
         print(message.text)
         with client:
             client.loop.run_until_complete(main())
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
+    client.disconnect()
 
 
 @sync_to_async
