@@ -54,9 +54,9 @@ def get_message_statics_info(account_id, channel_username, message_ids):
                 peer=channel_username, id=message_ids, increment=False
             )
         )
-        for item in result.views:
+        for index, item in enumerate(result.views):
             await update_message_info(
-                channel_username, item.id, item.views, item.forwards
+                channel_username, message_ids[index], item.views, item.forwards
             )
 
     loop = asyncio.get_event_loop()
