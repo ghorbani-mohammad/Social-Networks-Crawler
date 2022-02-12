@@ -1,7 +1,11 @@
 import json
 import asyncio
 from telethon import TelegramClient, events, functions
-from telethon.tl.functions.channels import GetFullChannelRequest, JoinChannelRequest
+from telethon.tl.functions.channels import (
+    GetFullChannelRequest,
+    JoinChannelRequest,
+    LeaveChannelRequest,
+)
 from asgiref.sync import sync_to_async
 
 from django.conf import settings
