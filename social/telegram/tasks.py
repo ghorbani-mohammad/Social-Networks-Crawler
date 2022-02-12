@@ -44,19 +44,22 @@ def update_channel_info(channel_username, info):
     channel.save()
 
 
-def get_message_statics_info(account_id):
+def get_message_statics_info(account_id, channel_username, message_ids):
     account, client = get_account_client(account_id)
     client.start()
 
     async def main():
         result = await client(
             functions.messages.GetMessagesViewsRequest(
-                peer='eghtesadonline', id=[178932], increment=False
+                peer=channel_username, id=message_ids, increment=False
             )
         )
-        print(result.views)
-        print(result.views[0].views)
-        print(result.views[0].forwards)
+        for item in result.views:
+            print(item.views, item.forwards)
+            # yield item.id, item.views
+        # print(result.views)
+        # print(result.views[0].views)
+        # print(result.views[0].forwards)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
@@ -167,8 +170,12 @@ def get_channel_info(account_id, channel_username):
 @shared_task(name="update_message_statics")
 def update_message_statics():
     channels = net_models.Channel.objects.filter(network__name='Telegram')
+    print(channels)
     for channel in channels:
-        posts = channel.posts.filter(views_count__isnull=True)
+        posts = channel.posts.filter(views_count=0)
+        # post_ids = post.values_list('id')
+        post_ids_array = []
         for post in posts:
-            print(post)
-        # get_message_statics_info(post.channel.account.id)
+            if post.data and 'message_id' in post.data:
+                post_ids_array.append(post.data['message_id'])
+        get_message_statics_info(post.channel.account.id)
