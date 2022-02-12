@@ -63,9 +63,9 @@ def update_message_views(account_id, channel_id, message_id):
 def update_message_views2(account_id):
     print('hi2')
     account, client = get_account_client(account_id)
+    client.start()
 
     async def main():
-        await client.connect()
         result = await client(
             functions.messages.GetMessagesViewsRequest(
                 peer='eghtesadonline', id=[178932], increment=False
