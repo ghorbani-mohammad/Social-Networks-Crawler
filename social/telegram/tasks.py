@@ -55,7 +55,9 @@ def get_message_statics_info(account_id, channel_username, message_ids):
             )
         )
         for item in result.views:
-            print(item.views, item.forwards)
+            await update_message_info(
+                channel_username, item.id, item.views, item.forwards
+            )
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
@@ -79,6 +81,15 @@ def insert_to_db(channel_username, event):
     text = event.message.message
     data = {'message_id': message_id, 'channel_id': channel_id}
     net_models.Post.objects.create(body=text, channel=channel, data=data)
+
+
+@sync_to_async
+def update_message_info(channel_username, message_id, views_count, forward_count):
+    channel = net_models.Channel.objects.get(username=channel_username)
+    post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
+    post.views_count = views_count
+    post.forward_count = forward_count
+    post.save()
 
 
 @shared_task(name="get_code")
