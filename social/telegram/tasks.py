@@ -179,7 +179,6 @@ def update_message_statics(account_id):
     channels = net_models.Channel.objects.filter(network__name='Telegram')
     for channel in channels:
         posts = channel.posts.filter(views_count=0).order_by('-created_at')
-        # post_ids = post.values_list('id')
         post_ids_array = []
         for post in posts:
             if post.data and 'message_id' in post.data:
