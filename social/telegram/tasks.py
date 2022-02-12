@@ -175,7 +175,7 @@ def get_channel_info(account_id, channel_username):
 
 
 @shared_task(name="update_message_statics")
-def update_message_statics():
+def update_message_statics(account_id):
     channels = net_models.Channel.objects.filter(network__name='Telegram')
     for channel in channels:
         posts = channel.posts.filter(views_count=0).order_by('-created_at')
@@ -184,5 +184,4 @@ def update_message_statics():
         for post in posts:
             if post.data and 'message_id' in post.data:
                 post_ids_array.append(post.data['message_id'])
-        print(channel.username)
-        print(post_ids_array)
+        get_message_statics_info(account_id, channel.username, post_ids_array)
