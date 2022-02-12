@@ -72,7 +72,8 @@ def update_message_views2(account_id):
             )
         )
         print(result.views)
-        print(result.views.views)
+        print(result.views[0].views)
+        print(result.views[0].forwards)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
