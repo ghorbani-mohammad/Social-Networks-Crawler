@@ -62,8 +62,8 @@ class Post(BaseModel):
     channel = models.ForeignKey(
         Channel, on_delete=models.CASCADE, related_name='posts', null=True
     )
-    views_count = models.IntegerField(default=0)
-    share_count = models.IntegerField(default=0)
+    views_count = models.IntegerField(null=True, blank=True)
+    share_count = models.IntegerField(null=True, blank=True)
     data = models.JSONField(null=True)
 
     def __str__(self):

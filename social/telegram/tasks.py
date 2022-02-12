@@ -84,11 +84,12 @@ def insert_to_db(channel_username, event):
 
 
 @sync_to_async
-def update_message_info(channel_username, message_id, views_count, forward_count):
+def update_message_info(channel_username, message_id, views_count, forwards_count):
     channel = net_models.Channel.objects.get(username=channel_username)
     post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
     post.views_count = views_count
-    post.forward_count = forward_count
+    post.share_count = forwards_count
+    print(views_count, forwards_count)
     post.save()
 
 
