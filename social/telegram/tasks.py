@@ -1,7 +1,7 @@
 import json
 import asyncio
 from telethon import TelegramClient, events, functions
-from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.functions.channels import GetFullChannelRequest, JoinChannelRequest
 from asgiref.sync import sync_to_async
 
 from django.conf import settings
@@ -168,6 +168,21 @@ def get_channel_info(account_id, channel_username):
         channel = await client.get_entity(channel_username)
         info = await client(GetFullChannelRequest(channel=channel))
         await update_channel_info(channel_username, info)
+
+    loop = asyncio.get_event_loop()
+    task = loop.create_task(main())
+    loop.run_until_complete(task)
+    client.disconnect()
+
+
+@shared_task(name="join_channel")
+def join_channel(account_id, channel_username):
+    _, client = get_account_client(account_id)
+
+    async def main():
+        await client.connect()
+        channel = await client.get_entity(channel_username)
+        await client(JoinChannelRequest(channel))
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
