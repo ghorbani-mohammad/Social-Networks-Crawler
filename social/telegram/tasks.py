@@ -44,6 +44,16 @@ def update_channel_info(channel_username, info):
     channel.save()
 
 
+def update_message_views(account_id, channel_id, message_id):
+    account, client = get_account_client(account_id)
+
+    async def main():
+        message = await client.get_messages(channel_id, ids=message_id)
+        print(message.text)
+        with client:
+            client.loop.run_until_complete(main())
+
+
 @sync_to_async
 def set_channels_list_async():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
