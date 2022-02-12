@@ -33,3 +33,4 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 @admin.register(models.Post)
 class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = ("pk", "channel", "views_count", "share_count", "created_at")
+    list_filter = ("channel__network",)
