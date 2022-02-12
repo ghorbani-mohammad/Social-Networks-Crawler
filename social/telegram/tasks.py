@@ -64,14 +64,18 @@ def update_message_views2(account_id, channel_id, message_id):
     print('hi2')
     from telethon import functions
 
-    account, client = get_account_client(account_id)
-
-    result = client(
-        functions.messages.GetMessagesViewsRequest(
-            peer='eghtesadonline', id=[42], increment=False
+    account = models.Account.objects.get(pk=account_id)
+    with TelegramClient(
+        '/app/telegram_sessions/' + account.phone_number,
+        settings.TELEGRAM_API_ID,
+        settings.TELEGRAM_API_HASH,
+    ) as client:
+        result = client(
+            functions.messages.GetMessagesViewsRequest(
+                peer='username', id=[42], increment=False
+            )
         )
-    )
-    print(result.stringify())
+        print(result.stringify())
 
 
 @sync_to_async
