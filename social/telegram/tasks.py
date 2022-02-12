@@ -1,5 +1,6 @@
 import json
 import asyncio
+import datetime
 from telethon import TelegramClient, events, functions
 from telethon.tl.functions.channels import (
     GetFullChannelRequest,
@@ -216,7 +217,19 @@ def get_message_comments(account_id, channel_username, msg_id):
 
     async def main():
         await client.connect()
-        result = await client(GetRepliesRequest(peer=channel_username, msg_id=msg_id))
+        result = await client(
+            GetRepliesRequest(
+                peer=channel_username,
+                msg_id=msg_id,
+                offset_id=0,
+                offset_date=datetime.datetime(2018, 6, 25),
+                add_offset=0,
+                limit=0,
+                max_id=0,
+                min_id=0,
+                hash=0,
+            )
+        )
         print(result)
 
     loop = asyncio.get_event_loop()
