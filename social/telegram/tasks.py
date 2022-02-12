@@ -217,10 +217,9 @@ def get_message_comments(account_id, channel_username, msg_id):
 
     async def main():
         await client.connect()
-        channel = await client.get_entity(channel_username)
         result = await client(
             GetRepliesRequest(
-                peer=channel,
+                peer=channel_username,
                 msg_id=msg_id,
                 offset_id=0,
                 offset_date=datetime.datetime(2018, 6, 25),
@@ -232,6 +231,7 @@ def get_message_comments(account_id, channel_username, msg_id):
             )
         )
         print(result)
+        print(result.count)
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())
