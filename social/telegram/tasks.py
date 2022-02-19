@@ -159,10 +159,10 @@ def get_messages(account_id):
 
     async def join_channel(channel_username):
         try:
-        channel = await client.get_entity(channel_username)
-        await client(JoinChannelRequest(channel))
+            channel = await client.get_entity(channel_username)
+            await client(JoinChannelRequest(channel))
             print(f'join to {channel_username}')
-        channel_joined.delay(channel_username)
+            channel_joined.delay(channel_username)
         except errors.FloodWaitError as e:
             print('Flood wait for ', e.seconds)
             asyncio.sleep(e.seconds)
@@ -173,7 +173,6 @@ def get_messages(account_id):
             for username in await unjoined_channels():
                 await join_channel(username)
                 await asyncio.sleep(60 * MINUTE)
-
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
