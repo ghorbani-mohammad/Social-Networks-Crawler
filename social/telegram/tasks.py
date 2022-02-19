@@ -163,7 +163,7 @@ def get_messages(account_id):
         await client(JoinChannelRequest(channel))
         channel_joined.delay(channel_username)
 
-    async def hello():
+    async def check_channels_must_joined():
         while True:
             await asyncio.sleep(1 * MINUTE)
             for username in await unjoined_channels():
@@ -179,7 +179,7 @@ def get_messages(account_id):
             await insert_to_db(sender.username, event)
 
     loop = asyncio.get_event_loop()
-    loop.create_task(hello())
+    loop.create_task(check_channels_must_joined())
     loop.create_task(client.run_until_disconnected())
     loop.run_forever()
 
