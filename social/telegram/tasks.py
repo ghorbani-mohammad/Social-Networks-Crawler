@@ -135,7 +135,7 @@ def sign_in(account_id, code):
 
 @sync_to_async
 def get_all_users():
-    return net_models.Channel.objects.all()
+    return net_models.Channel.objects.all
 
 
 @shared_task(name="get_messages")
@@ -152,7 +152,7 @@ def get_messages(account_id):
         while True:
             print('hello')
             await asyncio.sleep(5)
-            for user in await sync_to_async(get_all_users)():
+            for user in await get_all_users():
                 print(user)
 
     @client.on(events.NewMessage(incoming=True))
