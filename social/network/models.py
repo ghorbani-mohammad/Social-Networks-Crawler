@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models, transaction
 
+from . import tasks
 from reusable.models import BaseModel
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
@@ -68,3 +69,23 @@ class Post(BaseModel):
 
     def __str__(self):
         return f'({self.pk} - {self.channel})'
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
+
+
+class Keyword(BaseModel):
+    post = models.OneToOneField(
+        Post,
+        related_name="keywords",
+        related_query_name="keyword",
+        on_delete=models.CASCADE,
+    )
+    keyword = models.CharField(max_length=70)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.pk}"
