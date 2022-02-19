@@ -165,10 +165,11 @@ def get_messages(account_id):
 
     async def check_channels_must_joined():
         while True:
-            await asyncio.sleep(1 * MINUTE)
+            await asyncio.sleep(60 * MINUTE)
             for username in await unjoined_channels():
-                await asyncio.sleep(60 * MINUTE)
                 await join_channel(username)
+                await asyncio.sleep(60 * MINUTE)
+
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
@@ -182,9 +183,6 @@ def get_messages(account_id):
     loop.create_task(check_channels_must_joined())
     loop.create_task(client.run_until_disconnected())
     loop.run_forever()
-
-    # client.run_until_disconnected()
-    # client.disconnect()
 
 
 @shared_task(name="set_channels_list")
