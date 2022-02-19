@@ -134,11 +134,11 @@ def sign_in(account_id, code):
 
 
 @sync_to_async
-def get_all_users():
+def unjoined_channels():
     return list(
-        net_models.Channel.objects.filter(network__name='Telegram').values_list(
-            'username', flat=True
-        )
+        net_models.Channel.objects.filter(
+            network__name='Telegram', joined__isnull=True
+        ).values_list('username', flat=True)
     )
 
 
@@ -147,16 +147,14 @@ def get_messages(account_id):
     _, client = get_account_client(account_id)
     client.start()
 
-    async def join_channels(channel_usernames):
-        for channel_username in channel_usernames:
-            channel = await client.get_entity(channel_username)
-            await client(JoinChannelRequest(channel))
+    async def join_channels(channel_username):
+        channel = await client.get_entity(channel_username)
+        await client(JoinChannelRequest(channel))
 
     async def hello():
         while True:
-            print('hello')
             await asyncio.sleep(5)
-            for user in await get_all_users():
+            for user in await unjoined_channels():
                 print(user)
 
     @client.on(events.NewMessage(incoming=True))
