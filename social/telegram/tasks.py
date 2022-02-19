@@ -220,7 +220,8 @@ def get_messages(account_id):
             for username in await channel_usernames():
                 post_ids = await channel_posts(username)
                 await get_messsage_statics(username, post_ids)
-                await asyncio.sleep(60 * MINUTE)
+                await asyncio.sleep(1 * MINUTE)
+            await asyncio.sleep(60 * MINUTE)
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
