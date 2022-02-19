@@ -1,10 +1,10 @@
 from pathlib import Path
 from envparse import env
 
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-^*jn0v@w^li1n^@qj34p&$^g2p+ee5abxr*5$^-gf^f3+rl*u4'
-ALLOWED_HOSTS = ['localhost', '88.99.18.187']
+SECRET_KEY = env.str('SECRET_KEY')
+ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,16 +53,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'social.wsgi.application'
 
-DB_USER = env.str('POSTGRES_USER')
-DB_PASS = env.str('POSTGRES_PASSWORD')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': 'social_db',
         'NAME': 'postgres',
         'PORT': 5432,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASS,
+        'USER': env.str('POSTGRES_USER'),
+        'PASSWORD': env.str('POSTGRES_PASSWORD'),
     },
 }
 
