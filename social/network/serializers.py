@@ -41,3 +41,9 @@ class PostCountInputSerializer(serializers.Serializer):
     type = serializers.CharField()
     date_after = serializers.DateTimeField(required=False, default=None)
     date_before = serializers.DateTimeField(required=False, default=None)
+
+
+class KeywordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Keyword
+        fields = ("id", "keyword", "created_at")

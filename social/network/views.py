@@ -110,3 +110,20 @@ class SearchCountAPIView(ListAPIView):
             qs, data['type'], data['date_after'], data['date_before']
         )
         return response
+
+
+class KeywordAPIView(ListAPIView):
+    queryset = models.Keyword.objects.order_by("-id")
+    serializer_class = serializers.KeywordSerializer
+    pagination_class = ListPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = filters.KeywordFilter
+
+    def list(self, request):
+        serializer = serializers.PostCountInputSerializer(data=request.GET)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        response = super().list(request)
+        qs = self.filter_queryset(self.get_queryset())
+        print(qs)
+        return response
