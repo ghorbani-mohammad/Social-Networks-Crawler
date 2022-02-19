@@ -20,6 +20,7 @@ from . import models
 from network import models as net_models
 
 logger = get_task_logger(__name__)
+MINUTE = 60
 
 
 def get_account_client(account_id):
@@ -164,8 +165,9 @@ def get_messages(account_id):
 
     async def hello():
         while True:
-            await asyncio.sleep(5)
+            await asyncio.sleep(1 * MINUTE)
             for username in await unjoined_channels():
+                await asyncio.sleep(1 * MINUTE)
                 await join_channel(username)
 
     @client.on(events.NewMessage(incoming=True))
