@@ -60,7 +60,7 @@ class PostCountAPIView(ListAPIView):
     serializer_class = serializers.PostSerializer
     pagination_class = ListPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_class = filters.PostCountFilter
+    filterset_class = filters.PostFilter
 
     def list(self, request):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
@@ -97,7 +97,7 @@ class SearchCountAPIView(ListAPIView):
     serializer_class = serializers.PostSerializer
     pagination_class = ListPagination
     filter_backends = [rf_filters.SearchFilter, DjangoFilterBackend]
-    filterset_class = filters.PostCountFilter
+    filterset_class = filters.PostFilter
     search_fields = ["body"]
 
     def list(self, request):
