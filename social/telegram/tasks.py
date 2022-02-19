@@ -1,7 +1,7 @@
 import json
 import asyncio
 import datetime
-from telethon import TelegramClient, events, functions
+from telethon import TelegramClient, events, functions, errors
 from telethon.tl.functions.channels import (
     GetFullChannelRequest,
     JoinChannelRequest,
@@ -158,10 +158,14 @@ def get_messages(account_id):
     client.start()
 
     async def join_channel(channel_username):
-        print(f'join to {channel_username}')
+        try:
         channel = await client.get_entity(channel_username)
         await client(JoinChannelRequest(channel))
+            print(f'join to {channel_username}')
         channel_joined.delay(channel_username)
+        except errors.FloodWaitError as e:
+            print('Flood wait for ', e.seconds)
+            asyncio.sleep(e.seconds)
 
     async def check_channels_must_joined():
         while True:
