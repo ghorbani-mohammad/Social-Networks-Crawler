@@ -164,7 +164,7 @@ def channel_usernames():
 @sync_to_async
 def channel_posts(channel_username):
     channel = net_models.Channel.objects.filter(username=channel_username).first()
-    today = timezone.localtime() - timezone.timedelta(hours=2)
+    today = timezone.localtime() - timezone.timedelta(hours=5)
     posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
     post_ids_array = []
     for post in posts:
