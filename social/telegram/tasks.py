@@ -150,7 +150,7 @@ def get_messages(account_id):
                 .values_list('username', flat=True)
                 .all
             )()
-            print(new_channels)
+            print(sync_to_async(new_channels))
             await asyncio.sleep(10)
             print('hello')
 
