@@ -142,6 +142,15 @@ def unjoined_channels():
     )
 
 
+@shared_task(name="channel_joined")
+def channel_joined(username):
+    channel = net_models.Channel.objects.filter(
+        network__name='Telegram', username=username
+    ).first()
+    channel.joined = True
+    channel.save()
+
+
 @shared_task(name="get_messages")
 def get_messages(account_id):
     _, client = get_account_client(account_id)
@@ -151,6 +160,7 @@ def get_messages(account_id):
         print(f'join to {channel_username}')
         channel = await client.get_entity(channel_username)
         await client(JoinChannelRequest(channel))
+        channel_joined.delay(channel_username)
 
     async def hello():
         while True:
