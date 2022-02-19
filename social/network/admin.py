@@ -40,3 +40,12 @@ class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     @admin.display(ordering="created_at", description="created_at")
     def get_created_at(self, instance):
         return instance.created_at.astimezone(tz('Asia/Tehran'))
+
+
+@admin.register(models.Keyword)
+class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "keyword", "get_created_at")
+
+    @admin.display(ordering="created_at", description="created_at")
+    def get_created_at(self, instance):
+        return instance.created_at.astimezone(tz('Asia/Tehran'))
