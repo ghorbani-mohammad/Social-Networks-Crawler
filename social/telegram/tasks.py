@@ -154,7 +154,11 @@ def unjoined_channels():
 
 @sync_to_async
 def channel_usernames():
-    return list(net_models.Channel.objects.values_list('username', flat=True))
+    return list(
+        net_models.Channel.objects.filter(network__name='Telegram').values_list(
+            'username', flat=True
+        )
+    )
 
 
 @sync_to_async
