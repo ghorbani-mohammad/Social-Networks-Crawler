@@ -140,7 +140,7 @@ def get_messages(account_id):
 
     async def hello():
         while True:
-            print(net_models.Channel.objects.count())
+            print(sync_to_async(net_models.Channel.objects.count)())
             await asyncio.sleep(10)
             print('hello')
 
