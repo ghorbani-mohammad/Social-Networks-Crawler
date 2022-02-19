@@ -133,6 +133,11 @@ def sign_in(account_id, code):
     client.disconnect()
 
 
+@sync_to_async
+def get_all_users():
+    return net_models.Channel.objects.filter(name='Telegram').all()
+
+
 @shared_task(name="get_messages")
 def get_messages(account_id):
     _, client = get_account_client(account_id)
@@ -151,11 +156,8 @@ def get_messages(account_id):
             #     .all
             # )()
             # print(sync_to_async(new_channels))
-            print(
-                await sync_to_async(
-                    net_models.Channel.objects.filter(name='Telegram').count
-                )
-            )
+            for user in await get_all_users():
+                print(user)
             await asyncio.sleep(10)
             print('hello')
 
