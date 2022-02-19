@@ -145,12 +145,17 @@ def get_messages(account_id):
 
     async def hello():
         while True:
-            new_channels = await sync_to_async(
-                net_models.Channel.objects.filter(name='Telegram', joined__isnull=True)
-                .values_list('username', flat=True)
-                .all
-            )()
-            print(sync_to_async(new_channels))
+            # new_channels = await sync_to_async(
+            #     net_models.Channel.objects.filter(name='Telegram', joined__isnull=True)
+            #     .values_list('username', flat=True)
+            #     .all
+            # )()
+            # print(sync_to_async(new_channels))
+            print(
+                await sync_to_async(
+                    net_models.Channel.objects.filter(name='Telegram').count
+                )
+            )
             await asyncio.sleep(10)
             print('hello')
 
