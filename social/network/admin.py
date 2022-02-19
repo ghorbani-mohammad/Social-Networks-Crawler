@@ -26,6 +26,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "username",
         "network",
         "status",
+        "joined",
         "today_posts_count",
         "created_at",
     )

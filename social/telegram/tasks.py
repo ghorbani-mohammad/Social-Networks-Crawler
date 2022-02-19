@@ -138,6 +138,11 @@ def get_messages(account_id):
     _, client = get_account_client(account_id)
     client.start()
 
+    async def join_channels(channel_usernames):
+        for channel_username in channel_usernames:
+            channel = await client.get_entity(channel_username)
+            await client(JoinChannelRequest(channel))
+
     async def hello():
         while True:
             print(await sync_to_async(net_models.Channel.objects.count)())
