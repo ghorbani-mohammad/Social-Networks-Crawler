@@ -125,5 +125,7 @@ class KeywordAPIView(ListAPIView):
         data = serializer.validated_data
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
-        print(qs)
+        response.data['statics'] = utils.get_keyword_statics(
+            qs, data['type'], data['date_after'], data['date_before']
+        )
         return response
