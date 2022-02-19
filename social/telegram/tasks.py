@@ -100,6 +100,15 @@ def update_message_info(channel_username, message_id, views_count, forwards_coun
     post.save()
 
 
+@shared_task(name="update_message_statics")
+def update_message_statics(channel_username, message_id, views_count, forwards_count):
+    channel = net_models.Channel.objects.get(username=channel_username)
+    post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
+    post.views_count = views_count or 0
+    post.share_count = forwards_count or 0
+    post.save()
+
+
 @shared_task(name="get_code")
 def get_code(account_id):
     account, client = get_account_client(account_id)
@@ -143,6 +152,23 @@ def unjoined_channels():
     )
 
 
+@sync_to_async
+def channel_usernames():
+    return list(net_models.Channel.objects.values_list('username', flat=True))
+
+
+@sync_to_async
+def channel_posts(channel_username):
+    channel = net_models.Channel.objects.filter(username=channel_username).first()
+    today = timezone.localtime() - timezone.timedelta(hours=2)
+    posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
+    post_ids_array = []
+    for post in posts:
+        if post.data and 'message_id' in post.data:
+            post_ids_array.append(post.data['message_id'])
+    return post_ids_array
+
+
 @shared_task(name="channel_joined")
 def channel_joined(username):
     channel = net_models.Channel.objects.filter(
@@ -174,6 +200,24 @@ def get_messages(account_id):
                 await join_channel(username)
                 await asyncio.sleep(60 * MINUTE)
 
+    async def get_messsage_statics(channel_username, message_ids):
+        result = await client(
+            functions.messages.GetMessagesViewsRequest(
+                peer=channel_username, id=message_ids, increment=False
+            )
+        )
+        for index, item in enumerate(result.views):
+            update_message_statics.delay(
+                channel_username, message_ids[index], item.views, item.forwards
+            )
+
+    async def check_channel_posts_statics():
+        while True:
+            for username in await channel_usernames():
+                post_ids = await channel_posts(username)
+                await get_messsage_statics(username, post_ids)
+                await asyncio.sleep(60 * MINUTE)
+
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
         sender = await event.get_sender()
@@ -184,6 +228,7 @@ def get_messages(account_id):
 
     loop = asyncio.get_event_loop()
     loop.create_task(check_channels_must_joined())
+    loop.create_task(check_channel_posts_statics())
     loop.create_task(client.run_until_disconnected())
     loop.run_forever()
 
