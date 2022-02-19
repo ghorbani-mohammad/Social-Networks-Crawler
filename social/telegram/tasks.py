@@ -147,15 +147,16 @@ def get_messages(account_id):
     _, client = get_account_client(account_id)
     client.start()
 
-    async def join_channels(channel_username):
+    async def join_channel(channel_username):
+        print(f'join to {channel_username}')
         channel = await client.get_entity(channel_username)
         await client(JoinChannelRequest(channel))
 
     async def hello():
         while True:
             await asyncio.sleep(5)
-            for user in await unjoined_channels():
-                print(user)
+            for username in await unjoined_channels():
+                await join_channel(username)
                 return
 
     @client.on(events.NewMessage(incoming=True))
