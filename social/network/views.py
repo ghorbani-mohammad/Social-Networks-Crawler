@@ -36,7 +36,7 @@ class ChannelViewSet(ModelViewSet):
         DjangoFilterBackend,
         rf_filters.OrderingFilter,
     ]
-    filterset_fields = ["status", "network"]
+    filterset_class = filters.ChannelFilter
     search_fields = ["username"]
     ordering_fields = ["username"]
 

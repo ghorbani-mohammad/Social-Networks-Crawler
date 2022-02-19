@@ -41,3 +41,17 @@ class KeywordFilter(FilterSet):
     class Meta:
         model = models.Keyword
         fields = ["channels", "networks", "date"]
+
+
+def channel_filter_by_network_ids(queryset, name, value):
+    values = value.split(',')
+    return queryset.filter(network_id__in=values)
+
+
+class ChannelFilter(FilterSet):
+    date = DateTimeFromToRangeFilter(field_name="created_at")
+    networks = CharFilter(method=channel_filter_by_network_ids)
+
+    class Meta:
+        model = models.Channel
+        fields = ["status", "networks"]
