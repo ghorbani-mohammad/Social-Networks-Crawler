@@ -150,10 +150,10 @@ def get_messages(account_id):
 
     async def hello():
         while True:
+            print('hello')
+            await asyncio.sleep(5)
             for user in await get_all_users():
                 print(user)
-            await asyncio.sleep(10)
-            print('hello')
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
