@@ -52,7 +52,7 @@ def update_channel_info(channel_username, info):
 
 
 def get_message_statics_info(account_id, channel_username, message_ids):
-    account, client = get_account_client(account_id)
+    _, client = get_account_client(account_id)
     client.start()
 
     async def main():
@@ -139,12 +139,14 @@ def get_messages(account_id):
     client.start()
 
     async def hello(delay):
-        await asyncio.sleep(delay)
-        print('hello')
+        while True:
+            await asyncio.sleep(delay)
+            print('hello')
 
     async def world(delay):
-        await asyncio.sleep(delay)
-        print('world')
+        while True:
+            await asyncio.sleep(delay)
+            print('world')
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
