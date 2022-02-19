@@ -52,10 +52,11 @@ class Channel(BaseModel):
                     lambda: lin_tasks.get_channel_posts.delay(self.pk)
                 )
             elif self.network.name == 'Twitter':
-                self.username = self.username.replace('https://t.me/', '')
                 transaction.on_commit(
                     lambda: twi_tasks.get_twitter_posts.delay(self.pk)
                 )
+            elif self.network.name == 'Telegram':
+                self.username = self.username.replace('https://t.me/', '')
             super().save(*args, **kwargs)
 
 
