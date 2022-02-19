@@ -32,6 +32,7 @@ class Channel(BaseModel):
     )
     status = models.BooleanField(default=True)
     data = models.JSONField(null=True, blank=True)
+    joined = models.BooleanField(null=True, blank=True)
 
     class Meta:
         unique_together = ('network', 'username')
