@@ -168,7 +168,7 @@ def get_messages(account_id):
             await asyncio.sleep(1 * MINUTE)
             for username in await unjoined_channels():
                 await join_channel(username)
-                await asyncio.sleep(2 * MINUTE)
+                await asyncio.sleep(10 * MINUTE)
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
