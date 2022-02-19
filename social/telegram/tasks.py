@@ -135,7 +135,7 @@ def sign_in(account_id, code):
 
 @sync_to_async
 def get_all_users():
-    return net_models.Channel.objects.all()
+    return list(net_models.Channel.objects.all())
 
 
 @shared_task(name="get_messages")
