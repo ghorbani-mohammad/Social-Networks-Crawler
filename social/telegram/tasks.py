@@ -218,7 +218,9 @@ def get_messages(account_id):
     async def check_channel_posts_statics():
         while True:
             for username in await channel_usernames():
+                print(username)
                 post_ids = await channel_posts(username)
+                print(post_ids)
                 await get_messsage_statics(username, post_ids)
                 await asyncio.sleep(1 * MINUTE)
             await asyncio.sleep(60 * MINUTE)
