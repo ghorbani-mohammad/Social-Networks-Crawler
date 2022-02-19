@@ -103,10 +103,9 @@ def update_message_info(channel_username, message_id, views_count, forwards_coun
 @shared_task(name="update_message_statics")
 def update_message_statics(channel_username, message_id, views_count, forwards_count):
     channel = net_models.Channel.objects.get(username=channel_username)
-    post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
-    post.views_count = views_count or 0
-    post.share_count = forwards_count or 0
-    post.save()
+    net_models.Post.objects.filter(channel=channel, data__message_id=message_id).update(
+        views_count=views_count or 0, share_count=forwards_count or 0
+    )
 
 
 @shared_task(name="get_code")
