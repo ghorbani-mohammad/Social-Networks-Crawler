@@ -77,7 +77,7 @@ class Post(BaseModel):
 
 
 class Keyword(BaseModel):
-    post = models.OneToOneField(
+    post = models.ForeignKey(
         Post,
         related_name="keywords",
         related_query_name="keyword",
