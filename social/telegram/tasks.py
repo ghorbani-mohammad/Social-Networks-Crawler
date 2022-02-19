@@ -152,7 +152,7 @@ def get_messages(account_id):
         while True:
             print('hello')
             await asyncio.sleep(5)
-            for user in await get_all_users():
+            for user in await sync_to_async(get_all_users)():
                 print(user)
 
     @client.on(events.NewMessage(incoming=True))
