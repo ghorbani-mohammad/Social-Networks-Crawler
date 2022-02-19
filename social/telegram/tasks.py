@@ -138,14 +138,14 @@ def get_messages(account_id):
     _, client = get_account_client(account_id)
     client.start()
 
-    async def hello(delay):
+    async def hello():
         while True:
-            await asyncio.sleep(delay)
+            await asyncio.sleep(10)
             print('hello')
 
-    async def world(delay):
+    async def world():
         while True:
-            await asyncio.sleep(delay)
+            await asyncio.sleep(10)
             print('world')
 
     @client.on(events.NewMessage(incoming=True))
@@ -157,8 +157,8 @@ def get_messages(account_id):
             await insert_to_db(sender.username, event)
 
     loop = asyncio.get_event_loop()
-    loop.create_task(world(2))
-    loop.create_task(hello(1))
+    loop.create_task(world())
+    loop.create_task(hello())
     loop.create_task(client.run_until_disconnected())
     loop.run_forever()
 
