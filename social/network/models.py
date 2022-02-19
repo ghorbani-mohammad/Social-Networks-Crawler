@@ -47,15 +47,16 @@ class Channel(BaseModel):
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
-            super().save(*args, **kwargs)
             if self.network.name == 'Linkedin':
                 transaction.on_commit(
                     lambda: lin_tasks.get_channel_posts.delay(self.pk)
                 )
             elif self.network.name == 'Twitter':
+                self.username = self.username.replace('https://t.me/', '')
                 transaction.on_commit(
                     lambda: twi_tasks.get_twitter_posts.delay(self.pk)
                 )
+            super().save(*args, **kwargs)
 
 
 class Post(BaseModel):
