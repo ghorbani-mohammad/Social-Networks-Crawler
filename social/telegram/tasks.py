@@ -135,7 +135,11 @@ def sign_in(account_id, code):
 
 @sync_to_async
 def get_all_users():
-    return list(net_models.Channel.objects.values_list('username', flat=True))
+    return list(
+        net_models.Channel.objects.filter(network__name='Telegram').values_list(
+            'username', flat=True
+        )
+    )
 
 
 @shared_task(name="get_messages")
