@@ -157,7 +157,7 @@ def get_messages(account_id):
     loop = asyncio.get_event_loop()
     loop.create_task(world(2))
     loop.create_task(hello(1))
-    loop.create_task(my_event_handler())
+    loop.create_task(client.run_until_disconnected())
     loop.run_forever()
 
     # client.run_until_disconnected()
