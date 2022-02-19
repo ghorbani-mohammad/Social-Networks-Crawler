@@ -138,6 +138,14 @@ def get_messages(account_id):
     _, client = get_account_client(account_id)
     client.start()
 
+    async def hello(delay):
+        await asyncio.sleep(delay)
+        print('hello')
+
+    async def world(delay):
+        await asyncio.sleep(delay)
+        print('world')
+
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
         sender = await event.get_sender()
@@ -146,8 +154,14 @@ def get_messages(account_id):
         if sender.username in channels:
             await insert_to_db(sender.username, event)
 
-    client.run_until_disconnected()
-    client.disconnect()
+    loop = asyncio.get_event_loop()
+    loop.create_task(world(2))
+    loop.create_task(hello(1))
+    loop.create_task(my_event_handler())
+    loop.run_forever()
+
+    # client.run_until_disconnected()
+    # client.disconnect()
 
 
 @shared_task(name="set_channels_list")
