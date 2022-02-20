@@ -21,6 +21,7 @@ from network import models as net_models
 
 logger = get_task_logger(__name__)
 MINUTE = 60
+HOUR = 60 * MINUTE
 
 
 def get_account_client(account_id):
@@ -52,27 +53,6 @@ def update_channel_info(channel_username, info):
     channel.save()
 
 
-def get_message_statics_info(account_id, channel_username, message_ids):
-    _, client = get_account_client(account_id)
-    client.start()
-
-    async def main():
-        result = await client(
-            functions.messages.GetMessagesViewsRequest(
-                peer=channel_username, id=message_ids, increment=False
-            )
-        )
-        for index, item in enumerate(result.views):
-            await update_message_info(
-                channel_username, message_ids[index], item.views, item.forwards
-            )
-
-    loop = asyncio.get_event_loop()
-    task = loop.create_task(main())
-    loop.run_until_complete(task)
-    client.disconnect()
-
-
 @sync_to_async
 def set_channels_list_async():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
@@ -89,15 +69,6 @@ def insert_to_db(channel_username, event):
     text = event.message.message
     data = {'message_id': message_id, 'channel_id': channel_id}
     net_models.Post.objects.create(body=text, channel=channel, data=data)
-
-
-@sync_to_async
-def update_message_info(channel_username, message_id, views_count, forwards_count):
-    channel = net_models.Channel.objects.get(username=channel_username)
-    post = net_models.Post.objects.get(channel=channel, data__message_id=message_id)
-    post.views_count = views_count or 0
-    post.share_count = forwards_count or 0
-    post.save()
 
 
 @shared_task(name="update_message_statics")
@@ -154,16 +125,16 @@ def unjoined_channels():
 @sync_to_async
 def channel_usernames():
     return list(
-        net_models.Channel.objects.filter(network__name='Telegram').values_list(
-            'username', flat=True
-        )
+        net_models.Channel.objects.filter(network__name='Telegram')
+        .values_list('username', flat=True)
+        .order_by('-id')
     )
 
 
 @sync_to_async
 def channel_posts(channel_username):
     channel = net_models.Channel.objects.filter(username=channel_username).first()
-    today = timezone.localtime() - timezone.timedelta(hours=5)
+    today = timezone.localtime() - timezone.timedelta(hours=2)
     posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
     post_ids_array = []
     for post in posts:
@@ -217,12 +188,12 @@ def get_messages(account_id):
     async def check_channel_posts_statics():
         while True:
             for username in await channel_usernames():
-                print(username)
                 post_ids = await channel_posts(username)
-                print(post_ids)
+                if len(post_ids):
+                    continue
                 await get_messsage_statics(username, post_ids)
                 await asyncio.sleep(1 * MINUTE)
-            await asyncio.sleep(60 * MINUTE)
+            await asyncio.sleep(1 * HOUR)
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
@@ -326,16 +297,3 @@ def get_message_comments(account_id, channel_username, msg_id):
     task = loop.create_task(main())
     loop.run_until_complete(task)
     client.disconnect()
-
-
-# @shared_task(name="update_message_statics")
-# def update_message_statics(account_id):
-#     channels = net_models.Channel.objects.filter(network__name='Telegram')
-#     for channel in channels:
-#         today = timezone.localtime() - timezone.timedelta(hours=8)
-#         posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
-#         post_ids_array = []
-#         for post in posts:
-#             if post.data and 'message_id' in post.data:
-#                 post_ids_array.append(post.data['message_id'])
-#         get_message_statics_info(account_id, channel.username, post_ids_array)
