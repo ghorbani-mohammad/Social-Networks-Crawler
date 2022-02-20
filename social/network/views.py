@@ -68,8 +68,13 @@ class PostCountAPIView(ListAPIView):
         data = serializer.validated_data
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
+        search_excluded_qs = utils.get_search_excluded_qs(self)
         response.data['statics'] = utils.get_count_statics(
-            qs, data['type'], data['date_after'], data['date_before']
+            qs,
+            search_excluded_qs,
+            data['type'],
+            data['date_after'],
+            data['date_before'],
         )
         today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
         response.data['today_posts'] = (
@@ -106,8 +111,13 @@ class SearchCountAPIView(ListAPIView):
         data = serializer.validated_data
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
+        search_excluded_qs = utils.get_search_excluded_qs(self)
         response.data['statics'] = utils.get_count_statics(
-            qs, data['type'], data['date_after'], data['date_before']
+            qs,
+            search_excluded_qs,
+            data['type'],
+            data['date_after'],
+            data['date_before'],
         )
         return response
 

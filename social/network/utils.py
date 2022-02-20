@@ -1,8 +1,16 @@
 from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
-from django.db.models import Count, Sum
+from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth
+
+
+def get_search_excluded_qs(apiview):
+    qs = apiview.get_queryset()
+    for backend in list(apiview.filter_backends):
+        if backend.__name__ != 'SearchFilter':
+            qs = backend().filter_queryset(apiview.request, qs, apiview)
+    return qs
 
 
 def hourly_iterate(start, finish):
@@ -32,47 +40,63 @@ def monthly_iterate(start, finish):
     return result
 
 
-def get_count_statics(qs, type, start=None, end=None):
+def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
     result = []
     if type == 'hourly':
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(hours=12))
         qs = qs.filter(created_at__gte=start, created_at__lte=end)
+        s_e_qs = search_excluded_qs.filter(created_at__gte=start, created_at__lte=end)
         qs = (
             qs.annotate(hour=TruncHour("created_at"))
             .values("hour")
             .annotate(count=Count("id"))
             .order_by("hour")
         )
+        s_e_qs = s_e_qs.annotate(hour=TruncHour("created_at"))
         for hour in hourly_iterate(start, end):
             count = qs.filter(hour__hour=hour.hour, hour__day=hour.day).first()
-            result.append({'hour': hour, 'count': count['count'] if count else 0})
+            count = count['count'] if count else 0
+            total_count = s_e_qs.filter(
+                hour__hour=hour.hour, hour__day=hour.day
+            ).count()
+            result.append({'hour': hour, 'count': count, 'total_count': total_count})
     elif type == 'daily':
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(days=7))
         qs = qs.filter(created_at__gte=start, created_at__lte=end)
+        s_e_qs = search_excluded_qs.filter(created_at__gte=start, created_at__lte=end)
         qs = (
             qs.annotate(day=TruncDate("created_at"))
             .values("day")
             .annotate(count=Count("id"))
             .order_by("day")
         )
+        s_e_qs = s_e_qs.annotate(day=TruncDate("created_at"))
         for day in daily_iterate(start, end):
             count = qs.filter(day__month=day.month, day__day=day.day).first()
-            result.append({'day': day, 'count': count['count'] if count else 0})
+            count = count['count'] if count else 0
+            total_count = s_e_qs.filter(day__month=day.month, day__day=day.day).count()
+            result.append({'day': day, 'count': count, 'total_count': total_count})
     elif type == 'monthly':
         start = start or timezone.localtime()
         end = end or (start - relativedelta(months=7))
         qs = qs.filter(created_at__gte=start, created_at__lte=end)
+        s_e_qs = search_excluded_qs.filter(created_at__gte=start, created_at__lte=end)
         qs = (
             qs.annotate(month=TruncMonth("created_at"))
             .values("month")
             .annotate(count=Count("id"))
             .order_by("month")
         )
+        s_e_qs = s_e_qs.annotate(month=TruncMonth("created_at"))
         for month in monthly_iterate(start, end):
             count = qs.filter(month__year=month.year, month__month=month.month).first()
-            result.append({'month': month, 'count': count['count'] if count else 0})
+            count = count['count'] if count else 0
+            total_count = s_e_qs.filter(
+                month__year=month.year, month__month=month.month
+            ).count()
+            result.append({'month': month, 'count': count, 'total_count': total_count})
     return result
 
 
