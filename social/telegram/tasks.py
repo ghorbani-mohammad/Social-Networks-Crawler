@@ -194,8 +194,8 @@ def get_messages(account_id):
                 if len(post_ids) == 0:
                     continue
                 await get_messsage_statics(username, post_ids)
-                await asyncio.sleep(1 * MINUTE)
-            await asyncio.sleep(1 * HOUR)
+                await asyncio.sleep(2 * MINUTE)
+            await asyncio.sleep(20 * MINUTE)
 
     @client.on(events.NewMessage(incoming=True))
     async def my_event_handler(event):
