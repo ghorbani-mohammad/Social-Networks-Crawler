@@ -165,7 +165,7 @@ def get_messages(account_id):
             channel_joined.delay(channel_username)
         except errors.FloodWaitError as e:
             print('Flood wait for ', e.seconds)
-            asyncio.sleep(e.seconds)
+            await asyncio.sleep(e.seconds)
 
     async def check_channels_must_joined():
         while True:
