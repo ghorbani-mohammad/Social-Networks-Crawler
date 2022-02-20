@@ -169,10 +169,11 @@ def get_messages(account_id):
 
     async def check_channels_must_joined():
         while True:
-            await asyncio.sleep(60 * MINUTE)
             for username in await unjoined_channels():
+                print(f'channel {username} must joined')
                 await join_channel(username)
                 await asyncio.sleep(60 * MINUTE)
+            await asyncio.sleep(60 * MINUTE)
 
     async def get_messsage_statics(channel_username, message_ids):
         result = await client(
