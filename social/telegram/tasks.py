@@ -190,8 +190,6 @@ def run_telegram(account_id):
         while True:
             for username in await channel_usernames():
                 post_ids = await channel_posts(username)
-                print(username)
-                print(post_ids)
                 if len(post_ids) == 0:
                     continue
                 await get_messsage_statics(username, post_ids)
