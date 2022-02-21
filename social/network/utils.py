@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth
 
-from network.models import Network
+from network.models import Network, Channel
 
 KEYWORD_NUMBER = 20
 
@@ -65,10 +65,18 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
                 hour__hour=hour.hour, hour__day=hour.day
             ).count()
             temp_result = {'hour': hour, 'count': count, 'total_count': total_count}
+            networks = {}
             for network in Network.objects.all():
-                temp_result[network.name] = s_e_qs.filter(
+                networks[network.name] = s_e_qs.filter(
                     hour__hour=hour.hour, hour__day=hour.day, channel__network=network
                 ).count()
+            temp_result['networks'] = networks
+            channels = {}
+            for channel in Channel.objects.all():
+                channels[channel.name] = s_e_qs.filter(
+                    hour__hour=hour.hour, hour__day=hour.day, channel=channel
+                ).count()
+            temp_result['channels'] = channels
             result.append(temp_result)
     elif type == 'daily':
         start = start or timezone.localtime()
