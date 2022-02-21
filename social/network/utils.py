@@ -4,6 +4,8 @@ from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth
 
+KEYWORD_NUMBER = 20
+
 
 def get_search_excluded_qs(apiview):
     qs = apiview.get_queryset()
@@ -116,7 +118,7 @@ def get_keyword_statics(qs, type, start=None, end=None):
                 .order_by('-count')
             )
             keywords = []
-            for keyword in temp[: min(10, len(temp))]:
+            for keyword in temp[: min(KEYWORD_NUMBER, len(temp))]:
                 keywords.append(
                     {'keyword': keyword['keyword'], 'count': keyword['count']}
                 )
@@ -140,7 +142,7 @@ def get_keyword_statics(qs, type, start=None, end=None):
                 .order_by('-count')
             )
             keywords = []
-            for keyword in temp[: min(10, len(temp))]:
+            for keyword in temp[: min(KEYWORD_NUMBER, len(temp))]:
                 keywords.append(
                     {'keyword': keyword['keyword'], 'count': keyword['count']}
                 )
@@ -164,7 +166,7 @@ def get_keyword_statics(qs, type, start=None, end=None):
                 .order_by('-count')
             )
             keywords = []
-            for keyword in temp[: min(10, len(temp))]:
+            for keyword in temp[: min(KEYWORD_NUMBER, len(temp))]:
                 keywords.append(
                     {'keyword': keyword['keyword'], 'count': keyword['count']}
                 )
