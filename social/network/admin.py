@@ -55,3 +55,7 @@ class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         return instance.created_at.astimezone(tz('Asia/Tehran')).strftime(
             "%m/%d %H:%M:%S"
         )
+
+    @admin.display(ordering="post", description="post")
+    def get_post(self, instance):
+        return instance.post.admin_link
