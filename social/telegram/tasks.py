@@ -152,8 +152,8 @@ def channel_joined(username):
     channel.save()
 
 
-@shared_task(name="get_messages")
-def get_messages(account_id):
+@shared_task(name="run_telegram")
+def run_telegram(account_id):
     _, client = get_account_client(account_id)
     client.start()
 
