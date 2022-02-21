@@ -8,7 +8,12 @@ from . import models
 logger = get_task_logger(__name__)
 
 
-@shared_task(name="extract_keywords")
+@shared_task(
+    name="extract_keywords",
+    autoretry_for=(Exception,),
+    default_retry_delay=60,
+    retry_kwargs={'max_retries': 10},
+)
 def extract_keywords(post_id):
     post = models.Post.objects.get(id=post_id)
     if len(post.body) < 100:
