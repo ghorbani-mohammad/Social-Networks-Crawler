@@ -1,10 +1,12 @@
 from django.utils import timezone
+from django.utils.html import format_html
 from django.db import models, transaction
 
 from . import tasks
 from reusable.models import BaseModel
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
+from reusable.admins import url_to_edit_object
 
 
 class Network(BaseModel):
@@ -69,6 +71,11 @@ class Post(BaseModel):
     views_count = models.IntegerField(null=True, blank=True)
     share_count = models.IntegerField(null=True, blank=True)
     data = models.JSONField(null=True)
+
+    @property
+    def admin_link(self):
+        url = url_to_edit_object(self)
+        return format_html("<a href='{url}'>{stream}</a>", url=url, stream=self)
 
     def __str__(self):
         return f'({self.pk} - {self.channel})'

@@ -4,6 +4,7 @@ from envparse import env
 DEBUG = env.bool('DEBUG')
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env.str('SECRET_KEY')
+BACKEND_URL = env.str("BACKEND_URL")
 ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
 
 INSTALLED_APPS = [
