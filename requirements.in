@@ -1,3 +1,4 @@
+
 celery
 django
 django-cors-headers
@@ -8,6 +9,7 @@ envparse
 gunicorn
 ipython
 linkedin-scraper==2.9.0 
+openpyxl
 pip-tools
 psycopg2-binary
 python-dateutil

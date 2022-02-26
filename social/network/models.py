@@ -71,6 +71,7 @@ class Post(BaseModel):
     views_count = models.IntegerField(null=True, blank=True)
     share_count = models.IntegerField(null=True, blank=True)
     data = models.JSONField(null=True)
+    imported = models.BooleanField(default=False, null=True, blank=True)
 
     @property
     def admin_link(self):
