@@ -208,6 +208,7 @@ def get_keyword_statics(qs, type, start=None, end=None):
 
 
 def get_channels_statistics(queryset):
+    total = 0
     channels = (
         queryset.values('channel', 'channel__name')
         .annotate(count=Count('channel'))
@@ -218,4 +219,6 @@ def get_channels_statistics(queryset):
         {'channel': channel['channel__name'], 'count': channel['count']}
         for channel in channels
     ]
-    return channels
+    for channel in channels:
+        total += channel['count']
+    return {'channels': channels, 'total': total}
