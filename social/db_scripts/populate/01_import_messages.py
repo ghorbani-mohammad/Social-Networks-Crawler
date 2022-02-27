@@ -1,9 +1,8 @@
-import json
-import random
 import os
 import sys
-from datetime import datetime
+import random
 from openpyxl import load_workbook
+from django.utils.timezone import make_aware
 
 import django
 
@@ -21,8 +20,6 @@ from network.models import Channel, Post
 channel_ids = list(
     Channel.objects.filter(network__name='Telegram').values_list('id', flat=True)
 )
-print(channel_ids)
-print(random.choice(channel_ids))
 
 sheet = load_workbook(filename='/app/Book1.xlsx').active
 texts = [cell.value for cell in sheet['C']]
@@ -32,8 +29,9 @@ for index, text in enumerate(texts[:10]):
     index = index + 1
     date = dates[index]
     text = text[index]
-    # print(date)
-    # print(datetime.strptime(date, "%Y-%B-%d %H:%M:%S"))
-    Post.objects.create(
-        body=text, channel_id=random.choice(channel_ids), created_at=date, imported=True
+    post = Post.objects.create(
+        body=text, channel_id=random.choice(channel_ids), imported=True
+    )
+    Post.objects.filter(pk=post.pk).update(
+        created_at=make_aware(date), updated_at=make_aware(date)
     )
