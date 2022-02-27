@@ -119,6 +119,7 @@ class SearchCountAPIView(ListAPIView):
             data['date_after'],
             data['date_before'],
         )
+        response.data['channels_statistics'] = utils.get_channels_statistics(qs)
         return response
 
 

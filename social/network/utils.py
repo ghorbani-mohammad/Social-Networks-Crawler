@@ -7,6 +7,7 @@ from django.db.models.functions import TruncDate, TruncHour, TruncMonth
 from network.models import Network, Channel
 
 KEYWORD_NUMBER = 20
+CHANNEL_NUMBER = 5
 
 
 def get_search_excluded_qs(apiview):
@@ -204,3 +205,17 @@ def get_keyword_statics(qs, type, start=None, end=None):
                 }
             )
     return result
+
+
+def get_channels_statistics(queryset):
+    channels = (
+        queryset.values('channel', 'channel__name')
+        .annotate(count=Count('channel'))
+        .order_by('-count')
+    )
+    channels = channels[: min(CHANNEL_NUMBER, len(channels))]
+    channels = [
+        {'channel': channel['channel__name'], 'count': channel['count']}
+        for channel in channels
+    ]
+    return channels
