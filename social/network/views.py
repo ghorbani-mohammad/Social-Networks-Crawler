@@ -27,6 +27,18 @@ class NetworkViewSet(ModelViewSet):
     ordering_fields = ["name"]
 
 
+class TagViewSet(ModelViewSet):
+    queryset = models.Tag.objects.order_by("-id")
+    serializer_class = serializers.TagSerializer
+    pagination_class = ListPagination
+    filter_backends = [
+        rf_filters.SearchFilter,
+        rf_filters.OrderingFilter,
+    ]
+    search_fields = ["name"]
+    ordering_fields = ["name"]
+
+
 class ChannelViewSet(ModelViewSet):
     queryset = models.Channel.objects.order_by("-id")
     serializer_class = serializers.ChannelSerializer

@@ -9,6 +9,13 @@ from linkedin import tasks as lin_tasks
 from reusable.admins import url_to_edit_object
 
 
+class Tag(BaseModel):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Network(BaseModel):
     name = models.CharField(max_length=100)
     url = models.URLField()
@@ -35,6 +42,7 @@ class Channel(BaseModel):
     status = models.BooleanField(default=True)
     data = models.JSONField(null=True, blank=True)
     joined = models.BooleanField(null=True, blank=True)
+    tags = models.ManyToManyField(Tag, related_name='channels', blank=True)
 
     class Meta:
         unique_together = ('network', 'username')
