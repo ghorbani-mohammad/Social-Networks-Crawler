@@ -20,7 +20,7 @@ today = datetime.date.today()
 
 keywords = Keyword.objects.filter(created_at__date=today)
 
-for keyword in keywords[:10]:
+for keyword in keywords:
     Keyword.objects.filter(pk=keyword.pk).update(
         created_at=keyword.post.created_at, updated_at=keyword.post.updated_at
     )
