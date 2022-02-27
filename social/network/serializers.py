@@ -10,6 +10,11 @@ class NetworkSerializer(serializers.ModelSerializer):
 
 
 class ChannelSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["tags"] = TagSerializer(instance.tags.all(), many=True).data
+        return data
+
     class Meta:
         model = models.Channel
         fields = (
