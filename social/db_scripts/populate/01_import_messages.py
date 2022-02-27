@@ -28,7 +28,7 @@ dates = [cell.value for cell in sheet['B']]
 for index, text in enumerate(texts):
     index = index + 1
     date = dates[index]
-    text = text[index]
+    text = texts[index]
     post = Post.objects.create(
         body=text, channel_id=random.choice(channel_ids), imported=True
     )
