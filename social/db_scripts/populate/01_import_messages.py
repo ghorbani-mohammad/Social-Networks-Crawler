@@ -25,7 +25,7 @@ sheet = load_workbook(filename='/app/Book1.xlsx').active
 texts = [cell.value for cell in sheet['C']]
 dates = [cell.value for cell in sheet['B']]
 
-for index, text in enumerate(texts[:10]):
+for index, text in enumerate(texts):
     index = index + 1
     date = dates[index]
     text = text[index]
