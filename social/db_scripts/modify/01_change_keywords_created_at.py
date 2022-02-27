@@ -1,7 +1,6 @@
 import os
 import sys
 import datetime
-from django.utils.timezone import make_aware
 
 import django
 
@@ -21,4 +20,7 @@ today = datetime.date.today()
 
 keywords = Keyword.objects.filter(created_at__date=today)
 
-print(keywords.count())
+for keyword in keywords[:10]:
+    Keyword.objects.filter(pk=keyword.pk).update(
+        created_at=keyword.post.created_at, updated_at=keyword.post.updated_at
+    )
