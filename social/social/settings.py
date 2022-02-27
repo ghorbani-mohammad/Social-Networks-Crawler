@@ -57,11 +57,13 @@ WSGI_APPLICATION = 'social.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        "OPTIONS": {"options": "-c search_path=army"},
         'HOST': 'social_db',
-        'NAME': 'postgres',
-        'PORT': 5432,
-        'USER': env.str('POSTGRES_USER'),
-        'PASSWORD': env.str('POSTGRES_PASSWORD'),
+        "HOST": "postgres",
+        "NAME": "postgres",
+        "USER": env.str("DB_USER"),
+        "PASSWORD": env.str("DB_PASS"),
+        "PORT": env.str("DB_PORT"),
     },
 }
 
