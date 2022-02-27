@@ -57,7 +57,6 @@ WSGI_APPLICATION = 'social.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        "OPTIONS": {"options": "-c search_path=army"},
         'HOST': 'social_db',
         "HOST": "postgres",
         "NAME": "postgres",
