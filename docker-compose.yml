@@ -1,6 +1,14 @@
 version: '3'
 
 services:
+  social_db:
+    container_name: social_db
+    image: postgres:13.4-alpine
+    restart: unless-stopped
+    volumes:
+      - social_db:/var/lib/postgresql/data
+    env_file:
+      - .env
   
   social_api:
     container_name: social_api
@@ -53,7 +61,7 @@ services:
     container_name : social_firefox
     image: selenium/standalone-firefox:4.1.1-20220121
     ports:
-      - 4444:4444
+      - 4445:4444
       - 7900:7900
     shm_size: 2g
     restart: unless-stopped
