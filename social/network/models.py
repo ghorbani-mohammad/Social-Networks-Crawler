@@ -90,6 +90,8 @@ class Post(BaseModel):
         return f'({self.pk} - {self.channel})'
 
     def save(self, *args, **kwargs):
+        if len(self.body) < 5:
+            return
         with transaction.atomic():
             super().save(*args, **kwargs)
             transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
