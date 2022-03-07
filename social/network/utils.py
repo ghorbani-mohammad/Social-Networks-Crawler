@@ -1,13 +1,27 @@
+from operator import or_
+from functools import reduce
 from dateutil.relativedelta import relativedelta
 
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db.models.functions import TruncDate, TruncHour, TruncMonth
 
 from network.models import Network, Channel
 
 KEYWORD_NUMBER = 20
 CHANNEL_NUMBER = 5
+
+
+def get_search_modified_qs(apiview, qs):
+    for backend in list(apiview.filter_backends):
+        if backend.__name__ != 'SearchFilter':
+            qs = backend().filter_queryset(apiview.request, qs, apiview)
+        else:
+            if 'search' in apiview.request.GET:
+                words = apiview.request.GET['search'].split()
+                query = reduce(or_, [Q(body__contains=word) for word in words])
+                qs = qs.filter(query)
+    return qs
 
 
 def get_search_excluded_qs(apiview):
