@@ -94,7 +94,8 @@ class Post(BaseModel):
             return
         with transaction.atomic():
             super().save(*args, **kwargs)
-            transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
+            if len(self.body) > 50:
+                transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
 
 
 class Keyword(BaseModel):
