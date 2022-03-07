@@ -116,24 +116,18 @@ class SearchCountAPIView(ListAPIView):
     filterset_class = filters.PostFilter
     search_fields = ["body"]
 
+    def filter_queryset(self, qs):
+        return utils.get_search_modified_qs(self, qs)
+
     def get_queryset(self):
-        qs = models.Post.objects.order_by("-id")
-        qs = utils.get_search_modified_qs(self, qs)
-        return qs
+        return models.Post.objects.order_by("-id")
 
     def list(self, request):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        response = None
-        qs = self.get_queryset()
-        page = self.paginate_queryset(qs)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            response = self.get_paginated_response(serializer.data)
-        else:
-            serializer = self.get_serializer(qs, many=True)
-            response = serializer.data
+        response = super().list(request)
+        qs = self.filter_queryset(self.get_queryset())
         search_excluded_qs = utils.get_search_excluded_qs(self)
         response.data['statics'] = utils.get_count_statics(
             qs,
