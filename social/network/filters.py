@@ -39,14 +39,20 @@ def keyword_filter_by_network_ids(queryset, name, value):
     return queryset.filter(post__channel__network_id__in=values)
 
 
+def keyword_filter_by_tag_ids(queryset, name, value):
+    values = value.split(',')
+    return queryset.filter(post__channel__tags__in=values)
+
+
 class KeywordFilter(FilterSet):
     date = DateTimeFromToRangeFilter(field_name="created_at")
     channels = CharFilter(method=keyword_filter_by_channel_ids)
     networks = CharFilter(method=keyword_filter_by_network_ids)
+    tags = CharFilter(method=keyword_filter_by_tag_ids)
 
     class Meta:
         model = models.Keyword
-        fields = ["channels", "networks", "date"]
+        fields = ["channels", "networks", "date", "tags"]
 
 
 def channel_filter_by_network_ids(queryset, name, value):
