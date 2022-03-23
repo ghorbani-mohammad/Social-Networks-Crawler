@@ -80,9 +80,9 @@ class Post(BaseModel):
     share_count = models.IntegerField(null=True, blank=True)
     data = models.JSONField(null=True)
     imported = models.BooleanField(default=False, null=True, blank=True)
-    sentiment = models.JSONField(null=True)
-    category = models.JSONField(null=True)
-    ner = models.JSONField(null=True)
+    sentiment = models.JSONField(null=True, blank=True)
+    category = models.JSONField(null=True, blank=True)
+    ner = models.JSONField(null=True, blank=True)
 
     @property
     def admin_link(self):
