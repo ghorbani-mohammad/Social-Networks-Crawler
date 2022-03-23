@@ -1,5 +1,6 @@
 import requests
 
+from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
@@ -8,12 +9,15 @@ from . import models
 logger = get_task_logger(__name__)
 
 
-@shared_task(
-    name="extract_keywords",
-    autoretry_for=(Exception,),
-    default_retry_delay=60,
-    retry_kwargs={'max_retries': 10},
-)
+class BaseTaskWithRetry(Task):
+    autoretry_for = (Exception,)
+    retry_kwargs = {"max_retries": 10}
+    retry_backoff = 5
+    default_retry_delay = 60
+    retry_jitter = True
+
+
+@shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
     post = models.Post.objects.get(id=post_id)
     if len(post.body) < 100:
@@ -27,6 +31,7 @@ def extract_keywords(post_id):
     models.Keyword.objects.bulk_create(objs)
 
 
+@shared_task(base=BaseTaskWithRetry)
 def extract_ner(post_id):
     post = models.Post.objects.get(id=post_id)
     if len(post.body) < 100:
