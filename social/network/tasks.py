@@ -25,3 +25,13 @@ def extract_keywords(post_id):
     for keyword in resp['keywords']:
         objs.append(models.Keyword(post=post, keyword=keyword))
     models.Keyword.objects.bulk_create(objs)
+
+
+def extract_ner(post_id):
+    post = models.Post.objects.get(id=post_id)
+    if len(post.body) < 100:
+        return
+    resp = requests.post(
+        "http://persian_analyzer_api/v1/app/ner/", {"text": post.body}
+    ).json()
+    print(resp)
