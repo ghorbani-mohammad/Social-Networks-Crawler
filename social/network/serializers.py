@@ -45,6 +45,9 @@ class PostSerializer(serializers.ModelSerializer):
             "channel",
             "views_count",
             "share_count",
+            "sentiment",
+            "ner",
+            "category",
             "created_at",
         )
 
