@@ -1,5 +1,6 @@
 import requests
 
+from django.db import transaction
 from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -31,29 +32,32 @@ def extract_keywords(post_id):
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_ner(post_id):
-    post = models.Post.objects.get(id=post_id)
-    resp = requests.post(
-        "http://persian_analyzer_api/v1/app/ner/", {"text": post.body}
-    ).json()
-    post.ner = resp
-    post.save()
+    with transaction.atomic():
+        post = models.Post.objects.select_for_update().get(id=post_id)
+        resp = requests.post(
+            "http://persian_analyzer_api/v1/app/ner/", {"text": post.body}
+        ).json()
+        post.ner = resp
+        post.save()
 
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_sentiment(post_id):
-    post = models.Post.objects.get(id=post_id)
-    resp = requests.post(
-        "http://persian_analyzer_api/v1/app/sentiment/", {"text": post.body}
-    ).json()
-    post.sentiment = resp
-    post.save()
+    with transaction.atomic():
+        post = models.Post.objects.select_for_update().get(id=post_id)
+        resp = requests.post(
+            "http://persian_analyzer_api/v1/app/sentiment/", {"text": post.body}
+        ).json()
+        post.sentiment = resp
+        post.save()
 
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_categories(post_id):
-    post = models.Post.objects.get(id=post_id)
-    resp = requests.post(
-        "http://persian_analyzer_api/v1/app/classification/", {"text": post.body}
-    ).json()
-    post.category = resp
-    post.save()
+    with transaction.atomic():
+        post = models.Post.objects.select_for_update().get(id=post_id)
+        resp = requests.post(
+            "http://persian_analyzer_api/v1/app/classification/", {"text": post.body}
+        ).json()
+        post.category = resp
+        post.save()
