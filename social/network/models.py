@@ -102,6 +102,7 @@ class Post(BaseModel):
                 transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
                 transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
                 transaction.on_commit(lambda: tasks.extract_sentiment.delay(self.pk))
+                transaction.on_commit(lambda: tasks.extract_categories.delay(self.pk))
 
 
 class Keyword(BaseModel):

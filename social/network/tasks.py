@@ -47,3 +47,13 @@ def extract_sentiment(post_id):
     ).json()
     post.sentiment = resp
     post.save()
+
+
+@shared_task(base=BaseTaskWithRetry)
+def extract_categories(post_id):
+    post = models.Post.objects.get(id=post_id)
+    resp = requests.post(
+        "http://persian_analyzer_api/v1/app/classification/", {"text": post.body}
+    ).json()
+    post.category = resp
+    post.save()
