@@ -71,7 +71,7 @@ def insert_to_db(channel_username, event):
     net_models.Post.objects.create(body=text, channel=channel, data=data)
 
 
-@shared_task(name="update_message_statics")
+@shared_task()
 def update_message_statics(channel_username, message_id, views_count, forwards_count):
     channel = net_models.Channel.objects.get(username=channel_username)
     net_models.Post.objects.filter(channel=channel, data__message_id=message_id).update(
@@ -79,7 +79,7 @@ def update_message_statics(channel_username, message_id, views_count, forwards_c
     )
 
 
-@shared_task(name="get_code")
+@shared_task()
 def get_code(account_id):
     account, client = get_account_client(account_id)
 
@@ -95,7 +95,7 @@ def get_code(account_id):
     client.disconnect()
 
 
-@shared_task(name="sign_in")
+@shared_task()
 def sign_in(account_id, code):
     account, client = get_account_client(account_id)
 
@@ -143,7 +143,7 @@ def channel_posts(channel_username):
     return post_ids_array
 
 
-@shared_task(name="channel_joined")
+@shared_task()
 def channel_joined(username):
     channel = net_models.Channel.objects.filter(
         network__name='Telegram', username=username
@@ -152,7 +152,7 @@ def channel_joined(username):
     channel.save()
 
 
-@shared_task(name="run_telegram")
+@shared_task()
 def run_telegram(account_id):
     _, client = get_account_client(account_id)
     client.start()
@@ -211,14 +211,14 @@ def run_telegram(account_id):
     loop.run_forever()
 
 
-@shared_task(name="set_channels_list")
+@shared_task()
 def set_channels_list():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
     if len(channels):
         cache.set('telegram_channels', json.dumps(channels))
 
 
-@shared_task(name="get_channels_list")
+@shared_task()
 def get_channels_list():
     channels = cache.get('telegram_channels')
     if channels:
@@ -226,7 +226,7 @@ def get_channels_list():
     return []
 
 
-@shared_task(name="get_channel_info")
+@shared_task()
 def get_channel_info(account_id, channel_username):
     _, client = get_account_client(account_id)
 
@@ -242,7 +242,7 @@ def get_channel_info(account_id, channel_username):
     client.disconnect()
 
 
-@shared_task(name="join_channel")
+@shared_task()
 def join_channel(account_id, channel_username):
     _, client = get_account_client(account_id)
 
@@ -257,7 +257,7 @@ def join_channel(account_id, channel_username):
     client.disconnect()
 
 
-@shared_task(name="leave_channel")
+@shared_task()
 def leave_channel(account_id, channel_username):
     _, client = get_account_client(account_id)
 
@@ -272,7 +272,7 @@ def leave_channel(account_id, channel_username):
     client.disconnect()
 
 
-@shared_task(name="get_message_comments")
+@shared_task()
 def get_message_comments(account_id, channel_username, msg_id):
     _, client = get_account_client(account_id)
 

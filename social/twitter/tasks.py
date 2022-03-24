@@ -100,7 +100,7 @@ def store_twitter_posts(
         post.save()
 
 
-@shared_task(name="get_twitter_posts")
+@shared_task()
 def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     channel_url = channel.username
@@ -128,7 +128,7 @@ def get_twitter_posts(channel_id):
     driver.quit()
 
 
-@shared_task(name="get_twitter_post_comments")
+@shared_task()
 def get_twitter_post_comments(post_id):
     post = net_models.Post.objects.get(pk=post_id)
     driver = webdriver.Remote(
