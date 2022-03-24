@@ -98,7 +98,7 @@ class Post(BaseModel):
         with transaction.atomic():
             super().save(*args, **kwargs)
             transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
-            # transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
+            transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
 
 
 class Keyword(BaseModel):

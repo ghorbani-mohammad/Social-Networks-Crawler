@@ -39,4 +39,5 @@ def extract_ner(post_id):
     resp = requests.post(
         "http://persian_analyzer_api/v1/app/ner/", {"text": post.body}
     ).json()
-    print(resp)
+    post.ner = resp
+    post.save()
