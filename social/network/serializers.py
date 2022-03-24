@@ -9,6 +9,19 @@ class NetworkSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "url", "status", "today_posts_count")
 
 
+class ChannelShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Channel
+        fields = (
+            "id",
+            "name",
+            "username",
+            "description",
+            "network",
+            "status",
+        )
+
+
 class ChannelSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -37,6 +50,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    channel = ChannelShortSerializer()
+
     class Meta:
         model = models.Post
         fields = (
