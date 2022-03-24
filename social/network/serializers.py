@@ -3,6 +3,12 @@ from rest_framework import serializers
 from . import models
 
 
+class NetworkShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Network
+        fields = ("id", "name", "url", "status")
+
+
 class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Network
@@ -10,6 +16,8 @@ class NetworkSerializer(serializers.ModelSerializer):
 
 
 class ChannelShortSerializer(serializers.ModelSerializer):
+    network = NetworkShortSerializer()
+
     class Meta:
         model = models.Channel
         fields = (
