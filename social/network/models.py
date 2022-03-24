@@ -93,7 +93,7 @@ class Post(BaseModel):
         return f'({self.pk} - {self.channel})'
 
     def save(self, *args, **kwargs):
-        if len(self.body) < 5:
+        if len(self.body) < 100:
             return
         created = self.pk is None
         with transaction.atomic():
@@ -101,6 +101,7 @@ class Post(BaseModel):
             if created:
                 transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
                 transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
+                transaction.on_commit(lambda: tasks.extract_sentiment.delay(self.pk))
 
 
 class Keyword(BaseModel):
