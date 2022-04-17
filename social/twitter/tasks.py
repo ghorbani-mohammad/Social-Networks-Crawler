@@ -95,7 +95,11 @@ def store_twitter_posts(
     }
     if not exists:
         net_models.Post.objects.create(
-            channel_id=channel_id, network_id=post_id, body=body, data=data
+            channel_id=channel_id,
+            network_id=post_id,
+            body=body,
+            data=data,
+            share_count=data["retweets_count"],
         )
     else:
         post = net_models.Post.objects.filter(body=body, channel_id=channel_id).first()
