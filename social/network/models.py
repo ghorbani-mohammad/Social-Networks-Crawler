@@ -100,7 +100,8 @@ class Post(BaseModel):
         return f"({self.pk} - {self.channel})"
 
     def save(self, *args, **kwargs):
-        if len(self.body) < 100:
+        if len(self.body) < 50:
+            print("length below 50")
             return
         created = self.pk is None
         with transaction.atomic():
