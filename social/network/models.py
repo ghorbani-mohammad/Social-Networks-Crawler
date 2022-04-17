@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.html import format_html
 from django.db import models, transaction
+from django.core.validators import MinValueValidator
 
 from . import tasks
 from reusable.models import BaseModel
@@ -44,6 +45,10 @@ class Channel(BaseModel):
     data = models.JSONField(null=True, blank=True)
     joined = models.BooleanField(null=True, blank=True)
     tags = models.ManyToManyField(Tag, related_name='channels', blank=True)
+    last_crawl = models.DateTimeField(null=True, blank=True)
+    crawl_interval = models.PositiveSmallIntegerField(
+        default=1, validators=[MinValueValidator(1)]
+    )
 
     class Meta:
         unique_together = ('network', 'username')

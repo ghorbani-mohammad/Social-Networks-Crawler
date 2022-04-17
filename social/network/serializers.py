@@ -47,6 +47,8 @@ class ChannelSerializer(serializers.ModelSerializer):
             "tags",
             "status",
             "today_posts_count",
+            "last_crawl",
+            "crawl_interval",
             "created_at",
         )
 
