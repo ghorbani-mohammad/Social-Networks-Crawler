@@ -64,8 +64,8 @@ def set_channels_list_async():
 @sync_to_async
 def insert_to_db(channel_username, event):
     # todo: use cache for getting channel
-    network = net_models.Network.objects.get(network=network, name="Telegram")
-    channel = net_models.Channel.objects.get(username=channel_username)
+    network = net_models.Network.objects.get(name="Telegram")
+    channel = net_models.Channel.objects.get(network=network, username=channel_username)
     message_id = event.message.id
     channel_id = event.message.peer_id.channel_id
     text = event.message.message
