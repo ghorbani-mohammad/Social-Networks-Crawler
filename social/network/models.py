@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils import timezone
 from django.utils.html import format_html
 from django.db import models, transaction
@@ -98,7 +99,7 @@ class Post(BaseModel):
         created = self.pk is None
         with transaction.atomic():
             super().save(*args, **kwargs)
-            if created:
+            if created and settings.ENVIRONMENT == settings.PRODUCTION:
                 transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
                 transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
                 transaction.on_commit(lambda: tasks.extract_sentiment.delay(self.pk))

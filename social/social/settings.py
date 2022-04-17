@@ -7,6 +7,10 @@ SECRET_KEY = env.str('SECRET_KEY')
 BACKEND_URL = env.str("BACKEND_URL")
 ALLOWED_HOSTS = [env.str('ALLOWED_HOSTS')]
 
+LOCAL = 'local'
+PRODUCTION = 'production'
+ENVIRONMENT = env.str('ENVIRONMENT', default='local')
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
