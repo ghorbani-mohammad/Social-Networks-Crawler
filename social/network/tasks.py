@@ -1,6 +1,7 @@
 import requests
 
 from django.db import transaction
+from django.utils import timezone
 from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -25,7 +26,7 @@ def extract_keywords(post_id):
         "http://analyzer_api/api/v1/keword_extraction/", {"body": post.body}
     ).json()
     objs = []
-    for keyword in resp['keywords']:
+    for keyword in resp["keywords"]:
         objs.append(models.Keyword(post=post, keyword=keyword))
     models.Keyword.objects.bulk_create(objs)
 
@@ -61,3 +62,13 @@ def extract_categories(post_id):
         ).json()
         post.category = resp
         post.save()
+
+
+@shared_task()
+def check_channels_crawl():
+    channels = models.Channel.objects.filter(last_crawl__isnull=False)
+    for channel in channels:
+        interval = timezone.localtime() - channel.last_crawl
+        hours = interval.total_seconds() / 3600
+        if hours >= channel.crawl_interval:
+            print("crawl")
