@@ -7,6 +7,7 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 
 from . import models
+from twitter import tasks as twi_tasks
 
 logger = get_task_logger(__name__)
 
@@ -71,4 +72,4 @@ def check_channels_crawl():
         interval = timezone.localtime() - channel.last_crawl
         hours = interval.total_seconds() / 3600
         if hours >= channel.crawl_interval:
-            print("crawl")
+            twi_tasks.get_twitter_posts(channel.pk)
