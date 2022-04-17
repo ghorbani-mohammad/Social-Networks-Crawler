@@ -17,5 +17,6 @@ python-dateutil
 redis
 requests
 selenium
+sentry-sdk
 telethon
 unidecode
