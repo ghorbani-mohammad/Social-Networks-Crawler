@@ -5,6 +5,7 @@ from reusable.admins import ReadOnlyAdminDateFields
 
 from . import models
 from twitter import tasks as twi_tasks
+from linkedin import tasks as lin_tasks
 
 
 @admin.register(models.Network)
@@ -38,6 +39,8 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         for channel in queryset:
             if channel.network.name == "Twitter":
                 twi_tasks.get_twitter_posts.delay(channel.pk)
+            elif channel.network.name == "Linkedin":
+                lin_tasks.get_channel_posts.delay(channel.pk)
 
     actions = [crawl]
 
