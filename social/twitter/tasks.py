@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from celery import shared_task
+from django.utils import timezone
 from celery.utils.log import get_task_logger
 
 from network import models as net_models
@@ -27,25 +28,25 @@ def scroll(driver, counter):
 
 def get_post_detail(article):
     detail = {}
-    detail['id'] = int(
+    detail["id"] = int(
         article.find_element(
             By.XPATH,
             ".//a[@role='link' and @dir='auto' and starts-with(@id,'id__')]",
         )
-        .get_attribute('href')
-        .split('/')[-1]
+        .get_attribute("href")
+        .split("/")[-1]
     )
-    detail['body'] = article.find_element(
+    detail["body"] = article.find_element(
         By.XPATH,
         ".//div[@dir='auto' and starts-with(@id,'id__') and not(contains(@data-testid, 'socialContext'))]",
     ).text
-    for item in ['reply', 'retweet', 'like']:
-        detail[f'{item}_count'] = int(
+    for item in ["reply", "retweet", "like"]:
+        detail[f"{item}_count"] = int(
             article.find_element(
                 By.XPATH,
                 f".//div[@role='button' and @data-testid='{item}']",
             )
-            .get_attribute('aria-label')
+            .get_attribute("aria-label")
             .split()[0]
         )
     return detail
@@ -53,25 +54,25 @@ def get_post_detail(article):
 
 def get_comment_detail(article):
     detail = {}
-    detail['id'] = int(
+    detail["id"] = int(
         article.find_element(
             By.XPATH,
             ".//a[@role='link' and @dir='auto' and starts-with(@id,'id__')]",
         )
-        .get_attribute('href')
-        .split('/')[-1]
+        .get_attribute("href")
+        .split("/")[-1]
     )
-    detail['body'] = article.find_element(
+    detail["body"] = article.find_element(
         By.XPATH,
         ".//div[@dir='auto' and starts-with(@id,'id__') and not(@style) and @lang]//span",
     ).text
-    for item in ['reply', 'retweet', 'like']:
-        detail[f'{item}_count'] = int(
+    for item in ["reply", "retweet", "like"]:
+        detail[f"{item}_count"] = int(
             article.find_element(
                 By.XPATH,
                 f".//div[@role='button' and @data-testid='{item}']",
             )
-            .get_attribute('aria-label')
+            .get_attribute("aria-label")
             .split()[0]
         )
     return detail
@@ -102,7 +103,7 @@ def store_twitter_posts(
 @shared_task()
 def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
-    channel_url = f'{channel.network.url}/{channel.username}'
+    channel_url = f"{channel.network.url}/{channel.username}"
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,
@@ -116,15 +117,17 @@ def get_twitter_posts(channel_id):
             post_detail = get_post_detail(article)
             store_twitter_posts.delay(
                 channel_id,
-                post_detail['id'],
-                post_detail['body'],
-                post_detail['reply_count'],
-                post_detail['retweet_count'],
-                post_detail['like_count'],
+                post_detail["id"],
+                post_detail["body"],
+                post_detail["reply_count"],
+                post_detail["retweet_count"],
+                post_detail["like_count"],
             )
         except Exception as e:
             logger.error(e)
     driver.quit()
+    channel.last_crawl = timezone.localtime()
+    channel.save()
 
 
 @shared_task()
@@ -144,11 +147,11 @@ def get_twitter_post_comments(post_id):
             # store on different tables?
             store_twitter_posts.delay(
                 post.channel_id,
-                post_detail['id'],
-                post_detail['body'],
-                post_detail['reply_count'],
-                post_detail['retweet_count'],
-                post_detail['like_count'],
+                post_detail["id"],
+                post_detail["body"],
+                post_detail["reply_count"],
+                post_detail["retweet_count"],
+                post_detail["like_count"],
             )
         except Exception as e:
             print(e)
