@@ -122,7 +122,7 @@ def get_twitter_posts(channel_id):
         DesiredCapabilities.FIREFOX,
     )
     driver.get(channel_url)
-    scroll(driver, 2)
+    scroll(driver, 5)
     time.sleep(5)
     articles = driver.find_elements(By.TAG_NAME, "article")
     for article in articles:
