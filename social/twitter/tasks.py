@@ -115,7 +115,7 @@ def get_twitter_posts(channel_id):
     )
     driver.get(channel_url)
     scroll(driver, 2)
-    time.sleep(10)
+    time.sleep(5)
     articles = driver.find_elements(By.TAG_NAME, "article")
     for article in articles:
         try:
