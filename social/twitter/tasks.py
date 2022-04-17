@@ -81,7 +81,7 @@ def get_comment_detail(article):
     return detail
 
 
-@shared_task(name="store_twitter_posts")
+@shared_task()
 def store_twitter_posts(
     channel_id, post_id, body, replies_counter, retweets_counter, likes_counter
 ):

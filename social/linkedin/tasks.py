@@ -15,7 +15,7 @@ from network import models as net_models
 logger = get_task_logger(__name__)
 
 
-@shared_task(name="login")
+@shared_task()
 def login():
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
@@ -43,14 +43,14 @@ def login():
         driver.close()
 
 
-@shared_task(name="store_post")
+@shared_task()
 def store_posts(channel_id, post_id, body, reactions_counter, comments_counter):
     exists = net_models.Post.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
     data = {
-        'reactions_counter': reactions_counter,
-        'comments_counter': comments_counter,
+        "reactions_counter": reactions_counter,
+        "comments_counter": comments_counter,
     }
     if not exists:
         net_models.Post.objects.create(
@@ -76,7 +76,7 @@ def scroll(driver, counter):
         last_height = new_height
 
 
-@shared_task(name="get_channel_posts")
+@shared_task()
 def get_channel_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     company_url = channel.username
@@ -106,9 +106,9 @@ def get_channel_posts(channel_id):
                 )[0]
                 reactions = reaction.find_elements(By.XPATH, ".//li")
                 if len(reactions) == 2:
-                    reactions_counter = int(reactions[0].text.replace(',', ''))
+                    reactions_counter = int(reactions[0].text.replace(",", ""))
                     comments_counter = int(
-                        reactions[1].text.replace(',', '').split()[0]
+                        reactions[1].text.replace(",", "").split()[0]
                     )
                     store_posts.delay(
                         channel_id, id, body, reactions_counter, comments_counter
