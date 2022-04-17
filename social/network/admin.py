@@ -24,6 +24,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "pk",
         "name",
         "username",
+        "last_crawl",
         "network",
         "status",
         "joined",
@@ -40,7 +41,7 @@ class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
     @admin.display(ordering="created_at", description="created_at")
     def get_created_at(self, instance):
-        return instance.created_at.astimezone(tz('Asia/Tehran')).strftime(
+        return instance.created_at.astimezone(tz("Asia/Tehran")).strftime(
             "%m/%d %H:%M:%S"
         )
 
@@ -52,7 +53,7 @@ class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
     @admin.display(ordering="created_at", description="created_at")
     def get_created_at(self, instance):
-        return instance.created_at.astimezone(tz('Asia/Tehran')).strftime(
+        return instance.created_at.astimezone(tz("Asia/Tehran")).strftime(
             "%m/%d %H:%M:%S"
         )
 
