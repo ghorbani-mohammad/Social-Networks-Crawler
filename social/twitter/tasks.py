@@ -8,8 +8,11 @@ from django.utils import timezone
 from celery.utils.log import get_task_logger
 
 from network import models as net_models
+from reusable.other import only_one_concurrency
 
 logger = get_task_logger(__name__)
+MINUTE = 60
+TASKS_TIMEOUT = 10 * MINUTE
 
 
 def scroll(driver, counter):
@@ -101,6 +104,7 @@ def store_twitter_posts(
 
 
 @shared_task()
+@only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     channel_url = f"{channel.network.url}/{channel.username}"
