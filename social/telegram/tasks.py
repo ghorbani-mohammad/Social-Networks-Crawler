@@ -27,7 +27,7 @@ HOUR = 60 * MINUTE
 def get_account_client(account_id):
     account = models.Account.objects.get(pk=account_id)
     client = TelegramClient(
-        '/app/telegram_sessions/' + account.phone_number,
+        "/app/telegram_sessions/" + account.phone_number,
         settings.TELEGRAM_API_ID,
         settings.TELEGRAM_API_HASH,
     )
@@ -43,12 +43,13 @@ def save_phone_code_hash(account_id, hash_code):
 
 @sync_to_async
 def update_channel_info(channel_username, info):
-    channel = net_models.Channel.objects.get(username=channel_username)
+    network = net_models.Network.objects.get(name="Telegram")
+    channel = net_models.Channel.objects.get(network=network, username=channel_username)
     data = {}
-    data['channel_id'] = info.full_chat.id
-    data['about'] = info.full_chat.about
-    data['participants_count'] = info.full_chat.participants_count
-    data['unread_count'] = info.full_chat.unread_count
+    data["channel_id"] = info.full_chat.id
+    data["about"] = info.full_chat.about
+    data["participants_count"] = info.full_chat.participants_count
+    data["unread_count"] = info.full_chat.unread_count
     channel.data = data
     channel.save()
 
@@ -57,23 +58,25 @@ def update_channel_info(channel_username, info):
 def set_channels_list_async():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
     if len(channels):
-        cache.set('telegram_channels', json.dumps(channels))
+        cache.set("telegram_channels", json.dumps(channels))
 
 
 @sync_to_async
 def insert_to_db(channel_username, event):
     # todo: use cache for getting channel
+    network = net_models.Network.objects.get(network=network, name="Telegram")
     channel = net_models.Channel.objects.get(username=channel_username)
     message_id = event.message.id
     channel_id = event.message.peer_id.channel_id
     text = event.message.message
-    data = {'message_id': message_id, 'channel_id': channel_id}
+    data = {"message_id": message_id, "channel_id": channel_id}
     net_models.Post.objects.create(body=text, channel=channel, data=data)
 
 
 @shared_task()
 def update_message_statics(channel_username, message_id, views_count, forwards_count):
-    channel = net_models.Channel.objects.get(username=channel_username)
+    network = net_models.Network.objects.get(name="Telegram")
+    channel = net_models.Channel.objects.get(network=network, username=channel_username)
     net_models.Post.objects.filter(channel=channel, data__message_id=message_id).update(
         views_count=views_count or 0, share_count=forwards_count or 0
     )
@@ -117,17 +120,17 @@ def sign_in(account_id, code):
 def unjoined_channels():
     return list(
         net_models.Channel.objects.filter(
-            network__name='Telegram', joined__isnull=True
-        ).values_list('username', flat=True)
+            network__name="Telegram", joined__isnull=True
+        ).values_list("username", flat=True)
     )
 
 
 @sync_to_async
 def channel_usernames():
     return list(
-        net_models.Channel.objects.filter(network__name='Telegram')
-        .values_list('username', flat=True)
-        .order_by('-id')
+        net_models.Channel.objects.filter(network__name="Telegram")
+        .values_list("username", flat=True)
+        .order_by("-id")
     )
 
 
@@ -135,18 +138,18 @@ def channel_usernames():
 def channel_posts(channel_username):
     channel = net_models.Channel.objects.filter(username=channel_username).first()
     today = timezone.localtime() - timezone.timedelta(hours=2)
-    posts = channel.posts.filter(created_at__gte=today).order_by('-created_at')
+    posts = channel.posts.filter(created_at__gte=today).order_by("-created_at")
     post_ids_array = []
     for post in posts:
-        if post.data and 'message_id' in post.data:
-            post_ids_array.append(post.data['message_id'])
+        if post.data and "message_id" in post.data:
+            post_ids_array.append(post.data["message_id"])
     return post_ids_array
 
 
 @shared_task()
 def channel_joined(username):
     channel = net_models.Channel.objects.filter(
-        network__name='Telegram', username=username
+        network__name="Telegram", username=username
     ).first()
     channel.joined = True
     channel.save()
@@ -161,16 +164,16 @@ def run_telegram(account_id):
         try:
             channel = await client.get_entity(channel_username)
             await client(JoinChannelRequest(channel))
-            print(f'join to {channel_username}')
+            print(f"join to {channel_username}")
             channel_joined.delay(channel_username)
         except errors.FloodWaitError as e:
-            print('Flood wait for ', e.seconds)
+            print("Flood wait for ", e.seconds)
             await asyncio.sleep(e.seconds)
 
     async def check_channels_must_joined():
         while True:
             for username in await unjoined_channels():
-                print(f'channel {username} must joined')
+                print(f"channel {username} must joined")
                 await join_channel(username)
                 await asyncio.sleep(60 * MINUTE)
             await asyncio.sleep(60 * MINUTE)
@@ -215,12 +218,12 @@ def run_telegram(account_id):
 def set_channels_list():
     channels = [channel.username for channel in net_models.Channel.objects.all()]
     if len(channels):
-        cache.set('telegram_channels', json.dumps(channels))
+        cache.set("telegram_channels", json.dumps(channels))
 
 
 @shared_task()
 def get_channels_list():
-    channels = cache.get('telegram_channels')
+    channels = cache.get("telegram_channels")
     if channels:
         return json.loads(channels)
     return []
