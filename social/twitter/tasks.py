@@ -102,7 +102,7 @@ def store_twitter_posts(
 @shared_task()
 def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
-    channel_url = channel.username
+    channel_url = f'{channel.network.url}/{channel.username}'
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,
