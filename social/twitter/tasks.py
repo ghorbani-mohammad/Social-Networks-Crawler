@@ -93,6 +93,7 @@ def store_twitter_posts(
         "retweets_count": retweets_counter,
         "likes_count": likes_counter,
     }
+    views_count = replies_counter + retweets_counter + likes_counter
     if not exists:
         net_models.Post.objects.create(
             channel_id=channel_id,
@@ -100,11 +101,13 @@ def store_twitter_posts(
             body=body,
             data=data,
             share_count=data["retweets_count"],
+            views_count=views_count,
         )
     else:
         post = net_models.Post.objects.filter(body=body, channel_id=channel_id).first()
         post.data = data
         post.share_count = data["retweets_count"]
+        post.views_count = views_count
         post.save()
 
 
