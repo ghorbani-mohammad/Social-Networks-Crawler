@@ -18,6 +18,6 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     "check_channels_crawl": {
         "task": "network.tasks.check_channels_crawl",
-        "schedule": crontab(minute="*"),
+        "schedule": crontab(minute="*/30"),
     }
 }

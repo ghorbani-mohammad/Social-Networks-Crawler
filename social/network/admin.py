@@ -4,6 +4,7 @@ from django.contrib import admin
 from reusable.admins import ReadOnlyAdminDateFields
 
 from . import models
+from twitter import tasks as twi_tasks
 
 
 @admin.register(models.Network)
@@ -32,6 +33,13 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "created_at",
     )
     list_filter = ("network",)
+
+    def crawl(self, request, queryset):
+        for channel in queryset:
+            if channel.network.name == "Twitter":
+                twi_tasks.get_twitter_posts.delay(channel.pk)
+
+    actions = [crawl]
 
 
 @admin.register(models.Post)

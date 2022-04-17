@@ -31,7 +31,7 @@ class Network(BaseModel):
         return counter
 
     def __str__(self):
-        return f'({self.pk} - {self.name})'
+        return f"({self.pk} - {self.name})"
 
 
 class Channel(BaseModel):
@@ -39,19 +39,19 @@ class Channel(BaseModel):
     username = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     network = models.ForeignKey(
-        Network, on_delete=models.CASCADE, related_name='channels'
+        Network, on_delete=models.CASCADE, related_name="channels"
     )
     status = models.BooleanField(default=True)
     data = models.JSONField(null=True, blank=True)
     joined = models.BooleanField(null=True, blank=True)
-    tags = models.ManyToManyField(Tag, related_name='channels', blank=True)
+    tags = models.ManyToManyField(Tag, related_name="channels", blank=True)
     last_crawl = models.DateTimeField(null=True, blank=True)
     crawl_interval = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1)]
     )
 
     class Meta:
-        unique_together = ('network', 'username')
+        unique_together = ("network", "username")
 
     @property
     def today_posts_count(self):
@@ -59,20 +59,21 @@ class Channel(BaseModel):
         return self.posts.filter(created_at__gte=today).count()
 
     def __str__(self):
-        return f'({self.pk} - {self.name} - {self.network})'
+        return f"({self.pk} - {self.name} - {self.network})"
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
-            if self.network.name == 'Linkedin':
+            if self.network.name == "Linkedin":
                 transaction.on_commit(
                     lambda: lin_tasks.get_channel_posts.delay(self.pk)
                 )
-            elif self.network.name == 'Twitter':
-                transaction.on_commit(
-                    lambda: twi_tasks.get_twitter_posts.delay(self.pk)
-                )
-            elif self.network.name == 'Telegram':
-                self.username = self.username.replace('https://t.me/', '')
+            elif self.network.name == "Twitter":
+                if self.last_crawl is None:
+                    transaction.on_commit(
+                        lambda: twi_tasks.get_twitter_posts.delay(self.pk)
+                    )
+            elif self.network.name == "Telegram":
+                self.username = self.username.replace("https://t.me/", "")
             super().save(*args, **kwargs)
 
 
@@ -80,7 +81,7 @@ class Post(BaseModel):
     body = models.TextField()
     network_id = models.CharField(max_length=200, null=True, blank=True)
     channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, related_name='posts', null=True
+        Channel, on_delete=models.CASCADE, related_name="posts", null=True
     )
     views_count = models.IntegerField(null=True, blank=True)
     share_count = models.IntegerField(null=True, blank=True)
@@ -96,7 +97,7 @@ class Post(BaseModel):
         return format_html("<a href='{url}'>{stream}</a>", url=url, stream=self)
 
     def __str__(self):
-        return f'({self.pk} - {self.channel})'
+        return f"({self.pk} - {self.channel})"
 
     def save(self, *args, **kwargs):
         if len(self.body) < 100:

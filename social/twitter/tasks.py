@@ -12,7 +12,7 @@ from reusable.other import only_one_concurrency
 
 logger = get_task_logger(__name__)
 MINUTE = 60
-TASKS_TIMEOUT = 10 * MINUTE
+TASKS_TIMEOUT = 1 * MINUTE
 
 
 def scroll(driver, counter):
@@ -107,6 +107,7 @@ def store_twitter_posts(
 @only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
+    print(f"****** crawling {channel} started")
     channel_url = f"{channel.network.url}/{channel.username}"
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
@@ -129,6 +130,7 @@ def get_twitter_posts(channel_id):
             )
         except Exception as e:
             logger.error(e)
+    time.sleep(2)
     driver.quit()
     channel.last_crawl = timezone.localtime()
     channel.save()

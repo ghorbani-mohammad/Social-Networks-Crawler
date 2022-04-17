@@ -72,4 +72,5 @@ def check_channels_crawl():
         interval = timezone.localtime() - channel.last_crawl
         hours = interval.total_seconds() / 3600
         if hours >= channel.crawl_interval:
+            print(f"******* channel {channel} must crawled")
             twi_tasks.get_twitter_posts(channel.pk)
