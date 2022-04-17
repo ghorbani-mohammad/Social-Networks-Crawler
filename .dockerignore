@@ -1,17 +1,18 @@
 ### Django ###
+__pycache__/
+.git
+.idea
+.vscode
+*.bin
 *.log
 *.pot
 *.pyc
-__pycache__/
-local_settings.py
-.idea
-.vscode
-.git
-venv
+*.sql.gz
 db.sqlite3
-docker-compose.yml
 docker-compose-pro.yml
-social/static
+docker-compose.yml
+local_settings.py
 social/celerybeat-schedule
 social/celerybeat.pid
-*.sql.gz
+social/static
+venv
