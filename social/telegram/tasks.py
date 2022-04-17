@@ -201,7 +201,7 @@ def run_telegram(account_id):
         sender = await event.get_sender()
         await set_channels_list_async()
         channels = get_channels_list()
-        if sender.username in channels:
+        if sender and sender.username in channels:
             await insert_to_db(sender.username, event)
 
     loop = asyncio.get_event_loop()
