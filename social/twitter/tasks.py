@@ -100,6 +100,7 @@ def store_twitter_posts(
     else:
         post = net_models.Post.objects.filter(body=body, channel_id=channel_id).first()
         post.data = data
+        post.share_count = data["retweets_count"]
         post.save()
 
 
