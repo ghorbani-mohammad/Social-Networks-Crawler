@@ -115,7 +115,7 @@ def store_twitter_posts(
 @only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
-    print(f"****** crawling {channel} started")
+    print(f"****** Twitter crawling {channel} started")
     channel_url = f"{channel.network.url}/{channel.username}"
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",

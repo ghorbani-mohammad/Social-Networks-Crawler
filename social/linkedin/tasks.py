@@ -92,6 +92,7 @@ def scroll(driver, counter):
 @only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def get_linkedin_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
+    print(f"****** Linkedin crawling {channel} started")
     channel_url = channel.username
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
