@@ -26,7 +26,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "pk",
         "name",
         "username",
-        "last_crawl",
+        "get_last_crawl",
         "network",
         "status",
         "joined",
@@ -34,6 +34,12 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "created_at",
     )
     list_filter = ("network",)
+
+    @admin.display(ordering="last_crawl", description="last_crawl")
+    def get_last_crawl(self, instance):
+        return instance.last_crawl.astimezone(tz("Asia/Tehran")).strftime(
+            "%m/%d %H:%M:%S"
+        )
 
     def crawl(self, request, queryset):
         for channel in queryset:
