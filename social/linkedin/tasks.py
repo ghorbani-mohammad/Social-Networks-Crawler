@@ -89,7 +89,6 @@ def scroll(driver, counter):
 
 
 @shared_task()
-@only_one_concurrency(key="browser1", timeout=TASKS_TIMEOUT)
 def get_channel_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     channel_url = channel.username
