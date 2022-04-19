@@ -64,9 +64,10 @@ class Channel(BaseModel):
     def save(self, *args, **kwargs):
         with transaction.atomic():
             if self.network.name == "Linkedin":
-                transaction.on_commit(
-                    lambda: lin_tasks.get_channel_posts.delay(self.pk)
-                )
+                if self.last_crawl is None:
+                    transaction.on_commit(
+                        lambda: lin_tasks.get_channel_posts.delay(self.pk)
+                    )
             elif self.network.name == "Twitter":
                 if self.last_crawl is None:
                     transaction.on_commit(
