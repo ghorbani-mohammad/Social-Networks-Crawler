@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+from django.utils import timezone
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
@@ -44,20 +45,28 @@ def login():
 
 
 @shared_task()
-def store_posts(channel_id, post_id, body, reactions_counter, comments_counter):
+def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_count):
     exists = net_models.Post.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
     data = {
-        "reactions_counter": reactions_counter,
-        "comments_counter": comments_counter,
+        "reaction_count": reaction_count,
+        "comment_count": comment_count,
+        "share_count": share_count,
     }
     if not exists:
         net_models.Post.objects.create(
-            channel_id=channel_id, network_id=post_id, body=body, data=data
+            channel_id=channel_id,
+            network_id=post_id,
+            body=body,
+            data=data,
+            share_count=share_count,
+            views_count=reaction_count + comment_count + share_count,
         )
     else:
         post = net_models.Post.objects.get(network_id=post_id)
+        post.share_count = share_count
+        post.views_count = reaction_count + comment_count + share_count
         post.data = data
         post.save()
 
@@ -101,15 +110,29 @@ def get_channel_posts(channel_id):
                     By.XPATH,
                     './/ul[contains(@class, "social-details-social-counts")]',
                 )[0]
-                reactions = reaction.find_elements(By.XPATH, ".//li")
-                if len(reactions) == 2:
-                    reactions_counter = int(reactions[0].text.replace(",", ""))
-                    comments_counter = int(
-                        reactions[1].text.replace(",", "").split()[0]
-                    )
-                    store_posts.delay(
-                        channel_id, id, body, reactions_counter, comments_counter
-                    )
+                reaction_counter, comment_counter, share_counter = 0, 0, 0
+                socials = reaction.find_elements(By.XPATH, ".//li")
+                for social in socials:
+                    temp = social.get_attribute("aria-label")
+                    if not temp:
+                        temp = social.find_elements(By.XPATH, ".//button")
+                        temp = temp[0].get_attribute("aria-label")
+                    temp = temp.split()[:2]
+                    value, elem = int(temp[0].replace(",", "")), temp[1]
+                    if elem == "reactions":
+                        reaction_counter = value
+                    elif elem == "comments":
+                        comment_counter = value
+                    elif elem == "shares":
+                        share_counter = value
+                store_posts.delay(
+                    channel_id,
+                    id,
+                    body,
+                    reaction_counter,
+                    comment_counter,
+                    share_counter,
+                )
             except Exception as e:
                 logger.error(traceback.format_exc())
     except Exception as e:
@@ -117,3 +140,5 @@ def get_channel_posts(channel_id):
     finally:
         time.sleep(2)
         driver.quit()
+        channel.last_crawl = timezone.localtime()
+        channel.save()
