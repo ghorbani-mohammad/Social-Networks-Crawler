@@ -79,7 +79,7 @@ def scroll(driver, counter):
 @shared_task()
 def get_channel_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
-    company_url = channel.username
+    channel_url = channel.username
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,
@@ -88,13 +88,10 @@ def get_channel_posts(channel_id):
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
-    driver.get(company_url)
+    driver.get(channel_url)
     try:
-        # WebDriverWait(driver, 10).until(
-        #     EC.presence_of_all_elements_located((By.XPATH, '//span[@dir="ltr"]'))
-        # )
+        scroll(driver, 1)
         time.sleep(5)
-        scroll(driver, 2)
         articles = driver.find_elements_by_class_name("feed-shared-update-v2")
         for article in articles:
             try:
@@ -118,4 +115,5 @@ def get_channel_posts(channel_id):
     except Exception as e:
         logger.error(traceback.format_exc())
     finally:
+        time.sleep(2)
         driver.quit()
