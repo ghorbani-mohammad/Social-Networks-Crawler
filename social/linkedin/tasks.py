@@ -12,8 +12,11 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 
 from network import models as net_models
+from reusable.other import only_one_concurrency
 
 logger = get_task_logger(__name__)
+MINUTE = 60
+TASKS_TIMEOUT = 1 * MINUTE
 
 
 @shared_task()
@@ -86,6 +89,7 @@ def scroll(driver, counter):
 
 
 @shared_task()
+@only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def get_channel_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     channel_url = channel.username
