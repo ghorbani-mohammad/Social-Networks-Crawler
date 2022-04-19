@@ -66,7 +66,7 @@ class Channel(BaseModel):
             if self.network.name == "Linkedin":
                 if self.last_crawl is None:
                     transaction.on_commit(
-                        lambda: lin_tasks.get_channel_posts.delay(self.pk)
+                        lambda: lin_tasks.get_linkedin_posts.delay(self.pk)
                     )
             elif self.network.name == "Twitter":
                 if self.last_crawl is None:

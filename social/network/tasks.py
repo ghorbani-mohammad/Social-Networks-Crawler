@@ -77,4 +77,4 @@ def check_channels_crawl():
             if channel.network.name == "Twitter":
                 twi_tasks.get_twitter_posts(channel.pk)
             elif channel.network.name == "LinkedIn":
-                lin_tasks.get_channel_posts(channel.pk)
+                lin_tasks.get_linkedin_posts(channel.pk)

@@ -88,8 +88,9 @@ def scroll(driver, counter):
         last_height = new_height
 
 
-@shared_task()
-def get_channel_posts(channel_id):
+@shared_task(name="get_linkedin_posts")
+@only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
+def get_linkedin_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     channel_url = channel.username
     driver = webdriver.Remote(

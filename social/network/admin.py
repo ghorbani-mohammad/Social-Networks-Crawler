@@ -40,7 +40,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
             if channel.network.name == "Twitter":
                 twi_tasks.get_twitter_posts.delay(channel.pk)
             elif channel.network.name == "Linkedin":
-                lin_tasks.get_channel_posts.delay(channel.pk)
+                lin_tasks.get_linkedin_posts.delay(channel.pk)
 
     actions = [crawl]
 
