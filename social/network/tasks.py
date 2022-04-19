@@ -8,6 +8,7 @@ from celery.utils.log import get_task_logger
 
 from . import models
 from twitter import tasks as twi_tasks
+from linkedin import tasks as lin_tasks
 
 logger = get_task_logger(__name__)
 
@@ -73,4 +74,7 @@ def check_channels_crawl():
         hours = interval.total_seconds() / 3600
         if hours >= channel.crawl_interval:
             print(f"******* channel {channel} must crawled")
-            twi_tasks.get_twitter_posts(channel.pk)
+            if channel.network.name == "Twitter":
+                twi_tasks.get_twitter_posts(channel.pk)
+            elif channel.network.name == "LinkedIn":
+                lin_tasks.get_channel_posts(channel.pk)
