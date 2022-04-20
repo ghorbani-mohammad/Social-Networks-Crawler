@@ -103,9 +103,9 @@ def get_linkedin_posts(channel_id):
     for cookie in cookies:
         driver.add_cookie(cookie)
     driver.get(channel_url)
-    try:
         scroll(driver, 1)
         time.sleep(5)
+    try:
         articles = driver.find_elements_by_class_name("feed-shared-update-v2")
         for article in articles:
             try:
