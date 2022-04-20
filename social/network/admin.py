@@ -26,6 +26,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "pk",
         "name",
         "username",
+        "crawl_interval",
         "get_last_crawl",
         "network",
         "status",
