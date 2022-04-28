@@ -62,6 +62,13 @@ class TagSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     channel = ChannelShortSerializer()
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data["ner"] = {
+            k: v for k, v in sorted(instance.ner.items(), key=lambda item: item[1])
+        }
+        return data
+
     class Meta:
         model = models.Post
         fields = (
