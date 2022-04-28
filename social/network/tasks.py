@@ -12,6 +12,19 @@ from linkedin import tasks as lin_tasks
 
 logger = get_task_logger(__name__)
 
+NER_KEY_MAPPING = {
+    "date": "تاریخ",
+    "time": "زمان",
+    "event": "رویداد",
+    "money": "مالی",
+    "person": "شخص",
+    "percent": "درصد",
+    "product": "محصول",
+    "facility": "تسهیلات",
+    "location": "مکان",
+    "organization": "سازمان",
+}
+
 
 class BaseTaskWithRetry(Task):
     autoretry_for = (Exception,)
@@ -40,7 +53,10 @@ def extract_ner(post_id):
         resp = requests.post(
             "http://persian_analyzer_api/v1/app/ner/", {"text": post.body}
         ).json()
-        post.ner = resp
+        temp = {}
+        for key in NER_KEY_MAPPING.keys():
+            temp[NER_KEY_MAPPING[key]] = resp.pop(key)
+        post.ner = temp
         post.save()
 
 
