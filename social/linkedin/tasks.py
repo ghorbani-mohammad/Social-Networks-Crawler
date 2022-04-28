@@ -103,8 +103,8 @@ def get_linkedin_posts(channel_id):
     for cookie in cookies:
         driver.add_cookie(cookie)
     driver.get(channel_url)
-        scroll(driver, 1)
-        time.sleep(5)
+    scroll(driver, 1)
+    time.sleep(5)
     try:
         articles = driver.find_elements_by_class_name("feed-shared-update-v2")
         for article in articles:
@@ -147,3 +147,39 @@ def get_linkedin_posts(channel_id):
         driver.quit()
         channel.last_crawl = timezone.localtime()
         channel.save()
+
+
+@shared_task(name="get_linkedin_feed")
+def get_linkedin_feed():
+    driver = webdriver.Remote(
+        "http://social_firefox:4444/wd/hub",
+        DesiredCapabilities.FIREFOX,
+    )
+    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
+    driver.get("https://www.linkedin.com/")
+    for cookie in cookies:
+        driver.add_cookie(cookie)
+    driver.get("https://www.linkedin.com/feed/")
+    scroll(driver, 1)
+    time.sleep(5)
+    articles = driver.find_elements(
+        By.XPATH,
+        './/div[starts-with(@data-id, "urn:li:activity:")]',
+    )
+    print(len(articles))
+    driver.implicitly_wait(5)
+    for article in articles:
+        try:
+            # element = WebDriverWait(driver, 10).until(
+            #     EC.presence_of_element_located(article)
+            # )
+            id = article.get_attribute("data-id")
+            body = article.find_element(By.CLASS_NAME, "break-words").text
+            print(f"{id} {body[:20]}")
+        except Exception as e:
+            print(e)
+            time.sleep(5)
+            id = article.get_attribute("data-id")
+            body = article.find_element(By.CLASS_NAME, "break-words").text
+    time.sleep(2)
+    driver.quit()
