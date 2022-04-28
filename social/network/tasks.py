@@ -56,7 +56,7 @@ def extract_ner(post_id):
         temp = {}
         for key in NER_KEY_MAPPING.keys():
             temp[NER_KEY_MAPPING[key]] = resp.pop(key)
-        post.ner = temp
+        post.ner = {k: v for k, v in sorted(temp.items(), key=lambda item: item[1])}
         post.save()
 
 
