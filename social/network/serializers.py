@@ -68,6 +68,9 @@ class PostSerializer(serializers.ModelSerializer):
         data["category"] = sorted(
             instance.category, key=lambda k: k["score"], reverse=True
         )
+        data["sentiment"] = {
+            k: v for k, v in sorted(data.sentiment.items(), key=lambda item: item[1])
+        }
         return data
 
     class Meta:
