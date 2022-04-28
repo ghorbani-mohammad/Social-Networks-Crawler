@@ -65,7 +65,8 @@ class PostSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data["category"] = {
-            k: v for k, v in sorted(data.category[0].items(), key=lambda item: item[1])
+            k: v
+            for k, v in sorted(instance.category[0].items(), key=lambda item: item[1])
         }
         return data
 
