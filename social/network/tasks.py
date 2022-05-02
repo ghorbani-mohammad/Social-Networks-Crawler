@@ -55,7 +55,8 @@ def extract_ner(post_id):
         ).json()
         temp = {}
         for key in NER_KEY_MAPPING.keys():
-            temp[NER_KEY_MAPPING[key]] = resp.pop(key)
+            if key in resp:
+                temp[NER_KEY_MAPPING[key]] = resp.pop(key)
         post.ner = temp
         post.save()
 
