@@ -72,6 +72,7 @@ class PostSerializer(serializers.ModelSerializer):
             k: v
             for k, v in sorted(instance.sentiment.items(), key=lambda item: item[1])
         }
+        data["keywords"] = [item.keyword for item in instance.keywords.all()]
         return data
 
     class Meta:
@@ -82,9 +83,7 @@ class PostSerializer(serializers.ModelSerializer):
             "channel",
             "views_count",
             "share_count",
-            "sentiment",
             "ner",
-            "category",
             "created_at",
         )
 
