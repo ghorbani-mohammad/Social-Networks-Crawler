@@ -93,5 +93,5 @@ def check_channels_crawl():
             print(f"******* channel {channel} must crawled")
             if channel.network.name == "Twitter":
                 twi_tasks.get_twitter_posts(channel.pk)
-            elif channel.network.name == "LinkedIn":
+            elif channel.network.name == "Linkedin":
                 lin_tasks.get_linkedin_posts(channel.pk)
