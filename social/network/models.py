@@ -121,7 +121,7 @@ class Keyword(BaseModel):
         related_query_name="keyword",
         on_delete=models.CASCADE,
     )
-    keyword = models.CharField(max_length=70)
+    keyword = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
