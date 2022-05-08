@@ -73,6 +73,8 @@ class PostSerializer(serializers.ModelSerializer):
             for k, v in sorted(instance.sentiment.items(), key=lambda item: item[1])
         }
         data["keywords"] = [item.keyword for item in instance.keywords.all()]
+        data["channel_name"] = instance.channel.name
+        data["network_name"] = instance.channel.network.name
         return data
 
     class Meta:
