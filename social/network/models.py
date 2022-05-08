@@ -106,12 +106,19 @@ class Post(BaseModel):
             return
         created = self.pk is None
         with transaction.atomic():
+            if created:
+                self.views_count = self.views_count or 0
+                self.share_count = self.share_count or 0
+                if settings.ENVIRONMENT == settings.PRODUCTION:
+                    transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
+                    transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
+                    transaction.on_commit(
+                        lambda: tasks.extract_sentiment.delay(self.pk)
+                    )
+                    transaction.on_commit(
+                        lambda: tasks.extract_categories.delay(self.pk)
+                    )
             super().save(*args, **kwargs)
-            if created and settings.ENVIRONMENT == settings.PRODUCTION:
-                transaction.on_commit(lambda: tasks.extract_keywords.delay(self.pk))
-                transaction.on_commit(lambda: tasks.extract_ner.delay(self.pk))
-                transaction.on_commit(lambda: tasks.extract_sentiment.delay(self.pk))
-                transaction.on_commit(lambda: tasks.extract_categories.delay(self.pk))
 
 
 class Keyword(BaseModel):
