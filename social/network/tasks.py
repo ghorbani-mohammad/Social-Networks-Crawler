@@ -38,7 +38,7 @@ class BaseTaskWithRetry(Task):
 def extract_keywords(post_id):
     post = models.Post.objects.get(id=post_id)
     resp = requests.post(
-        "http://analyzer_api/api/v1/keword_extraction/", {"body": post.body}
+        "http://persian_analyzer_api/v1/app/keyword/", {"text": post.body}
     ).json()
     objs = []
     for keyword in resp["keywords"]:
