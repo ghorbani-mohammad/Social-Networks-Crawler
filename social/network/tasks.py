@@ -58,7 +58,7 @@ def extract_ner(post_id):
         temp = {}
         for key in NER_KEY_MAPPING.keys():
             if key in resp:
-                temp[NER_KEY_MAPPING[key]] = resp.pop(key)
+                temp[NER_KEY_MAPPING[key]] = set(resp.pop(key))
         post.ner = temp
         post.save()
 
