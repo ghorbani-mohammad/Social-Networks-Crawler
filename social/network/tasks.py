@@ -44,7 +44,7 @@ def extract_keywords(post_id):
     for keyword in resp["keywords"]:
         objs.append(models.Keyword(post=post, keyword=keyword))
     for keyphrase in resp["keyphrases"]:
-        objs.append(models.Keyword(post=post, keyphrase=keyphrase))
+        objs.append(models.Keyword(post=post, keyword=keyphrase))
     models.Keyword.objects.bulk_create(objs)
 
 
