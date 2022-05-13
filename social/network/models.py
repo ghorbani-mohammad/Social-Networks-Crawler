@@ -49,6 +49,12 @@ class Channel(BaseModel):
     crawl_interval = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1)]
     )
+    PERSIAN = "persian"
+    ENGLISH = "english"
+    LANGUAGE_CHOICES = ((PERSIAN, PERSIAN), (ENGLISH, ENGLISH))
+    language = models.CharField(
+        choices=LANGUAGE_CHOICES, max_length=15, default=PERSIAN, blank=True
+    )
 
     class Meta:
         unique_together = ("network", "username")
