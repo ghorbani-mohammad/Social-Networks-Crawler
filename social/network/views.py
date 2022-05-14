@@ -81,31 +81,33 @@ class PostCountAPIView(ListAPIView):
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
         search_excluded_qs = utils.get_search_excluded_qs(self)
-        response.data['statics'] = utils.get_count_statics(
+        response.data["statics"] = utils.get_count_statics(
             qs,
             search_excluded_qs,
-            data['type'],
-            data['date_after'],
-            data['date_before'],
+            data["type"],
+            data["date_after"],
+            data["date_before"],
         )
         today = timezone.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        response.data['today_posts'] = (
+        response.data["today_posts"] = (
             self.get_queryset().filter(created_at__gte=today).count()
         )
-        response.data['channel_posts'] = (
-            (models.Channel.objects.get(pk=request.GET['channel']).today_posts_count)
-            if 'channel' in request.GET
-            else self.get_queryset().count()
-        )
-        response.data['network_posts'] = (
-            (
-                models.Network.objects.get(
-                    pk=request.GET['channel__network']
-                ).today_posts_count
-            )
-            if 'channel__network' in request.GET
-            else self.get_queryset().count()
-        )
+        response.data["channel_posts"] = 1203
+        # (
+        #     (models.Channel.objects.get(pk=request.GET['channel']).today_posts_count)
+        #     if 'channel' in request.GET
+        #     else self.get_queryset().count()
+        # )
+        response.data["network_posts"] = 4012
+        # (
+        #     (
+        #         models.Network.objects.get(
+        #             pk=request.GET['channel__network']
+        #         ).today_posts_count
+        #     )
+        #     if 'channel__network' in request.GET
+        #     else self.get_queryset().count()
+        # )
         return response
 
 
@@ -129,14 +131,14 @@ class SearchCountAPIView(ListAPIView):
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
         search_excluded_qs = utils.get_search_excluded_qs(self)
-        response.data['statics'] = utils.get_count_statics(
+        response.data["statics"] = utils.get_count_statics(
             qs,
             search_excluded_qs,
-            data['type'],
-            data['date_after'],
-            data['date_before'],
+            data["type"],
+            data["date_after"],
+            data["date_before"],
         )
-        response.data['channels_statistics'] = utils.get_channels_statistics(qs)
+        response.data["channels_statistics"] = utils.get_channels_statistics(qs)
         return response
 
 
@@ -153,7 +155,7 @@ class KeywordAPIView(ListAPIView):
         data = serializer.validated_data
         response = super().list(request)
         qs = self.filter_queryset(self.get_queryset())
-        response.data['statics'] = utils.get_keyword_statics(
-            qs, data['type'], data['date_after'], data['date_before']
+        response.data["statics"] = utils.get_keyword_statics(
+            qs, data["type"], data["date_after"], data["date_before"]
         )
         return response
