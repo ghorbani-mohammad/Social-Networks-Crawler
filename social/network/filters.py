@@ -4,17 +4,17 @@ from . import models
 
 
 def filter_by_channel_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(channel_id__in=values)
 
 
 def filter_by_network_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(channel__network_id__in=values)
 
 
 def filter_by_tag_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(channel__tags__in=values)
 
 
@@ -26,21 +26,21 @@ class PostFilter(FilterSet):
 
     class Meta:
         model = models.Post
-        fields = ["channels", "networks", "date", "tags"]
+        fields = ["id", "channels", "networks", "date", "tags"]
 
 
 def keyword_filter_by_channel_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(post__channel_id__in=values)
 
 
 def keyword_filter_by_network_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(post__channel__network_id__in=values)
 
 
 def keyword_filter_by_tag_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(post__channel__tags__in=values)
 
 
@@ -56,7 +56,7 @@ class KeywordFilter(FilterSet):
 
 
 def channel_filter_by_network_ids(queryset, name, value):
-    values = value.split(',')
+    values = value.split(",")
     return queryset.filter(network_id__in=values)
 
 
