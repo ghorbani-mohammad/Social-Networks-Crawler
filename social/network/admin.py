@@ -35,7 +35,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "today_posts_count",
         "created_at",
     )
-    list_filter = ("network",)
+    list_filter = ("network", "language")
 
     @admin.display(ordering="last_crawl", description="last_crawl")
     def get_last_crawl(self, instance):
