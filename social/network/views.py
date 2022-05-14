@@ -92,22 +92,20 @@ class PostCountAPIView(ListAPIView):
         response.data["today_posts"] = (
             self.get_queryset().filter(created_at__gte=today).count()
         )
-        response.data["channel_posts"] = 1203
-        # (
-        #     (models.Channel.objects.get(pk=request.GET['channel']).today_posts_count)
-        #     if 'channel' in request.GET
-        #     else self.get_queryset().count()
-        # )
-        response.data["network_posts"] = 4012
-        # (
-        #     (
-        #         models.Network.objects.get(
-        #             pk=request.GET['channel__network']
-        #         ).today_posts_count
-        #     )
-        #     if 'channel__network' in request.GET
-        #     else self.get_queryset().count()
-        # )
+        response.data["channel_posts"] = (
+            (models.Channel.objects.get(pk=request.GET["channel"]).today_posts_count)
+            if "channel" in request.GET
+            else self.get_queryset().count()
+        )
+        response.data["network_posts"] = (
+            (
+                models.Network.objects.get(
+                    pk=request.GET["channel__network"]
+                ).today_posts_count
+            )
+            if "channel__network" in request.GET
+            else self.get_queryset().count()
+        )
         return response
 
 
