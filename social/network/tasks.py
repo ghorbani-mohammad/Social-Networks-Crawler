@@ -43,14 +43,18 @@ class BaseTaskWithRetry(Task):
 @shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
     post = models.Post.objects.get(id=post_id)
-    resp = requests.post(
-        "http://persian_analyzer_api/v1/app/keyword/", {"text": post.body}
-    ).json()
+    endpoint = None
+    if post.channel.language == models.Channel.PERSIAN:
+        endpoint = "http://persian_analyzer_api/v1/app/keyword/"
+    if post.channel.language == models.Channel.ENGLISH:
+        endpoint = "http://analyzer_api/api/v1/keyword/"
+    resp = requests.post(endpoint, {"text": post.body}).json()
     objs = []
     for keyword in resp["keywords"]:
         objs.append(models.Keyword(post=post, keyword=keyword))
-    for keyphrase in resp["keyphrases"]:
-        objs.append(models.Keyword(post=post, keyword=keyphrase))
+    if "keyphrases" in resp:
+        for keyphrase in resp["keyphrases"]:
+            objs.append(models.Keyword(post=post, keyword=keyphrase))
     models.Keyword.objects.bulk_create(objs)
 
 
