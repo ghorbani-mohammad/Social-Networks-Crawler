@@ -1,4 +1,9 @@
-from django_filters import FilterSet, DateTimeFromToRangeFilter, CharFilter
+from django_filters import (
+    FilterSet,
+    DateTimeFromToRangeFilter,
+    CharFilter,
+    NumberFilter,
+)
 
 from . import models
 
@@ -23,10 +28,11 @@ class PostFilter(FilterSet):
     channels = CharFilter(method=filter_by_channel_ids)
     networks = CharFilter(method=filter_by_network_ids)
     tags = CharFilter(method=filter_by_tag_ids)
+    max_id = NumberFilter(field_name="id", lookup_expr="lte")
 
     class Meta:
         model = models.Post
-        fields = ["id", "channels", "networks", "date", "tags"]
+        fields = ["channels", "networks", "date", "tags"]
 
 
 def keyword_filter_by_channel_ids(queryset, name, value):
