@@ -23,6 +23,12 @@ NER_KEY_MAPPING = {
     "facility": "تسهیلات",
     "location": "مکان",
     "organization": "سازمان",
+    "FAC": "سازه",
+    "ORG": "سازمان",
+    "GPE": "مکان",
+    "LOC": "مکان",
+    "EVENT": "رویداد",
+    "MONEY": "مالی",
 }
 
 
@@ -52,9 +58,12 @@ def extract_keywords(post_id):
 def extract_ner(post_id):
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
-        resp = requests.post(
-            "http://persian_analyzer_api/v1/app/ner/", {"text": post.body}
-        ).json()
+        endpoint = None
+        if post.channel.language == models.Channel.PERSIAN:
+            endpoint = "http://persian_analyzer_api/v1/app/ner/"
+        if post.channel.language == models.Channel.ENGLISH:
+            endpoint = "http://analyzer_api/v1/app/ner/"
+        resp = requests.post(endpoint, {"text": post.body}).json()
         temp = {}
         for key in NER_KEY_MAPPING.keys():
             if key in resp:
