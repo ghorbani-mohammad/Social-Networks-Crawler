@@ -62,7 +62,7 @@ def extract_ner(post_id):
         if post.channel.language == models.Channel.PERSIAN:
             endpoint = "http://persian_analyzer_api/v1/app/ner/"
         if post.channel.language == models.Channel.ENGLISH:
-            endpoint = "http://analyzer_api/v1/app/ner/"
+            endpoint = "http://analyzer_api/api/v1/ner/"
         resp = requests.post(endpoint, {"text": post.body}).json()
         temp = {}
         for key in NER_KEY_MAPPING.keys():
