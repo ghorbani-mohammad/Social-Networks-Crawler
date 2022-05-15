@@ -1,7 +1,7 @@
 import requests
 import subprocess
 
-
+from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from celery import Task
