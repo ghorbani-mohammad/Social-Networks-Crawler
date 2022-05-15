@@ -4,10 +4,11 @@ from envparse import env
 from sentry_sdk.integrations.django import DjangoIntegration
 
 DEBUG = env.bool("DEBUG")
-BASE_DIR = Path(__file__).resolve().parent.parent
+SERVER_IP = env.str("SERVER_IP")
 SECRET_KEY = env.str("SECRET_KEY")
 BACKEND_URL = env.str("BACKEND_URL")
 ALLOWED_HOSTS = [env.str("ALLOWED_HOSTS")]
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 LOCAL = "local"
 PRODUCTION = "production"
