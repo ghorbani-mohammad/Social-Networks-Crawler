@@ -139,8 +139,21 @@ class Keyword(BaseModel):
         on_delete=models.CASCADE,
     )
     keyword = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"({self.pk} - {self.keyword})"
+
+
+class Backup(BaseModel):
+    link = models.CharField(max_length=300)
+    PROCESSING = "PROCESSING"
+    COMPLETED = "COMPLETED"
+    STATUS_CHOICES = ((PROCESSING, PROCESSING), (COMPLETED, COMPLETED))
+    status = models.CharField(choices=STATUS_CHOICES, max_length=15, default=PROCESSING)
+    RASAD_1 = "RASAD_1"
+    RASAD_2 = "RASAD_2"
+    TYPE_CHOICES = ((RASAD_1, RASAD_1), (RASAD_2, RASAD_2))
+    type = models.CharField(choices=TYPE_CHOICES, max_length=15, default=RASAD_1)
 
     def __str__(self):
         return f"({self.pk} - {self.keyword})"

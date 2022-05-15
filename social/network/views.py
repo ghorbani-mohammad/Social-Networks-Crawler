@@ -157,3 +157,11 @@ class KeywordAPIView(ListAPIView):
             qs, data["type"], data["date_after"], data["date_before"]
         )
         return response
+
+
+class BackupViewSet(ModelViewSet):
+    queryset = models.Backup.objects.order_by("-id")
+    serializer_class = serializers.BackupSerializer
+    pagination_class = ListPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["type", "status"]

@@ -102,3 +102,9 @@ class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Keyword
         fields = ("id", "keyword", "created_at")
+
+
+class BackupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Backup
+        fields = ("id", "link", "type", "status", "created_at", "updated_at")
