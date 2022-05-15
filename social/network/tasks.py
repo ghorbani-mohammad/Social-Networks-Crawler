@@ -119,7 +119,18 @@ def take_backup(backup_id):
     backup = models.Backup.objects.get(pk=backup_id)
     date_time = backup.created_at.strftime("%d-%m-%Y-%H_%M_%S")
     if backup.type == models.Backup.RASAD_1:
-        subprocess.run(["sleep", "10"])
+        subprocess.run(
+            [
+                "ssh",
+                "-i",
+                "/app/secrets/id_rsa_social_api",
+                "-o",
+                "StrictHostKeyChecking=no",
+                f"root@{settings.SERVER_IP}",
+                f"docker exec -t postgres pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/postgres_db_{date_time}.sql.gz",
+            ]
+        )
+        backup.link = f"http://{settings.SERVER_IP}/postgres_db_{date_time}.sql.gz"
     elif backup.type == models.Backup.RASAD_2:
         subprocess.run(
             [
