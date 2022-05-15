@@ -124,7 +124,7 @@ def take_backup(backup_id):
             [
                 "ssh",
                 "-i",
-                "secrets/id_rsa_soc_api",
+                "secrets/id_rsa_social_api",
                 "-o",
                 '"StrictHostKeyChecking=no"',
                 "docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/db_backup/social_db_x.sql.gz",
