@@ -117,6 +117,7 @@ def check_channels_crawl():
 @shared_task()
 def take_backup(backup_id):
     backup = models.Backup.objects.get(pk=backup_id)
+    date_time = backup.created_at.strftime("%d-%m-%Y-%H_%M_%S")
     if backup.type == models.Backup.RASAD_1:
         subprocess.run(["sleep", "10"])
     elif backup.type == models.Backup.RASAD_2:
@@ -128,7 +129,7 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                """docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/db_backup/social_db_`date +\%d-\%m-\%Y"_"\%H_\%M_\%S`.sql.gz""",
+                f"docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/db_backup/social_db_{date_time}.sql.gz",
             ]
         )
     backup.status = models.Backup.COMPLETED
