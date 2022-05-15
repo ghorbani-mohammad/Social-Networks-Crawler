@@ -91,10 +91,16 @@ class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 @admin.register(models.Backup)
 class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = ("pk", "link", "status", "type", "get_created_at")
+    list_display = ("pk", "link", "status", "type", "get_created_at", "get_updated_at")
 
     @admin.display(ordering="created_at", description="created_at")
     def get_created_at(self, instance):
         return instance.created_at.astimezone(tz("Asia/Tehran")).strftime(
+            "%m/%d %H:%M:%S"
+        )
+
+    @admin.display(ordering="updated_at", description="updated_at")
+    def get_updated_at(self, instance):
+        return instance.updated_at.astimezone(tz("Asia/Tehran")).strftime(
             "%m/%d %H:%M:%S"
         )

@@ -1,4 +1,6 @@
 import requests
+import subprocess
+
 
 from django.db import transaction
 from django.utils import timezone
@@ -110,3 +112,23 @@ def check_channels_crawl():
                 twi_tasks.get_twitter_posts(channel.pk)
             elif channel.network.name == "Linkedin":
                 lin_tasks.get_linkedin_posts(channel.pk)
+
+
+@shared_task()
+def take_backup(backup_id):
+    backup = models.Backup.objects.get(pk=backup_id)
+    if backup.type == models.Backup.RASAD_1:
+        subprocess.run(["sleep", "10"])
+    elif backup.type == models.Backup.RASAD_2:
+        subprocess.run(
+            [
+                "ssh",
+                "-i",
+                "secrets/id_rsa_soc_api",
+                "-o",
+                '"StrictHostKeyChecking=no"',
+                "docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/db_backup/social_db_x.sql.gz",
+            ]
+        )
+    backup.status = models.Backup.COMPLETED
+    backup.save()

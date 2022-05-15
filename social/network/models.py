@@ -156,4 +156,11 @@ class Backup(BaseModel):
     type = models.CharField(choices=TYPE_CHOICES, max_length=15, default=RASAD_1)
 
     def __str__(self):
-        return f"({self.pk} - {self.keyword})"
+        return f"({self.pk} - {self.created_at})"
+
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        with transaction.atomic():
+            if created:
+                transaction.on_commit(lambda: tasks.take_backup.delay(self.pk))
+            super().save(*args, **kwargs)
