@@ -145,7 +145,7 @@ class Keyword(BaseModel):
 
 
 class Backup(BaseModel):
-    link = models.CharField(max_length=300)
+    link = models.CharField(max_length=300, null=True, blank=True)
     PROCESSING = "PROCESSING"
     COMPLETED = "COMPLETED"
     STATUS_CHOICES = ((PROCESSING, PROCESSING), (COMPLETED, COMPLETED))
