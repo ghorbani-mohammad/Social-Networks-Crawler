@@ -126,7 +126,8 @@ def take_backup(backup_id):
                 "-i",
                 "/app/secrets/id_rsa_social_api",
                 "-o",
-                """'StrictHostKeyChecking=no'""",
+                "StrictHostKeyChecking=no",
+                f"root@{settings.SERVER_IP}",
                 "'docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/db_backup/social_db_x.sql.gz'",
             ]
         )
