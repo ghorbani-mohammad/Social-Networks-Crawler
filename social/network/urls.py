@@ -8,6 +8,7 @@ router.register("network", views.NetworkViewSet, basename="network")
 router.register("channel", views.ChannelViewSet, basename="channel")
 router.register("tag", views.TagViewSet, basename="tag")
 router.register("post", views.PostViewSet, basename="post")
+router.register("backup", views.BackupViewSet, basename="backup")
 urlpatterns = [
     path("count_post/", views.PostCountAPIView.as_view(), name="count-post"),
     path("search_post/", views.SearchCountAPIView.as_view(), name="search-post"),
