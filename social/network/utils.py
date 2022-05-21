@@ -60,6 +60,25 @@ def monthly_iterate(start, finish):
     return result
 
 
+def category_statics(cat_query):
+    cat_query = (
+        cat_query.values("main_category_title")
+        .annotate(count=Count("main_category_title"))
+        .order_by("-count")
+    )
+    categories = []
+    categories_posts = 0
+    for category in cat_query[: min(CATEGORY_NUMBER, len(cat_query))]:
+        categories.append(
+            {
+                "category": category["main_category_title"],
+                "count": category["count"],
+            }
+        )
+        categories_posts += category["count"]
+    return categories_posts, categories
+
+
 def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
     result = []
     if type == "hourly":
@@ -82,23 +101,10 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
             ).count()
             temp_result = {"hour": hour, "count": count, "total_count": total_count}
             cat_query = qs.filter(hour__hour=hour.hour, hour__day=hour.day)
-            cat_query = (
-                cat_query.values("main_category_title")
-                .annotate(count=Count("main_category_title"))
-                .order_by("-count")
-            )
-            categories = []
-            categories_posts = 0
-            for category in cat_query[: min(CATEGORY_NUMBER, len(cat_query))]:
-                categories.append(
-                    {
-                        "category": category["main_category_title"],
-                        "count": category["count"],
-                    }
-                )
-                categories_posts += category["count"]
-            temp_result["categories_posts"] = categories_posts
-            temp_result["categories"] = categories
+            (
+                temp_result["categories_posts"],
+                temp_result["categories"],
+            ) = category_statics(cat_query)
             networks = {}
             for network in Network.objects.all():
                 networks[network.name] = s_e_qs.filter(
@@ -130,23 +136,10 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
             total_count = s_e_qs.filter(day__month=day.month, day__day=day.day).count()
             temp_result = {"day": day, "count": count, "total_count": total_count}
             cat_query = qs.filter(day__month=day.month, day__day=day.day)
-            cat_query = (
-                cat_query.values("main_category_title")
-                .annotate(count=Count("main_category_title"))
-                .order_by("-count")
-            )
-            categories = []
-            categories_posts = 0
-            for category in cat_query[: min(CATEGORY_NUMBER, len(cat_query))]:
-                categories.append(
-                    {
-                        "category": category["main_category_title"],
-                        "count": category["count"],
-                    }
-                )
-                categories_posts += category["count"]
-            temp_result["categories_posts"] = categories_posts
-            temp_result["categories"] = categories
+            (
+                temp_result["categories_posts"],
+                temp_result["categories"],
+            ) = category_statics(cat_query)
             for network in Network.objects.all():
                 temp_result[network.name] = s_e_qs.filter(
                     day__month=day.month, day__day=day.day, channel__network=network
@@ -172,23 +165,10 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
             ).count()
             temp_result = {"month": month, "count": count, "total_count": total_count}
             cat_query = qs.filter(month__year=month.year, month__month=month.month)
-            cat_query = (
-                cat_query.values("main_category_title")
-                .annotate(count=Count("main_category_title"))
-                .order_by("-count")
-            )
-            categories = []
-            categories_posts = 0
-            for category in cat_query[: min(CATEGORY_NUMBER, len(cat_query))]:
-                categories.append(
-                    {
-                        "category": category["main_category_title"],
-                        "count": category["count"],
-                    }
-                )
-                categories_posts += category["count"]
-            temp_result["categories_posts"] = categories_posts
-            temp_result["categories"] = categories
+            (
+                temp_result["categories_posts"],
+                temp_result["categories"],
+            ) = category_statics(cat_query)
             for network in Network.objects.all():
                 temp_result[network.name] = s_e_qs.filter(
                     month__year=month.year,
