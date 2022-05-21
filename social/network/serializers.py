@@ -73,7 +73,7 @@ class PostSerializer(serializers.ModelSerializer):
         }
         data["keywords"] = [item.keyword for item in instance.keywords.all()]
         data["channel_name"] = instance.channel.name
-        data["channel_langauge"] = instance.channel.language
+        data["channel_language"] = instance.channel.language
         data["network_name"] = instance.channel.network.name
         return data
 
