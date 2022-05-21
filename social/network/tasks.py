@@ -85,9 +85,7 @@ def extract_sentiment(post_id):
         resp = requests.post(
             "http://persian_analyzer_api/v1/app/sentiment/", {"text": post.body}
         ).json()
-        post.sentiment = {
-            k: v for k, v in sorted(resp.items(), key=lambda item: item[1])
-        }
+        post.sentiment = resp
         post.save()
 
 
