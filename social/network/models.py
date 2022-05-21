@@ -108,6 +108,14 @@ class Post(BaseModel):
     def short_body(self):
         return self.body[: min(100, len(self.body) - 1)]
 
+    @property
+    def sorted_sentiment(self):
+        if self.sentiment:
+            return {
+                k: v
+                for k, v in sorted(self.sentiment.items(), key=lambda item: item[1])
+            }
+
     def __str__(self):
         return f"({self.pk} - {self.channel})"
 

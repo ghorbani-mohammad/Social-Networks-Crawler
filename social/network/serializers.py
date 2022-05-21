@@ -67,10 +67,7 @@ class PostSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data["category"] = instance.category
-        data["sentiment"] = {
-            k: v
-            for k, v in sorted(instance.sentiment.items(), key=lambda item: item[1])
-        }
+        data["sentiment"] = instance.sorted_sentiment
         data["keywords"] = [item.keyword for item in instance.keywords.all()]
         data["channel_name"] = instance.channel.name
         data["channel_language"] = instance.channel.language
