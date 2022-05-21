@@ -96,6 +96,7 @@ class Post(BaseModel):
     imported = models.BooleanField(default=False, null=True, blank=True)
     sentiment = models.JSONField(null=True, blank=True)
     category = models.JSONField(null=True, blank=True)
+    main_category_title = models.CharField(max_length=50, null=True, blank=True)
     ner = models.JSONField(null=True, blank=True)
 
     @property
