@@ -96,7 +96,7 @@ def extract_categories(post_id):
         resp = requests.post(
             "http://persian_analyzer_api/v1/app/classification/", {"text": post.body}
         ).json()
-        post.category = resp
+        post.category = sorted(resp, key=lambda k: k["score"], reverse=True)
         post.save()
 
 
