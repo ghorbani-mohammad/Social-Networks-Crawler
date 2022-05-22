@@ -160,25 +160,19 @@ def get_linkedin_feed():
         driver.add_cookie(cookie)
     driver.get("https://www.linkedin.com/feed/")
     scroll(driver, 1)
-    time.sleep(5)
     articles = driver.find_elements(
         By.XPATH,
         './/div[starts-with(@data-id, "urn:li:activity:")]',
     )
-    print(len(articles))
     driver.implicitly_wait(5)
-    for article in articles:
+    for article in articles[:10]:
         try:
-            # element = WebDriverWait(driver, 10).until(
-            #     EC.presence_of_element_located(article)
-            # )
             id = article.get_attribute("data-id")
-            body = article.find_element(By.CLASS_NAME, "break-words").text
+            body = article.find_element(
+                By.CLASS_NAME, "feed-shared-update-v2__commentary"
+            ).text
             print(f"{id} {body[:20]}")
         except Exception as e:
-            print(e)
-            time.sleep(5)
-            id = article.get_attribute("data-id")
-            body = article.find_element(By.CLASS_NAME, "break-words").text
+            print("can't find element")
     time.sleep(2)
     driver.quit()
