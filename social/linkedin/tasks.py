@@ -1,4 +1,5 @@
 import time
+import redis
 import pickle
 import traceback
 from selenium import webdriver
@@ -13,11 +14,13 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 
 from network import models as net_models
+from notification import tasks as not_tasks
 from reusable.other import only_one_concurrency
 
 logger = get_task_logger(__name__)
 MINUTE = 60
 TASKS_TIMEOUT = 1 * MINUTE
+DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
 
 @shared_task()
@@ -148,7 +151,7 @@ def get_linkedin_posts(channel_id):
         channel.save()
 
 
-@shared_task(name="get_linkedin_feed")
+@shared_task()
 def get_linkedin_feed():
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
@@ -160,18 +163,25 @@ def get_linkedin_feed():
         driver.add_cookie(cookie)
     driver.get("https://www.linkedin.com/feed/")
     scroll(driver, 1)
+    time.sleep(5)
     articles = driver.find_elements(
         By.XPATH,
         './/div[starts-with(@data-id, "urn:li:activity:")]',
     )
     driver.implicitly_wait(5)
-    for article in articles[:10]:
+    for article in articles:
         try:
             id = article.get_attribute("data-id")
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
             ).text
-            print(f"{id} {body[:20]}")
+            if DUPLICATE_CHECKER.exists(id):
+                continue
+            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            link = f"https://www.linkedin.com/feed/update/{id}/"
+            message = f"{body}\n\n{link}"
+            not_tasks.send_telegram_message(message)
+            time.sleep(2)
         except Exception as e:
             print("can't find element")
     time.sleep(2)
