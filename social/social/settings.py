@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "telegram",
     "linkedin",
     "twitter",
+    "notification",
     "corsheaders",
 ]
 
