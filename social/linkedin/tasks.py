@@ -153,6 +153,9 @@ def get_linkedin_posts(channel_id):
 
 @shared_task()
 def get_linkedin_feed():
+    config = net_models.Config.objects.last()
+    if config is None or not config.crawl_linkedin_feed:
+        return
     driver = webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,

@@ -104,3 +104,8 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         return instance.updated_at.astimezone(tz("Asia/Tehran")).strftime(
             "%m/%d %H:%M:%S"
         )
+
+
+@admin.register(models.Config)
+class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "crawl_linkedin_feed")

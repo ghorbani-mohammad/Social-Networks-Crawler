@@ -173,3 +173,7 @@ class Backup(BaseModel):
             if created:
                 transaction.on_commit(lambda: tasks.take_backup.delay(self.pk))
             super().save(*args, **kwargs)
+
+
+class Config(BaseModel):
+    crawl_linkedin_feed = models.BooleanField(default=False)
