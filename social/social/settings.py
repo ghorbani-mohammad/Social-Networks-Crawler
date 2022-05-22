@@ -119,3 +119,6 @@ if (dsn := env.str("SENTRY_DSN", default=None)) is not None:
         send_default_pii=True,
         environment="ras-soc",
     )
+
+LINKEDIN_EMAIL = env.str("LINKEDIN_EMAIL")
+LINKEDIN_PASSWORD = env.str("LINKEDIN_PASSWORD")

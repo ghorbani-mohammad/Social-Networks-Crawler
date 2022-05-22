@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+from django.conf import settings
 from django.utils import timezone
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -25,17 +26,15 @@ def login():
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,
     )
-    email = "mahsa.jafari2003@gmail.com"
-    password = "nHdkuVm1fi"
     driver.get("https://www.linkedin.com/login")
     try:
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "username"))
         )
         email_elem = driver.find_element_by_id("username")
-        email_elem.send_keys(email)
+        email_elem.send_keys(settings.LINKEDIN_EMAIL)
         password_elem = driver.find_element_by_id("password")
-        password_elem.send_keys(password)
+        password_elem.send_keys(settings.LINKEDIN_PASSWORD)
         password_elem.submit()
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "global-nav-search"))
