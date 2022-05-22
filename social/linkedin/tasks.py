@@ -10,6 +10,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from django.conf import settings
 from django.utils import timezone
+from django.utils.html import strip_tags
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
@@ -183,7 +184,7 @@ def get_linkedin_feed():
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             link = f"https://www.linkedin.com/feed/update/{id}/"
             message = f"{body}\n\n{link}"
-            not_tasks.send_telegram_message(message)
+            not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(2)
         except Exception as e:
             print("can't find element")
