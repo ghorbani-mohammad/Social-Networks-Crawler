@@ -15,6 +15,7 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 
 from network import models as net_models
+from linkedin import models as lin_models
 from notification import tasks as not_tasks
 from reusable.other import only_one_concurrency
 
@@ -187,6 +188,43 @@ def get_linkedin_feed():
             body = body.replace("&", "-")
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
+            time.sleep(4)
+        except Exception as e:
+            print("can't find element")
+    time.sleep(2)
+    driver.quit()
+
+
+@shared_task()
+def check_job_pages():
+    pages = lin_models.JobPage.objects.filter(enable=True)
+    for page in pages:
+        get_job_page_posts(page.url)
+
+
+@shared_task()
+def get_job_page_posts(url):
+    driver = webdriver.Remote(
+        "http://social_firefox:4444/wd/hub",
+        DesiredCapabilities.FIREFOX,
+    )
+    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
+    driver.get("https://www.linkedin.com/")
+    for cookie in cookies:
+        driver.add_cookie(cookie)
+    driver.get(url)
+    time.sleep(5)
+    items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
+    for item in items:
+        try:
+            id = item.get_attribute("data-occludable-job-id")
+            if DUPLICATE_CHECKER.exists(id):
+                continue
+            link = item.find_element(
+                By.CLASS_NAME, "job-card-container__link"
+            ).get_attribute("href")
+            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            not_tasks.send_telegram_message(strip_tags(link))
             time.sleep(4)
         except Exception as e:
             print("can't find element")

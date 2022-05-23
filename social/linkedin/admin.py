@@ -6,4 +6,4 @@ from reusable.admins import ReadOnlyAdminDateFields
 
 @admin.register(models.JobPage)
 class JobPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = ("pk", "name")
+    list_display = ("pk", "name", "enable")
