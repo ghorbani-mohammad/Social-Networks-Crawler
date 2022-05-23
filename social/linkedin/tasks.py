@@ -200,6 +200,8 @@ def check_job_pages():
     pages = lin_models.JobPage.objects.filter(enable=True)
     for page in pages:
         get_job_page_posts(page.url)
+        page.last_crawl_at = timezone.localtime()
+        page.save()
 
 
 @shared_task()
