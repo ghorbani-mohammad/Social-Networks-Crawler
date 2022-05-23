@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from . import models
+from reusable.admins import ReadOnlyAdminDateFields
+
+
+@admin.register(models.JobPage)
+class JobPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "name")
