@@ -183,9 +183,11 @@ def get_linkedin_feed():
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             link = f"https://www.linkedin.com/feed/update/{id}/"
+            body = body.replace("#", "-")
+            body = body.replace("&", "-")
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
-            time.sleep(2)
+            time.sleep(4)
         except Exception as e:
             print("can't find element")
     time.sleep(2)
