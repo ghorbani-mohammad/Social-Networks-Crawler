@@ -22,10 +22,10 @@ app.conf.beat_schedule = {
     },
     "get_linkedin_feed": {
         "task": "linkedin.tasks.get_linkedin_feed",
-        "schedule": crontab(minute="*/40"),
+        "schedule": crontab(minute="*/60"),
     },
     "check_job_pages": {
         "task": "linkedin.tasks.check_job_pages",
-        "schedule": crontab(minute="*/30"),
+        "schedule": crontab(minute="*/45"),
     },
 }
