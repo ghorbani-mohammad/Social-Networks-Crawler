@@ -145,6 +145,6 @@ def take_backup(backup_id):
                 f"docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
             ]
         )
-        backup.link = f"http://{settings.SERVER_IP}/social_db_{date_time}.sql.gz"
+        backup.link = f"http://{settings.SERVER_IP}/backup/social_db_{date_time}.sql.gz"
     backup.status = models.Backup.COMPLETED
     backup.save()
