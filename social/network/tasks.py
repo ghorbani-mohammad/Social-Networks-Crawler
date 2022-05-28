@@ -132,7 +132,9 @@ def take_backup(backup_id):
                 f"docker exec -t postgres pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
             ]
         )
-        backup.link = f"http://{settings.SERVER_IP}/postgres_db_{date_time}.sql.gz"
+        backup.link = (
+            f"http://{settings.SERVER_IP}/backup/postgres_db_{date_time}.sql.gz"
+        )
     elif backup.type == models.Backup.RASAD_2:
         subprocess.run(
             [
