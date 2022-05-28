@@ -129,7 +129,7 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                f"docker exec -t postgres pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/postgres_db_{date_time}.sql.gz",
+                f"docker exec -t postgres pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
             ]
         )
         backup.link = f"http://{settings.SERVER_IP}/postgres_db_{date_time}.sql.gz"
@@ -142,7 +142,7 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                f"docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/social_db_{date_time}.sql.gz",
+                f"docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
             ]
         )
         backup.link = f"http://{settings.SERVER_IP}/social_db_{date_time}.sql.gz"
