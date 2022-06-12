@@ -19,7 +19,7 @@ def get_search_modified_qs(apiview, qs):
             qs = backend().filter_queryset(apiview.request, qs, apiview)
         else:
             if "search" in apiview.request.GET:
-                words = apiview.request.GET["search"].split()
+                words = apiview.request.GET["search"].split(",")
                 query = reduce(or_, [Q(body__contains=word) for word in words])
                 qs = qs.filter(query)
     return qs
