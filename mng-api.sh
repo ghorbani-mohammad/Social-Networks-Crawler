@@ -11,8 +11,6 @@ CELERY_BEAT_CONTAINER_NAME=${PROJECT_NAME}'_beat'
 REDIS_CONTAINER_NAME=${PROJECT_NAME}'_redis'
 
 COMPOSE_FILE='docker-compose.yml'
-NGINX_FILE='social_api_nginx.conf'
-
 
 function log() {
     docker-compose -f ${COMPOSE_FILE} logs -f
@@ -58,12 +56,6 @@ function create_admin_user() {
     docker exec -it ${API_CONTAINER_NAME} ./${PROJECT_NAME}/manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('${1:-admin}', '', '${2:-test1234}')"
 }
 
-function issue_https_certificate() {
-    sudo certbot --nginx certonly -d social.rasad-project.ir
-    sudo ln -s ${PROJECT_PATH}${NGINX_FILE} /etc/nginx/sites-enabled/${NGINX_FILE}
-    sudo service nginx restart
-}
-
 function dump_db() {
     echo -e "\n ... dump db ... \n"
     mkdir -p db_backup
@@ -85,15 +77,7 @@ function remove_unused_image() {
     docker image prune -af
 }
 
-function scp_conf() {
-    echo -e "\n ... copy conf files to server ... \n"
-    scp ${COMPOSE_FILE} ${NGINX_FILE} mng-api.sh doc.json .docpasswd ${SERVER_NAME}:${PROJECT_PATH}
-}
-
 case $1 in
-scp_conf)
-    scp_conf
-;;
 up_remote)
     ssh -t ${SERVER_NAME} "cd ${PROJECT_PATH}; ./mng-api.sh up"
 ;;
@@ -131,9 +115,6 @@ populate_db)
 ;;
 admin_user)
     create_admin_user $2 $3
-;;
-https)
-    issue_https_certificate
 ;;
 dump_db)
     dump_db
