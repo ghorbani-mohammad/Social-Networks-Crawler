@@ -9,7 +9,6 @@ __pycache__/
 *.pyc
 *.sql.gz
 db.sqlite3
-docker-compose-pro.yml
 docker-compose.yml
 local_settings.py
 social/celerybeat-schedule

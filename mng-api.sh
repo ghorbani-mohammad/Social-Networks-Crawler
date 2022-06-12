@@ -10,7 +10,7 @@ CELERY_CONTAINER_NAME=${PROJECT_NAME}'_celery'
 CELERY_BEAT_CONTAINER_NAME=${PROJECT_NAME}'_beat'
 REDIS_CONTAINER_NAME=${PROJECT_NAME}'_redis'
 
-COMPOSE_FILE='docker-compose-pro.yml'
+COMPOSE_FILE='docker-compose.yml'
 NGINX_FILE='social_api_nginx.conf'
 
 
