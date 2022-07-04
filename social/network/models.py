@@ -1,3 +1,4 @@
+from os import path
 from django.conf import settings
 from django.utils import timezone
 from django.utils.html import format_html
@@ -9,6 +10,16 @@ from reusable.models import BaseModel
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
 from reusable.admins import url_to_edit_object
+
+
+def channel_list_export_path(instance, filename):
+    ext = filename.split(".")[-1].lower()
+    return path.join(
+        ".",
+        "export",
+        "channel",
+        f"{int(timezone.now().timestamp())}.{ext}",
+    )
 
 
 class Tag(BaseModel):
@@ -177,3 +188,7 @@ class Backup(BaseModel):
 
 class Config(BaseModel):
     crawl_linkedin_feed = models.BooleanField(default=False)
+
+
+class ChannelListExport(BaseModel):
+    file = models.FileField(upload_to=channel_list_export_path)

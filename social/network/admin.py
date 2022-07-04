@@ -109,3 +109,8 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 @admin.register(models.Config)
 class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = ("pk", "crawl_linkedin_feed")
+
+
+@admin.register(models.ChannelListExport)
+class ChannelListExportAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "file", "created_at")
