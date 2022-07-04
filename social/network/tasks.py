@@ -1,12 +1,16 @@
 import requests
 import subprocess
+from io import BytesIO
 
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
+from django.core.files.base import File
 from celery import Task
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from openpyxl import Workbook
+from openpyxl.styles import Font, Alignment, Border, Side
 
 from . import models
 from twitter import tasks as twi_tasks
@@ -150,3 +154,36 @@ def take_backup(backup_id):
         backup.link = f"http://{settings.SERVER_IP}/backup/social_db_{date_time}.sql.gz"
     backup.status = models.Backup.COMPLETED
     backup.save()
+
+
+@shared_task()
+def export_channel_list(export_id):
+    channels = models.Channel.objects.all()
+    workbook = Workbook()
+    worksheet = workbook.active
+    worksheet.freeze_panes = worksheet["B2"]
+    worksheet.title = "Channel List Report"
+    fields_name = ["Number", "Name", "Network", "Status"]
+    for col_num, column_title in enumerate(fields_name, start=1):
+        cell = worksheet.cell(row=1, column=col_num)
+        cell.font = Font(bold=True)
+        cell.alignment = Alignment(horizontal="center")
+        cell.border = Border(bottom=Side(border_style="medium", color="FF000000"))
+        cell.value = column_title
+    for row_index, channel in enumerate(channels, start=2):
+        guest_fields = [
+            row_index - 1,
+            channel.name,
+            channel.network.name,
+            channel.status,
+        ]
+        for col_index, column in enumerate(guest_fields, start=1):
+            cell = worksheet.cell(row=row_index, column=col_index)
+            cell.font = Font(bold=True)
+            cell.alignment = Alignment(horizontal="center")
+            cell.value = column
+    virtual_workbook = BytesIO()
+    workbook.save(virtual_workbook)
+    export = models.ChannelListExport.objects.get(pk=export_id)
+    export.file.save("excel.xlsx", File(virtual_workbook))
+    export.save()

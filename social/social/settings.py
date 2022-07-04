@@ -1,3 +1,4 @@
+import os
 import sentry_sdk
 from pathlib import Path
 from envparse import env
@@ -94,7 +95,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+if DEBUG:
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 

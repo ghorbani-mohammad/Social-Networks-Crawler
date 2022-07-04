@@ -16,6 +16,7 @@ def channel_list_export_path(instance, filename):
     ext = filename.split(".")[-1].lower()
     return path.join(
         ".",
+        "static",
         "export",
         "channel",
         f"{int(timezone.now().timestamp())}.{ext}",
@@ -191,4 +192,11 @@ class Config(BaseModel):
 
 
 class ChannelListExport(BaseModel):
-    file = models.FileField(upload_to=channel_list_export_path)
+    file = models.FileField(upload_to=channel_list_export_path, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        with transaction.atomic():
+            if created:
+                transaction.on_commit(lambda: tasks.export_channel_list.delay(self.pk))
+            super().save(*args, **kwargs)

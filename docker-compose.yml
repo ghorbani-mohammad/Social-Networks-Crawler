@@ -18,6 +18,7 @@ services:
       - social_db
     volumes:
       - .:/app
+      - ./static:/app/social/static
     ports:
       - 8030:80
     command: ["python", "/app/social/manage.py", "runserver", "0:80"]
@@ -32,6 +33,7 @@ services:
     restart: unless-stopped
     volumes:
       - .:/app
+      - ./static:/app/social/static
     depends_on:
       - social_db
       - social_redis
@@ -65,6 +67,16 @@ services:
       - 7900:7900
     shm_size: 2g
     restart: unless-stopped
+
+  # pgadmin:
+  #   container_name: pgadmin4_container
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: root
+  #   ports:
+  #     - "5252:80"
+  #   restart: unless-stopped
 
 volumes:
   social_db:
