@@ -21,6 +21,7 @@ def get_search_modified_qs(apiview, qs, operator):
         else:
             if "search" in apiview.request.GET:
                 words = apiview.request.GET["search"].split(",")
+                words = [word for word in words if len(word) > 1]
                 if operator == "and":
                     qs = qs.filter(
                         reduce(and_, [Q(body__contains=word) for word in words])

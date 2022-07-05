@@ -6,7 +6,6 @@ django-filter
 django-redis
 djangorestframework
 envparse
-fasttext
 gunicorn
 ipython
 linkedin-scraper==2.9.0 
