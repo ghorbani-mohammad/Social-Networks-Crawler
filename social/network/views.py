@@ -136,6 +136,9 @@ class SearchCountAPIView(ListAPIView):
             data["date_after"],
             data["date_before"],
         )
+        response.data["keyword_statics"] = utils.get_keyword_statics(
+            qs, data["type"], data["date_after"], data["date_before"]
+        )
         response.data["channels_statistics"] = utils.get_channels_statistics(qs)
         return response
 
