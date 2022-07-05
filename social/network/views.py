@@ -117,7 +117,8 @@ class SearchCountAPIView(ListAPIView):
     search_fields = ["body"]
 
     def filter_queryset(self, qs):
-        return utils.get_search_modified_qs(self, qs)
+        operator = self.request.GET["operator"]
+        return utils.get_search_modified_qs(self, qs, operator)
 
     def get_queryset(self):
         return models.Post.objects.order_by("-id")

@@ -1,4 +1,3 @@
-from filecmp import cmp
 from rest_framework import serializers
 
 from . import models
@@ -91,6 +90,7 @@ class PostCountInputSerializer(serializers.Serializer):
     type = serializers.CharField()
     date_after = serializers.DateTimeField(required=False, default=None)
     date_before = serializers.DateTimeField(required=False, default=None)
+    operator = serializers.CharField(required=False, default="or")
 
 
 class KeywordSerializer(serializers.ModelSerializer):

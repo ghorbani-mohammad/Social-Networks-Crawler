@@ -1,4 +1,5 @@
 from operator import or_
+from operator import and_
 from functools import reduce
 from dateutil.relativedelta import relativedelta
 
@@ -13,15 +14,21 @@ CATEGORY_NUMBER = 5
 CHANNEL_NUMBER = 5
 
 
-def get_search_modified_qs(apiview, qs):
+def get_search_modified_qs(apiview, qs, operator):
     for backend in list(apiview.filter_backends):
         if backend.__name__ != "SearchFilter":
             qs = backend().filter_queryset(apiview.request, qs, apiview)
         else:
             if "search" in apiview.request.GET:
                 words = apiview.request.GET["search"].split(",")
-                query = reduce(or_, [Q(body__contains=word) for word in words])
-                qs = qs.filter(query)
+                if operator == "and":
+                    qs = qs.filter(
+                        reduce(and_, [Q(body__contains=word) for word in words])
+                    )
+                elif operator == "or":
+                    qs = qs.filter(
+                        reduce(or_, [Q(body__contains=word) for word in words])
+                    )
     return qs
 
 
