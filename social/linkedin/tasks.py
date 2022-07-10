@@ -36,9 +36,9 @@ def login():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "username"))
         )
-        email_elem = driver.find_element_by_id("username")
+        email_elem = driver.find_element("id", "username")
         email_elem.send_keys(settings.LINKEDIN_EMAIL)
-        password_elem = driver.find_element_by_id("password")
+        password_elem = driver.find_element("id", "password")
         password_elem.send_keys(settings.LINKEDIN_PASSWORD)
         password_elem.submit()
         WebDriverWait(driver, 20).until(
