@@ -46,6 +46,7 @@ def login():
         )
         pickle.dump(driver.get_cookies(), open("/app/social/cookies.pkl", "wb"))
     except Exception as e:
+        print(traceback.format_exc())
         logger.error(traceback.format_exc())
     finally:
         time.sleep(5)
@@ -169,15 +170,18 @@ def get_linkedin_feed():
     for cookie in cookies:
         driver.add_cookie(cookie)
     driver.get("https://www.linkedin.com/feed/")
-    scroll(driver, 1)
+    scroll(driver, 5)
     time.sleep(5)
     articles = driver.find_elements(
         By.XPATH,
         './/div[starts-with(@data-id, "urn:li:activity:")]',
     )
     driver.implicitly_wait(5)
+    print(len(articles))
     for article in articles:
         try:
+            driver.execute_script("arguments[0].scrollIntoView();", article)
+            time.sleep(5)
             id = article.get_attribute("data-id")
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
@@ -192,7 +196,7 @@ def get_linkedin_feed():
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(4)
         except Exception as e:
-            print("can't find element")
+            print(traceback.format_exc())
     time.sleep(2)
     driver.quit()
 
