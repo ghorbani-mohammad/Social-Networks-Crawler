@@ -50,6 +50,7 @@ def login():
     finally:
         time.sleep(5)
         driver.close()
+        print("driver closed.")
 
 
 @shared_task()
