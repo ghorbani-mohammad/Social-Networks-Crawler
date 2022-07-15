@@ -113,7 +113,7 @@ def get_linkedin_posts(channel_id):
     scroll(driver, 1)
     time.sleep(5)
     try:
-        articles = driver.find_element(By.CLASS_NAME, "feed-shared-update-v2")
+        articles = driver.find_elements(By.CLASS_NAME, "feed-shared-update-v2")
         for article in articles:
             try:
                 id = article.get_attribute("data-urn")
