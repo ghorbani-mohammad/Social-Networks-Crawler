@@ -34,7 +34,7 @@ def get_post_detail(article):
     detail["id"] = int(
         article.find_element(
             By.XPATH,
-            ".//a[@role='link' and @dir='auto' and starts-with(@id,'id__') and @aria-label]",
+            ".//a[@role='link' and @dir='auto' and @aria-label]",
         )
         .get_attribute("href")
         .split("/")[-1]
