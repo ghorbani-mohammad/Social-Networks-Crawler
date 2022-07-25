@@ -25,12 +25,16 @@ TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
 
-@shared_task()
-def login():
-    driver = webdriver.Remote(
+def get_driver():
+    return webdriver.Remote(
         "http://social_firefox:4444/wd/hub",
         DesiredCapabilities.FIREFOX,
     )
+
+
+@shared_task()
+def login():
+    driver = get_driver()
     driver.get("https://www.linkedin.com/login")
     try:
         WebDriverWait(driver, 20).until(
@@ -101,10 +105,7 @@ def get_linkedin_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     print(f"****** Linkedin crawling {channel} started")
     channel_url = channel.username
-    driver = webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    driver = get_driver()
     cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
@@ -180,10 +181,7 @@ def get_linkedin_feed():
     config = net_models.Config.objects.last()
     if config is None or not config.crawl_linkedin_feed:
         return
-    driver = webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    driver = get_driver()
     cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
@@ -233,10 +231,7 @@ def check_job_pages():
 
 @shared_task()
 def get_job_page_posts(url):
-    driver = webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    driver = get_driver()
     cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
