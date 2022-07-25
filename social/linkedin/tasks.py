@@ -199,8 +199,6 @@ def get_linkedin_feed():
         By.XPATH,
         './/div[starts-with(@data-id, "urn:li:activity:")]',
     )
-    driver.implicitly_wait(5)
-    print(len(articles))
     for article in articles:
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
