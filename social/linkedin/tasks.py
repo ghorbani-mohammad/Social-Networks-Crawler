@@ -204,7 +204,7 @@ def get_linkedin_feed():
     for article in articles:
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
-            time.sleep(5)
+            time.sleep(2)
             id = article.get_attribute("data-id")
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
@@ -217,7 +217,7 @@ def get_linkedin_feed():
             body = body.replace("&", "-")
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
-            time.sleep(4)
+            time.sleep(3)
         except Exception as e:
             print(traceback.format_exc())
     time.sleep(2)
