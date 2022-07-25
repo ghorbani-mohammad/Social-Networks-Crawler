@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   social_db:
     container_name: social_db
@@ -37,6 +35,7 @@ services:
     depends_on:
       - social_db
       - social_redis
+      - social_firefox
     env_file:
       - .env
 
@@ -51,6 +50,7 @@ services:
     depends_on:
       - social_db
       - social_redis
+      - social_firefox
     env_file:
       - .env
 
