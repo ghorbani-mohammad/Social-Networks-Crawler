@@ -1,3 +1,12 @@
+## [0.2.3](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.2...v0.2.3) (2022-08-01)
+
+
+### Bug Fixes
+
+* remove-ignored-keywords task ([d44c45e](https://github.com/ghorbani-mohammad/rasad-social/commit/d44c45e4b113af505825fb8584e016948ef2cb49))
+
+
+
 ## [0.2.2](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.1...v0.2.2) (2022-08-01)
 
 
