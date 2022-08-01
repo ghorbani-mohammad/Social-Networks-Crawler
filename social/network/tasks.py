@@ -197,6 +197,7 @@ def remove_ignored_keywords():
     ignored_keywords = list(
         models.IgnoredKeyword.objects.values_list("keyword", flat=True)
     )
+    # for performance consideration, we loop over them in batch mode
     first_id = models.Keyword.objects.first().id
     last_id = models.Keyword.objects.last().id
     batch_size = 10000
