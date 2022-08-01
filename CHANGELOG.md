@@ -1,4 +1,13 @@
-# 0.1.0 (2022-07-25)
+# [0.2.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.1.0...v0.2.0) (2022-08-01)
+
+
+### Features
+
+* add ignored_keyword logics ([c18cf26](https://github.com/ghorbani-mohammad/rasad-social/commit/c18cf262028f0b8d46e742658a458676a756753d))
+
+
+
+# [0.1.0](https://github.com/ghorbani-mohammad/rasad-social/compare/cc44e7bbd3a82908fa082a57b0dc67d4e90709b4...v0.1.0) (2022-07-25)
 
 
 ### Bug Fixes
