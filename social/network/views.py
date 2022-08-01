@@ -148,7 +148,7 @@ class SearchCountAPIView(ListAPIView):
 
 
 class KeywordAPIView(ListAPIView):
-    queryset = models.Keyword.objects.order_by("-id")
+    queryset = models.Keyword.objects.filter(ignored=False).order_by("-id")
     serializer_class = serializers.KeywordSerializer
     pagination_class = ListPagination
     filter_backends = [DjangoFilterBackend]
