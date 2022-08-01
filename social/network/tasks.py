@@ -200,6 +200,7 @@ def remove_ignored_keywords():
     batch_size = 10000
     current_counter = first_id
     while current_counter < last_id:
+        print(current_counter)
         for item in models.Keyword.objects.filter(
             id__gte=current_counter, id__lte=current_counter + batch_size
         ):
