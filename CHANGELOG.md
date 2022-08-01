@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.3.0...v0.4.0) (2022-08-01)
+
+
+### Features
+
+* consider logic of blocked and ignored keywords ([04699a2](https://github.com/ghorbani-mohammad/rasad-social/commit/04699a223379ae99b286797408c6ae3b57e330e8))
+
+
+
 # [0.3.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.3...v0.3.0) (2022-08-01)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * handle channel is not exist ([d4fdeca](https://github.com/ghorbani-mohammad/rasad-social/commit/d4fdeca82ec8e664b479abca948d8c085e51da9c))
-
-
-
-# [0.2.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.1.0...v0.2.0) (2022-08-01)
-
-
-### Features
-
-* add ignored_keyword logics ([c18cf26](https://github.com/ghorbani-mohammad/rasad-social/commit/c18cf262028f0b8d46e742658a458676a756753d))
 
 
 
