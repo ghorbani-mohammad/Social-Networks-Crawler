@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.0...v0.2.1) (2022-08-01)
+
+
+### Bug Fixes
+
+* handle channel is not exist ([d4fdeca](https://github.com/ghorbani-mohammad/rasad-social/commit/d4fdeca82ec8e664b479abca948d8c085e51da9c))
+
+
+
 # [0.2.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.1.0...v0.2.0) (2022-08-01)
 
 
