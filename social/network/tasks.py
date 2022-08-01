@@ -198,9 +198,9 @@ def export_channel_list(export_id):
 
 
 @shared_task()
-def remove_ignored_keywords():
-    ignored_keywords = list(
-        models.IgnoredKeyword.objects.values_list("keyword", flat=True)
+def remove_blocked_keywords():
+    blocked_keywords = list(
+        models.BlockedKeyword.objects.values_list("keyword", flat=True)
     )
     # for performance consideration, we loop over them in batch mode
     first_id = models.Keyword.objects.first().id
@@ -211,6 +211,6 @@ def remove_ignored_keywords():
         for item in models.Keyword.objects.filter(
             id__gte=current_counter, id__lte=current_counter + batch_size
         ):
-            if item.keyword in ignored_keywords:
+            if item.keyword in blocked_keywords:
                 item.delete()
         current_counter += batch_size
