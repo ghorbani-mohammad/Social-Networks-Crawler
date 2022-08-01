@@ -49,7 +49,12 @@ class BaseTaskWithRetry(Task):
 @shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
     post = models.Post.objects.get(id=post_id)
-    ignored_keywords = list(models.IgnoredKeyword.objects.values_list("keyword"))
+    ignored_keywords = list(
+        models.IgnoredKeyword.objects.values_list("keyword", flat=True)
+    )
+    blocked_keywords = list(
+        models.BlockedKeyword.objects.values_list("keyword", flat=True)
+    )
     endpoint = None
     if post.channel.language == models.Channel.PERSIAN:
         endpoint = "http://persian_analyzer_api/v1/app/keyword/"
@@ -57,13 +62,13 @@ def extract_keywords(post_id):
         endpoint = "http://analyzer_api/api/v1/keyword/"
     resp = requests.post(endpoint, {"text": post.body}).json()
     objs = []
-    for keyword in resp["keywords"]:
-        if keyword not in ignored_keywords:
-            objs.append(models.Keyword(post=post, keyword=keyword))
+    words = resp["keywords"]
     if "keyphrases" in resp:
-        for keyphrase in resp["keyphrases"]:
-            if keyphrase not in ignored_keywords:
-                objs.append(models.Keyword(post=post, keyword=keyphrase))
+        words += resp["keyphrases"]
+    for keyword in words:
+        if keyword not in blocked_keywords:
+            ignored = keyword in ignored_keywords
+            objs.append(models.Keyword(post=post, keyword=keyword, ignored=ignored))
     models.Keyword.objects.bulk_create(objs)
 
 
