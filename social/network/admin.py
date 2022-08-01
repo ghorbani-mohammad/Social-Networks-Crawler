@@ -119,3 +119,8 @@ class ChannelListExportAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 @admin.register(models.IgnoredKeyword)
 class IgnoredKeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = ("pk", "keyword", "created_at")
+
+
+@admin.register(models.BlockedKeyword)
+class BlockedKeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "keyword", "created_at")

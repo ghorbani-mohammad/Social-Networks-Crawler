@@ -207,3 +207,10 @@ class IgnoredKeyword(BaseModel):
 
     def __str__(self):
         return f"({self.pk} - {self.keyword})"
+
+
+class BlockedKeyword(BaseModel):
+    keyword = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"({self.pk} - {self.keyword})"
