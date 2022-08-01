@@ -114,3 +114,8 @@ class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 @admin.register(models.ChannelListExport)
 class ChannelListExportAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = ("pk", "file", "created_at")
+
+
+@admin.register(models.IgnoredKeyword)
+class IgnoredKeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "keyword", "created_at")

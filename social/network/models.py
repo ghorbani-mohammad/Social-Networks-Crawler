@@ -200,3 +200,10 @@ class ChannelListExport(BaseModel):
             if created:
                 transaction.on_commit(lambda: tasks.export_channel_list.delay(self.pk))
             super().save(*args, **kwargs)
+
+
+class IgnoredKeyword(BaseModel):
+    keyword = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"({self.pk} - {self.keyword})"
