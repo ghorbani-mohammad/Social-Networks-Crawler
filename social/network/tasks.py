@@ -204,6 +204,7 @@ def remove_ignored_keywords():
         for item in models.Keyword.objects.filter(
             id__gte=current_counter, id__lte=current_counter + batch_size
         ):
+            print(item.keyword in ignored_keywords)
             if item.keyword in ignored_keywords:
                 print("yes")
                 item.delete()
