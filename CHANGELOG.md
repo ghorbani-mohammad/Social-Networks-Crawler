@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.1...v0.2.2) (2022-08-01)
+
+
+### Bug Fixes
+
+* minor change ([659e9fa](https://github.com/ghorbani-mohammad/rasad-social/commit/659e9fa947a4cfa696475266fcab9e09d4875f5a))
+
+
+
 ## [0.2.1](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.0...v0.2.1) (2022-08-01)
 
 
