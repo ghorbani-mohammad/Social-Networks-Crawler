@@ -190,3 +190,20 @@ def export_channel_list(export_id):
     export = models.ChannelListExport.objects.get(pk=export_id)
     export.file.save("excel.xlsx", File(virtual_workbook))
     export.save()
+
+
+@shared_task()
+def remove_ignored_keywords():
+    ignored_keywords = list(models.IgnoredKeyword.objects.values_list("keyword"))
+    keywords_count = models.Keyword.objects.count()
+    first_id = models.Keyword.objects.first().id
+    last_id = models.Keyword.objects.last().id
+    batch_size = keywords_count / 1000
+    current_counter = first_id
+    while current_counter < last_id:
+        for item in models.Keyword.objects.filter(
+            id__gte=current_counter, id__lte=current_counter + batch_size
+        ):
+            if item.keyword in ignored_keywords:
+                item.delete()
+        current_counter += batch_size
