@@ -171,6 +171,8 @@ def run_telegram(account_id):
         except errors.FloodWaitError as e:
             print("Flood wait for ", e.seconds)
             await asyncio.sleep(e.seconds)
+        except Exception as e:
+            print(e)
 
     async def check_channels_must_joined():
         while True:
