@@ -25,11 +25,11 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
+        "network",
         "username",
         "language",
         "crawl_interval",
         "get_last_crawl",
-        "network",
         "status",
         "joined",
         "today_posts_count",
