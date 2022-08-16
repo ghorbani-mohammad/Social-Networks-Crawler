@@ -15,6 +15,13 @@ MINUTE = 60
 TASKS_TIMEOUT = 1 * MINUTE
 
 
+def get_driver():
+    return webdriver.Remote(
+        "http://social_firefox:4444/wd/hub",
+        DesiredCapabilities.FIREFOX,
+    )
+
+
 def scroll(driver, counter):
     SCROLL_PAUSE_TIME = 0.5
     last_height = driver.execute_script("return document.body.scrollHeight")
@@ -117,10 +124,7 @@ def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     print(f"****** Twitter crawling {channel} started")
     channel_url = f"{channel.network.url}/{channel.username}"
-    driver = webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    driver = get_driver()
     driver.get(channel_url)
     scroll(driver, 5)
     time.sleep(5)
@@ -147,10 +151,7 @@ def get_twitter_posts(channel_id):
 @shared_task()
 def get_twitter_post_comments(post_id):
     post = net_models.Post.objects.get(pk=post_id)
-    driver = webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    driver = get_driver()
     driver.get(f"{post.channel.username}/status/{post.network_id}")
     scroll(driver, 2)
     time.sleep(10)
