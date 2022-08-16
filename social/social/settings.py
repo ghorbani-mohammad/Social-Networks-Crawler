@@ -112,8 +112,6 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Asia/Tehran"
 
 
-TELEGRAM_API_ID = env.str("TELEGRAM_API_ID")
-TELEGRAM_API_HASH = env.str("TELEGRAM_API_HASH")
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGIN_REGEXES = ["*"]
 
@@ -126,5 +124,10 @@ if (dsn := env.str("SENTRY_DSN", default=None)) is not None:
         environment="ras-soc",
     )
 
+# Linkedin account auth
 LINKEDIN_EMAIL = env.str("LINKEDIN_EMAIL")
 LINKEDIN_PASSWORD = env.str("LINKEDIN_PASSWORD")
+
+# Telegram account auth
+TELEGRAM_API_ID = env.str("TELEGRAM_API_ID")
+TELEGRAM_API_HASH = env.str("TELEGRAM_API_HASH")
