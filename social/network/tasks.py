@@ -214,7 +214,3 @@ def remove_blocked_keywords():
             if item.keyword in blocked_keywords:
                 item.delete()
         current_counter += batch_size
-
-@shared_task()
-def import_from_sql_file():
-    pass
