@@ -21,7 +21,7 @@ channel_ids = list(
     Channel.objects.filter(network__name="Telegram").values_list("id", flat=True)
 )
 
-sheet = load_workbook(filename="messages.csv").active
+sheet = load_workbook(filename="/app/messages.csv").active
 texts = [cell.value for cell in sheet["C"]]
 dates = [cell.value for cell in sheet["B"]]
 
