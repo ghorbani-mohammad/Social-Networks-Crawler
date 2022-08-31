@@ -32,7 +32,7 @@ for index, text in enumerate(texts):
     try:
         index = index + 1
         date = dates[index]
-        date_counter[date] = date_counter.get(date, 0) + 1
+        date_counter[date.split()[0]] = date_counter.get(date.split()[0], 0) + 1
         text = texts[index]
         post = Post.objects.create(
             body=text, channel_id=random.choice(channel_ids), imported=True
