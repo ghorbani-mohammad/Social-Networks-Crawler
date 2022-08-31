@@ -27,10 +27,12 @@ dates = [cell.value for cell in sheet["C"]]
 
 success_counter = 0
 failure_counter = 0
+date_counter = {}
 for index, text in enumerate(texts):
     try:
         index = index + 1
         date = dates[index]
+        date_counter[date] = date_counter.get(date, 0) + 1
         text = texts[index]
         post = Post.objects.create(
             body=text, channel_id=random.choice(channel_ids), imported=True
@@ -44,3 +46,4 @@ for index, text in enumerate(texts):
 
 print(f"success counter: {success_counter}")
 print(f"failure counter: {failure_counter}")
+print(date_counter)
