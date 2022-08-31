@@ -22,8 +22,8 @@ channel_ids = list(
 )
 
 sheet = load_workbook(filename="/app/messages.xlsx").active
-texts = [cell.value for cell in sheet["C"]]
-dates = [cell.value for cell in sheet["B"]]
+texts = [cell.value for cell in sheet["F"]]
+dates = [cell.value for cell in sheet["C"]]
 
 for index, text in enumerate(texts):
     index = index + 1
