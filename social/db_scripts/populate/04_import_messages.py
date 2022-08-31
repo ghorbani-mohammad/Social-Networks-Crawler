@@ -25,13 +25,22 @@ sheet = load_workbook(filename="/app/messages.xlsx").active
 texts = [cell.value for cell in sheet["F"]]
 dates = [cell.value for cell in sheet["C"]]
 
+success_counter = 0
+failure_counter = 0
 for index, text in enumerate(texts):
-    index = index + 1
-    date = dates[index]
-    text = texts[index]
-    post = Post.objects.create(
-        body=text, channel_id=random.choice(channel_ids), imported=True
-    )
-    Post.objects.filter(pk=post.pk).update(
-        created_at=make_aware(date), updated_at=make_aware(date)
-    )
+    try:
+        index = index + 1
+        date = dates[index]
+        text = texts[index]
+        post = Post.objects.create(
+            body=text, channel_id=random.choice(channel_ids), imported=True
+        )
+        Post.objects.filter(pk=post.pk).update(
+            created_at=make_aware(date), updated_at=make_aware(date)
+        )
+        success_counter += 1
+    except:
+        failure_counter += 1
+
+print(f"success counter: {success_counter}")
+print(f"failure counter: {failure_counter}")
