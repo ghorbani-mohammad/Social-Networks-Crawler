@@ -7,6 +7,7 @@ services:
       - social_db:/var/lib/postgresql/data
     env_file:
       - .env
+    shm_size: 1gb
   
   social_api:
     container_name: social_api
