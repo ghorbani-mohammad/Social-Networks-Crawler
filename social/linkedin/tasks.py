@@ -224,9 +224,10 @@ def get_linkedin_feed():
 def check_job_pages():
     pages = lin_models.JobPage.objects.filter(enable=True)
     for page in pages:
-        print(f"start crawling linkedin page {page.name}")
+        time = timezone.localtime()
+        print(f"{time} start crawling linkedin page {page.name}")
         get_job_page_posts(f"#{page.name}", page.url)
-        page.last_crawl_at = timezone.localtime()
+        page.last_crawl_at = time
         page.save()
 
 
