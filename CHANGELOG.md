@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.4.0...v0.5.0) (2022-09-01)
+
+
+### Features
+
+* add sort-by-date to job page ([b30fd26](https://github.com/ghorbani-mohammad/rasad-social/commit/b30fd2618350c3bab9ffd52e2ba37fc1e5835ccf))
+
+
+
 # [0.4.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.3.0...v0.4.0) (2022-08-01)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * minor change ([659e9fa](https://github.com/ghorbani-mohammad/rasad-social/commit/659e9fa947a4cfa696475266fcab9e09d4875f5a))
-
-
-
-## [0.2.1](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.0...v0.2.1) (2022-08-01)
-
-
-### Bug Fixes
-
-* handle channel is not exist ([d4fdeca](https://github.com/ghorbani-mohammad/rasad-social/commit/d4fdeca82ec8e664b479abca948d8c085e51da9c))
 
 
 
