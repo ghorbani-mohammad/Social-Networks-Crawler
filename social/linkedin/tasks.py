@@ -264,6 +264,7 @@ def get_job_page_posts(url):
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
     for item in items:
         try:
+            driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
             if DUPLICATE_CHECKER.exists(id):
                 continue
