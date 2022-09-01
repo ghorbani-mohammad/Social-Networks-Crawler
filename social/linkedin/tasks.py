@@ -236,19 +236,19 @@ def sort_by_most_recent(driver):
         './/button[contains(@class, "search-reusables__filter-pill-button")]',
     )
     filter_button[len(filter_button) - 1].click()
-    time.sleep(5)
+    time.sleep(2)
     most_recent_input = driver.find_elements(
         By.XPATH,
         './/label[contains(@for, "advanced-filter-sortBy-DD")]',
     )
     most_recent_input[0].click()
-    time.sleep(5)
+    time.sleep(2)
     apply_button = driver.find_elements(
         By.XPATH,
         './/button[contains(@data-test-reusables-filters-modal-show-results-button, "true")]',
     )
     apply_button[0].click()
-    time.sleep(5)
+    time.sleep(2)
     return driver
 
 
