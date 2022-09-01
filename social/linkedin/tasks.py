@@ -264,10 +264,12 @@ def get_job_page_posts(message, url):
     time.sleep(5)
     driver = sort_by_most_recent(driver)
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
+    counter = 0
     for item in items:
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
+            counter += 1
             if DUPLICATE_CHECKER.exists(id):
                 continue
             link = item.find_element(
@@ -278,5 +280,6 @@ def get_job_page_posts(message, url):
             time.sleep(4)
         except Exception as e:
             print("can't find element")
+    print(f"found {counter} job")
     time.sleep(2)
     driver.quit()
