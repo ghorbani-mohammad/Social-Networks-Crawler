@@ -12,7 +12,7 @@ linkedin-scraper==2.9.0
 openpyxl
 pip-tools
 psycopg2-binary
-pytest-djang>=4.5.2 
+pytest-djang
 python-dateutil
 redis
 requests
