@@ -229,6 +229,28 @@ def check_job_pages():
         page.save()
 
 
+def sort_by_most_recent(driver):
+    filter_button = driver.find_elements(
+        By.XPATH,
+        './/button[contains(@class, "search-reusables__filter-pill-button")]',
+    )
+    filter_button[len(filter_button) - 1].click()
+    time.sleep(5)
+    most_recent_input = driver.find_elements(
+        By.XPATH,
+        './/label[contains(@for, "advanced-filter-sortBy-DD")]',
+    )
+    most_recent_input[0].click()
+    time.sleep(5)
+    apply_button = driver.find_elements(
+        By.XPATH,
+        './/button[contains(@data-test-reusables-filters-modal-show-results-button, "true")]',
+    )
+    apply_button[0].click()
+    time.sleep(5)
+    return driver
+
+
 @shared_task()
 def get_job_page_posts(url):
     driver = get_driver()
@@ -238,6 +260,7 @@ def get_job_page_posts(url):
         driver.add_cookie(cookie)
     driver.get(url)
     time.sleep(5)
+    driver = sort_by_most_recent(driver)
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
     for item in items:
         try:
