@@ -224,7 +224,8 @@ def get_linkedin_feed():
 def check_job_pages():
     pages = lin_models.JobPage.objects.filter(enable=True)
     for page in pages:
-        get_job_page_posts(page.url)
+        print(f"start crawling linkedin page {page.name}")
+        get_job_page_posts(f"#{page.name}", page.url)
         page.last_crawl_at = timezone.localtime()
         page.save()
 
@@ -252,7 +253,7 @@ def sort_by_most_recent(driver):
 
 
 @shared_task()
-def get_job_page_posts(url):
+def get_job_page_posts(message, url):
     driver = get_driver()
     cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
@@ -272,7 +273,7 @@ def get_job_page_posts(url):
                 By.CLASS_NAME, "job-card-container__link"
             ).get_attribute("href")
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            not_tasks.send_telegram_message(strip_tags(link))
+            not_tasks.send_telegram_message(f"{message}\n\n{strip_tags(link)}")
             time.sleep(4)
         except Exception as e:
             print("can't find element")
