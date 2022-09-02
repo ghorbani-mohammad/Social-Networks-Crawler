@@ -7,4 +7,4 @@ from . import models, utils
 def send_telegram_message(message):
     bot = models.TelegramBot.objects.first()
     account = models.TelegramAccount.objects.first()
-    utils.telegram_bot_sendtext(bot.telegram_token, account.chat_id, message)
+    return utils.telegram_bot_sendtext(bot.telegram_token, account.chat_id, message)
