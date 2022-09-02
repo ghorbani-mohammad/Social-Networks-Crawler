@@ -226,7 +226,7 @@ def check_job_pages():
     for page in pages:
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
-        get_job_page_posts(f"#{page.name}", page.url)
+        get_job_page_posts(page.message, page.url)
         page.last_crawl_at = time
         page.save()
 
@@ -282,7 +282,7 @@ def get_job_page_posts(message, url):
                 By.CLASS_NAME, "job-card-container__link"
             ).get_attribute("href")
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            not_tasks.send_telegram_message(f"{message}\n\n{strip_tags(link)}")
+            not_tasks.send_telegram_message(message.replace("link", strip_tags(link)))
             time.sleep(4)
         except Exception as e:
             print("can't find element")
