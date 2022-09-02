@@ -231,6 +231,12 @@ def check_job_pages():
         page.save()
 
 
+def remove_redis_keys():
+    redis_keys = DUPLICATE_CHECKER.keys("*")
+    counter = DUPLICATE_CHECKER.delete(*redis_keys)
+    return counter
+
+
 def sort_by_most_recent(driver):
     filter_button = driver.find_elements(
         By.XPATH,
