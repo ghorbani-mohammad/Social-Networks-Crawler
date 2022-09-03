@@ -24,7 +24,7 @@ def get_driver():
 
 
 def scroll(driver, counter):
-    SCROLL_PAUSE_TIME = 0.5
+    SCROLL_PAUSE_TIME = 2
     last_height = driver.execute_script("return document.body.scrollHeight")
     scroll_counter = 0
     while True:
