@@ -200,6 +200,10 @@ def get_post_detail_v2(article):
         By.XPATH,
         ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
     ).text
+    detail["username"] = article.find_element(
+        By.XPATH,
+        ".//a[@role='link' and starts-with(@href,'/') and @tabindex='-1']",
+    ).text
     return detail
 
 
