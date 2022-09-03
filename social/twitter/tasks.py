@@ -180,6 +180,10 @@ def check_twitter_pages():
     pages = models.SearchPage.objects.filter(enable=True)
     for page in pages:
         crawl_search_page(page.pk)
+        page.last_crawl_at = timezone.localtime()
+        page.save()
+
+
 
 
 def crawl_search_page(page_id):
