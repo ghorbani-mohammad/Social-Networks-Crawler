@@ -244,8 +244,7 @@ def crawl_search_page(page_id):
                     raise Exception(resp["description"])
                 time.sleep(1)
         except Exception as e:
-            print(e)
-            print(body)
+            print(f"error: {e}, body: {body}")
             logger.error(e)
     time.sleep(2)
     driver.quit()
