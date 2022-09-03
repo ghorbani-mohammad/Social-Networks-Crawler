@@ -1,3 +1,12 @@
+# [0.7.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.6.0...v0.7.0) (2022-09-03)
+
+
+### Features
+
+* add terms-level-1 and level-2 to SearchPage in Twitter ([10d976f](https://github.com/ghorbani-mohammad/rasad-social/commit/10d976f00651007218eb4f26b9d670b45b7c0e0b))
+
+
+
 # [0.6.0](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.5.0...v0.6.0) (2022-09-03)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add blocked-keyword ([c0272fa](https://github.com/ghorbani-mohammad/rasad-social/commit/c0272fa318e89a057d3712db41b615af5057e78b))
-
-
-
-## [0.2.3](https://github.com/ghorbani-mohammad/rasad-social/compare/v0.2.2...v0.2.3) (2022-08-01)
-
-
-### Bug Fixes
-
-* remove-ignored-keywords task ([d44c45e](https://github.com/ghorbani-mohammad/rasad-social/commit/d44c45e4b113af505825fb8584e016948ef2cb49))
 
 
 
