@@ -204,6 +204,9 @@ def get_post_detail_v2(article):
         By.XPATH,
         ".//a[@role='link' and starts-with(@href,'/') and @tabindex='-1']",
     ).text
+    detail[
+        "link"
+    ] = f"https://twitter.com/{detail['username'].replace('@','')}/status/{detail['id']}"
     return detail
 
 
@@ -229,7 +232,9 @@ def crawl_search_page(page_id):
                             send = True
                             break
             if send:
-                not_tasks.send_telegram_message(strip_tags(body))
+                not_tasks.send_telegram_message(
+                    f"{strip_tags(body)}\n\n" + post_detail["link"]
+                )
                 time.sleep(1)
         except Exception as e:
             print(e)
