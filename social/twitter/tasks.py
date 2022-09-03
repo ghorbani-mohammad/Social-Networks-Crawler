@@ -184,6 +184,21 @@ def check_twitter_pages():
         page.save()
 
 
+def get_post_detail_v2(article):
+    detail = {}
+    detail["id"] = int(
+        article.find_element(
+            By.XPATH,
+            ".//a[@role='link' and @dir='auto' and @aria-label]",
+        )
+        .get_attribute("href")
+        .split("/")[-1]
+    )
+    detail["body"] = article.find_element(
+        By.XPATH,
+        ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
+    ).text
+    return detail
 
 
 def crawl_search_page(page_id):
