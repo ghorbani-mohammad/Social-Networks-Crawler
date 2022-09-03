@@ -5,9 +5,11 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from celery import shared_task
 from django.utils import timezone
+from django.utils.html import strip_tags
 from celery.utils.log import get_task_logger
 
 from . import models
+from notification import tasks as not_tasks
 from network import models as net_models
 from reusable.other import only_one_concurrency
 
