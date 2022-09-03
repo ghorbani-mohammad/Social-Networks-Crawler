@@ -1,4 +1,5 @@
 import time
+import redis
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -16,6 +17,7 @@ from reusable.other import only_one_concurrency
 logger = get_task_logger(__name__)
 MINUTE = 60
 TASKS_TIMEOUT = 1 * MINUTE
+DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
 
 
 def get_driver():
@@ -178,7 +180,6 @@ def get_twitter_post_comments(post_id):
 
 
 @shared_task()
-@only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def check_twitter_pages():
     pages = models.SearchPage.objects.filter(enable=True)
     for page in pages:
@@ -225,6 +226,9 @@ def crawl_search_page(page_id):
         try:
             post_detail = get_post_detail_v2(article)
             body = post_detail["body"]
+            if DUPLICATE_CHECKER.exists(post_detail["id"]):
+                continue
+            DUPLICATE_CHECKER.set(post_detail["id"], "", ex=86400 * 30)
             body = body.replace("#", "-").replace("&", "-")
             send = False
             for term in terms2:
@@ -234,12 +238,14 @@ def crawl_search_page(page_id):
                             send = True
                             break
             if send:
-                not_tasks.send_telegram_message(
-                    f"{strip_tags(body)}\n\n" + post_detail["link"]
-                )
+                body = f"{strip_tags(body)}\n\n" + post_detail["link"]
+                resp = not_tasks.send_telegram_message(body)
+                if not resp["ok"]:
+                    raise Exception(resp["description"])
                 time.sleep(1)
         except Exception as e:
             print(e)
+            print(body)
             logger.error(e)
     time.sleep(2)
     driver.quit()
