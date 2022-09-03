@@ -178,6 +178,7 @@ def get_twitter_post_comments(post_id):
 
 
 @shared_task()
+@only_one_concurrency(key="browser", timeout=TASKS_TIMEOUT)
 def check_twitter_pages():
     pages = models.SearchPage.objects.filter(enable=True)
     for page in pages:
@@ -219,6 +220,7 @@ def crawl_search_page(page_id):
     articles = driver.find_elements(By.TAG_NAME, "article")
     terms1 = page.terms_level_1.split() if page.terms_level_1 else []
     terms2 = page.terms_level_2.split() if page.terms_level_2 else []
+    print(f"found {len(articles)} tweets")
     for article in articles:
         try:
             post_detail = get_post_detail_v2(article)
