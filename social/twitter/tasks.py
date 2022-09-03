@@ -214,7 +214,7 @@ def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
     driver.get(page.url)
-    scroll(driver, 15)
+    scroll(driver, 20)
     time.sleep(5)
     articles = driver.find_elements(By.TAG_NAME, "article")
     terms1 = page.terms_level_1.split() if page.terms_level_1 else []
