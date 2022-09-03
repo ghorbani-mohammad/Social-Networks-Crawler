@@ -210,14 +210,13 @@ def crawl_search_page(page_id):
     scroll(driver, 15)
     time.sleep(5)
     articles = driver.find_elements(By.TAG_NAME, "article")
-    print(len(articles))
+    terms1 = page.terms_level_1.split() if page.terms_level_1 else []
+    terms2 = page.terms_level_2.split() if page.terms_level_2 else []
     for article in articles:
         try:
             post_detail = get_post_detail_v2(article)
             body = post_detail["body"]
             body = body.replace("#", "-").replace("&", "-")
-            terms1 = page.terms_level_1.split() if page.terms_level_1 else []
-            terms2 = page.terms_level_2.split() if page.terms_level_2 else []
             send = False
             for term in terms2:
                 if term in body:
