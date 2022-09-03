@@ -202,4 +202,17 @@ def get_post_detail_v2(article):
 
 
 def crawl_search_page(page_id):
-    pass
+    page = models.SearchPage.objects.get(pk=page_id)
+    driver = get_driver()
+    driver.get(page.url)
+    scroll(driver, 10)
+    time.sleep(5)
+    articles = driver.find_elements(By.TAG_NAME, "article")
+    print(len(articles))
+    for article in articles:
+        try:
+            post_detail = get_post_detail_v2(article)
+        except Exception as e:
+            logger.error(e)
+    time.sleep(2)
+    driver.quit()
