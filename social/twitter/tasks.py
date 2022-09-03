@@ -7,6 +7,7 @@ from celery import shared_task
 from django.utils import timezone
 from celery.utils.log import get_task_logger
 
+from . import models
 from network import models as net_models
 from reusable.other import only_one_concurrency
 
@@ -172,3 +173,14 @@ def get_twitter_post_comments(post_id):
             print(e)
             logger.error(e)
     driver.quit()
+
+
+@shared_task()
+def check_twitter_pages():
+    pages = models.SearchPage.objects.filter(enable=True)
+    for page in pages:
+        crawl_search_page(page.pk)
+
+
+def crawl_search_page(page_id):
+    pass
