@@ -218,13 +218,13 @@ def crawl_search_page(page_id):
     driver.get(page.url)
     scroll(driver, 20)
     time.sleep(5)
-    articles = driver.find_elements(By.TAG_NAME, "article")
+    tweets = driver.find_elements(By.TAG_NAME, "article")
     terms1 = page.terms_level_1.split() if page.terms_level_1 else []
     terms2 = page.terms_level_2.split() if page.terms_level_2 else []
-    print(f"found {len(articles)} tweets")
-    for article in articles:
+    print(f"found {len(tweets)} tweets")
+    for tweet in tweets:
         try:
-            post_detail = get_post_detail_v2(article)
+            post_detail = get_post_detail_v2(tweet)
             body = post_detail["body"]
             if DUPLICATE_CHECKER.exists(post_detail["id"]):
                 continue
