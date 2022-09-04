@@ -183,6 +183,7 @@ def get_twitter_post_comments(post_id):
 def check_twitter_pages():
     pages = models.SearchPage.objects.filter(enable=True)
     for page in pages:
+        print(f"Crawling search-page {page.pk} started")
         crawl_search_page(page.pk)
         page.last_crawl_at = timezone.localtime()
         page.save()
