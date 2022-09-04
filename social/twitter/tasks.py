@@ -216,35 +216,42 @@ def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
     driver.get(page.url)
-    scroll(driver, 20)
     time.sleep(5)
-    tweets = driver.find_elements(By.TAG_NAME, "article")
-    terms1 = page.terms_level_1.split() if page.terms_level_1 else []
-    terms2 = page.terms_level_2.split() if page.terms_level_2 else []
-    print(f"found {len(tweets)} tweets")
-    for tweet in tweets:
-        try:
-            post_detail = get_post_detail_v2(tweet)
-            body = post_detail["body"]
-            if DUPLICATE_CHECKER.exists(post_detail["id"]):
-                continue
-            DUPLICATE_CHECKER.set(post_detail["id"], "", ex=86400 * 30)
-            body = body.replace("#", "-").replace("&", "-")
-            send = False
-            for term in terms2:
-                if term in body:
-                    for term in terms1:
-                        if term in body:
-                            send = True
-                            break
-            if send:
-                body = f"{strip_tags(body)}\n\n" + post_detail["link"]
-                resp = not_tasks.send_telegram_message(body)
-                if not resp["ok"]:
-                    raise Exception(resp["description"])
-                time.sleep(1)
-        except Exception as e:
-            print(f"error: {e}, body: {body}")
-            logger.error(e)
+    scroll_counter = 0
+    while scroll_counter < 1:
+        tweets = driver.find_elements(By.TAG_NAME, "article")
+        terms1 = page.terms_level_1.split() if page.terms_level_1 else []
+        terms2 = page.terms_level_2.split() if page.terms_level_2 else []
+        print(f"found {len(tweets)} tweets")
+        for tweet in tweets:
+            try:
+                driver.execute_script("arguments[0].scrollIntoView();", tweet)
+                post_detail = get_post_detail_v2(tweet)
+                body = post_detail["body"]
+                if DUPLICATE_CHECKER.exists(post_detail["id"]):
+                    print(f"{post_detail['id']} exists")
+                    continue
+                print(f"{post_detail['id']} NOT exists")
+                DUPLICATE_CHECKER.set(post_detail["id"], "", ex=86400 * 30)
+                body = body.replace("#", "-").replace("&", "-")
+                send = False
+                for term in terms2:
+                    if term in body:
+                        for term in terms1:
+                            if term in body:
+                                send = True
+                                break
+                if send:
+                    body = f"{strip_tags(body)}\n\n" + post_detail["link"]
+                    resp = not_tasks.send_telegram_message(body)
+                    if not resp["ok"]:
+                        raise Exception(resp["description"])
+                    time.sleep(1)
+            except Exception as e:
+                print(f"error: {e}, body: {body}")
+                logger.error(e)
+        scroll(driver, 1)
+        time.sleep(10)
+        scroll_counter += 1
     time.sleep(2)
     driver.quit()
