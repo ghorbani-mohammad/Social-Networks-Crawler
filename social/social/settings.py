@@ -9,6 +9,10 @@ SERVER_IP = env.str("SERVER_IP")
 SECRET_KEY = env.str("SECRET_KEY")
 BACKEND_URL = env.str("BACKEND_URL")
 ALLOWED_HOSTS = [env.str("ALLOWED_HOSTS")]
+CSRF_TRUSTED_ORIGINS = [
+    f'http://{env.str("ALLOWED_HOSTS")}',
+    f'https://{env.str("ALLOWED_HOSTS")}',
+]
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 LOCAL = "local"
