@@ -179,8 +179,8 @@ def run_telegram(account_id):
             for username in await unjoined_channels():
                 print(f"channel {username} must joined")
                 await join_channel(username)
-                await asyncio.sleep(60 * MINUTE)
-            await asyncio.sleep(60 * MINUTE)
+                await asyncio.sleep(1 * MINUTE)
+            await asyncio.sleep(5 * MINUTE)
 
     async def get_messsage_statics(channel_username, message_ids):
         result = await client(
