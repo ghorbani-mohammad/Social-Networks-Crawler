@@ -1,3 +1,4 @@
+import redis
 from pytz import timezone as tz
 
 from django.contrib import admin
@@ -114,6 +115,12 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 @admin.register(models.Config)
 class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     list_display = ("pk", "crawl_linkedin_feed")
+
+    def flush_views_cache(self, request, queryset):
+        redis_db = redis.StrictRedis(host="social_redis", port=6379, db=15)
+        redis_db.flushdb()
+
+    actions = [flush_views_cache]
 
 
 @admin.register(models.ChannelListExport)
