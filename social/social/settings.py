@@ -140,6 +140,6 @@ TELEGRAM_API_HASH = env.str("TELEGRAM_API_HASH")
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://social_redis:6379/15",
+        "LOCATION": "redis://social_redis:6379/15",  # Some db numbers already used
     }
 }
