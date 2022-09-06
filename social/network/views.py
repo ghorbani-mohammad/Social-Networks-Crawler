@@ -143,7 +143,15 @@ class SearchCountAPIView(ListAPIView):
             data["date_after"],
             data["date_before"],
         )
-        response.data["channels_statistics"] = utils.get_channels_statistics(qs)
+        temp = utils.get_channels_statistics(qs)
+        temp["all_enabled_channels_count"] = models.Channel.objects.filter(
+            status=True
+        ).count()
+        temp["channels_not_talked_about_term_count"] = (
+            temp["all_enabled_channels_count"]
+            - temp["channels_talked_about_term_count"]
+        )
+        response.data["channels_statistics"] = temp
         return response
 
 
