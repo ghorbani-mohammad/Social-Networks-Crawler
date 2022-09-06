@@ -8,7 +8,7 @@ DEBUG = env.bool("DEBUG")
 SERVER_IP = env.str("SERVER_IP")
 SECRET_KEY = env.str("SECRET_KEY")
 BACKEND_URL = env.str("BACKEND_URL")
-ALLOWED_HOSTS = [env.str("ALLOWED_HOSTS")]
+ALLOWED_HOSTS = ["localhost", env.str("ALLOWED_HOSTS")]
 CSRF_TRUSTED_ORIGINS = [
     f'http://{env.str("ALLOWED_HOSTS")}',
     f'https://{env.str("ALLOWED_HOSTS")}',
