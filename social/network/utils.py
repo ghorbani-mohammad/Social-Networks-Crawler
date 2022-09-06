@@ -271,6 +271,7 @@ def get_channels_statistics(queryset):
         .annotate(count=Count("channel"))
         .order_by("-count")
     )
+    print(channels)
     channels = channels[: min(CHANNEL_NUMBER, len(channels))]
     channels = [
         {"channel": channel["channel__name"], "count": channel["count"]}
