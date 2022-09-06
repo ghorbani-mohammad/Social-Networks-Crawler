@@ -135,3 +135,11 @@ LINKEDIN_PASSWORD = env.str("LINKEDIN_PASSWORD")
 # Telegram account auth
 TELEGRAM_API_ID = env.str("TELEGRAM_API_ID")
 TELEGRAM_API_HASH = env.str("TELEGRAM_API_HASH")
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://social_redis:6379/15",
+    }
+}

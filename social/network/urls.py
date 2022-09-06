@@ -1,5 +1,6 @@
 from django.urls import path
 from rest_framework.routers import SimpleRouter
+from django.views.decorators.cache import cache_page
 
 from . import views
 
@@ -10,9 +11,19 @@ router.register("tag", views.TagViewSet, basename="tag")
 router.register("post", views.PostViewSet, basename="post")
 router.register("backup", views.BackupViewSet, basename="backup")
 urlpatterns = [
-    path("count_post/", views.PostCountAPIView.as_view(), name="count-post"),
-    path("search_post/", views.SearchCountAPIView.as_view(), name="search-post"),
-    path("keyword/", views.KeywordAPIView.as_view(), name="keyword"),
+    path(
+        "count_post/",
+        cache_page(3 * 60)(views.PostCountAPIView.as_view()),
+        name="count-post",
+    ),
+    path(
+        "search_post/",
+        cache_page(3 * 60)(views.SearchCountAPIView.as_view()),
+        name="search-post",
+    ),
+    path(
+        "keyword/", cache_page(3 * 60)(views.KeywordAPIView.as_view()), name="keyword"
+    ),
 ]
 
 urlpatterns += router.urls
