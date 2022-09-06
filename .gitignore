@@ -15,6 +15,7 @@ local_settings.py
 social/celerybeat-schedule
 social/celerybeat.pid
 social/static
+static
 telegram_sessions/
 todo
 venv
