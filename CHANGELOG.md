@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v0.8.0...v1.2.0) (2022-09-06)
+
+
+### Features
+
+* minor change ([ba83725](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ba83725c1d1a1df7e906dda24cb925e82ab7fc54))
+
+
+
 # [0.8.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.0.0...v0.8.0) (2022-09-06)
 
 
@@ -26,15 +35,6 @@
 ### Features
 
 * add SearchPage for Twitter ([0c7c984](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/0c7c9847f88b31cf77d7d32b3dbcfe5dd8a4a65e))
-
-
-
-# [0.5.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v0.4.0...v0.5.0) (2022-09-01)
-
-
-### Features
-
-* add sort-by-date to job page ([b30fd26](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/b30fd2618350c3bab9ffd52e2ba37fc1e5835ccf))
 
 
 
