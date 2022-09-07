@@ -13,16 +13,16 @@ router.register("backup", views.BackupViewSet, basename="backup")
 urlpatterns = [
     path(
         "count_post/",
-        cache_page(15 * 60)(views.PostCountAPIView.as_view()),
+        cache_page(20 * 60)(views.PostCountAPIView.as_view()),
         name="count-post",
     ),
     path(
         "search_post/",
-        cache_page(15 * 60)(views.SearchCountAPIView.as_view()),
+        cache_page(20 * 60)(views.SearchCountAPIView.as_view()),
         name="search-post",
     ),
     path(
-        "keyword/", cache_page(15 * 60)(views.KeywordAPIView.as_view()), name="keyword"
+        "keyword/", cache_page(20 * 60)(views.KeywordAPIView.as_view()), name="keyword"
     ),
 ]
 
