@@ -10,4 +10,4 @@ class TelegramBot(BaseModel):
 
 class TelegramAccount(BaseModel):
     name = models.CharField(max_length=50)
-    chat_id = models.CharField(max_length=10)
+    chat_id = models.CharField(max_length=100)
