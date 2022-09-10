@@ -244,9 +244,7 @@ def crawl_search_page(page_id):
                                 break
                 if send:
                     body = f"{strip_tags(body)}\n\n" + post_detail["link"]
-                    resp = not_tasks.send_telegram_message(body)
-                    if not resp["ok"]:
-                        raise Exception(resp["description"])
+                    not_tasks.send_telegram_message(body)
                     time.sleep(1)
             except Exception as e:
                 print(f"error: {e}, body: {body}")
