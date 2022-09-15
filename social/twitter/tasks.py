@@ -221,8 +221,8 @@ def crawl_search_page(page_id):
     scroll_counter = 0
     while scroll_counter < 1:
         tweets = driver.find_elements(By.TAG_NAME, "article")
-        terms1 = page.terms_level_1.split() if page.terms_level_1 else []
-        terms2 = page.terms_level_2.split() if page.terms_level_2 else []
+        terms1 = page.terms_level_1.split("+") if page.terms_level_1 else []
+        terms2 = page.terms_level_2.split("+") if page.terms_level_2 else []
         print(f"found {len(tweets)} tweets")
         for tweet in tweets:
             try:
