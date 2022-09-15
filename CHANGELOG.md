@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.2.1...v1.3.0) (2022-09-15)
+
+
+### Features
+
+* add email logging ([8ab1bbe](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8ab1bbeda2f0cef174a0836dd9ee8e32378143a5))
+
+
+
 ## [1.2.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.2.0...v1.2.1) (2022-09-10)
 
 
@@ -26,15 +35,6 @@
 
 
 # [1.0.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v0.7.0...v1.0.0) (2022-09-05)
-
-
-
-# [0.7.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v0.6.0...v0.7.0) (2022-09-03)
-
-
-### Features
-
-* add terms-level-1 and level-2 to SearchPage in Twitter ([10d976f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/10d976f00651007218eb4f26b9d670b45b7c0e0b))
 
 
 
