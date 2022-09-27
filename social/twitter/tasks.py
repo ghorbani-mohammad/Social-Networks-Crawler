@@ -2,6 +2,7 @@ import time
 import redis
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import SessionNotCreatedException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from celery import shared_task
@@ -21,10 +22,14 @@ DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
 
 
 def get_driver():
-    return webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    try:
+        return webdriver.Remote(
+            "http://social_firefox:4444/wd/hub",
+            DesiredCapabilities.FIREFOX,
+        )
+    except SessionNotCreatedException as e:
+        logger.error(e)
+        return
 
 
 def scroll(driver, counter):
@@ -216,6 +221,7 @@ def get_post_detail_v2(article):
 def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
+
     driver.get(page.url)
     time.sleep(5)
     scroll_counter = 0
