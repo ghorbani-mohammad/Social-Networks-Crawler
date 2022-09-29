@@ -182,7 +182,7 @@ def run_telegram(account_id):
                 await asyncio.sleep(1 * MINUTE)
             await asyncio.sleep(5 * MINUTE)
 
-    async def get_messsage_statics(channel_username, message_ids):
+    async def get_message_statics(channel_username, message_ids):
         result = await client(
             functions.messages.GetMessagesViewsRequest(
                 peer=channel_username, id=message_ids, increment=False
@@ -199,7 +199,7 @@ def run_telegram(account_id):
                 post_ids = await channel_posts(username)
                 if len(post_ids) == 0:
                     continue
-                await get_messsage_statics(username, post_ids)
+                await get_message_statics(username, post_ids)
                 await asyncio.sleep(2 * MINUTE)
             await asyncio.sleep(20 * MINUTE)
 
