@@ -4,6 +4,7 @@ import pickle
 import traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -26,10 +27,13 @@ DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
 
 def get_driver():
-    return webdriver.Remote(
-        "http://social_firefox:4444/wd/hub",
-        DesiredCapabilities.FIREFOX,
-    )
+    try:
+        return webdriver.Remote(
+            "http://social_firefox:4444/wd/hub",
+            DesiredCapabilities.FIREFOX,
+        )
+    except MaxRetryError as e:
+        logger.error("Couldn't create browser session.")
 
 
 @shared_task()
