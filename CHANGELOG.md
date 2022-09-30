@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.3.0...v1.3.1) (2022-09-30)
+
+
+### Bug Fixes
+
+* add MaxRetryError for browser session handling ([8c56e4c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8c56e4caf84f29b340307a736002c56cdcb10e4d))
+
+
+
 # [1.3.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.2.1...v1.3.0) (2022-09-15)
 
 
@@ -31,10 +40,6 @@
 ### Features
 
 * add caching to count_post, search_post, keyword apis ([0530932](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/0530932b1a2aff0c78b72160f4be5cc46613ca49))
-
-
-
-# [1.0.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v0.7.0...v1.0.0) (2022-09-05)
 
 
 
