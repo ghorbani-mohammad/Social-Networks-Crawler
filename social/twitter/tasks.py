@@ -2,6 +2,7 @@ import time
 import redis
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from urllib3.exceptions import MaxRetryError
 from selenium.common.exceptions import SessionNotCreatedException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
@@ -29,7 +30,8 @@ def get_driver():
         )
     except SessionNotCreatedException as e:
         logger.error(e)
-        return
+    except MaxRetryError as e:
+        logger.error("Couldn't create browser session.")
 
 
 def scroll(driver, counter):
