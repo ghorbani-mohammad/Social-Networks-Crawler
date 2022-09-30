@@ -172,16 +172,19 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
                 "class": "django.utils.log.AdminEmailHandler",
                 "formatter": "simple",
             },
+            "console": {
+                "class": "logging.StreamHandler",
+            },
         },
         "loggers": {
             # all modules
             "": {
-                "handlers": ["mail_admins"],
+                "handlers": ["mail_admins", "console"],
                 "level": "ERROR",
                 "propagate": False,
             },
             "celery": {
-                "handlers": ["mail_admins"],
+                "handlers": ["mail_admins", "console"],
                 "level": "ERROR",
                 "propagate": False,
             },
