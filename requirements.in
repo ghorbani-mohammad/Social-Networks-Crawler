@@ -1,4 +1,3 @@
-
 celery
 django
 django-cors-headers
