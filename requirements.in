@@ -7,11 +7,11 @@ djangorestframework
 envparse
 gunicorn
 ipython
-linkedin-scraper==2.9.0 
+linkedin-scraper==2.9.0
 openpyxl
 pip-tools
 psycopg2-binary
-pytest-django>=4.5.2 
+pytest-django>=4.5.2
 python-dateutil
 redis
 requests
