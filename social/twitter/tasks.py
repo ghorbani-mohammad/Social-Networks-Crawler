@@ -32,6 +32,8 @@ def get_driver():
         logger.error(e)
     except MaxRetryError as e:
         logger.error("Couldn't create browser session.")
+    # Should do appropriate action instead of exit (for example restarting docker)
+    exit()
 
 
 def scroll(driver, counter):
@@ -223,7 +225,6 @@ def get_post_detail_v2(article):
 def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
-
     driver.get(page.url)
     time.sleep(5)
     scroll_counter = 0
