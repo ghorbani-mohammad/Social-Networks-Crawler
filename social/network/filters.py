@@ -32,7 +32,12 @@ class PostFilter(FilterSet):
 
     class Meta:
         model = models.Post
-        fields = ["channels", "networks", "date", "tags"]
+        fields = (
+            "channels",
+            "networks",
+            "date",
+            "tags",
+        )
 
 
 def keyword_filter_by_channel_ids(queryset, name, value):
@@ -58,7 +63,12 @@ class KeywordFilter(FilterSet):
 
     class Meta:
         model = models.Keyword
-        fields = ["channels", "networks", "date", "tags"]
+        fields = (
+            "channels",
+            "networks",
+            "date",
+            "tags",
+        )
 
 
 def channel_filter_by_network_ids(queryset, name, value):
@@ -72,4 +82,7 @@ class ChannelFilter(FilterSet):
 
     class Meta:
         model = models.Channel
-        fields = ["status", "networks"]
+        fields = (
+            "status",
+            "networks",
+        )
