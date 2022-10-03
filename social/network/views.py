@@ -53,7 +53,9 @@ class ChannelViewSet(ModelViewSet):
         rf_filters.OrderingFilter,
     ]
     filterset_class = filters.ChannelFilter
-    search_fields = ["username"]
+    search_fields = [
+        "username",
+    ]
     ordering_fields = ["username"]
 
 
