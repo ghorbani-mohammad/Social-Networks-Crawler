@@ -56,7 +56,9 @@ class ChannelViewSet(ModelViewSet):
     search_fields = [
         "username",
     ]
-    ordering_fields = ["username"]
+    ordering_fields = [
+        "username",
+    ]
 
 
 class PostViewSet(ModelViewSet):
