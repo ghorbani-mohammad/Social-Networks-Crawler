@@ -22,7 +22,9 @@ class NetworkViewSet(ModelViewSet):
         DjangoFilterBackend,
         rf_filters.OrderingFilter,
     ]
-    filterset_fields = ["status"]
+    filterset_fields = [
+        "status",
+    ]
     search_fields = [
         "name",
     ]
