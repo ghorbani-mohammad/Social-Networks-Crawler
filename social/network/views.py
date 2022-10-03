@@ -23,7 +23,9 @@ class NetworkViewSet(ModelViewSet):
         rf_filters.OrderingFilter,
     ]
     filterset_fields = ["status"]
-    search_fields = ["name"]
+    search_fields = [
+        "name",
+    ]
     ordering_fields = [
         "name",
     ]
