@@ -74,7 +74,10 @@ class PostViewSet(ModelViewSet):
     search_fields = [
         "body",
     ]
-    ordering_fields = ["views_count", "share_count"]
+    ordering_fields = [
+        "views_count",
+        "share_count",
+    ]
 
 
 class PostCountAPIView(ListAPIView):
