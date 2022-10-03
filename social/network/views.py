@@ -38,7 +38,9 @@ class TagViewSet(ModelViewSet):
     search_fields = [
         "name",
     ]
-    ordering_fields = ["name"]
+    ordering_fields = [
+        "name",
+    ]
 
 
 class ChannelViewSet(ModelViewSet):
