@@ -35,7 +35,9 @@ class TagViewSet(ModelViewSet):
         rf_filters.SearchFilter,
         rf_filters.OrderingFilter,
     ]
-    search_fields = ["name"]
+    search_fields = [
+        "name",
+    ]
     ordering_fields = ["name"]
 
 
