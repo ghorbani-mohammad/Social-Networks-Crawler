@@ -189,4 +189,7 @@ class BackupViewSet(ModelViewSet):
     serializer_class = serializers.BackupSerializer
     pagination_class = ListPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["type", "status"]
+    filterset_fields = [
+        "type",
+        "status",
+    ]
