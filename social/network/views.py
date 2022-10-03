@@ -71,7 +71,9 @@ class PostViewSet(ModelViewSet):
         rf_filters.OrderingFilter,
     ]
     filterset_fields = ["channel", "channel__network"]
-    search_fields = ["body"]
+    search_fields = [
+        "body",
+    ]
     ordering_fields = ["views_count", "share_count"]
 
 
