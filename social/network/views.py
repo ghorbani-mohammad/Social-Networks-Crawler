@@ -24,7 +24,9 @@ class NetworkViewSet(ModelViewSet):
     ]
     filterset_fields = ["status"]
     search_fields = ["name"]
-    ordering_fields = ["name"]
+    ordering_fields = [
+        "name",
+    ]
 
 
 class TagViewSet(ModelViewSet):
