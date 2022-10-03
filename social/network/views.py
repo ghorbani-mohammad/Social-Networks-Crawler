@@ -70,7 +70,10 @@ class PostViewSet(ModelViewSet):
         DjangoFilterBackend,
         rf_filters.OrderingFilter,
     ]
-    filterset_fields = ["channel", "channel__network"]
+    filterset_fields = [
+        "channel",
+        "channel__network",
+    ]
     search_fields = [
         "body",
     ]
