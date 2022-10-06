@@ -34,6 +34,8 @@ def get_driver():
         )
     except MaxRetryError as e:
         logger.error("Couldn't create browser session.")
+    # Should do appropriate action instead of exit (for example restarting docker)
+    exit()
 
 
 @shared_task()
