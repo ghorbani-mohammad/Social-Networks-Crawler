@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . import models
+from . import models, tasks
 from reusable.admins import ReadOnlyAdminDateFields
 
 
@@ -12,3 +12,9 @@ class JobPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "enable",
         "last_crawl_at",
     )
+
+    def crawl_page_action(modeladmin, request, queryset):
+        for page in queryset:
+            tasks.get_job_page_posts.delay(page.id)
+
+    actions = [crawl_page_action]
