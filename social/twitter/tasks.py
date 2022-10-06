@@ -222,6 +222,7 @@ def get_post_detail_v2(article):
     return detail
 
 
+@shared_task()
 def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
