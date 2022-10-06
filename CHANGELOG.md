@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.3.1...v1.4.0) (2022-10-06)
+
+
+### Features
+
+* add crawl-search-page (twitter) action ([f8059eb](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f8059eb031b7f2921c638689098836c28bbaee32))
+
+
+
 ## [1.3.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.3.0...v1.3.1) (2022-09-30)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * minor change ([ba83725](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ba83725c1d1a1df7e906dda24cb925e82ab7fc54))
-
-
-
-# [0.8.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.0.0...v0.8.0) (2022-09-06)
-
-
-### Features
-
-* add caching to count_post, search_post, keyword apis ([0530932](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/0530932b1a2aff0c78b72160f4be5cc46613ca49))
 
 
 
