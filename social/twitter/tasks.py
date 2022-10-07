@@ -212,10 +212,10 @@ def get_post_detail_v2(article):
         By.XPATH,
         ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
     ).text
-    detail["username"] = article.find_element(
+    detail["username"] = article.find_elements(
         By.XPATH,
         ".//a[@role='link' and starts-with(@href,'/') and @tabindex='-1']",
-    ).text
+    )[1].text
     detail[
         "link"
     ] = f"https://twitter.com/{detail['username'].replace('@','')}/status/{detail['id']}"
