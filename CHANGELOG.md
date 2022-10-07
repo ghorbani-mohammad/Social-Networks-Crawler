@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.4.0...v1.4.1) (2022-10-07)
+
+
+### Bug Fixes
+
+* issue on getting tweets username ([cc9690d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/cc9690d6dfeb9752d80a442cebec4a97137c6464))
+
+
+
 # [1.4.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.3.1...v1.4.0) (2022-10-06)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * send telegram message ([be5d8b4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/be5d8b4454e9f344ba1e6ad33f631aec551795df))
-
-
-
-# [1.2.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v0.8.0...v1.2.0) (2022-09-06)
-
-
-### Features
-
-* minor change ([ba83725](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ba83725c1d1a1df7e906dda24cb925e82ab7fc54))
 
 
 
