@@ -8,7 +8,7 @@ class TelegramBot(BaseModel):
     telegram_token = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.pk} - {self.name}"
+        return f"({self.pk} - {self.name})"
 
 
 class TelegramAccount(BaseModel):
@@ -16,4 +16,4 @@ class TelegramAccount(BaseModel):
     chat_id = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.pk} - {self.name}"
+        return f"({self.pk} - {self.name})"
