@@ -219,6 +219,7 @@ def get_post_detail_v2(article):
     detail[
         "link"
     ] = f"https://twitter.com/{detail['username'].replace('@','')}/status/{detail['id']}"
+    print(detail)
     return detail
 
 
