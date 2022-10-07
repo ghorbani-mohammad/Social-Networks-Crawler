@@ -5,7 +5,7 @@ from reusable.admins import ReadOnlyAdminDateFields
 
 
 @admin.register(models.JobPage)
-class JobPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class JobPageAdmin(admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
@@ -18,3 +18,4 @@ class JobPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
             tasks.get_job_page_posts.delay(page.id)
 
     actions = [crawl_page_action]
+    readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ('last_crawl_at',)
