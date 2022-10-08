@@ -69,10 +69,7 @@ class Channel(BaseModel):
     )
 
     class Meta:
-        unique_together = (
-            "network",
-            "username",
-        )
+        unique_together = ("network", "username")
 
     @property
     def today_posts_count(self):
