@@ -81,13 +81,7 @@ class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 @admin.register(models.Keyword)
 class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "get_post",
-        "keyword",
-        "ignored",
-        "get_created_at",
-    )
+    list_display = ("pk", "get_post", "keyword", "ignored", "get_created_at")
     raw_id_fields = ("post",)
 
     @admin.display(ordering="created_at", description="created_at")
