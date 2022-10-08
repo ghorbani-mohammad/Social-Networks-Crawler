@@ -9,3 +9,6 @@ class JobPage(BaseModel):
     enable = models.BooleanField(default=True)
     message = models.TextField(null=True, blank=True)
     last_crawl_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"({self.pk} - {self.name})"
