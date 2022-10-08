@@ -36,10 +36,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "today_posts_count",
         "created_at",
     )
-    list_filter = (
-        "network",
-        "language",
-    )
+    list_filter = ("network", "language")
 
     @admin.display(ordering="last_crawl", description="last_crawl")
     def get_last_crawl(self, instance):
@@ -55,9 +52,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
             elif channel.network.name == "Linkedin":
                 lin_tasks.get_linkedin_posts.delay(channel.pk)
 
-    actions = [
-        crawl,
-    ]
+    actions = [crawl]
 
 
 @admin.register(models.Post)
