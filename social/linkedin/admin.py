@@ -6,12 +6,7 @@ from reusable.admins import ReadOnlyAdminDateFields
 
 @admin.register(models.JobPage)
 class JobPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "name",
-        "enable",
-        "last_crawl_at",
-    )
+    list_display = ("pk", "name", "enable", "last_crawl_at")
 
     def crawl_page_action(modeladmin, request, queryset):
         for page in queryset:
