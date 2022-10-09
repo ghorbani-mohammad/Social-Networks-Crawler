@@ -5,7 +5,7 @@ from reusable.admins import ReadOnlyAdminDateFields
 
 
 @admin.register(models.SearchPage)
-class SearchPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class SearchPageAdmin(admin.ModelAdmin):
     list_display = ("pk", "name", "enable", "last_crawl_at")
 
     def crawl_page_action(modeladmin, request, queryset):
@@ -13,3 +13,4 @@ class SearchPageAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
             tasks.crawl_search_page.delay(page.id)
 
     actions = [crawl_page_action]
+    readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ('last_crawl_at',)
