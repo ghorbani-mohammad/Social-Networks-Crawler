@@ -11,6 +11,7 @@ router.register("tag", views.TagViewSet, basename="tag")
 router.register("post", views.PostViewSet, basename="post")
 router.register("backup", views.BackupViewSet, basename="backup")
 urlpatterns = [
+    path("test_error/", views.TestErrorView.as_view()),
     path(
         "count_post/",
         cache_page(20 * 60)(views.PostCountAPIView.as_view()),

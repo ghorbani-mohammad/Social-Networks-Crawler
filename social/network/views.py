@@ -1,3 +1,5 @@
+import logging
+
 from django.utils import timezone
 from rest_framework import filters as rf_filters
 from rest_framework.generics import ListAPIView
@@ -6,6 +8,8 @@ from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 
 from . import models, serializers, filters, utils
+
+logger = logging.getLogger(__name__)
 
 
 class ListPagination(PageNumberPagination):
@@ -205,3 +209,9 @@ class BackupViewSet(ModelViewSet):
         "type",
         "status",
     ]
+
+
+class TestErrorView(APIView):
+    def get(self, request, version):
+        logger.error("Exception happened for test purposes!!!")
+        raise Exception("Exception happened for test purposes!")
