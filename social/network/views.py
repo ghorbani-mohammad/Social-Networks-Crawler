@@ -141,7 +141,9 @@ class SearchCountAPIView(ListAPIView):
     pagination_class = ListPagination
     filter_backends = [rf_filters.SearchFilter, DjangoFilterBackend]
     filterset_class = filters.PostFilter
-    search_fields = ["body"]
+    search_fields = [
+        "body",
+    ]
 
     def filter_queryset(self, qs):
         operator = self.request.GET["operator"]
