@@ -17,5 +17,7 @@ class SearchPageAdmin(admin.ModelAdmin):
         for page in queryset:
             tasks.crawl_search_page.delay(page.id)
 
-    actions = [crawl_page_action]
+    actions = [
+        crawl_page_action,
+    ]
     readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ("last_crawl_at",)
