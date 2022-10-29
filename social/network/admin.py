@@ -125,7 +125,10 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 @admin.register(models.Config)
 class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = ("pk", "crawl_linkedin_feed")
+    list_display = (
+        "pk",
+        "crawl_linkedin_feed",
+    )
 
     def flush_views_cache(self, request, queryset):
         redis_db = redis.StrictRedis(host="social_redis", port=6379, db=15)
