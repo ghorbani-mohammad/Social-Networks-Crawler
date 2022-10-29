@@ -131,7 +131,9 @@ class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         redis_db = redis.StrictRedis(host="social_redis", port=6379, db=15)
         redis_db.flushdb()
 
-    actions = [flush_views_cache]
+    actions = [
+        flush_views_cache,
+    ]
 
 
 @admin.register(models.ChannelListExport)
