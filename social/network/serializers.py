@@ -12,13 +12,7 @@ class NetworkShortSerializer(serializers.ModelSerializer):
 class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Network
-        fields = (
-            "id",
-            "name",
-            "url",
-            "status",
-            "today_posts_count",
-        )
+        fields = ("id", "name", "url", "status", "today_posts_count")
 
 
 class ChannelShortSerializer(serializers.ModelSerializer):
