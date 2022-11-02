@@ -12,7 +12,5 @@ class JobPageAdmin(admin.ModelAdmin):
         for page in queryset:
             tasks.get_job_page_posts.delay(page.id)
 
-    actions = [
-        crawl_page_action,
-    ]
+    actions = [crawl_page_action]
     readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ("last_crawl_at",)
