@@ -57,11 +57,7 @@ class ChannelSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
-        fields = (
-            "id",
-            "name",
-            "created_at",
-        )
+        fields = ("id", "name", "created_at")
 
 
 class PostSerializer(serializers.ModelSerializer):
