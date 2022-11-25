@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.0...v1.5.1) (2022-11-25)
+
+
+### Bug Fixes
+
+* add django-setup to settings for db logging ([4ab1d3f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4ab1d3fd2adc80437e1039f03c29c2acc04a5e1d))
+
+
+
 # [1.5.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.4.1...v1.5.0) (2022-11-25)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * add MaxRetryError for browser session handling ([8c56e4c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8c56e4caf84f29b340307a736002c56cdcb10e4d))
-
-
-
-# [1.3.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.2.1...v1.3.0) (2022-09-15)
-
-
-### Features
-
-* add email logging ([8ab1bbe](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8ab1bbeda2f0cef174a0836dd9ee8e32378143a5))
 
 
 
