@@ -175,16 +175,19 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
             "console": {
                 "class": "logging.StreamHandler",
             },
+            "log_db": {
+                "class": "reusable.logging.DBHandler",
+            },
         },
         "loggers": {
             # all modules
             "": {
-                "handlers": ["mail_admins", "console"],
+                "handlers": ["mail_admins", "console", "log_db"],
                 "level": "ERROR",
                 "propagate": False,
             },
             "celery": {
-                "handlers": ["mail_admins", "console"],
+                "handlers": ["mail_admins", "console", "log_db"],
                 "level": "ERROR",
                 "propagate": False,
             },

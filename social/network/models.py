@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.db import models, transaction
 from django.core.validators import MinValueValidator
+from django.template.defaultfilters import truncatechars
 
 from . import tasks
 from reusable.models import BaseModel
@@ -215,3 +216,13 @@ class BlockedKeyword(BaseModel):
 
     def __str__(self):
         return f"({self.pk} - {self.keyword})"
+
+
+class Log(models.Model):
+    time = models.DateTimeField(auto_now_add=True)
+    level = models.CharField(max_length=10)
+    message = models.TextField()
+
+    @property
+    def short_message(self):
+        return truncatechars(self.message, 50)
