@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.4.1...v1.5.0) (2022-11-25)
+
+
+### Features
+
+* add db logging ([ff5a2f5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ff5a2f55bd7c2215b5274144260e4e8078714419))
+
+
+
 ## [1.4.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.4.0...v1.4.1) (2022-10-07)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add email logging ([8ab1bbe](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8ab1bbeda2f0cef174a0836dd9ee8e32378143a5))
-
-
-
-## [1.2.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.2.0...v1.2.1) (2022-09-10)
-
-
-### Bug Fixes
-
-* send telegram message ([be5d8b4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/be5d8b4454e9f344ba1e6ad33f631aec551795df))
 
 
 
