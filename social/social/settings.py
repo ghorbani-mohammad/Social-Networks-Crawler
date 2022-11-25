@@ -1,4 +1,5 @@
 import os
+import django
 import sentry_sdk
 from pathlib import Path
 from envparse import env
@@ -158,6 +159,7 @@ SERVER_EMAIL = EMAIL_HOST_USER
 ADMIN_EMAIL_LOG = env("ADMIN_EMAIL_LOG", default=None)
 ADMINS = (("Log Admin", ADMIN_EMAIL_LOG),)
 
+django.setup()  # we need setup django to have access to apps
 # Logging (Just Email Handler)
 if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
     LOGGING = {
