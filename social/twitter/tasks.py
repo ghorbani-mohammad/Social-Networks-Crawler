@@ -236,6 +236,7 @@ def crawl_search_page(page_id):
         print(f"found {len(tweets)} tweets")
         for tweet in tweets:
             try:
+                body = None
                 driver.execute_script("arguments[0].scrollIntoView();", tweet)
                 post_detail = get_post_detail_v2(tweet)
                 body = post_detail["body"]
