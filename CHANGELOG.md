@@ -1,3 +1,12 @@
+## [1.5.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.1...v1.5.2) (2022-11-30)
+
+
+### Bug Fixes
+
+* change twitter post id xpath ([ea21e78](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ea21e7809c2ec22de3967cc69be240b974921fe5))
+
+
+
 ## [1.5.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.0...v1.5.1) (2022-11-25)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add crawl-search-page (twitter) action ([f8059eb](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f8059eb031b7f2921c638689098836c28bbaee32))
-
-
-
-## [1.3.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.3.0...v1.3.1) (2022-09-30)
-
-
-### Bug Fixes
-
-* add MaxRetryError for browser session handling ([8c56e4c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8c56e4caf84f29b340307a736002c56cdcb10e4d))
 
 
 
