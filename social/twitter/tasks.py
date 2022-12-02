@@ -28,9 +28,11 @@ def get_driver():
             DesiredCapabilities.FIREFOX,
         )
     except SessionNotCreatedException as e:
-        logger.error(e)
+        error = f"{e}\n\n\n{traceback.format_exc()}"
+        logger.error(error)
     except MaxRetryError as e:
-        logger.error("Couldn't create browser session.")
+        error = f"{e}\n\n\n{traceback.format_exc()}"
+        logger.error(f"Couldn't create browser session. {error}")
     # Should do appropriate action instead of exit (for example restarting docker)
     exit()
 
