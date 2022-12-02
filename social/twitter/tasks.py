@@ -34,7 +34,7 @@ def get_driver():
         error = f"{e}\n\n\n{traceback.format_exc()}"
         logger.error(f"Couldn't create browser session. {error}")
     # Should do appropriate action instead of exit (for example restarting docker)
-    exit()
+    # exit()
 
 
 def scroll(driver, counter):
@@ -227,6 +227,8 @@ def get_post_detail_v2(article):
 def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
+    if driver is None:
+        return
     try:
         driver.get(page.url)
     except TimeoutException as e:
