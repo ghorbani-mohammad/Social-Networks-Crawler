@@ -202,7 +202,7 @@ def get_post_detail_v2(article):
     detail["id"] = int(
         article.find_element(
             By.XPATH,
-            ".//a[@role='link' and @dir= and @aria-label and not(contains(@tabindex,'-1'))]",
+            ".//a[@role='link' and @dir= and @aria-label and not(@tabindex)]",
         )
         .get_attribute("href")
         .split("/")[-1]
