@@ -1,10 +1,9 @@
-import time
-import redis
+import time, redis, traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from urllib3.exceptions import MaxRetryError
-from selenium.common.exceptions import SessionNotCreatedException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.common.exceptions import SessionNotCreatedException, TimeoutException
 
 from celery import shared_task
 from django.utils import timezone
@@ -226,7 +225,16 @@ def get_post_detail_v2(article):
 def crawl_search_page(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
-    driver.get(page.url)
+    try:
+        driver.get(page.url)
+    except TimeoutException as e:
+        warning = f"{e}\n\n\n{traceback.format_exc()}"
+        logger.warning(warning)
+        return
+    except Exception as e:
+        error = f"{e}\n\n\n{traceback.format_exc()}"
+        logger.error(error)
+        return
     time.sleep(5)
     scroll_counter = 0
     while scroll_counter < 1:
