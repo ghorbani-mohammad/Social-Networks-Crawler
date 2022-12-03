@@ -7,9 +7,9 @@ from . import views
 router = SimpleRouter()
 router.register("tag", views.TagViewSet, basename="tag")
 router.register("post", views.PostViewSet, basename="post")
+router.register("backup", views.BackupViewSet, basename="backup")
 router.register("network", views.NetworkViewSet, basename="network")
 router.register("channel", views.ChannelViewSet, basename="channel")
-router.register("backup", views.BackupViewSet, basename="backup")
 urlpatterns = [
     path("test_error/", views.TestErrorView.as_view()),
     path(
