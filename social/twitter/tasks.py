@@ -33,8 +33,6 @@ def get_driver():
     except MaxRetryError as e:
         error = f"{e}\n\n\n{traceback.format_exc()}"
         logger.error(f"Couldn't create browser session. {error}")
-    # Should do appropriate action instead of exit (for example restarting docker)
-    # exit()
 
 
 def scroll(driver, counter):
