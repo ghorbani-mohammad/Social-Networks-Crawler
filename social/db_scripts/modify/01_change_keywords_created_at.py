@@ -6,8 +6,8 @@ import django
 
 
 def initial():
-    sys.path.append('../..')
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'social.settings'
+    sys.path.append("../..")
+    os.environ["DJANGO_SETTINGS_MODULE"] = "social.settings"
     django.setup()
 
 
