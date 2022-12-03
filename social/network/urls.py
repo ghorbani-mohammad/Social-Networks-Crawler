@@ -5,9 +5,9 @@ from django.views.decorators.cache import cache_page
 from . import views
 
 router = SimpleRouter()
+router.register("tag", views.TagViewSet, basename="tag")
 router.register("network", views.NetworkViewSet, basename="network")
 router.register("channel", views.ChannelViewSet, basename="channel")
-router.register("tag", views.TagViewSet, basename="tag")
 router.register("post", views.PostViewSet, basename="post")
 router.register("backup", views.BackupViewSet, basename="backup")
 urlpatterns = [
