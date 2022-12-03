@@ -8,8 +8,8 @@ import django
 
 
 def initial():
-    sys.path.append('../..')
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'social.settings'
+    sys.path.append("../..")
+    os.environ["DJANGO_SETTINGS_MODULE"] = "social.settings"
     django.setup()
 
 
@@ -18,12 +18,12 @@ initial()
 from network.models import Channel, Post
 
 channel_ids = list(
-    Channel.objects.filter(network__name='Telegram').values_list('id', flat=True)
+    Channel.objects.filter(network__name="Telegram").values_list("id", flat=True)
 )
 
-sheet = load_workbook(filename='/app/Book1.xlsx').active
-texts = [cell.value for cell in sheet['C']]
-dates = [cell.value for cell in sheet['B']]
+sheet = load_workbook(filename="/app/Book1.xlsx").active
+texts = [cell.value for cell in sheet["C"]]
+dates = [cell.value for cell in sheet["B"]]
 
 for index, text in enumerate(texts):
     index = index + 1
