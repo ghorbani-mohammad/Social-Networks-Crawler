@@ -124,6 +124,12 @@ def extract_sentiment(post_id):
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_categories(post_id):
+    """We get categories of a post by using external api.
+    We send the body of a post to the api and get result in shape of category_a: 20%
+
+    Args:
+        post_id (int): id of the post
+    """
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         resp = requests.post(
