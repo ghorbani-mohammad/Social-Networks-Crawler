@@ -107,6 +107,12 @@ def extract_ner(post_id):
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_sentiment(post_id):
+    """We get sentiment by using external api.
+    We send body of a post to the api
+
+    Args:
+        post_id (int): id of the post
+    """
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         resp = requests.post(
