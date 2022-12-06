@@ -160,6 +160,13 @@ def check_channels_crawl():
 
 @shared_task()
 def take_backup(backup_id):
+    """This task creates a backup from our postgres database.
+    This backup will be created in a sql.gz file type and then will
+    be saved in the filesystem.
+
+    Args:
+        backup_id (int): id of backup row in the administration panel. (Admin create a row and then we run this task)
+    """
     backup = models.Backup.objects.get(pk=backup_id)
     date_time = backup.created_at.strftime("%d-%m-%Y-%H_%M_%S")
     if backup.type == models.Backup.RASAD_1:
