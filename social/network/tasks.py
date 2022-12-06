@@ -203,6 +203,12 @@ def take_backup(backup_id):
 
 @shared_task()
 def export_channel_list(export_id):
+    """This function create a list of channel in a excel file.
+    User can download that file.
+
+    Args:
+        export_id (int): This is the id of the report. (Admin first create report row. then we run this task.)
+    """
     channels = models.Channel.objects.all()
     workbook = Workbook()
     worksheet = workbook.active
