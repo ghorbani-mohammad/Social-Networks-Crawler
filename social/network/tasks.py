@@ -48,6 +48,14 @@ class BaseTaskWithRetry(Task):
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
+    """We extract keywords for external service. We call an external api by post body
+    We also consider ignored and blocked words
+    We will delete blocked words
+    We will ignore ignored words (we still save those into db)
+
+    Args:
+        post_id (int): id of a post
+    """
     post = models.Post.objects.get(id=post_id)
     ignored_keywords = list(
         models.IgnoredKeyword.objects.values_list("keyword", flat=True)
