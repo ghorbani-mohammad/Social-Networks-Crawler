@@ -82,6 +82,13 @@ def extract_keywords(post_id):
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_ner(post_id):
+    """We extract net entities from external service.
+    We call an external api and send post's body to it and then
+    Store result to db.
+
+    Args:
+        post_id (int): id of the post
+    """
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         endpoint = None
