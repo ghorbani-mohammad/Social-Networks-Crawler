@@ -264,4 +264,7 @@ def remove_blocked_keywords():
 
 @shared_task()
 def test_error():
+    """This is a test function
+    We use it to check if our logger works correctly.
+    """
     logger.error("error")
