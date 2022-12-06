@@ -54,7 +54,7 @@ def extract_keywords(post_id):
     We will ignore ignored words (we still save those into db)
 
     Args:
-        post_id (int): id of a post
+        post_id (int): id of the post
     """
     post = models.Post.objects.get(id=post_id)
     ignored_keywords = list(
