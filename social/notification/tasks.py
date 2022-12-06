@@ -5,6 +5,14 @@ from . import models, utils
 
 @shared_task()
 def send_telegram_message(message):
+    """This function gets a string message and sends it to all defined accounts.
+
+    Args:
+        message (str): text message
+
+    Raises:
+        Exception: if sending message was not successful.
+    """
     bot = models.TelegramBot.objects.last()
     accounts = models.TelegramAccount.objects.all()
     for account in accounts:
