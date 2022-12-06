@@ -242,6 +242,9 @@ def export_channel_list(export_id):
 
 @shared_task()
 def remove_blocked_keywords():
+    """This function retrieve list of block words then
+    by using them, delete blocked keywords.
+    """
     blocked_keywords = list(
         models.BlockedKeyword.objects.values_list("keyword", flat=True)
     )
