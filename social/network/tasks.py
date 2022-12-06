@@ -143,6 +143,9 @@ def extract_categories(post_id):
 
 @shared_task()
 def check_channels_crawl():
+    """In this task we check which channels we should crawl at time of running the task
+    This is a periodic task.
+    """
     channels = models.Channel.objects.filter(last_crawl__isnull=False)
     for channel in channels:
         interval = timezone.localtime() - channel.last_crawl
