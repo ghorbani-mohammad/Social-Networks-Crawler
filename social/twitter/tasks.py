@@ -133,6 +133,16 @@ def get_comment_detail(article):
 def store_twitter_posts(
     channel_id, post_id, body, replies_counter, retweets_counter, likes_counter
 ):
+    """Store or update a twitter post
+
+    Args:
+        channel_id (int): id of the channel
+        post_id (int): id of the post (twitter id)
+        body (str): text of the post
+        replies_counter (int): number of replies
+        retweets_counter (int): number of retweets
+        likes_counter (int): number of likes
+    """
     exists = net_models.Post.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
