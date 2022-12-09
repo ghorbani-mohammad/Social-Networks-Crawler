@@ -58,6 +58,12 @@ def save_phone_code_hash(account_id, hash_code):
 
 @sync_to_async
 def update_channel_info(channel_username, info):
+    """This function is used to updating a channel info (like about, number of users)
+
+    Args:
+        channel_username (channel-username): the username of channel
+        info (json): retrieved info
+    """
     network = net_models.Network.objects.get(name="Telegram")
     channel = net_models.Channel.objects.get(network=network, username=channel_username)
     data = {}
