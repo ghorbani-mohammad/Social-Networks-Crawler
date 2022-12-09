@@ -55,9 +55,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
             elif channel.network.name == "Linkedin":
                 lin_tasks.get_linkedin_posts.delay(channel.pk)
 
-    actions = [
-        crawl,
-    ]
+    actions = [crawl]
 
 
 @admin.register(models.Post)
