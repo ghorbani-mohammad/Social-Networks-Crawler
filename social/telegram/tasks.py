@@ -3,9 +3,9 @@ import asyncio
 import datetime
 from telethon import TelegramClient, events, functions, errors
 from telethon.tl.functions.channels import (
-    GetFullChannelRequest,
     JoinChannelRequest,
     LeaveChannelRequest,
+    GetFullChannelRequest,
 )
 from telethon.tl.functions.messages import GetRepliesRequest
 from asgiref.sync import sync_to_async
