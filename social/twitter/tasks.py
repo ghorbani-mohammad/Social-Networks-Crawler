@@ -238,6 +238,9 @@ def get_twitter_post_comments(post_id):
 
 @shared_task()
 def check_twitter_pages():
+    """Check which page or channel we should craw
+    This is a period task.
+    """
     pages = models.SearchPage.objects.filter(enable=True)
     for page in pages:
         print(f"Crawling search-page {page.pk} started")
