@@ -6,12 +6,7 @@ from . import models
 class NetworkShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Network
-        fields = (
-            "id",
-            "name",
-            "url",
-            "status",
-        )
+        fields = ("id", "name", "url", "status")
 
 
 class NetworkSerializer(serializers.ModelSerializer):
