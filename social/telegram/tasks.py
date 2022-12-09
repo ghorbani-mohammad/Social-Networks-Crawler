@@ -77,6 +77,7 @@ def update_channel_info(channel_username, info):
 
 @sync_to_async
 def set_channels_list_async():
+    """This function is used to set a cache value for channels list"""
     channels = [channel.username for channel in net_models.Channel.objects.all()]
     if len(channels):
         cache.set("telegram_channels", json.dumps(channels))
