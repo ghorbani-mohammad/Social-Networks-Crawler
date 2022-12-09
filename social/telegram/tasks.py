@@ -45,6 +45,12 @@ def get_account_client(account_id):
 
 @sync_to_async
 def save_phone_code_hash(account_id, hash_code):
+    """Saving hash code of an account (sync-to-async function)
+
+    Args:
+        account_id (int): primary key of the account
+        hash_code (str): hash value
+    """
     account = models.Account.objects.get(pk=account_id)
     account.phone_code_hash = hash_code
     account.save()
