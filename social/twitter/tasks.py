@@ -22,6 +22,12 @@ DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
 
 
 def get_driver():
+    """Creates a webdriver with Firefox capabilities.
+    In some situation session can't be created.
+
+    Returns:
+        webdriver: webdriver object
+    """
     try:
         return webdriver.Remote(
             "http://social_firefox:4444/wd/hub",
