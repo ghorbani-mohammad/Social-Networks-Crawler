@@ -89,11 +89,7 @@ class PostCountInputSerializer(serializers.Serializer):
 class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Keyword
-        fields = (
-            "id",
-            "keyword",
-            "created_at",
-        )
+        fields = ("id", "keyword", "created_at")
 
 
 class BackupSerializer(serializers.ModelSerializer):
