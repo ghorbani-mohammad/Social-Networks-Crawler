@@ -208,6 +208,11 @@ def get_twitter_posts(channel_id):
 
 @shared_task()
 def get_twitter_post_comments(post_id):
+    """Get comments of a post
+
+    Args:
+        post_id (int): id of the post
+    """
     post = net_models.Post.objects.get(pk=post_id)
     driver = get_driver()
     driver.get(f"{post.channel.username}/status/{post.network_id}")
@@ -227,7 +232,6 @@ def get_twitter_post_comments(post_id):
                 post_detail["like_count"],
             )
         except Exception as e:
-            print(e)
             logger.error(e)
     driver.quit()
 
