@@ -25,6 +25,15 @@ HOUR = 60 * MINUTE
 
 
 def get_account_client(account_id):
+    """This function stables a connection to the Telegram based on account credentials
+
+    Args:
+        account_id (int): primary key of the account
+
+    Returns:
+        account: associated account
+        client: connection to the Telegram server
+    """
     account = models.Account.objects.get(pk=account_id)
     client = TelegramClient(
         "/app/telegram_sessions/" + account.phone_number,
