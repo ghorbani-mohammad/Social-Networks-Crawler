@@ -42,6 +42,12 @@ def get_driver():
 
 
 def scroll(driver, counter):
+    """Scroll browser for counter times
+
+    Args:
+        driver (webdriver): webdriver object
+        counter (int): specify number of scrolls
+    """
     SCROLL_PAUSE_TIME = 2
     last_height = driver.execute_script("return document.body.scrollHeight")
     scroll_counter = 0
