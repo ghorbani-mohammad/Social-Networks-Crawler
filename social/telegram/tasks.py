@@ -143,6 +143,12 @@ def get_code(account_id):
 
 @shared_task()
 def sign_in(account_id, code):
+    """Tries to login into the account by provided OTP
+
+    Args:
+        account_id (int): id of associated account
+        code (int): OTP code
+    """
     account, client = get_account_client(account_id)
 
     async def main():
