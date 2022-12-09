@@ -250,6 +250,14 @@ def check_twitter_pages():
 
 
 def get_post_detail_v2(article):
+    """extract post details from html element
+
+    Args:
+        article (html element): html of a tweet.
+
+    Returns:
+        data (json): information of tweet.
+    """
     detail = {}
     detail["id"] = int(
         article.find_element(
