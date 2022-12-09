@@ -122,6 +122,11 @@ def update_message_statics(channel_username, message_id, views_count, forwards_c
 
 @shared_task()
 def get_code(account_id):
+    """Gets OTP code for an account
+
+    Args:
+        account_id (int): id of associated account
+    """
     account, client = get_account_client(account_id)
 
     async def main():
