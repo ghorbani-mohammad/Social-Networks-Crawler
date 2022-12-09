@@ -105,6 +105,14 @@ def insert_to_db(channel_username, event):
 
 @shared_task()
 def update_message_statics(channel_username, message_id, views_count, forwards_count):
+    """Updates message statics like views-count, shares-count
+
+    Args:
+        channel_username (str): username of channel
+        message_id (int): id of the message
+        views_count (int): views-count
+        forwards_count (int): forwards-count (or shares-count)
+    """
     network = net_models.Network.objects.get(name="Telegram")
     channel = net_models.Channel.objects.get(network=network, username=channel_username)
     net_models.Post.objects.filter(channel=channel, data__message_id=message_id).update(
