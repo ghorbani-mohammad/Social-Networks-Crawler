@@ -96,6 +96,14 @@ def get_post_detail(article):
 
 
 def get_comment_detail(article):
+    """extract information from an comment div (information are id, body, reply, retweet, like)
+
+    Args:
+        article (element): it is a comment html body
+
+    Returns:
+        detail (json): extracted information
+    """
     detail = {}
     detail["id"] = int(
         article.find_element(
