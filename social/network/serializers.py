@@ -20,14 +20,7 @@ class ChannelShortSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Channel
-        fields = (
-            "id",
-            "name",
-            "username",
-            "description",
-            "network",
-            "status",
-        )
+        fields = ("id", "name", "username", "description", "network", "status")
 
 
 class ChannelSerializer(serializers.ModelSerializer):
