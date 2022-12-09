@@ -95,4 +95,11 @@ class KeywordSerializer(serializers.ModelSerializer):
 class BackupSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Backup
-        fields = ("id", "link", "type", "status", "created_at", "updated_at")
+        fields = (
+            "id",
+            "link",
+            "type",
+            "status",
+            "created_at",
+            "updated_at",
+        )
