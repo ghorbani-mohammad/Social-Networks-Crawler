@@ -283,6 +283,11 @@ def get_post_detail_v2(article):
 
 @shared_task()
 def crawl_search_page(page_id):
+    """Crawl a search page of twitter.
+
+    Args:
+        page_id (int): id of a search page
+    """
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
     if driver is None:
@@ -328,7 +333,6 @@ def crawl_search_page(page_id):
                     not_tasks.send_telegram_message(body)
                     time.sleep(1)
             except Exception as e:
-                print(f"error: {e}, body: {body}")
                 logger.error(e)
         scroll(driver, 1)
         time.sleep(10)
