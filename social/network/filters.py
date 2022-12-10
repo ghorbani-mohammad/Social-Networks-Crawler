@@ -17,13 +17,23 @@ def filter_by_channel_ids(queryset, name, value):
         value (str): value of ids
 
     Returns:
-        _type_: _description_
+        queryset: filtered queryset of channels
     """
     values = value.split(",")
     return queryset.filter(channel_id__in=values)
 
 
 def filter_by_network_ids(queryset, name, value):
+    """filter networks by id
+
+    Args:
+        queryset (queryset): queryset of networks
+        name (_type_): _description_
+        value (str): value of ids
+
+    Returns:
+        queryset: filtered queryset of networks
+    """
     values = value.split(",")
     return queryset.filter(channel__network_id__in=values)
 
