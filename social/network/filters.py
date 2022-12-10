@@ -39,6 +39,16 @@ def filter_by_network_ids(queryset, name, value):
 
 
 def filter_by_tag_ids(queryset, name, value):
+    """filter tags by id
+
+    Args:
+        queryset (queryset): queryset of tags
+        name (_type_): _description_
+        value (str): value of ids
+
+    Returns:
+        queryset: filtered queryset of tags
+    """
     values = value.split(",")
     return queryset.filter(channel__tags__in=values)
 
