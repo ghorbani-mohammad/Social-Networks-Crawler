@@ -14,4 +14,4 @@
 
 - #### LinkedIn
     * Currently we've defined some [**Job Pages**](https://social.m-gh.com/secret-admin/linkedin/jobpage/) for LinkedIn.
-You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
+    You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
