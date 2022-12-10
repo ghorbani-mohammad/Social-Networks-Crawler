@@ -8,7 +8,7 @@
 
 
 ### Twitter
-Currently we've defined some search pages for Twitter.
+Currently we've defined some search pages for Twitter. You can see list of them in the [panel](https://social.m-gh.com/secret-admin/twitter/searchpage/).
 You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
 
 ### LinkedIn
