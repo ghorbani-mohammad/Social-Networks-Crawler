@@ -1,3 +1,8 @@
+### Story Of This Project
+This project crawls data from **Twitter**, **LinkedIn**, and **Telegram**.
+
+***
+
 ### Django Admin Panel
 
 - Link:
