@@ -39,6 +39,12 @@ NER_KEY_MAPPING = {
 
 
 class BaseTaskWithRetry(Task):
+    """A retry policy class for failed tasks
+
+    Args:
+        Task (func): a celery task
+    """
+
     autoretry_for = (Exception,)
     retry_kwargs = {"max_retries": 10}
     retry_backoff = 5
