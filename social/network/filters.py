@@ -96,6 +96,16 @@ def keyword_filter_by_network_ids(queryset, name, value):
 
 
 def keyword_filter_by_tag_ids(queryset, name, value):
+    """filter keywords by tag ids
+
+    Args:
+        queryset (queryset): queryset of keywords
+        name (_type_): _description_
+        value (str): value of tag ids
+
+    Returns:
+        queryset: filtered queryset of keywords
+    """
     values = value.split(",")
     return queryset.filter(post__channel__tags__in=values)
 
