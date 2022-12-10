@@ -9,6 +9,16 @@ from . import models
 
 
 def filter_by_channel_ids(queryset, name, value):
+    """filter channels by id
+
+    Args:
+        queryset (queryset): queryset of channels
+        name (_type_): _description_
+        value (str): value of ids
+
+    Returns:
+        _type_: _description_
+    """
     values = value.split(",")
     return queryset.filter(channel_id__in=values)
 
