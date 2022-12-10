@@ -7,10 +7,10 @@
     * Password: **3ffJ24h6M6**
 
 
-### Twitter Telegram Channel
+### Twitter
 Currently we've defined some search pages for Twitter.
 You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
 
-### LinkedIn Telegram Channel
+### LinkedIn
 Currently we've defined some search pages for LinkedIn.
 You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
