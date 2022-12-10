@@ -12,5 +12,5 @@ Currently we've defined some search pages for Twitter. You can see list of them 
 You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
 
 ### LinkedIn
-Currently we've defined some search pages for LinkedIn.
+Currently we've defined some job pages for LinkedIn. You can see list of them in the [panel](https://social.m-gh.com/secret-admin/linkedin/jobpage/).
 You can see the result of crawled data at this [Telegram channel](https://t.me/twitter_python)
