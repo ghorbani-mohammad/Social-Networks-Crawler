@@ -66,6 +66,16 @@ class PostFilter(FilterSet):
 
 
 def keyword_filter_by_channel_ids(queryset, name, value):
+    """filter keywords by id
+
+    Args:
+        queryset (queryset): queryset of keywords
+        name (_type_): _description_
+        value (str): value of ids
+
+    Returns:
+        queryset: filtered queryset of keywords
+    """
     values = value.split(",")
     return queryset.filter(post__channel_id__in=values)
 
