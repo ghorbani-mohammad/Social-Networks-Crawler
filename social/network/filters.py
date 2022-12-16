@@ -132,4 +132,7 @@ class ChannelFilter(FilterSet):
 
     class Meta:
         model = models.Channel
-        fields = ("status", "networks")
+        fields = (
+            "status",
+            "networks",
+        )
