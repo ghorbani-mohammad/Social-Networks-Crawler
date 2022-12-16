@@ -118,7 +118,12 @@ class KeywordFilter(FilterSet):
 
     class Meta:
         model = models.Keyword
-        fields = ("channels", "networks", "date", "tags")
+        fields = (
+            "channels",
+            "networks",
+            "date",
+            "tags",
+        )
 
 
 def channel_filter_by_network_ids(queryset, name, value):
