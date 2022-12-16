@@ -127,6 +127,16 @@ class KeywordFilter(FilterSet):
 
 
 def channel_filter_by_network_ids(queryset, name, value):
+    """filter channels by network ids
+
+    Args:
+        queryset (queryset): queryset of keywords
+        name (_type_): _description_
+        value (str): value of network ids
+
+    Returns:
+        queryset: filtered queryset of keywords
+    """
     values = value.split(",")
     return queryset.filter(network_id__in=values)
 
