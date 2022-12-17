@@ -31,7 +31,7 @@ function migrate() {
 }
 
 function bash() {
-    docker exec -it -w /app/${PROJECT_NAME} ${API_CONTAINER_NAME} bash
+    docker exec -it -w /app/${PROJECT_NAME} ${API_CONTAINER_NAME} ash
 }
 
 function shell() {
