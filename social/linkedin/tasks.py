@@ -2,6 +2,7 @@ import time
 import redis
 import pickle
 import traceback
+from langdetect import detect
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from urllib3.exceptions import MaxRetryError
@@ -285,7 +286,7 @@ def get_job_page_posts(message, url):
             print("item clicked")
             time.sleep(2)
             job_desc = driver.find_element(By.ID, "job-details").text
-            print(job_desc)
+            print(detect(job_desc))
             counter += 1
             if DUPLICATE_CHECKER.exists(id):
                 continue
