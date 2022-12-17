@@ -67,9 +67,7 @@ class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
     @admin.display(ordering="created_at", description="created_at")
     def get_created_at(self, instance):
-        return instance.created_at.astimezone(tz("Asia/Tehran")).strftime(
-            "%m/%d %H:%M:%S"
-        )
+        return instance.created_at.strftime("%m/%d %H:%M:%S")
 
 
 @admin.register(models.Keyword)
