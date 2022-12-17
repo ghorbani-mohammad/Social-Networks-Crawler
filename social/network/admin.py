@@ -2,6 +2,7 @@ import redis
 from pytz import timezone as tz
 
 from django.contrib import admin
+from reusable.other import TIME_FORMAT
 from reusable.admins import ReadOnlyAdminDateFields
 
 from . import models
@@ -94,7 +95,7 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
     @admin.display(ordering="updated_at", description="updated_at")
     def get_updated_at(self, instance):
-        return instance.updated_at.strftime("%m/%d %H:%M:%S")
+        return instance.updated_at.strftime(TIME_FORMAT)
 
 
 @admin.register(models.Config)

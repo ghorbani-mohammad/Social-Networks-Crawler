@@ -27,3 +27,6 @@ def only_one_concurrency(function=None, key="", timeout=None):
         return _caller
 
     return _dec(function) if function is not None else _dec
+
+
+TIME_FORMAT = "%m/%d %H:%M:%S"
