@@ -282,19 +282,22 @@ def get_job_page_posts(message, url):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
-            item.click()
-            print("item clicked")
-            time.sleep(2)
-            job_desc = driver.find_element(By.ID, "job-details").text
-            print(detect(job_desc))
-            counter += 1
             if DUPLICATE_CHECKER.exists(id):
                 continue
+            item.click()
+            time.sleep(2)
+            job_desc = driver.find_element(By.ID, "job-details").text
+            detected_language = detect(job_desc)
+            counter += 1
             link = item.find_element(
                 By.CLASS_NAME, "job-card-container__link"
             ).get_attribute("href")
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            not_tasks.send_telegram_message(message.replace("link", strip_tags(link)))
+            not_tasks.send_telegram_message(
+                message.replace("link", strip_tags(link)).replace(
+                    "lang", detected_language
+                )
+            )
             time.sleep(4)
         except Exception as e:
             print("can't find element")
