@@ -94,9 +94,7 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
     @admin.display(ordering="updated_at", description="updated_at")
     def get_updated_at(self, instance):
-        return instance.updated_at.astimezone(tz("Asia/Tehran")).strftime(
-            "%m/%d %H:%M:%S"
-        )
+        return instance.updated_at.strftime("%m/%d %H:%M:%S")
 
 
 @admin.register(models.Config)
