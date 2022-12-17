@@ -226,3 +226,11 @@ class Log(models.Model):
     @property
     def short_message(self):
         return truncatechars(self.message, 50)
+
+
+class OutputChannel(BaseModel):
+    name = models.CharField(max_length=100)
+    username = models.CharField(max_length=100)
+    network = models.ForeignKey(
+        Network, on_delete=models.CASCADE, related_name="output_channels"
+    )

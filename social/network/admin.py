@@ -134,3 +134,8 @@ class LogAdmin(admin.ModelAdmin):
         models.Log.objects.delete()
 
     actions = (delete_all_logs,)
+
+
+@admin.register(models.OutputChannel)
+class OutputChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+    list_display = ("pk", "name", "username", "network", "created_at")
