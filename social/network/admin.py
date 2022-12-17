@@ -1,5 +1,4 @@
 import redis
-from pytz import timezone as tz
 
 from django.contrib import admin
 from reusable.other import TIME_FORMAT
