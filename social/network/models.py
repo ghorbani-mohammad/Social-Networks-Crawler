@@ -229,6 +229,12 @@ class Log(models.Model):
 
 
 class OutputChannel(BaseModel):
+    """We defined channels for publish our crawled data
+
+    Args:
+        BaseModel (Model): base model with created_at, updated_at and deleted_at fields
+    """
+
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     network = models.ForeignKey(
