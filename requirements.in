@@ -7,6 +7,7 @@ djangorestframework
 envparse
 gunicorn
 ipython
+langdetect
 linkedin-scraper==2.9.0
 openpyxl
 pip-tools
