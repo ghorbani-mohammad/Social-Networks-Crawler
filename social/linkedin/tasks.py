@@ -295,7 +295,7 @@ def get_job_page_posts(message, url):
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             not_tasks.send_telegram_message(
                 message.replace("link", strip_tags(link)).replace(
-                    "lang", detected_language
+                    "lang", detected_language.upper()
                 )
             )
             time.sleep(4)
