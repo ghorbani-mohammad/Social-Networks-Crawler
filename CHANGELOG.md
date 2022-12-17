@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.3...v1.6.0) (2022-12-17)
+
+
+### Features
+
+* add language detection of jobs description ([e35919c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e35919c21ab6c345eef7fbeb3747a29524440a33))
+
+
+
 ## [1.5.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.2...v1.5.3) (2022-12-17)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add db logging ([ff5a2f5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ff5a2f55bd7c2215b5274144260e4e8078714419))
-
-
-
-## [1.4.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.4.0...v1.4.1) (2022-10-07)
-
-
-### Bug Fixes
-
-* issue on getting tweets username ([cc9690d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/cc9690d6dfeb9752d80a442cebec4a97137c6464))
 
 
 
