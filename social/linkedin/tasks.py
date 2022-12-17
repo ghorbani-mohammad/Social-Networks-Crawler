@@ -281,15 +281,15 @@ def get_job_page_posts(message, url):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
+            item.click()
+            print("item clicked")
+            time.sleep(2)
             counter += 1
             if DUPLICATE_CHECKER.exists(id):
                 continue
             link = item.find_element(
                 By.CLASS_NAME, "job-card-container__link"
             ).get_attribute("href")
-            item.click()
-            print("item clicked")
-            time.sleep(2)
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             not_tasks.send_telegram_message(message.replace("link", strip_tags(link)))
             time.sleep(4)
