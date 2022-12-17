@@ -1,3 +1,12 @@
+## [1.5.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.2...v1.5.3) (2022-12-17)
+
+
+### Bug Fixes
+
+* fix get-job-page-post arguments ([1ae3f18](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/1ae3f18bb05360a1bc16913183a460fdf323aed3))
+
+
+
 ## [1.5.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.1...v1.5.2) (2022-11-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * issue on getting tweets username ([cc9690d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/cc9690d6dfeb9752d80a442cebec4a97137c6464))
-
-
-
-# [1.4.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.3.1...v1.4.0) (2022-10-06)
-
-
-### Features
-
-* add crawl-search-page (twitter) action ([f8059eb](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f8059eb031b7f2921c638689098836c28bbaee32))
 
 
 
