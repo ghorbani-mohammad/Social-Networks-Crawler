@@ -1,3 +1,12 @@
+## [1.6.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.6.0...v1.6.1) (2022-12-17)
+
+
+### Bug Fixes
+
+* minor change ([62c0e3f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/62c0e3fdfd8dc134b6fafed2ff778af54276bbfc))
+
+
+
 # [1.6.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.3...v1.6.0) (2022-12-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * add django-setup to settings for db logging ([4ab1d3f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4ab1d3fd2adc80437e1039f03c29c2acc04a5e1d))
-
-
-
-# [1.5.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.4.1...v1.5.0) (2022-11-25)
-
-
-### Features
-
-* add db logging ([ff5a2f5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ff5a2f55bd7c2215b5274144260e4e8078714419))
 
 
 
