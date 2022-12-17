@@ -91,7 +91,7 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
     @admin.display(ordering="created_at", description="created_at")
     def get_created_at(self, instance):
-        return instance.created_at.strftime("%m/%d %H:%M:%S")
+        return instance.created_at.strftime(TIME_FORMAT)
 
     @admin.display(ordering="updated_at", description="updated_at")
     def get_updated_at(self, instance):
