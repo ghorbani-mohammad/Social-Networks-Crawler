@@ -41,9 +41,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
     @admin.display(ordering="last_crawl", description="last_crawl")
     def get_last_crawl(self, instance):
         if instance.last_crawl:
-            return instance.last_crawl.astimezone(tz("Asia/Tehran")).strftime(
-                "%m/%d %H:%M:%S"
-            )
+            return instance.last_crawl.strftime("%m/%d %H:%M:%S")
 
     def crawl(self, request, queryset):
         for channel in queryset:
