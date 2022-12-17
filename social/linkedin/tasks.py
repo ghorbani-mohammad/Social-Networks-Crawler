@@ -284,6 +284,8 @@ def get_job_page_posts(message, url):
             item.click()
             print("item clicked")
             time.sleep(2)
+            job_desc = item.find_element(By.ID, "job-details")
+            print(job_desc)
             counter += 1
             if DUPLICATE_CHECKER.exists(id):
                 continue
