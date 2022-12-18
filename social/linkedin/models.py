@@ -10,7 +10,7 @@ class JobPage(BaseModel):
     message = models.TextField(null=True, blank=True)
     last_crawl_at = models.DateTimeField(null=True, blank=True)
     output_channel = models.ForeignKey(
-        "network.OutputChannel",
+        "notification.Channel",
         on_delete=models.SET_NULL,
         null=True,
         related_name="linkedin_pages",

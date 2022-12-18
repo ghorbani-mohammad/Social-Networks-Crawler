@@ -27,15 +27,15 @@ def send_message_to_telegram_channel(message, channel_pk):
 
     Args:
         message (str): text message
-        channel_pk (int): id of destination channel (OutputChannel)
+        channel_pk (int): id of destination channel (Channel)
 
     Raises:
         Exception: if sending message was not successful.
     """
-    from network.models import OutputChannel
+    from notification.models import Channel
 
     bot = models.TelegramBot.objects.last()
-    channel_output = OutputChannel.objects.get(pk=channel_pk)
+    channel_output = Channel.objects.get(pk=channel_pk)
     resp = utils.telegram_bot_sendtext(
         bot.telegram_token, channel_output.username, message
     )
