@@ -330,7 +330,9 @@ def crawl_search_page(page_id):
                                 break
                 if send:
                     body = f"{strip_tags(body)}\n\n" + post_detail["link"]
-                    not_tasks.send_telegram_message(body)
+                    not_tasks.send_message_to_telegram_channel(
+                        body, page.output_channel.pk
+                    )
                     time.sleep(1)
             except Exception as e:
                 logger.error(e)
