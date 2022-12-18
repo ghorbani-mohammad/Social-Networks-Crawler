@@ -1,7 +1,6 @@
 from celery import shared_task
 
 from . import models, utils
-from network.models import OutputChannel
 
 
 @shared_task()
@@ -33,6 +32,8 @@ def send_message_to_telegram_channel(message, channel_pk):
     Raises:
         Exception: if sending message was not successful.
     """
+    from network.models import OutputChannel
+
     bot = models.TelegramBot.objects.last()
     channel_output = OutputChannel.objects.get(pk=channel_pk)
     resp = utils.telegram_bot_sendtext(
