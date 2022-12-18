@@ -226,20 +226,3 @@ class Log(models.Model):
     @property
     def short_message(self):
         return truncatechars(self.message, 50)
-
-
-class OutputChannel(BaseModel):
-    """We defined channels for publish our crawled data
-
-    Args:
-        BaseModel (Model): base model with created_at, updated_at and deleted_at fields
-    """
-
-    name = models.CharField(max_length=100)
-    username = models.CharField(max_length=100)
-    network = models.ForeignKey(
-        Network, on_delete=models.CASCADE, related_name="output_channels"
-    )
-
-    def __str__(self):
-        return f"({self.pk} - {self.name})"
