@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.6.1...v1.7.0) (2022-12-18)
+
+
+### Features
+
+* send job posts into channel ([6cb4061](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6cb406156782dc7c0872e7494f34214f3471472c))
+
+
+
 ## [1.6.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.6.0...v1.6.1) (2022-12-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * change twitter post id xpath ([ea21e78](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ea21e7809c2ec22de3967cc69be240b974921fe5))
-
-
-
-## [1.5.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.0...v1.5.1) (2022-11-25)
-
-
-### Bug Fixes
-
-* add django-setup to settings for db logging ([4ab1d3f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4ab1d3fd2adc80437e1039f03c29c2acc04a5e1d))
 
 
 
