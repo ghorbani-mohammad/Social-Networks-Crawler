@@ -282,8 +282,8 @@ def get_job_page_posts(message, url, output_channel_pk):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
-            # if DUPLICATE_CHECKER.exists(id):
-            #     continue
+            if DUPLICATE_CHECKER.exists(id):
+                continue
             item.click()
             time.sleep(2)
             job_desc = driver.find_element(By.ID, "job-details").text
