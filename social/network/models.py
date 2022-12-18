@@ -240,3 +240,6 @@ class OutputChannel(BaseModel):
     network = models.ForeignKey(
         Network, on_delete=models.CASCADE, related_name="output_channels"
     )
+
+    def __str__(self):
+        return f"({self.pk} - {self.name})"
