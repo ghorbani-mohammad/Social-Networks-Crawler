@@ -233,7 +233,7 @@ def check_job_pages():
     for page in pages:
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
-        get_job_page_posts(page.message, page.url)
+        get_job_page_posts(page.message, page.url, page.output_channel.pk)
         page.last_crawl_at = time
         page.save()
 
@@ -267,7 +267,7 @@ def sort_by_most_recent(driver):
 
 
 @shared_task()
-def get_job_page_posts(message, url):
+def get_job_page_posts(message, url, output_channel_pk):
     driver = get_driver()
     cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
@@ -294,10 +294,11 @@ def get_job_page_posts(message, url):
             ).get_attribute("href")
             link = link.split("?")[0]  # remove query params
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            not_tasks.send_telegram_message(
+            not_tasks.send_message_to_telegram_channel(
                 message.replace("link", strip_tags(link)).replace(
                     "lang", detected_language.upper()
-                )
+                ),
+                output_channel_pk,
             )
             time.sleep(4)
         except Exception as e:
