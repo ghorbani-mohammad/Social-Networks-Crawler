@@ -302,7 +302,7 @@ def get_job_page_posts(message, url, output_channel_pk):
             )
             time.sleep(4)
         except Exception as e:
-            print("can't find element")
+            print(e)
     print(f"found {counter} job")
     time.sleep(2)
     driver.quit()
