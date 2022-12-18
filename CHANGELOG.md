@@ -1,3 +1,12 @@
+# [1.8.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.7.0...v1.8.0) (2022-12-18)
+
+
+### Features
+
+* twitter search pages now can send messages to specific channels ([ea46dde](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ea46dde8c7f97271ed9719de9856120caca99c22))
+
+
+
 # [1.7.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.6.1...v1.7.0) (2022-12-18)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * fix get-job-page-post arguments ([1ae3f18](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/1ae3f18bb05360a1bc16913183a460fdf323aed3))
-
-
-
-## [1.5.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.1...v1.5.2) (2022-11-30)
-
-
-### Bug Fixes
-
-* change twitter post id xpath ([ea21e78](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ea21e7809c2ec22de3967cc69be240b974921fe5))
 
 
 
