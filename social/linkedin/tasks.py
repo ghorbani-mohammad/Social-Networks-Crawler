@@ -264,7 +264,7 @@ def sort_by_most_recent(driver):
     return driver
 
 
-def check_language(language):
+def is_english(language):
     if language != "en":
         return False
     return True
@@ -283,6 +283,15 @@ def get_job_link(element):
     return link
 
 
+def send_notification(message, job_link, job_language, output_channel_pk):
+    not_tasks.send_message_to_telegram_channel(
+        message.replace("link", strip_tags(job_link)).replace(
+            "lang", job_language.upper()
+        ),
+        output_channel_pk,
+    )
+
+
 @shared_task()
 def get_job_page_posts(message, url, output_channel_pk):
     driver = initialize_linkedin_driver()
@@ -297,22 +306,17 @@ def get_job_page_posts(message, url, output_channel_pk):
             id = item.get_attribute("data-occludable-job-id")
             if DUPLICATE_CHECKER.exists(id):
                 continue
+            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             job_link = get_job_link(item)
             job_desc = driver.find_element(By.ID, "job-details").text
-            detected_language = detect(job_desc)
+            job_language = detect(job_desc)
             counter += 1
-            if not check_language(detected_language):
+            if not is_english(job_language):
                 store_ignored_content.delay(job_link, job_desc)
                 continue
-            not_tasks.send_message_to_telegram_channel(
-                message.replace("link", strip_tags(job_link)).replace(
-                    "lang", detected_language.upper()
-                ),
-                output_channel_pk,
-            )
+            send_notification(message, job_link, job_language, output_channel_pk)
             time.sleep(4)
         except Exception as e:
             print(e)
