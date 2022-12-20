@@ -275,6 +275,14 @@ def store_ignored_content(url, content):
     lin_models.IgnoredContent.objects.create(url=url, content=content)
 
 
+def get_job_link(element):
+    element.find_element(By.CLASS_NAME, "job-card-container__link").get_attribute(
+        "href"
+    )
+    link = link.split("?")[0]  # remove query params
+    return link
+
+
 @shared_task()
 def get_job_page_posts(message, url, output_channel_pk):
     driver = initialize_linkedin_driver()
@@ -295,10 +303,7 @@ def get_job_page_posts(message, url, output_channel_pk):
             job_desc = driver.find_element(By.ID, "job-details").text
             detected_language = detect(job_desc)
             counter += 1
-            link = item.find_element(
-                By.CLASS_NAME, "job-card-container__link"
-            ).get_attribute("href")
-            link = link.split("?")[0]  # remove query params
+            link = get_job_link(item)
             if not check_language(detected_language):
                 store_ignored_content.delay(link, job_desc)
                 continue
