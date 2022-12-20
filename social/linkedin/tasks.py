@@ -57,12 +57,10 @@ def login():
         )
         pickle.dump(driver.get_cookies(), open("/app/social/cookies.pkl", "wb"))
     except Exception as e:
-        print(traceback.format_exc())
         logger.error(traceback.format_exc())
     finally:
         time.sleep(5)
         driver.close()
-        print("driver closed.")
 
 
 @shared_task()
