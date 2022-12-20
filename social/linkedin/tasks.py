@@ -300,15 +300,15 @@ def get_job_page_posts(message, url, output_channel_pk):
             item.click()
             time.sleep(2)
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            job_link = get_job_link(item)
             job_desc = driver.find_element(By.ID, "job-details").text
             detected_language = detect(job_desc)
             counter += 1
-            link = get_job_link(item)
             if not check_language(detected_language):
-                store_ignored_content.delay(link, job_desc)
+                store_ignored_content.delay(job_link, job_desc)
                 continue
             not_tasks.send_message_to_telegram_channel(
-                message.replace("link", strip_tags(link)).replace(
+                message.replace("link", strip_tags(job_link)).replace(
                     "lang", detected_language.upper()
                 ),
                 output_channel_pk,
