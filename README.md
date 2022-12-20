@@ -1,5 +1,6 @@
 ### Story Of This Project
 This project crawls data from **Twitter**, **LinkedIn**, and **Telegram**.
+After retrieving data, we can send them into defined channels.
 
 ***
 
