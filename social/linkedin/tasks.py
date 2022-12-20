@@ -292,6 +292,13 @@ def send_notification(message, job_link, job_language, output_channel_pk):
     )
 
 
+def get_job_detail(driver, item):
+    job_link = get_job_link(item)
+    job_desc = driver.find_element(By.ID, "job-details").text
+    job_language = detect(job_desc)
+    return job_link, job_desc, job_language
+
+
 @shared_task()
 def get_job_page_posts(message, url, output_channel_pk):
     driver = initialize_linkedin_driver()
@@ -309,15 +316,13 @@ def get_job_page_posts(message, url, output_channel_pk):
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
-            job_link = get_job_link(item)
-            job_desc = driver.find_element(By.ID, "job-details").text
-            job_language = detect(job_desc)
-            counter += 1
+            job_link, job_desc, job_language = get_job_detail(driver, item)
             if not is_english(job_language):
                 store_ignored_content.delay(job_link, job_desc)
                 continue
             send_notification(message, job_link, job_language, output_channel_pk)
             time.sleep(2)
+            counter += 1
         except Exception as e:
             print(e)
     print(f"found {counter} job")
