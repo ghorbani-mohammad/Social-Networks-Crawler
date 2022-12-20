@@ -168,7 +168,6 @@ def sort_by_recent(driver):
         "//button[@class='display-flex full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']",
     )
     if "recent" not in sort.text:
-        print("sort on recent")
         sort.click()
         time.sleep(5)
         sort_by_recent = driver.find_element(
