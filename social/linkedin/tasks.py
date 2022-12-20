@@ -39,6 +39,15 @@ def get_driver():
     exit()
 
 
+def initialize_linkedin_driver():
+    driver = get_driver()
+    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
+    driver.get("https://www.linkedin.com/")
+    for cookie in cookies:
+        driver.add_cookie(cookie)
+    return driver
+
+
 @shared_task()
 def login():
     driver = get_driver()
@@ -110,11 +119,7 @@ def get_linkedin_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     print(f"****** Linkedin crawling {channel} started")
     channel_url = channel.username
-    driver = get_driver()
-    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
-    driver.get("https://www.linkedin.com/")
-    for cookie in cookies:
-        driver.add_cookie(cookie)
+    driver = initialize_linkedin_driver()
     driver.get(channel_url)
     scroll(driver, 1)
     time.sleep(5)
@@ -185,11 +190,7 @@ def get_linkedin_feed():
     config = net_models.Config.objects.last()
     if config is None or not config.crawl_linkedin_feed:
         return
-    driver = get_driver()
-    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
-    driver.get("https://www.linkedin.com/")
-    for cookie in cookies:
-        driver.add_cookie(cookie)
+    driver = initialize_linkedin_driver()
     driver.get("https://www.linkedin.com/feed/")
     WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.ID, "global-nav-search"))
@@ -276,11 +277,7 @@ def store_ignored_content(url, content):
 
 @shared_task()
 def get_job_page_posts(message, url, output_channel_pk):
-    driver = get_driver()
-    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
-    driver.get("https://www.linkedin.com/")
-    for cookie in cookies:
-        driver.add_cookie(cookie)
+    driver = initialize_linkedin_driver()
     driver.get(url)
     time.sleep(5)
     driver = sort_by_most_recent(driver)
