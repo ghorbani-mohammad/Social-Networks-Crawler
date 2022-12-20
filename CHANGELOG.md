@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.8.0...v1.9.0) (2022-12-20)
+
+
+### Features
+
+* filter jobs that are not english ([9e08088](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/9e08088b3969d3fbabacb3e91512f3926a4b1e7b))
+
+
+
 # [1.8.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.7.0...v1.8.0) (2022-12-18)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add language detection of jobs description ([e35919c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e35919c21ab6c345eef7fbeb3747a29524440a33))
-
-
-
-## [1.5.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.2...v1.5.3) (2022-12-17)
-
-
-### Bug Fixes
-
-* fix get-job-page-post arguments ([1ae3f18](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/1ae3f18bb05360a1bc16913183a460fdf323aed3))
 
 
 
