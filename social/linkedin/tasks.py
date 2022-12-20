@@ -266,6 +266,12 @@ def sort_by_most_recent(driver):
     return driver
 
 
+def check_language(language):
+    if language != "en":
+        return False
+    return True
+
+
 @shared_task()
 def get_job_page_posts(message, url, output_channel_pk):
     driver = get_driver()
@@ -286,14 +292,16 @@ def get_job_page_posts(message, url, output_channel_pk):
                 continue
             item.click()
             time.sleep(2)
+            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             job_desc = driver.find_element(By.ID, "job-details").text
             detected_language = detect(job_desc)
+            if not check_language(detected_language):
+                continue
             counter += 1
             link = item.find_element(
                 By.CLASS_NAME, "job-card-container__link"
             ).get_attribute("href")
             link = link.split("?")[0]  # remove query params
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             not_tasks.send_message_to_telegram_channel(
                 message.replace("link", strip_tags(link)).replace(
                     "lang", detected_language.upper()
