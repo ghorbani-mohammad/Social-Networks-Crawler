@@ -18,3 +18,8 @@ class JobPage(BaseModel):
 
     def __str__(self):
         return f"({self.pk} - {self.name})"
+
+
+class IgnoredContent(BaseModel):
+    url = models.URLField(null=True)
+    content = models.TextField(null=True)

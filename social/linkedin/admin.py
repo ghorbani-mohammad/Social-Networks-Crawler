@@ -16,3 +16,8 @@ class JobPageAdmin(admin.ModelAdmin):
 
     actions = [crawl_page_action]
     readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ("last_crawl_at",)
+
+
+@admin.register(models.IgnoredContent)
+class IgnoredContentAdmin(admin.ModelAdmin):
+    list_display = ("pk", "url", "created_at")
