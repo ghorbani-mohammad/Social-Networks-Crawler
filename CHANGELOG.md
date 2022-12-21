@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.9.0...v1.9.1) (2022-12-21)
+
+
+### Bug Fixes
+
+* minor change ([6f6c422](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6f6c422a7ea24ebba849001a56d67bc9089ca6c0))
+
+
+
 # [1.9.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.8.0...v1.9.0) (2022-12-20)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * minor change ([62c0e3f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/62c0e3fdfd8dc134b6fafed2ff778af54276bbfc))
-
-
-
-# [1.6.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.5.3...v1.6.0) (2022-12-17)
-
-
-### Features
-
-* add language detection of jobs description ([e35919c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e35919c21ab6c345eef7fbeb3747a29524440a33))
 
 
 
