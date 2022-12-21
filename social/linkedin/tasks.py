@@ -276,9 +276,9 @@ def store_ignored_content(url, content):
 
 
 def get_job_link(element):
-    element.find_element(By.CLASS_NAME, "job-card-container__link").get_attribute(
-        "href"
-    )
+    link = element.find_element(
+        By.CLASS_NAME, "job-card-container__link"
+    ).get_attribute("href")
     link = link.split("?")[0]  # remove query params
     return link
 
