@@ -127,7 +127,6 @@ def scroll(driver, counter):
 @only_one_concurrency(key="browser1", timeout=TASKS_TIMEOUT)
 def get_linkedin_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
-    print(f"****** Linkedin crawling {channel} started")
     channel_url = channel.username
     driver = initialize_linkedin_driver()
     driver.get(channel_url)
@@ -166,9 +165,9 @@ def get_linkedin_posts(channel_id):
                     comment_counter,
                     share_counter,
                 )
-            except Exception as e:
+            except Exception:
                 logger.error(traceback.format_exc())
-    except Exception as e:
+    except Exception:
         logger.error(traceback.format_exc())
     finally:
         driver_exit(driver)
@@ -228,7 +227,7 @@ def get_linkedin_feed():
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
-        except Exception as e:
+        except Exception:
             print(traceback.format_exc())
     driver_exit(driver)
 
