@@ -321,7 +321,6 @@ def get_job_page_posts(message, url, output_channel_pk):
                 store_ignored_content.delay(job_link, job_desc)
                 continue
             send_notification(message, job_link, job_language, output_channel_pk)
-            time.sleep(2)
             counter += 1
         except Exception:
             print(traceback.format_exc())
