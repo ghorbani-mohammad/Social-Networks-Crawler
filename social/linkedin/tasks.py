@@ -48,6 +48,11 @@ def initialize_linkedin_driver():
     return driver
 
 
+def driver_exit(driver):
+    time.sleep(2)
+    driver.quit()
+
+
 @shared_task()
 def login():
     driver = get_driver()
@@ -161,8 +166,7 @@ def get_linkedin_posts(channel_id):
     except Exception as e:
         logger.error(traceback.format_exc())
     finally:
-        time.sleep(2)
-        driver.quit()
+        driver_exit(driver)
         channel.last_crawl = timezone.localtime()
         channel.save()
 
@@ -221,8 +225,7 @@ def get_linkedin_feed():
             time.sleep(3)
         except Exception as e:
             print(traceback.format_exc())
-    time.sleep(2)
-    driver.quit()
+    driver_exit(driver)
 
 
 @shared_task()
@@ -325,5 +328,4 @@ def get_job_page_posts(message, url, output_channel_pk):
         except Exception:
             print(traceback.format_exc())
     print(f"found {counter} job")
-    time.sleep(2)
-    driver.quit()
+    driver_exit(driver)
