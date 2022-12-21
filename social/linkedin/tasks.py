@@ -325,6 +325,8 @@ def get_job_page_posts(message, url, output_channel_pk):
             counter += 1
         except Exception as e:
             print(e)
+            print()
+            print(print(traceback.format_exc()))
     print(f"found {counter} job")
     time.sleep(2)
     driver.quit()
