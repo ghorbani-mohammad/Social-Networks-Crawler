@@ -28,6 +28,11 @@ DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
 
 def get_driver():
+    """This function creates a browser driver and returns it
+
+    Returns:
+        Webdriver: webdriver
+    """
     try:
         return webdriver.Remote(
             "http://social_firefox:4444/wd/hub",
