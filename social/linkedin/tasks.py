@@ -86,7 +86,7 @@ def login():
             EC.presence_of_element_located((By.ID, "global-nav-search"))
         )
         pickle.dump(driver.get_cookies(), open("/app/social/cookies.pkl", "wb"))
-    except Exception as e:
+    except Exception:
         logger.error(traceback.format_exc())
     finally:
         driver_exit(driver)
