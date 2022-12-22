@@ -31,7 +31,7 @@ def get_driver():
     """This function creates a browser driver and returns it
 
     Returns:
-        Webdriver: webdriver
+        Webdriver: webdriver browser
     """
     try:
         return webdriver.Remote(
@@ -45,6 +45,11 @@ def get_driver():
 
 
 def initialize_linkedin_driver():
+    """This function head the browser to the LinkedIn website.
+
+    Returns:
+        Webdriver: webdriver browser
+    """
     driver = get_driver()
     cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
