@@ -99,6 +99,17 @@ def login():
 
 @shared_task()
 def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_count):
+    """This function store a post into database. It will create or update a post.
+    If a post with post-id exists, It will update it. Otherwise it will create a new post.
+
+    Args:
+        channel_id (int): id of channel
+        post_id (int): id of post
+        body (str): body of the post
+        reaction_count (int): reactions count
+        comment_count (int): comments count
+        share_count (int): shares count
+    """
     exists = net_models.Post.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
