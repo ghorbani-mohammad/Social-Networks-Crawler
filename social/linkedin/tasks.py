@@ -71,6 +71,11 @@ def driver_exit(driver):
 
 @shared_task()
 def login():
+    """This function login into LinkedIn and store credential info into /app/social/cookies.pkl .
+    It read username and password from environment variables as follow:
+    LINKEDIN_EMAIL -> username
+    LINKEDIN_PASSWORD -> password
+    """
     driver = get_driver()
     driver.get("https://www.linkedin.com/login")
     try:
