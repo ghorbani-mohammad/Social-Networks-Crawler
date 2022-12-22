@@ -89,8 +89,7 @@ def login():
     except Exception as e:
         logger.error(traceback.format_exc())
     finally:
-        time.sleep(5)
-        driver.close()
+        driver_exit(driver)
 
 
 @shared_task()
