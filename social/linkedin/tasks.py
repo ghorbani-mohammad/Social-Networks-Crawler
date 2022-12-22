@@ -300,6 +300,18 @@ def send_notification(message, job_link, job_language, output_channel_pk):
 
 
 def get_job_detail(driver, item):
+    """This function gets browser driver and job html content and returns some
+    information like job-link, job-desc and job-language.
+
+    Args:
+        driver (Webdriver): browser webdriver
+        item (HTMLElement): html element of job
+
+    Returns:
+        job-link: link of job
+        job-desc: desc of job
+        job-language: language of job
+    """
     job_link = get_job_link(item)
     job_desc = driver.find_element(By.ID, "job-details").text
     job_language = detect(job_desc)
