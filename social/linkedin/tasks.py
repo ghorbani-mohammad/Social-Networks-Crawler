@@ -59,6 +59,12 @@ def initialize_linkedin_driver():
 
 
 def driver_exit(driver):
+    """This function properly exit a web driver.
+    It ensures that we wait for some seconds before exiting the browser.
+
+    Args:
+        driver (Webdriver): webdriver browser
+    """
     time.sleep(2)
     driver.quit()
 
