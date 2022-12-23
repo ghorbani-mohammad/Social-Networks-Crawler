@@ -327,37 +327,50 @@ def get_job_location(element):
     return location.replace("\n", " | ")
 
 
+def get_job_company(element):
+    return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__subtitle").text
+
+
 def send_notification(
-    message, job_link, job_language, job_title, job_location, output_channel_pk
+    message,
+    job_link,
+    job_language,
+    job_title,
+    job_location,
+    job_company,
+    output_channel_pk,
 ):
     not_tasks.send_message_to_telegram_channel(
         message.replace("link", strip_tags(job_link))
         .replace("lang", job_language.upper())
         .replace("title", job_title)
-        .replace("location", job_location),
+        .replace("location", job_location)
+        .replace("company", job_company),
         output_channel_pk,
     )
 
 
-def get_job_detail(driver, item):
+def get_job_detail(driver, element):
     """This function gets browser driver and job html content and returns some
     information like job-link, job-desc and job-language.
 
     Args:
         driver (Webdriver): browser webdriver
-        item (HTMLElement): html element of job
+        element (HTMLElement): html element of job
 
     Returns:
         job-link: link of job
         job-desc: desc of job
         job-language: language of job
     """
-    job_link = get_job_link(item)
-    job_title = get_job_title(item)
-    job_location = get_job_location(item)
-    job_desc = driver.find_element(By.ID, "job-details").text
-    job_language = detect(job_desc)
-    return job_title, job_link, job_desc, job_language, job_location
+    result = {}
+    result["link"] = get_job_link(element)
+    result["title"] = get_job_title(element)
+    result["location"] = get_job_location(element)
+    result["company"] = get_job_company(element)
+    result["description"] = driver.find_element(By.ID, "job-details").text
+    result["language"] = detect(result["description"])
+    return result
 
 
 @shared_task()
@@ -377,18 +390,17 @@ def get_job_page_posts(message, url, output_channel_pk):
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
-            job_title, job_link, job_desc, job_language, job_location = get_job_detail(
-                driver, item
-            )
-            if not is_english(job_language):
-                store_ignored_content.delay(job_link, job_desc)
+            data = get_job_detail(driver, item)
+            if not is_english(data["language"]):
+                store_ignored_content.delay(data["link"], data["description"])
                 continue
             send_notification(
                 message,
-                job_link,
-                job_language,
-                job_title,
-                job_location,
+                data["link"],
+                data["language"],
+                data["title"],
+                data["location"],
+                data["company"],
                 output_channel_pk,
             )
             counter += 1
