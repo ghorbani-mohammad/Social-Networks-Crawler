@@ -324,11 +324,14 @@ def get_job_location(element):
     return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__caption").text
 
 
-def send_notification(message, job_link, job_language, output_channel_pk):
+def send_notification(
+    message, job_link, job_language, job_title, job_location, output_channel_pk
+):
     not_tasks.send_message_to_telegram_channel(
-        message.replace("link", strip_tags(job_link)).replace(
-            "lang", job_language.upper()
-        ),
+        message.replace("link", strip_tags(job_link))
+        .replace("lang", job_language.upper())
+        .replace("title", job_title)
+        .replace("loc", job_location),
         output_channel_pk,
     )
 
@@ -349,11 +352,9 @@ def get_job_detail(driver, item):
     job_link = get_job_link(item)
     job_title = get_job_title(item)
     job_location = get_job_location(item)
-    print(f"job title is: {job_title}")
-    print(f"job location is: {job_location}")
     job_desc = driver.find_element(By.ID, "job-details").text
     job_language = detect(job_desc)
-    return job_link, job_desc, job_language
+    return job_link, job_desc, job_language, job_title, job_location
 
 
 @shared_task()
@@ -373,11 +374,20 @@ def get_job_page_posts(message, url, output_channel_pk):
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
-            job_link, job_desc, job_language = get_job_detail(driver, item)
+            job_link, job_desc, job_title, job_location, job_language = get_job_detail(
+                driver, item
+            )
             if not is_english(job_language):
                 store_ignored_content.delay(job_link, job_desc)
                 continue
-            send_notification(message, job_link, job_language, output_channel_pk)
+            send_notification(
+                message,
+                job_link,
+                job_language,
+                job_title,
+                job_location,
+                output_channel_pk,
+            )
             counter += 1
         except Exception:
             print(traceback.format_exc())
