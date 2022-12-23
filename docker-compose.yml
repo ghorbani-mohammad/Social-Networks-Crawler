@@ -71,7 +71,4 @@ services:
 
 volumes:
   social_db:
-
-networks:
-  default:
-    name: army
+  
