@@ -316,6 +316,11 @@ def get_job_link(element):
     return link
 
 
+def get_job_title(element):
+    title = element.find_element(By.CLASS_NAME, "job-card-container__link").text
+    return title
+
+
 def send_notification(message, job_link, job_language, output_channel_pk):
     not_tasks.send_message_to_telegram_channel(
         message.replace("link", strip_tags(job_link)).replace(
@@ -339,6 +344,8 @@ def get_job_detail(driver, item):
         job-language: language of job
     """
     job_link = get_job_link(item)
+    job_title = get_job_title(item)
+    print(job_title)
     job_desc = driver.find_element(By.ID, "job-details").text
     job_language = detect(job_desc)
     return job_link, job_desc, job_language
