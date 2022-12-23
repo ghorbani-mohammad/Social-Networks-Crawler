@@ -355,7 +355,6 @@ def get_job_detail(driver, item):
     job_desc = driver.find_element(By.ID, "job-details").text
     job_language = detect(job_desc)
     return job_title, job_link, job_desc, job_language, job_location
-    return job_link, job_desc, job_language, job_title, job_location
 
 
 @shared_task()
