@@ -1,3 +1,12 @@
+# [1.10.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.9.1...v1.10.0) (2022-12-23)
+
+
+### Features
+
+* add job title and job location to notifications ([066ad14](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/066ad1431e5341e9e4f5d517b8a71ad061f9f408))
+
+
+
 ## [1.9.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.9.0...v1.9.1) (2022-12-21)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * send job posts into channel ([6cb4061](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6cb406156782dc7c0872e7494f34214f3471472c))
-
-
-
-## [1.6.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.6.0...v1.6.1) (2022-12-17)
-
-
-### Bug Fixes
-
-* minor change ([62c0e3f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/62c0e3fdfd8dc134b6fafed2ff778af54276bbfc))
 
 
 
