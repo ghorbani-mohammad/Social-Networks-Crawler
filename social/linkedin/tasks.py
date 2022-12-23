@@ -321,7 +321,10 @@ def get_job_title(element):
 
 
 def get_job_location(element):
-    return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__caption").text
+    location = element.find_element(
+        By.CLASS_NAME, "artdeco-entity-lockup__caption"
+    ).text
+    return location.replace("\n", " ")
 
 
 def send_notification(
