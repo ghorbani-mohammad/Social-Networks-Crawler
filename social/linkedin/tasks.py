@@ -331,21 +331,13 @@ def get_job_company(element):
     return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__subtitle").text
 
 
-def send_notification(
-    message,
-    job_link,
-    job_language,
-    job_title,
-    job_location,
-    job_company,
-    output_channel_pk,
-):
+def send_notification(message, data, output_channel_pk):
     not_tasks.send_message_to_telegram_channel(
-        message.replace("link", strip_tags(job_link))
-        .replace("lang", job_language.upper())
-        .replace("title", job_title)
-        .replace("location", job_location)
-        .replace("company", job_company),
+        message.replace("link", strip_tags(data["link"]))
+        .replace("lang", data["language"].upper())
+        .replace("title", data["title"])
+        .replace("location", data["location"])
+        .replace("company", data["company"]),
         output_channel_pk,
     )
 
@@ -394,17 +386,9 @@ def get_job_page_posts(message, url, output_channel_pk):
             if not is_english(data["language"]):
                 store_ignored_content.delay(data["link"], data["description"])
                 continue
-            send_notification(
-                message,
-                data["link"],
-                data["language"],
-                data["title"],
-                data["location"],
-                data["company"],
-                output_channel_pk,
-            )
+            send_notification(message, data, output_channel_pk)
             counter += 1
         except Exception:
-            print(traceback.format_exc())
+            logger.error(traceback.format_exc())
     print(f"found {counter} job")
     driver_exit(driver)
