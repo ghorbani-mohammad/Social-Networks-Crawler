@@ -331,7 +331,7 @@ def send_notification(
         message.replace("link", strip_tags(job_link))
         .replace("lang", job_language.upper())
         .replace("title", job_title)
-        .replace("loc", job_location),
+        .replace("location", job_location),
         output_channel_pk,
     )
 
@@ -377,6 +377,7 @@ def get_job_page_posts(message, url, output_channel_pk):
             job_link, job_desc, job_title, job_location, job_language = get_job_detail(
                 driver, item
             )
+            print(job_link, job_language, job_title, job_location)
             if not is_english(job_language):
                 store_ignored_content.delay(job_link, job_desc)
                 continue
