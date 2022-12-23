@@ -1,3 +1,12 @@
+# [1.11.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.10.0...v1.11.0) (2022-12-23)
+
+
+### Features
+
+* add company name to job notifications ([c5f4b5a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/c5f4b5a13240a190e2a1bfc03bfb28e57ce0f006))
+
+
+
 # [1.10.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.9.1...v1.10.0) (2022-12-23)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * twitter search pages now can send messages to specific channels ([ea46dde](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ea46dde8c7f97271ed9719de9856120caca99c22))
-
-
-
-# [1.7.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.6.1...v1.7.0) (2022-12-18)
-
-
-### Features
-
-* send job posts into channel ([6cb4061](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6cb406156782dc7c0872e7494f34214f3471472c))
 
 
 
