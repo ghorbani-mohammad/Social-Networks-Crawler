@@ -346,6 +346,7 @@ def get_job_detail(driver, item):
     job_link = get_job_link(item)
     job_title = get_job_title(item)
     print(f"job title is: {job_title}")
+    print(item.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title").text)
     job_desc = driver.find_element(By.ID, "job-details").text
     job_language = detect(job_desc)
     return job_link, job_desc, job_language
