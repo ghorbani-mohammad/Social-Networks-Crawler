@@ -378,9 +378,9 @@ def get_job_page_posts(message, url, output_channel_pk):
                 driver, item
             )
             print(job_link, job_language, job_title, job_location)
-            if not is_english(job_language):
-                store_ignored_content.delay(job_link, job_desc)
-                continue
+            # if not is_english(job_language):
+            #     store_ignored_content.delay(job_link, job_desc)
+            #     continue
             send_notification(
                 message,
                 job_link,
