@@ -9,6 +9,7 @@ def telegram_bot_sendtext(token, chat_id, message):
         + chat_id
         + "&text="
         + message
+        + "&parse_mode=markdown"
     )
     response = requests.get(send_text)
     return response.json()
