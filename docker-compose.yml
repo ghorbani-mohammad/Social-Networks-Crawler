@@ -71,4 +71,3 @@ services:
 
 volumes:
   social_db:
-  
