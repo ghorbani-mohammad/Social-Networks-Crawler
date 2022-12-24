@@ -298,6 +298,14 @@ def sort_by_most_recent(driver):
 
 
 def is_english(language):
+    """Checks if language term is English or not
+
+    Args:
+        language (str): language term
+
+    Returns:
+        bool: True if is "en" otherwise is False
+    """
     if language != "en":
         return False
     return True
