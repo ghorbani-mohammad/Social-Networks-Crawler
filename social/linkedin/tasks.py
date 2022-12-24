@@ -328,6 +328,14 @@ def get_job_location(element):
 
 
 def get_job_company(element):
+    """Extract selected job company from driver
+
+    Args:
+        driver (WebDriver): browser driver
+
+    Returns:
+        str: job company
+    """
     return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__subtitle").text
 
 
