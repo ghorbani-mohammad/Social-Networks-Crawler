@@ -1,6 +1,10 @@
 import requests
 
 
+def telegram_text_purify(text: str):
+    return text.replace("#", "-").replace("#", "-")
+
+
 def telegram_bot_sendtext(token, chat_id, message):
     send_text = (
         "https://api.telegram.org/bot"

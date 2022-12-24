@@ -20,6 +20,7 @@ from network import models as net_models
 from linkedin import models as lin_models
 from notification import tasks as not_tasks
 from reusable.other import only_one_concurrency
+from notification.utils import telegram_text_purify
 
 logger = get_task_logger(__name__)
 MINUTE = 60
@@ -248,8 +249,7 @@ def get_linkedin_feed():
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             link = f"https://www.linkedin.com/feed/update/{id}/"
-            body = body.replace("#", "-")
-            body = body.replace("&", "-")
+            body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
