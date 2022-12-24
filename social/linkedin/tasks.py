@@ -357,9 +357,9 @@ def get_job_detail(driver, element):
     """
     result = {}
     result["link"] = get_job_link(element)
-    result["title"] = get_job_title(element)
-    result["location"] = get_job_location(element)
-    result["company"] = get_job_company(element)
+    result["title"] = telegram_text_purify(get_job_title(element))
+    result["location"] = telegram_text_purify(get_job_location(element))
+    result["company"] = telegram_text_purify(get_job_company(element))
     result["description"] = driver.find_element(By.ID, "job-details").text
     result["language"] = detect(result["description"])
     return result
