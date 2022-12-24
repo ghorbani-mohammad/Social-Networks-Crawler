@@ -332,6 +332,14 @@ def get_job_company(element):
 
 
 def get_job_description(driver):
+    """Extract selected job description from driver
+
+    Args:
+        driver (WebDriver): browser driver
+
+    Returns:
+        str: job description
+    """
     return driver.find_element(By.ID, "job-details").text
 
 
