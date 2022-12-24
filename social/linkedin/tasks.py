@@ -331,6 +331,10 @@ def get_job_company(element):
     return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__subtitle").text
 
 
+def get_job_description(driver):
+    return driver.find_element(By.ID, "job-details").text
+
+
 def send_notification(message, data, output_channel_pk):
     not_tasks.send_message_to_telegram_channel(
         message.replace("link", strip_tags(data["link"]))
@@ -351,17 +355,16 @@ def get_job_detail(driver, element):
         element (HTMLElement): html element of job
 
     Returns:
-        job-link: link of job
-        job-desc: desc of job
-        job-language: language of job
+        result (dict): consist of information about job: link, description, language, title,
+            location, company
     """
     result = {}
     result["link"] = get_job_link(element)
+    result["description"] = get_job_description(driver)
+    result["language"] = detect(result["description"])
     result["title"] = telegram_text_purify(get_job_title(element))
     result["location"] = telegram_text_purify(get_job_location(element))
     result["company"] = telegram_text_purify(get_job_company(element))
-    result["description"] = driver.find_element(By.ID, "job-details").text
-    result["language"] = detect(result["description"])
     return result
 
 
