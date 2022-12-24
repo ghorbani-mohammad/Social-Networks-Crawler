@@ -321,6 +321,14 @@ def get_job_title(element):
 
 
 def get_job_location(element):
+    """Extract selected job location from driver
+
+    Args:
+        driver (WebDriver): browser driver
+
+    Returns:
+        str: job location
+    """
     location = element.find_element(
         By.CLASS_NAME, "artdeco-entity-lockup__caption"
     ).text
