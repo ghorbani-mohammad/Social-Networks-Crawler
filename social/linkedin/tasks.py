@@ -309,6 +309,14 @@ def store_ignored_content(url, content):
 
 
 def get_job_link(element):
+    """Extract selected job link from driver
+
+    Args:
+        driver (WebDriver): browser driver
+
+    Returns:
+        str: job link
+    """
     link = element.find_element(
         By.CLASS_NAME, "job-card-container__link"
     ).get_attribute("href")
