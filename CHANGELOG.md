@@ -1,3 +1,12 @@
+# [1.12.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.11.1...v1.12.0) (2022-12-26)
+
+
+### Features
+
+* add custom email reporter ([3654af5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/3654af5f653d18c1a34aa0d3fdea940209f0f956))
+
+
+
 ## [1.11.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.11.0...v1.11.1) (2022-12-26)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * minor change ([6f6c422](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6f6c422a7ea24ebba849001a56d67bc9089ca6c0))
-
-
-
-# [1.9.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.8.0...v1.9.0) (2022-12-20)
-
-
-### Features
-
-* filter jobs that are not english ([9e08088](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/9e08088b3969d3fbabacb3e91512f3926a4b1e7b))
 
 
 
