@@ -214,3 +214,4 @@ class BackupViewSet(ModelViewSet):
 class TestErrorView(APIView):
     def get(self, request):
         logger.error("Exception happened for test purposes!!!")
+        raise Exception("Exception happened for test purposes!")
