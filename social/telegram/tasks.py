@@ -219,7 +219,7 @@ def run_telegram(account_id):
         except errors.FloodWaitError as e:
             logger.error(f"Flood wait for {e.seconds}")
             await asyncio.sleep(e.seconds)
-        except Exception as e:
+        except Exception:
             logger.error(traceback.format_exc())
 
     async def check_channels_must_joined():
