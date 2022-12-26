@@ -1,6 +1,9 @@
 from celery import shared_task
+from celery.utils.log import get_task_logger
 
 from . import models, utils
+
+logger = get_task_logger(__name__)
 
 
 @shared_task()
@@ -16,9 +19,11 @@ def send_telegram_message(message):
     bot = models.TelegramBot.objects.last()
     accounts = models.TelegramAccount.objects.all()
     for account in accounts:
-        resp = utils.telegram_bot_sendtext(bot.telegram_token, account.chat_id, message)
+        resp = utils.telegram_bot_send_text(
+            bot.telegram_token, account.chat_id, message
+        )
         if not resp["ok"]:
-            raise Exception(resp["description"])
+            logger.error(resp["description"])
 
 
 @shared_task()
@@ -36,8 +41,8 @@ def send_message_to_telegram_channel(message, channel_pk):
 
     bot = models.TelegramBot.objects.last()
     channel_output = Channel.objects.get(pk=channel_pk)
-    resp = utils.telegram_bot_sendtext(
+    resp = utils.telegram_bot_send_text(
         bot.telegram_token, channel_output.username, message
     )
     if not resp["ok"]:
-        raise Exception(resp["description"])
+        logger.error(resp["description"])
