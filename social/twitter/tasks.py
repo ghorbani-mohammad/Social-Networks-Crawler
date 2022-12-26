@@ -198,8 +198,8 @@ def get_twitter_posts(channel_id):
                 post_detail["retweet_count"],
                 post_detail["like_count"],
             )
-        except Exception as e:
-            logger.error(e)
+        except Exception:
+            logger.error(traceback.format_exc())
     time.sleep(2)
     driver.quit()
     channel.last_crawl = timezone.localtime()
@@ -231,8 +231,8 @@ def get_twitter_post_comments(post_id):
                 post_detail["retweet_count"],
                 post_detail["like_count"],
             )
-        except Exception as e:
-            logger.error(e)
+        except Exception:
+            logger.error(traceback.format_exc())
     driver.quit()
 
 
@@ -334,8 +334,8 @@ def crawl_search_page(page_id):
                         body, page.output_channel.pk
                     )
                     time.sleep(1)
-            except Exception as e:
-                logger.error(e)
+            except Exception:
+                logger.error(traceback.format_exc())
         scroll(driver, 1)
         time.sleep(10)
         scroll_counter += 1

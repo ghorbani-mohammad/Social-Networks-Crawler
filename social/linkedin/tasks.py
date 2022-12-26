@@ -254,7 +254,7 @@ def get_linkedin_feed():
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
         except Exception:
-            print(traceback.format_exc())
+            logger.error(traceback.format_exc())
     driver_exit(driver)
 
 
