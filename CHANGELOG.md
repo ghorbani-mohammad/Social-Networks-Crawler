@@ -1,3 +1,12 @@
+## [1.11.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.11.0...v1.11.1) (2022-12-26)
+
+
+### Bug Fixes
+
+* add logs traceback ([28c4778](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/28c4778cb9fe6c22bec7c61e7c65a98fff7bed4e))
+
+
+
 # [1.11.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.10.0...v1.11.0) (2022-12-23)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * filter jobs that are not english ([9e08088](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/9e08088b3969d3fbabacb3e91512f3926a4b1e7b))
-
-
-
-# [1.8.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.7.0...v1.8.0) (2022-12-18)
-
-
-### Features
-
-* twitter search pages now can send messages to specific channels ([ea46dde](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ea46dde8c7f97271ed9719de9856120caca99c22))
 
 
 
