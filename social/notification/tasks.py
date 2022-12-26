@@ -1,3 +1,5 @@
+import traceback
+
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
@@ -23,7 +25,7 @@ def send_telegram_message(message):
             bot.telegram_token, account.chat_id, message
         )
         if not resp["ok"]:
-            logger.error(resp["description"])
+            logger.error(f"{traceback.format_exc()} \n\n{resp['description']}")
 
 
 @shared_task()
@@ -45,4 +47,4 @@ def send_message_to_telegram_channel(message, channel_pk):
         bot.telegram_token, channel_output.username, message
     )
     if not resp["ok"]:
-        logger.error(resp["description"])
+        logger.error(f"{traceback.format_exc()} \n\n{resp['description']}")
