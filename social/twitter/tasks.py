@@ -249,6 +249,17 @@ def check_twitter_pages():
         page.save()
 
 
+def get_tweet_id(article):
+    return int(
+        article.find_element(
+            By.XPATH,
+            ".//a[@role='link' and @dir and @aria-label and not(@tabindex)]",
+        )
+        .get_attribute("href")
+        .split("/")[-1]
+    )
+
+
 def get_tweet_username(article):
     elements = article.find_elements(
         By.XPATH,
@@ -269,14 +280,7 @@ def get_post_detail_v2(article):
         data (json): information of tweet.
     """
     detail = {}
-    detail["id"] = int(
-        article.find_element(
-            By.XPATH,
-            ".//a[@role='link' and @dir and @aria-label and not(@tabindex)]",
-        )
-        .get_attribute("href")
-        .split("/")[-1]
-    )
+    detail["id"] = get_tweet_id(article)
     detail["body"] = article.find_element(
         By.XPATH,
         ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
