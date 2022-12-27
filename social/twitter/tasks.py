@@ -245,8 +245,6 @@ def check_twitter_pages():
     for page in pages:
         print(f"Crawling search-page {page.pk} started")
         crawl_search_page(page.pk)
-        page.last_crawl_at = timezone.localtime()
-        page.save()
 
 
 def get_tweet_id(article):
@@ -299,12 +297,20 @@ def get_post_detail_v2(article):
 
 
 @shared_task()
+def update_last_crawl(page_id):
+    page = models.SearchPage.objects.get(pk=page_id)
+    page.last_crawl_at = timezone.localtime()
+    page.save()
+
+
+@shared_task()
 def crawl_search_page(page_id):
     """Crawl a search page of twitter.
 
     Args:
         page_id (int): id of a search page
     """
+    update_last_crawl.delay(page_id)
     page = models.SearchPage.objects.get(pk=page_id)
     driver = get_driver()
     if driver is None:
