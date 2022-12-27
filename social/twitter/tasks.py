@@ -358,7 +358,7 @@ def crawl_search_page(page_id):
                 driver.execute_script("arguments[0].scrollIntoView();", tweet)
                 post_detail = get_post_detail_v2(tweet)
                 body = post_detail["body"]
-                if DUPLICATE_CHECKER.exists(post_detail["id"]):
+                if DUPLICATE_CHECKER.get(post_detail["id"]):
                     print(f"{post_detail['id']} exists")
                     continue
                 print(f"{post_detail['id']} NOT exists")
