@@ -363,7 +363,7 @@ def crawl_search_page(page_id):
                     print(f"{post_detail['id']} exists")
                     continue
                 print(f"{post_detail['id']} NOT exists")
-                DUPLICATE_CHECKER.set(post_detail["id"], "", DAY * 10)
+                DUPLICATE_CHECKER.set(post_detail["id"], 1, DAY * 30)
                 body = not_utils.telegram_text_purify(body)
                 send = determine_to_send(body, terms1, terms2)
                 if send or True:
