@@ -1,3 +1,12 @@
+## [1.12.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.12.0...v1.12.1) (2022-12-27)
+
+
+### Bug Fixes
+
+* telegram-text-purify ([a56cb26](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a56cb26c86c165df7843767a452317db79301ded))
+
+
+
 # [1.12.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.11.1...v1.12.0) (2022-12-26)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add job title and job location to notifications ([066ad14](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/066ad1431e5341e9e4f5d517b8a71ad061f9f408))
-
-
-
-## [1.9.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.9.0...v1.9.1) (2022-12-21)
-
-
-### Bug Fixes
-
-* minor change ([6f6c422](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6f6c422a7ea24ebba849001a56d67bc9089ca6c0))
 
 
 
