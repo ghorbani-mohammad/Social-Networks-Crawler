@@ -47,4 +47,6 @@ def send_message_to_telegram_channel(message, channel_pk):
         bot.telegram_token, channel_output.username, message
     )
     if not resp["ok"]:
-        logger.error(f"{traceback.format_exc()} \n\n{resp['description']}")
+        logger.error(
+            f"{traceback.format_exc()}\n\nmessage was: {message} \n\n{resp['description']}"
+        )
