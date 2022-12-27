@@ -277,6 +277,10 @@ def get_tweet_username(article):
     return elements[0].text
 
 
+def get_tweet_link(tweet_detail):
+    return f"https://twitter.com/{tweet_detail['username'].replace('@','')}/status/{tweet_detail['id']}"
+
+
 def get_post_detail_v2(article):
     """extract post details from html element
 
@@ -290,9 +294,7 @@ def get_post_detail_v2(article):
     detail["id"] = get_tweet_id(article)
     detail["body"] = get_tweet_username(article)
     detail["username"] = get_tweet_username(article)
-    detail[
-        "link"
-    ] = f"https://twitter.com/{detail['username'].replace('@','')}/status/{detail['id']}"
+    detail["link"] = get_tweet_link(detail)
     return detail
 
 
