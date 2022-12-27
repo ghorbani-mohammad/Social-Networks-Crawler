@@ -331,6 +331,17 @@ def notification_message_prepare(text, link):
     return f"{strip_tags(text)}\n\n{link}"
 
 
+def driver_head_to_page(driver, url):
+    try:
+        driver.get(url)
+        return driver
+    except TimeoutException as e:
+        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
+    except Exception as e:
+        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
+    return None
+
+
 @shared_task()
 def crawl_search_page(page_id):
     """Crawl a search page of twitter.
@@ -343,13 +354,8 @@ def crawl_search_page(page_id):
     driver = get_driver()
     if driver is None:
         return
-    try:
-        driver.get(page.url)
-    except TimeoutException as e:
-        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
-        return
-    except Exception as e:
-        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
+    driver = driver_head_to_page(driver, page.url)
+    if driver is None:
         return
     time.sleep(5)
     scroll_counter = 0
