@@ -312,12 +312,10 @@ def crawl_search_page(page_id):
     try:
         driver.get(page.url)
     except TimeoutException as e:
-        warning = f"{e}\n\n\n{traceback.format_exc()}"
-        logger.warning(warning)
+        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
         return
     except Exception as e:
-        error = f"{e}\n\n\n{traceback.format_exc()}"
-        logger.error(error)
+        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
         return
     time.sleep(5)
     scroll_counter = 0
