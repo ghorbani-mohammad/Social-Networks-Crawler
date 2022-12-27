@@ -1,14 +1,15 @@
-import time, redis, traceback
+import time, traceback
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import SessionNotCreatedException, TimeoutException
-
 from celery import shared_task
 from django.utils import timezone
 from django.utils.html import strip_tags
 from celery.utils.log import get_task_logger
+from django.core.cache import caches
 
 from . import models
 from notification import tasks as not_tasks
@@ -19,7 +20,8 @@ from reusable.other import only_one_concurrency
 logger = get_task_logger(__name__)
 MINUTE = 60
 TASKS_TIMEOUT = 1 * MINUTE
-DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
+# DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
+DUPLICATE_CHECKER = caches["twitter"]
 
 
 def get_driver():
