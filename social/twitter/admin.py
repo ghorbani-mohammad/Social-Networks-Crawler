@@ -6,13 +6,7 @@ from reusable.admins import ReadOnlyAdminDateFields
 
 @admin.register(models.SearchPage)
 class SearchPageAdmin(admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "name",
-        "enable",
-        "output_channel",
-        "last_crawl_at",
-    )
+    list_display = ("pk", "name", "enable", "output_channel", "last_crawl_at")
 
     def crawl_page_action(modeladmin, request, queryset):
         for page in queryset:
