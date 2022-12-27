@@ -42,6 +42,17 @@ def get_driver():
         logger.error(f"Couldn't create browser session. {error}")
 
 
+def driver_exit(driver):
+    """This function properly exit a web driver.
+    It ensures that we wait for some seconds before exiting the browser.
+
+    Args:
+        driver (Webdriver): webdriver browser
+    """
+    time.sleep(2)
+    driver.quit()
+
+
 def scroll(driver, counter):
     """Scroll browser for counter times
 
@@ -201,8 +212,7 @@ def get_twitter_posts(channel_id):
             )
         except Exception:
             logger.error(traceback.format_exc())
-    time.sleep(2)
-    driver.quit()
+    driver_exit(driver)
     channel.last_crawl = timezone.localtime()
     channel.save()
 
@@ -234,7 +244,7 @@ def get_twitter_post_comments(post_id):
             )
         except Exception:
             logger.error(traceback.format_exc())
-    driver.quit()
+    driver_exit(driver)
 
 
 @shared_task()
@@ -364,5 +374,4 @@ def crawl_search_page(page_id):
         scroll(driver, 1)
         time.sleep(10)
         scroll_counter += 1
-    time.sleep(2)
-    driver.quit()
+    driver_exit(driver)
