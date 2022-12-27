@@ -354,7 +354,7 @@ def crawl_search_page(page_id):
                 body = not_utils.telegram_text_purify(body)
                 send = determine_to_send(body, terms1, terms2)
                 if send:
-                    body = f"{strip_tags(body)}\n\n" + post_detail["link"]
+                    body = f"{strip_tags(body)}\n\n{post_detail['link']}"
                     not_tasks.send_message_to_telegram_channel(
                         body, page.output_channel.pk
                     )
