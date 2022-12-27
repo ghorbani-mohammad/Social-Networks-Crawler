@@ -366,15 +366,13 @@ def crawl_search_page(page_id):
                 DUPLICATE_CHECKER.set(post_detail["id"], 1, DAY * 30)
                 body = not_utils.telegram_text_purify(body)
                 send = determine_to_send(body, terms1, terms2)
-                if send or True:
+                if send:
                     body = f"{strip_tags(body)}\n\n{post_detail['link']}"
-                    print(body)
                     not_tasks.send_message_to_telegram_channel(
                         body, page.output_channel.pk
                     )
                     time.sleep(1)
             except Exception:
-                print(traceback.format_exc())
                 logger.error(traceback.format_exc())
         scroll(driver, 1)
         time.sleep(10)
