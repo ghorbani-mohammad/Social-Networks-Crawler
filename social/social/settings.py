@@ -142,7 +142,11 @@ CACHES = {
     "default": {
         "LOCATION": "redis://social_redis:6379/15",  # Some db numbers already used
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-    }
+    },
+    "twitter": {
+        "LOCATION": "redis://social_redis:6379/5",
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+    },
 }
 
 
