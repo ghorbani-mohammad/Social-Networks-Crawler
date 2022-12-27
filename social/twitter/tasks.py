@@ -355,8 +355,8 @@ def crawl_search_page(page_id):
         terms2 = page.terms_level_2.split("+") if page.terms_level_2 else []
         print(f"found {len(tweets)} tweets")
         for tweet in tweets:
+            body = None
             try:
-                body = None
                 driver.execute_script("arguments[0].scrollIntoView();", tweet)
                 post_detail = get_post_detail_v2(tweet)
                 body = post_detail["body"]
