@@ -22,7 +22,6 @@ MINUTE = 60
 HOUR = 60 * MINUTE
 DAY = 24 * HOUR
 TASKS_TIMEOUT = 1 * MINUTE
-# DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
 DUPLICATE_CHECKER = caches["twitter"]
 
 
@@ -367,7 +366,7 @@ def crawl_search_page(page_id):
                 DUPLICATE_CHECKER.set(post_detail["id"], "", DAY * 10)
                 body = not_utils.telegram_text_purify(body)
                 send = determine_to_send(body, terms1, terms2)
-                if send:
+                if send or True:
                     body = f"{strip_tags(body)}\n\n{post_detail['link']}"
                     print(body)
                     not_tasks.send_message_to_telegram_channel(
@@ -375,6 +374,7 @@ def crawl_search_page(page_id):
                     )
                     time.sleep(1)
             except Exception:
+                print(traceback.format_exc())
                 logger.error(traceback.format_exc())
         scroll(driver, 1)
         time.sleep(10)
