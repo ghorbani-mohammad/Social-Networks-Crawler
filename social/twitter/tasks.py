@@ -355,8 +355,8 @@ def crawl_search_page(page_id):
         terms2 = page.terms_level_2.split("+") if page.terms_level_2 else []
         print(f"found {len(tweets)} tweets")
         for tweet in tweets:
+            body = None
             try:
-                body = None
                 driver.execute_script("arguments[0].scrollIntoView();", tweet)
                 post_detail = get_post_detail_v2(tweet)
                 body = post_detail["body"]
@@ -369,6 +369,7 @@ def crawl_search_page(page_id):
                 send = determine_to_send(body, terms1, terms2)
                 if send:
                     body = f"{strip_tags(body)}\n\n{post_detail['link']}"
+                    print(body)
                     not_tasks.send_message_to_telegram_channel(
                         body, page.output_channel.pk
                     )
