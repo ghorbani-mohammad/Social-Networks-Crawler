@@ -304,6 +304,15 @@ def update_last_crawl(page_id):
     page.save()
 
 
+def determine_to_send(body, terms1, terms2):
+    for term in terms2:
+        if term in body:
+            for term in terms1:
+                if term in body:
+                    return True
+    return False
+
+
 @shared_task()
 def crawl_search_page(page_id):
     """Crawl a search page of twitter.
@@ -343,13 +352,7 @@ def crawl_search_page(page_id):
                 print(f"{post_detail['id']} NOT exists")
                 DUPLICATE_CHECKER.set(post_detail["id"], "", ex=86400 * 30)
                 body = not_utils.telegram_text_purify(body)
-                send = False
-                for term in terms2:
-                    if term in body:
-                        for term in terms1:
-                            if term in body:
-                                send = True
-                                break
+                send = determine_to_send(body, terms1, terms2)
                 if send:
                     body = f"{strip_tags(body)}\n\n" + post_detail["link"]
                     not_tasks.send_message_to_telegram_channel(
