@@ -22,7 +22,6 @@ MINUTE = 60
 HOUR = 60 * MINUTE
 DAY = 24 * HOUR
 TASKS_TIMEOUT = 1 * MINUTE
-# DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
 DUPLICATE_CHECKER = caches["twitter"]
 
 
