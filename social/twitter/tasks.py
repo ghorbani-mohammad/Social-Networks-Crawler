@@ -19,6 +19,8 @@ from reusable.other import only_one_concurrency
 
 logger = get_task_logger(__name__)
 MINUTE = 60
+HOUR = 60 * MINUTE
+DAY = 24 * HOUR
 TASKS_TIMEOUT = 1 * MINUTE
 # DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=6)
 DUPLICATE_CHECKER = caches["twitter"]
@@ -362,7 +364,7 @@ def crawl_search_page(page_id):
                     print(f"{post_detail['id']} exists")
                     continue
                 print(f"{post_detail['id']} NOT exists")
-                DUPLICATE_CHECKER.set(post_detail["id"], "", ex=86400 * 30)
+                DUPLICATE_CHECKER.set(post_detail["id"], "", DAY * 10)
                 body = not_utils.telegram_text_purify(body)
                 send = determine_to_send(body, terms1, terms2)
                 if send:
