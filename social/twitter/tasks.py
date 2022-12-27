@@ -249,6 +249,16 @@ def check_twitter_pages():
         page.save()
 
 
+def find_article_username(article):
+    elements = article.find_elements(
+        By.XPATH,
+        ".//a[@role='link' and starts-with(@href,'/') and @tabindex='-1']",
+    )
+    if len(elements) > 1:
+        return elements[1].text
+    return elements[0].text
+
+
 def get_post_detail_v2(article):
     """extract post details from html element
 
@@ -271,10 +281,7 @@ def get_post_detail_v2(article):
         By.XPATH,
         ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
     ).text
-    detail["username"] = article.find_elements(
-        By.XPATH,
-        ".//a[@role='link' and starts-with(@href,'/') and @tabindex='-1']",
-    )[1].text
+    detail["username"] = find_article_username(article)
     detail[
         "link"
     ] = f"https://twitter.com/{detail['username'].replace('@','')}/status/{detail['id']}"
