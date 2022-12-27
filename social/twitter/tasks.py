@@ -304,7 +304,7 @@ def get_post_detail_v2(article):
     """
     detail = {}
     detail["id"] = get_tweet_id(article)
-    detail["body"] = get_tweet_username(article)
+    detail["body"] = get_tweet_body(article)
     detail["username"] = get_tweet_username(article)
     detail["link"] = get_tweet_link(detail)
     return detail
