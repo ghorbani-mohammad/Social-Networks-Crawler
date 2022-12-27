@@ -326,7 +326,7 @@ def determine_to_send(body, terms1, terms2):
     return False
 
 
-def twitter_message_prepare(text, link):
+def notification_message_prepare(text, link):
     text = not_utils.telegram_text_purify(text)
     return f"{strip_tags(text)}\n\n{link}"
 
@@ -371,7 +371,7 @@ def crawl_search_page(page_id):
                 DUPLICATE_CHECKER.set(post_detail["id"], 1, DAY * 30)
                 send = determine_to_send(body, terms1, terms2)
                 if send:
-                    body = twitter_message_prepare(body, post_detail["link"])
+                    body = notification_message_prepare(body, post_detail["link"])
                     not_tasks.send_message_to_telegram_channel(
                         body, page.output_channel.pk
                     )
