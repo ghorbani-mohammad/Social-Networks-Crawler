@@ -12,6 +12,7 @@ from celery.utils.log import get_task_logger
 
 from . import models
 from notification import tasks as not_tasks
+from notification import utils as not_utils
 from network import models as net_models
 from reusable.other import only_one_concurrency
 
@@ -341,7 +342,7 @@ def crawl_search_page(page_id):
                     continue
                 print(f"{post_detail['id']} NOT exists")
                 DUPLICATE_CHECKER.set(post_detail["id"], "", ex=86400 * 30)
-                body = body.replace("#", "-").replace("&", "-")
+                body = not_utils.telegram_text_purify(body)
                 send = False
                 for term in terms2:
                     if term in body:
