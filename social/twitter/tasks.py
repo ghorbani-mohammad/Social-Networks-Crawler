@@ -249,7 +249,25 @@ def check_twitter_pages():
         page.save()
 
 
-def find_article_username(article):
+def get_tweet_id(article):
+    return int(
+        article.find_element(
+            By.XPATH,
+            ".//a[@role='link' and @dir and @aria-label and not(@tabindex)]",
+        )
+        .get_attribute("href")
+        .split("/")[-1]
+    )
+
+
+def get_tweet_body(article):
+    return article.find_element(
+        By.XPATH,
+        ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
+    ).text
+
+
+def get_tweet_username(article):
     elements = article.find_elements(
         By.XPATH,
         ".//a[@role='link' and starts-with(@href,'/') and @tabindex='-1']",
@@ -257,6 +275,10 @@ def find_article_username(article):
     if len(elements) > 1:
         return elements[1].text
     return elements[0].text
+
+
+def get_tweet_link(tweet_detail):
+    return f"https://twitter.com/{tweet_detail['username'].replace('@','')}/status/{tweet_detail['id']}"
 
 
 def get_post_detail_v2(article):
@@ -269,22 +291,10 @@ def get_post_detail_v2(article):
         data (json): information of tweet.
     """
     detail = {}
-    detail["id"] = int(
-        article.find_element(
-            By.XPATH,
-            ".//a[@role='link' and @dir and @aria-label and not(@tabindex)]",
-        )
-        .get_attribute("href")
-        .split("/")[-1]
-    )
-    detail["body"] = article.find_element(
-        By.XPATH,
-        ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
-    ).text
-    detail["username"] = find_article_username(article)
-    detail[
-        "link"
-    ] = f"https://twitter.com/{detail['username'].replace('@','')}/status/{detail['id']}"
+    detail["id"] = get_tweet_id(article)
+    detail["body"] = get_tweet_username(article)
+    detail["username"] = get_tweet_username(article)
+    detail["link"] = get_tweet_link(detail)
     return detail
 
 
