@@ -2,7 +2,7 @@ import requests
 
 
 def telegram_text_purify(text: str):
-    return text.replace("#", "-").replace("#", "-")
+    return text.replace("#", "-").replace("&", "-")
 
 
 def telegram_bot_send_text(token, chat_id, message):
