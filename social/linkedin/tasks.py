@@ -392,12 +392,20 @@ def send_notification(message, data, output_channel_pk):
         data (dict): dictionary that includes retrieved data
         output_channel_pk (int): primary key of output channel
     """
+    has_relocation = False
+    if "relocation" in data["description"].lower():
+        has_relocation = True
+    has_visa = False
+    if "visa" in data["description"].lower():
+        has_visa = True
     not_tasks.send_message_to_telegram_channel(
         message.replace("link", strip_tags(data["link"]))
         .replace("lang", data["language"].upper())
         .replace("title", data["title"])
         .replace("location", data["location"])
-        .replace("company", data["company"]),
+        .replace("company", data["company"])
+        + f"\nRelocation: {'Yes' if has_relocation else 'No'}"
+        + f"\nVisa: {'Yes' if has_visa else 'No'}",
         output_channel_pk,
     )
 
