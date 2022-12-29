@@ -9,6 +9,7 @@ from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.common.exceptions import StaleElementReferenceException
 
 from django.conf import settings
 from django.utils import timezone
@@ -455,6 +456,8 @@ def get_job_page_posts(message, url, output_channel_pk):
                 continue
             send_notification(message, data, output_channel_pk)
             counter += 1
+        except StaleElementReferenceException:
+            logger.error("stale element exception")
         except Exception:
             logger.error(traceback.format_exc())
     print(f"found {counter} job")
