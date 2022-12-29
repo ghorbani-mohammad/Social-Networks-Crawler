@@ -20,9 +20,7 @@ class JobPageAdmin(admin.ModelAdmin):
                 page.message, page.url, page.output_channel.pk
             )
 
-    actions = [
-        crawl_page_action,
-    ]
+    actions = (crawl_page_action,)
     readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ("last_crawl_at",)
 
 
