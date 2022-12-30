@@ -31,8 +31,9 @@ class JobPageAdmin(admin.ModelAdmin):
 
 @admin.register(models.IgnoredContent)
 class IgnoredContentAdmin(admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "url",
-        "created_at",
-    )
+    list_display = ("pk", "url", "created_at")
+
+
+@admin.register(models.Keyword)
+class KeywordAdmin(admin.ModelAdmin):
+    list_display = ("pk", "url" "created_at")
