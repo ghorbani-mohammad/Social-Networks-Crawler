@@ -1,3 +1,12 @@
+# [1.13.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.12.2...v1.13.0) (2022-12-30)
+
+
+### Features
+
+* add Keyword model to linkedIn ([2f9852b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2f9852b7ed72a7a5c101b1603e93d6e777f8b671))
+
+
+
 ## [1.12.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.12.1...v1.12.2) (2022-12-27)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * add logs traceback ([28c4778](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/28c4778cb9fe6c22bec7c61e7c65a98fff7bed4e))
-
-
-
-# [1.11.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.10.0...v1.11.0) (2022-12-23)
-
-
-### Features
-
-* add company name to job notifications ([c5f4b5a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/c5f4b5a13240a190e2a1bfc03bfb28e57ce0f006))
 
 
 
