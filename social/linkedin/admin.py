@@ -36,4 +36,4 @@ class IgnoredContentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Keyword)
 class KeywordAdmin(admin.ModelAdmin):
-    list_display = ("pk", "url", "created_at")
+    list_display = ("pk", "name", "created_at")
