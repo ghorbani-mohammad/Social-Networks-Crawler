@@ -1,3 +1,12 @@
+## [1.14.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.14.0...v1.14.1) (2022-12-30)
+
+
+### Bug Fixes
+
+* minor change ([08bd944](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/08bd94411eda9f5630c99e2ad6fc75d96ec20798))
+
+
+
 # [1.14.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.13.0...v1.14.0) (2022-12-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * telegram-text-purify ([a56cb26](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a56cb26c86c165df7843767a452317db79301ded))
-
-
-
-# [1.12.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.11.1...v1.12.0) (2022-12-26)
-
-
-### Features
-
-* add custom email reporter ([3654af5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/3654af5f653d18c1a34aa0d3fdea940209f0f956))
 
 
 
