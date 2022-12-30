@@ -389,7 +389,7 @@ def check_keywords(body, keywords):
     body = body.lower()
     for keyword in keywords:
         if keyword.lower() in body:
-            result += f"\n {keyword}: ✅"
+            result += f"\n{keyword}: ✅"
     return result
 
 
