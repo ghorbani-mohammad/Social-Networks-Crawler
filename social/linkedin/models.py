@@ -27,7 +27,7 @@ class JobPage(BaseModel):
         null=True,
         related_name="linkedin_pages",
     )
-    keywords = models.ManyToManyField(Keyword)
+    keywords = models.ManyToManyField(Keyword, blank=True)
 
     @property
     def keywords_in_array(self):
