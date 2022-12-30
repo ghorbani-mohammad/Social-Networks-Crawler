@@ -384,7 +384,7 @@ def get_job_description(driver):
     return driver.find_element(By.ID, "job-details").text
 
 
-def check_keywords(self, body, keywords):
+def check_keywords(body, keywords):
     result = ""
     body = body.lower()
     for keyword in keywords:
