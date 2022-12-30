@@ -265,7 +265,7 @@ def check_job_pages():
     for page in pages:
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
-        get_job_page_posts(page.message, page.url, page.output_channel.pk)
+        get_job_page_posts(page.pk)
         page.last_crawl_at = time
         page.save()
 
@@ -384,7 +384,16 @@ def get_job_description(driver):
     return driver.find_element(By.ID, "job-details").text
 
 
-def send_notification(message, data, output_channel_pk):
+def check_keywords(self, body, keywords):
+    result = ""
+    body = body.lower()
+    for keyword in keywords:
+        if keyword.lower() in body:
+            result += f"\n {keyword}: ✅"
+    return result
+
+
+def send_notification(message, data, keywords, output_channel_pk):
     """This function gets a message template and places the retrieved data into that.
     Then sends it to specified output channel
 
@@ -393,20 +402,13 @@ def send_notification(message, data, output_channel_pk):
         data (dict): dictionary that includes retrieved data
         output_channel_pk (int): primary key of output channel
     """
-    has_relocation = False
-    if "relocation" in data["description"].lower():
-        has_relocation = True
-    has_visa = False
-    if "visa" in data["description"].lower():
-        has_visa = True
     not_tasks.send_message_to_telegram_channel(
         message.replace("link", strip_tags(data["link"]))
         .replace("lang", data["language"].upper())
         .replace("title", data["title"])
         .replace("location", data["location"])
         .replace("company", data["company"])
-        + f"\nRelocation: {'Yes' if has_relocation else 'No'}"
-        + f"\nVisa: {'Yes' if has_visa else 'No'}",
+        .replace("keywords", check_keywords(data["description"]), keywords),
         output_channel_pk,
     )
 
@@ -434,7 +436,14 @@ def get_job_detail(driver, element):
 
 
 @shared_task()
-def get_job_page_posts(message, url, output_channel_pk):
+def get_job_page_posts(page_id):
+    page = lin_models.JobPage.objects.get(pk=page_id)
+    message, url, output_channel_pk, keywords = (
+        page.message,
+        page.url,
+        page.output_channel.pk,
+        page.keywords_in_array,
+    )
     driver = initialize_linkedin_driver()
     driver.get(url)
     time.sleep(5)
@@ -454,10 +463,11 @@ def get_job_page_posts(message, url, output_channel_pk):
             if not is_english(data["language"]):
                 store_ignored_content.delay(data["link"], data["description"])
                 continue
-            send_notification(message, data, output_channel_pk)
+            send_notification(message, data, keywords, output_channel_pk)
             counter += 1
         except StaleElementReferenceException:
             logger.error("stale element exception")
+            break
         except Exception:
             logger.error(traceback.format_exc())
     print(f"found {counter} job")
