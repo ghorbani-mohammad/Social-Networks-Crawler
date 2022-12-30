@@ -37,3 +37,4 @@ class IgnoredContentAdmin(admin.ModelAdmin):
 @admin.register(models.Keyword)
 class KeywordAdmin(admin.ModelAdmin):
     list_display = ("pk", "name", "created_at")
+    readonly_fields = ReadOnlyAdminDateFields.readonly_fields

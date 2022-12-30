@@ -7,6 +7,9 @@ class Keyword(BaseModel):
     name = models.CharField(max_length=20)
     words = models.TextField()
 
+    def __str__(self):
+        return f"({self.pk} - {self.name})"
+
 
 class JobPage(BaseModel):
     url = models.URLField()
