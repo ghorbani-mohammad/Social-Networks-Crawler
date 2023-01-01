@@ -157,8 +157,17 @@ class BlockedKeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 @admin.register(models.Log)
 class LogAdmin(admin.ModelAdmin):
     list_filter = ("level",)
-    readonly_fields = ("level", "message", "time")
-    list_display = ("pk", "level", "short_message", "time")
+    readonly_fields = (
+        "time",
+        "level",
+        "message",
+    )
+    list_display = (
+        "pk",
+        "level",
+        "short_message",
+        "time",
+    )
 
     def delete_all_logs(modeladmin, request, queryset):
         models.Log.objects.all().delete()
