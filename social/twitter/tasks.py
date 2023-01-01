@@ -38,11 +38,9 @@ def get_driver():
             DesiredCapabilities.FIREFOX,
         )
     except SessionNotCreatedException as e:
-        error = f"{e}\n\n\n{traceback.format_exc()}"
-        logger.error(error)
+        logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
     except MaxRetryError as e:
-        error = f"{e}\n\n\n{traceback.format_exc()}"
-        logger.error(f"Couldn't create browser session. {error}")
+        logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
 
 
 def driver_exit(driver):
