@@ -465,7 +465,7 @@ def get_job_detail(driver, element):
 
 
 @shared_task()
-def get_job_page_posts(page_id):
+def get_job_page_posts(page_id, ignore_repetitive=True):
     page = lin_models.JobPage.objects.get(pk=page_id)
     message, url, output_channel_pk, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
@@ -478,7 +478,7 @@ def get_job_page_posts(page_id):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
-            if DUPLICATE_CHECKER.exists(id):
+            if ignore_repetitive and DUPLICATE_CHECKER.exists(id):
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
