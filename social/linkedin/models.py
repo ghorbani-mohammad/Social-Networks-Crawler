@@ -15,6 +15,15 @@ class Keyword(BaseModel):
         return f"({self.pk} - {self.name})"
 
 
+class IgnoringFilter(BaseModel):
+    LOCATION = "location"
+    TITLE = "title"
+    PLACE_CHOICES = ((LOCATION, LOCATION), (TITLE, TITLE))
+    place = models.CharField(choices=PLACE_CHOICES, max_length=15)
+
+    keyword = models.TextField(null=True)
+
+
 class JobPage(BaseModel):
     url = models.URLField()
     name = models.CharField(max_length=100)
@@ -28,6 +37,7 @@ class JobPage(BaseModel):
         related_name="linkedin_pages",
     )
     keywords = models.ManyToManyField(Keyword, blank=True)
+    ignore_filters = models.ManyToManyField(IgnoringFilter, blank=True)
 
     @property
     def keywords_in_array(self):
@@ -47,12 +57,3 @@ class JobPage(BaseModel):
 class IgnoredContent(BaseModel):
     url = models.URLField(null=True)
     content = models.TextField(null=True)
-
-
-class IgnoringFilter(BaseModel):
-    LOCATION = "location"
-    TITLE = "title"
-    PLACE_CHOICES = ((LOCATION, LOCATION), (TITLE, TITLE))
-    place = models.CharField(choices=PLACE_CHOICES, max_length=15)
-
-    keyword = models.TextField(null=True)
