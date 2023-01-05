@@ -43,3 +43,12 @@ class JobPage(BaseModel):
 class IgnoredContent(BaseModel):
     url = models.URLField(null=True)
     content = models.TextField(null=True)
+
+
+class IgnoringFilter(BaseModel):
+    LOCATION = "location"
+    TITLE = "title"
+    PLACE_CHOICES = ((LOCATION, LOCATION), (TITLE, TITLE))
+    place = models.CharField(choices=PLACE_CHOICES, max_length=15)
+
+    keyword = models.TextField(null=True)
