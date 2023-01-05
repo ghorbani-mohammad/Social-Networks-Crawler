@@ -48,7 +48,13 @@ class JobPage(BaseModel):
 
     @property
     def page_data(self):
-        return self.message, self.url, self.output_channel.pk, self.keywords_in_array
+        return (
+            self.message,
+            self.url,
+            self.output_channel.pk,
+            self.keywords_in_array,
+            self.ignore_filters.all(),
+        )
 
     def __str__(self):
         return f"({self.pk} - {self.name})"
