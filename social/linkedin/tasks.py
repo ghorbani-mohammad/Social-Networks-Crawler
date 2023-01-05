@@ -494,5 +494,5 @@ def get_job_page_posts(page_id):
             break
         except Exception:
             logger.error(traceback.format_exc())
-    print(f"found {counter} job")
+    print(f"found {counter} new job in page {page_id}")
     driver_exit(driver)
