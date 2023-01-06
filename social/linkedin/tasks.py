@@ -484,7 +484,7 @@ def get_job_page_posts(page_id):
             item.click()
             time.sleep(2)
             data = get_job_detail(driver, item)
-            if not is_eligible(data, ig_filters):
+            if not is_eligible(ig_filters, data):
                 store_ignored_content.delay(data["link"], data["description"])
                 continue
             send_notification(message, data, keywords, output_channel_pk)
