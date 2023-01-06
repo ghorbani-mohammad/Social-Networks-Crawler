@@ -23,7 +23,11 @@ class JobPageAdmin(admin.ModelAdmin):
         for page in queryset:
             tasks.get_job_page_posts.delay(page.pk)
 
-    actions = (crawl_page_action,)
+    def crawl_page_repetitive_action(modeladmin, request, queryset):
+        for page in queryset:
+            tasks.get_job_page_posts.delay(page.pk, ignore_repetitive=False)
+
+    actions = (crawl_page_action, crawl_page_repetitive_action)
     readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ("last_crawl_at",)
 
 
