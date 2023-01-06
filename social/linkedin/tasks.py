@@ -312,7 +312,13 @@ def is_english(language):
     return True
 
 
-def is_eligible(job_detail, ig_filters):
+def check_eligible(keyword, job_detail):
+    if keyword.lower() in job_detail.lower():
+        return False
+    return True
+
+
+def is_eligible(ig_filters, job_detail):
     """Checks if job is eligible or not based on job_detail and some conditions
     Like location of the job or language of job.
 
@@ -324,6 +330,14 @@ def is_eligible(job_detail, ig_filters):
     """
     if not is_english(job_detail["language"]):
         return False
+    for filter in ig_filters:
+        detail = ""
+        if filter.place == lin_models.IgnoringFilter.TITLE:
+            detail = job_detail["title"]
+        elif filter.place == lin_models.IgnoringFilter.LOCATION:
+            detail = job_detail["location"]
+        if not check_eligible(filter.keyword, detail):
+            return False
     return True
 
 
