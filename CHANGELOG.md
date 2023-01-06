@@ -1,3 +1,12 @@
+# [1.15.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.14.1...v1.15.0) (2023-01-06)
+
+
+### Features
+
+* add checking eligibility ([7d0aa91](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7d0aa91d8144947f9fd44c20016c1c3dba8b2cc1))
+
+
+
 ## [1.14.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.14.0...v1.14.1) (2022-12-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * minor change ([624393e](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/624393e0113d8cb3e9357a64f624a5bf64af1072))
-
-
-
-## [1.12.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.12.0...v1.12.1) (2022-12-27)
-
-
-### Bug Fixes
-
-* telegram-text-purify ([a56cb26](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a56cb26c86c165df7843767a452317db79301ded))
 
 
 
