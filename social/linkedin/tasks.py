@@ -312,6 +312,21 @@ def is_english(language):
     return True
 
 
+def is_eligible(job_detail):
+    """Checks if job is eligible or not based on job_detail and some conditions
+    Like location of the job or language of job.
+
+    Args:
+        job_detail (dict): details of job like location, language
+
+    Returns:
+        bool: True if is eligible otherwise is False
+    """
+    if not is_english(job_detail["language"]):
+        return False
+    return True
+
+
 @shared_task
 def store_ignored_content(url, content):
     lin_models.IgnoredContent.objects.create(url=url, content=content)
@@ -460,7 +475,7 @@ def get_job_page_posts(page_id):
             item.click()
             time.sleep(2)
             data = get_job_detail(driver, item)
-            if not is_english(data["language"]):
+            if not is_eligible(data):
                 store_ignored_content.delay(data["link"], data["description"])
                 continue
             send_notification(message, data, keywords, output_channel_pk)
