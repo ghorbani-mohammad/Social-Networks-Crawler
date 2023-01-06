@@ -312,7 +312,7 @@ def is_english(language):
     return True
 
 
-def is_eligible(job_detail):
+def is_eligible(job_detail, ig_filters):
     """Checks if job is eligible or not based on job_detail and some conditions
     Like location of the job or language of job.
 
@@ -453,7 +453,7 @@ def get_job_detail(driver, element):
 @shared_task()
 def get_job_page_posts(page_id):
     page = lin_models.JobPage.objects.get(pk=page_id)
-    message, url, output_channel_pk, keywords = page.page_data
+    message, url, output_channel_pk, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
     driver.get(url)
     time.sleep(5)
@@ -470,7 +470,7 @@ def get_job_page_posts(page_id):
             item.click()
             time.sleep(2)
             data = get_job_detail(driver, item)
-            if not is_eligible(data):
+            if not is_eligible(data, ig_filters):
                 store_ignored_content.delay(data["link"], data["description"])
                 continue
             send_notification(message, data, keywords, output_channel_pk)
