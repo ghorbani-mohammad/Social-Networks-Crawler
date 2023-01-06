@@ -453,12 +453,7 @@ def get_job_detail(driver, element):
 @shared_task()
 def get_job_page_posts(page_id):
     page = lin_models.JobPage.objects.get(pk=page_id)
-    message, url, output_channel_pk, keywords = (
-        page.message,
-        page.url,
-        page.output_channel.pk,
-        page.keywords_in_array,
-    )
+    message, url, output_channel_pk, keywords = page.page_data
     driver = initialize_linkedin_driver()
     driver.get(url)
     time.sleep(5)
