@@ -33,7 +33,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
 @admin.register(models.IgnoredJob)
 class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
-    list_display = ("pk", "url", "created_at")
+    list_display = ("pk", "title", "company", "language", "url", "created_at")
 
 
 @admin.register(models.Keyword)
