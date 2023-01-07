@@ -351,20 +351,20 @@ def store_ignored_content(job_detail):
     )
 
 
-def get_job_link(element):
-    """Extract selected job link from driver
+def get_job_url(element):
+    """Extract selected job url from driver
 
     Args:
         driver (WebDriver): browser driver
 
     Returns:
-        str: job link
+        str: job url
     """
-    link = element.find_element(
-        By.CLASS_NAME, "job-card-container__link"
-    ).get_attribute("href")
-    link = link.split("?")[0]  # remove query params
-    return link
+    url = element.find_element(By.CLASS_NAME, "job-card-container__link").get_attribute(
+        "href"
+    )
+    url = url.split("?")[0]  # remove query params
+    return url
 
 
 def get_job_title(element):
@@ -460,7 +460,7 @@ def get_job_detail(driver, element):
             location, company
     """
     result = {}
-    result["url"] = get_job_link(element)
+    result["url"] = get_job_url(element)
     result["description"] = get_job_description(driver)
     result["language"] = detect(result["description"])
     result["title"] = telegram_text_purify(get_job_title(element))
