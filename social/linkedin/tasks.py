@@ -346,9 +346,7 @@ def is_eligible(ig_filters, job_detail):
 
 @shared_task
 def store_ignored_content(job_detail):
-    lin_models.IgnoredContent.objects.create(
-        url=job_detail["url"], description=job_detail["description"]
-    )
+    lin_models.IgnoredJob.objects.create(**job_detail)
 
 
 def get_job_url(element):
