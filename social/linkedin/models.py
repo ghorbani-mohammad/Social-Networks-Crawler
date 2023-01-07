@@ -27,7 +27,7 @@ class IgnoringFilter(BaseModel):
         return f"({self.pk} - {self.place})"
 
 
-class JobPage(BaseModel):
+class JobSearch(BaseModel):
     url = models.URLField()
     name = models.CharField(max_length=100)
     enable = models.BooleanField(default=True)

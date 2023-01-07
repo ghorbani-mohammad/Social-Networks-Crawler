@@ -261,7 +261,7 @@ def get_linkedin_feed():
 
 @shared_task()
 def check_job_pages():
-    pages = lin_models.JobPage.objects.filter(enable=True)
+    pages = lin_models.JobSearch.objects.filter(enable=True)
     for page in pages:
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
@@ -324,7 +324,7 @@ def is_eligible(ig_filters, job_detail):
 
     Args:
         job_detail (dict): details of job like location, language
-        ig_filters (IgnoringFilter): defined filters for a JobPage
+        ig_filters (IgnoringFilter): defined filters for a JobSearch
 
     Returns:
         bool: True if is eligible otherwise is False
@@ -471,7 +471,7 @@ def get_job_detail(driver, element):
 
 @shared_task()
 def get_job_page_posts(page_id, ignore_repetitive=True):
-    page = lin_models.JobPage.objects.get(pk=page_id)
+    page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
     driver.get(url)
