@@ -347,7 +347,7 @@ def is_eligible(ig_filters, job_detail):
 @shared_task
 def store_ignored_content(job_detail):
     lin_models.IgnoredContent.objects.create(
-        url=job_detail["link"], description=job_detail["description"]
+        url=job_detail["url"], description=job_detail["description"]
     )
 
 
@@ -437,7 +437,7 @@ def send_notification(message, data, keywords, output_channel_pk):
         output_channel_pk (int): primary key of output channel
     """
     not_tasks.send_message_to_telegram_channel(
-        message.replace("link", strip_tags(data["link"]))
+        message.replace("url", strip_tags(data["url"]))
         .replace("lang", data["language"].upper())
         .replace("title", data["title"])
         .replace("location", data["location"])
@@ -460,7 +460,7 @@ def get_job_detail(driver, element):
             location, company
     """
     result = {}
-    result["link"] = get_job_link(element)
+    result["url"] = get_job_link(element)
     result["description"] = get_job_description(driver)
     result["language"] = detect(result["description"])
     result["title"] = telegram_text_purify(get_job_title(element))
