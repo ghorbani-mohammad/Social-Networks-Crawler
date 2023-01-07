@@ -1,34 +1,19 @@
 from django.contrib import admin
 
 from . import models
-from reusable.admins import ReadOnlyAdminDateFields
+from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 
 @admin.register(models.TelegramBot)
-class TelegramBotAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "name",
-        "created_at",
-    )
+class TelegramBotAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "name", "created_at")
 
 
 @admin.register(models.TelegramAccount)
-class TelegramAccountAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "name",
-        "chat_id",
-        "created_at",
-    )
+class TelegramAccountAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "name", "chat_id", "created_at")
 
 
 @admin.register(models.Channel)
-class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "name",
-        "username",
-        "network",
-        "created_at",
-    )
+class ChannelAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "name", "username", "network", "created_at")
