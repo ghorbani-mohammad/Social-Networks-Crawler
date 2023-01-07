@@ -43,6 +43,11 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "created_at",
     )
 
+    def remove_all_objects(modeladmin, request, queryset):
+        models.IgnoredJob.objects.all().delete()
+
+    actions = (remove_all_objects,)
+
 
 @admin.register(models.Keyword)
 class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
