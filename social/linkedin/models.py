@@ -66,3 +66,6 @@ class JobSearch(BaseModel):
 class IgnoredJob(BaseModel):
     url = models.URLField(null=True)
     description = models.TextField(null=True)
+    title = models.CharField(max_length=50, null=True)
+    company = models.CharField(max_length=50, null=True)
+    language = models.CharField(max_length=20, null=True)
