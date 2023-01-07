@@ -319,11 +319,12 @@ def check_eligible(keyword, job_detail):
 
 
 def is_eligible(ig_filters, job_detail):
-    """Checks if job is eligible or not based on job_detail and some conditions
-    Like location of the job or language of job.
+    """Checks if job is eligible or not based on job_detail and ignoring filters
+    Details are job's title, job's company, job's location
 
     Args:
         job_detail (dict): details of job like location, language
+        ig_filters (IgnoringFilter): defined filters for a JobPage
 
     Returns:
         bool: True if is eligible otherwise is False
@@ -334,6 +335,8 @@ def is_eligible(ig_filters, job_detail):
         detail = ""
         if filter.place == lin_models.IgnoringFilter.TITLE:
             detail = job_detail["title"]
+        elif filter.place == lin_models.IgnoringFilter.COMPANY:
+            detail = job_detail["company"]
         elif filter.place == lin_models.IgnoringFilter.LOCATION:
             detail = job_detail["location"]
         if not check_eligible(filter.keyword, detail):
