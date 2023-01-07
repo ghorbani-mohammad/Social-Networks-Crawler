@@ -65,4 +65,4 @@ class JobPage(BaseModel):
 
 class IgnoredContent(BaseModel):
     url = models.URLField(null=True)
-    content = models.TextField(null=True)
+    description = models.TextField(null=True)
