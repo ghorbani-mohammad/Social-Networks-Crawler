@@ -41,6 +41,6 @@ class KeywordAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "created_at")
 
 
-@admin.register(models.IgnoringFilter, ReadOnlyAdminDateFieldsMIXIN)
-class IgnoringFilterAdmin(admin.ModelAdmin):
+@admin.register(models.IgnoringFilter)
+class IgnoringFilterAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "place", "keyword", "created_at")
