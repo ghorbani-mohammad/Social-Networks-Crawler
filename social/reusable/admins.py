@@ -16,5 +16,4 @@ class ReadOnlyAdminDateFieldsMIXIN:
     def get_readonly_fields(self, request, obj=None):
         if self.readonly_fields:
             return self.readonly_fields + self.base_readonly_fields
-        else:
-            return self.base_readonly_fields
+        return self.base_readonly_fields
