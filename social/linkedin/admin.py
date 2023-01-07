@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from . import models, tasks
 from django.utils.html import format_html
-from reusable.admins import ReadOnlyAdminDateFields
+from reusable.admins import ReadOnlyAdminDateFields, ReadOnlyAdminDateFieldsMIXIN
 
 
 @admin.register(models.JobPage)
@@ -32,17 +32,15 @@ class JobPageAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.IgnoredContent)
-class IgnoredContentAdmin(admin.ModelAdmin):
+class IgnoredContentAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "url", "created_at")
 
 
 @admin.register(models.Keyword)
-class KeywordAdmin(admin.ModelAdmin):
+class KeywordAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "created_at")
-    readonly_fields = ReadOnlyAdminDateFields.readonly_fields
 
 
-@admin.register(models.IgnoringFilter)
+@admin.register(models.IgnoringFilter, ReadOnlyAdminDateFieldsMIXIN)
 class IgnoringFilterAdmin(admin.ModelAdmin):
     list_display = ("pk", "place", "keyword", "created_at")
-    readonly_fields = ReadOnlyAdminDateFields.readonly_fields
