@@ -68,4 +68,5 @@ class IgnoredJob(BaseModel):
     description = models.TextField(null=True)
     title = models.CharField(max_length=50, null=True)
     company = models.CharField(max_length=50, null=True)
+    location = models.CharField(max_length=50, null=True)
     language = models.CharField(max_length=20, null=True)
