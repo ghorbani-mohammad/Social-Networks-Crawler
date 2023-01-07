@@ -63,6 +63,6 @@ class JobPage(BaseModel):
         return f"({self.pk} - {self.name})"
 
 
-class IgnoredContent(BaseModel):
+class IgnoredJob(BaseModel):
     url = models.URLField(null=True)
     description = models.TextField(null=True)
