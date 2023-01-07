@@ -345,8 +345,10 @@ def is_eligible(ig_filters, job_detail):
 
 
 @shared_task
-def store_ignored_content(url, content):
-    lin_models.IgnoredContent.objects.create(url=url, content=content)
+def store_ignored_content(job_detail):
+    lin_models.IgnoredContent.objects.create(
+        url=job_detail["link"], content=job_detail["description"]
+    )
 
 
 def get_job_link(element):
@@ -486,11 +488,11 @@ def get_job_page_posts(page_id, ignore_repetitive=True):
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
-            data = get_job_detail(driver, item)
-            if not is_eligible(ig_filters, data):
-                store_ignored_content.delay(data["link"], data["description"])
+            job_detail = get_job_detail(driver, item)
+            if not is_eligible(ig_filters, job_detail):
+                store_ignored_content.delay(job_detail)
                 continue
-            send_notification(message, data, keywords, output_channel_pk)
+            send_notification(message, job_detail, keywords, output_channel_pk)
             counter += 1
         except StaleElementReferenceException:
             logger.error("stale element exception")
