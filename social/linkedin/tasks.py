@@ -261,7 +261,7 @@ def get_linkedin_feed():
 
 @shared_task()
 def check_job_pages():
-    pages = lin_models.JobPage.objects.filter(enable=True)
+    pages = lin_models.JobSearch.objects.filter(enable=True)
     for page in pages:
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
@@ -324,7 +324,7 @@ def is_eligible(ig_filters, job_detail):
 
     Args:
         job_detail (dict): details of job like location, language
-        ig_filters (IgnoringFilter): defined filters for a JobPage
+        ig_filters (IgnoringFilter): defined filters for a JobSearch
 
     Returns:
         bool: True if is eligible otherwise is False
@@ -351,20 +351,20 @@ def store_ignored_content(job_detail):
     )
 
 
-def get_job_link(element):
-    """Extract selected job link from driver
+def get_job_url(element):
+    """Extract selected job url from driver
 
     Args:
         driver (WebDriver): browser driver
 
     Returns:
-        str: job link
+        str: job url
     """
-    link = element.find_element(
-        By.CLASS_NAME, "job-card-container__link"
-    ).get_attribute("href")
-    link = link.split("?")[0]  # remove query params
-    return link
+    url = element.find_element(By.CLASS_NAME, "job-card-container__link").get_attribute(
+        "href"
+    )
+    url = url.split("?")[0]  # remove query params
+    return url
 
 
 def get_job_title(element):
@@ -460,7 +460,7 @@ def get_job_detail(driver, element):
             location, company
     """
     result = {}
-    result["url"] = get_job_link(element)
+    result["url"] = get_job_url(element)
     result["description"] = get_job_description(driver)
     result["language"] = detect(result["description"])
     result["title"] = telegram_text_purify(get_job_title(element))
@@ -471,7 +471,7 @@ def get_job_detail(driver, element):
 
 @shared_task()
 def get_job_page_posts(page_id, ignore_repetitive=True):
-    page = lin_models.JobPage.objects.get(pk=page_id)
+    page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
     driver.get(url)

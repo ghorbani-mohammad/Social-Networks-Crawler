@@ -5,8 +5,8 @@ from django.utils.html import format_html
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 
-@admin.register(models.JobPage)
-class JobPageAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+@admin.register(models.JobSearch)
+class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
