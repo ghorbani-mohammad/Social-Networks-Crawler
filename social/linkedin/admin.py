@@ -32,15 +32,15 @@ class JobPageAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.IgnoredContent)
-class IgnoredContentAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
+class IgnoredContentAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "url", "created_at")
 
 
 @admin.register(models.Keyword)
-class KeywordAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
+class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "name", "created_at")
 
 
 @admin.register(models.IgnoringFilter)
-class IgnoringFilterAdmin(admin.ModelAdmin, ReadOnlyAdminDateFieldsMIXIN):
+class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "place", "keyword", "created_at")
