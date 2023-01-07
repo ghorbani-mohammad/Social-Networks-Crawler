@@ -42,6 +42,9 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "url",
         "created_at",
     )
+    readonly_fields = tuple(
+        field.name for field in models.IgnoredJob._meta.get_fields()
+    )
 
     def remove_all_objects(modeladmin, request, queryset):
         models.IgnoredJob.objects.all().delete()
