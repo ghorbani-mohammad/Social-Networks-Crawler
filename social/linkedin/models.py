@@ -16,12 +16,15 @@ class Keyword(BaseModel):
 
 
 class IgnoringFilter(BaseModel):
-    LOCATION = "location"
     TITLE = "title"
-    PLACE_CHOICES = ((LOCATION, LOCATION), (TITLE, TITLE))
+    COMPANY = "company"
+    LOCATION = "location"
+    PLACE_CHOICES = ((LOCATION, LOCATION), (TITLE, TITLE), (COMPANY, COMPANY))
     place = models.CharField(choices=PLACE_CHOICES, max_length=15)
-
     keyword = models.TextField(null=True)
+
+    def __str__(self):
+        return f"({self.pk} - {self.place})"
 
 
 class JobPage(BaseModel):
