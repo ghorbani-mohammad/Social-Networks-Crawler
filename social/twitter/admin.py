@@ -2,11 +2,11 @@ from django.contrib import admin
 
 from . import models, tasks
 from django.utils.html import format_html
-from reusable.admins import ReadOnlyAdminDateFields
+from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 
 @admin.register(models.SearchPage)
-class SearchPageAdmin(admin.ModelAdmin):
+class SearchPageAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
@@ -24,4 +24,4 @@ class SearchPageAdmin(admin.ModelAdmin):
             tasks.crawl_search_page.delay(page.id)
 
     actions = (crawl_page_action,)
-    readonly_fields = ReadOnlyAdminDateFields.readonly_fields + ("last_crawl_at",)
+    readonly_fields = ("last_crawl_at",)
