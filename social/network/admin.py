@@ -2,7 +2,7 @@ import redis
 
 from django.contrib import admin
 from reusable.other import TIME_FORMAT
-from reusable.admins import ReadOnlyAdminDateFields
+from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 from . import models
 from twitter import tasks as twi_tasks
@@ -10,7 +10,7 @@ from linkedin import tasks as lin_tasks
 
 
 @admin.register(models.Network)
-class NetworkAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class NetworkAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
@@ -22,7 +22,7 @@ class NetworkAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 
 @admin.register(models.Channel)
-class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class ChannelAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "name",
@@ -36,10 +36,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
         "today_posts_count",
         "created_at",
     )
-    list_filter = (
-        "network",
-        "language",
-    )
+    list_filter = ("network", "language")
 
     @admin.display(ordering="last_crawl", description="last_crawl")
     def get_last_crawl(self, instance):
@@ -57,7 +54,7 @@ class ChannelAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 
 @admin.register(models.Post)
-class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class PostAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "channel",
@@ -74,7 +71,7 @@ class PostAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 
 @admin.register(models.Keyword)
-class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "keyword",
@@ -94,7 +91,7 @@ class KeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 
 @admin.register(models.Backup)
-class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
+class BackupAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = (
         "pk",
         "link",
@@ -114,11 +111,8 @@ class BackupAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 
 @admin.register(models.Config)
-class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "crawl_linkedin_feed",
-    )
+class ConfigAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "crawl_linkedin_feed")
 
     def flush_views_cache(self, request, queryset):
         redis_db = redis.StrictRedis(host="social_redis", port=6379, db=15)
@@ -128,46 +122,25 @@ class ConfigAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
 
 
 @admin.register(models.ChannelListExport)
-class ChannelListExportAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "file",
-        "created_at",
-    )
+class ChannelListExportAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "file", "created_at")
 
 
 @admin.register(models.IgnoredKeyword)
-class IgnoredKeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "keyword",
-        "created_at",
-    )
+class IgnoredKeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "keyword", "created_at")
 
 
 @admin.register(models.BlockedKeyword)
-class BlockedKeywordAdmin(ReadOnlyAdminDateFields, admin.ModelAdmin):
-    list_display = (
-        "pk",
-        "keyword",
-        "created_at",
-    )
+class BlockedKeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "keyword", "created_at")
 
 
 @admin.register(models.Log)
 class LogAdmin(admin.ModelAdmin):
     list_filter = ("level",)
-    readonly_fields = (
-        "time",
-        "level",
-        "message",
-    )
-    list_display = (
-        "pk",
-        "level",
-        "short_message",
-        "time",
-    )
+    readonly_fields = ("time", "level", "message")
+    list_display = ("pk", "level", "short_message", "time")
 
     def delete_all_logs(modeladmin, request, queryset):
         models.Log.objects.all().delete()
