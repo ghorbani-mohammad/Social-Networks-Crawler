@@ -24,7 +24,7 @@ class IgnoringFilter(BaseModel):
     keyword = models.TextField(null=True)
 
     def __str__(self):
-        return f"({self.pk} - {self.place})"
+        return f"({self.pk} - {self.place} - {self.keyword})"
 
 
 class JobSearch(BaseModel):
