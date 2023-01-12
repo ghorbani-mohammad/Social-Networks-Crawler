@@ -467,7 +467,7 @@ def get_job_detail(driver, element):
     return result
 
 
-@shared_task()
+@shared_task
 def get_job_page_posts(page_id, ignore_repetitive=True):
     page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
@@ -501,7 +501,14 @@ def get_job_page_posts(page_id, ignore_repetitive=True):
     driver_exit(driver)
 
 
-@shared_task()
+@shared_task
+def update_last_crawl_at(page_id):
+    lin_models.ExpressionSearch.objects.get(pk=page_id).update(
+        last_crawl_at=timezone.localtime()
+    )
+
+
+@shared_task
 def get_expression_search_posts(page_id, ignore_repetitive=True):
     page = lin_models.ExpressionSearch.objects.get(pk=page_id)
     driver = initialize_linkedin_driver()
@@ -536,6 +543,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
         except Exception:
             logger.error(traceback.format_exc())
     print(f"found {counter} post in page {page_id}")
+    update_last_crawl_at.delay(page.pk)
     driver_exit(driver)
 
 
@@ -546,5 +554,3 @@ def check_expression_search_pages():
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
         get_expression_search_posts(page.pk)
-        page.last_crawl_at = time
-        page.save()
