@@ -511,7 +511,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     scroll(driver, 2)
     time.sleep(5)
     articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
-    counter = len(articles)
+    counter = 0
     for article in articles:
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
@@ -529,9 +529,9 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             not_tasks.send_message_to_telegram_channel(
                 strip_tags(message), page.output_channel.pk
             )
+            counter += 1
             time.sleep(3)
-        except Exception as e:
-            print(e)
+        except Exception:
             logger.error(traceback.format_exc())
     print(f"found {counter} post in page {page_id}")
     driver_exit(driver)
