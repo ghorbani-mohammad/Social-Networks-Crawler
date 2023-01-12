@@ -70,3 +70,9 @@ class IgnoredJob(BaseModel):
     company = models.CharField(max_length=100, null=True)
     location = models.CharField(max_length=200, null=True)
     language = models.CharField(max_length=20, null=True)
+
+
+class ExpressionSearch(BaseModel):
+    url = models.URLField()
+    name = models.CharField(max_length=100)
+    enable = models.BooleanField(default=True)
