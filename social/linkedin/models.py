@@ -76,6 +76,7 @@ class ExpressionSearch(BaseModel):
     url = models.URLField()
     name = models.CharField(max_length=100)
     enable = models.BooleanField(default=True)
+    last_crawl_at = models.DateTimeField(null=True, blank=True)
     output_channel = models.ForeignKey(
         "notification.Channel",
         on_delete=models.SET_NULL,

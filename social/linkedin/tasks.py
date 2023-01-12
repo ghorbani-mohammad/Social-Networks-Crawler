@@ -541,5 +541,10 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
 
 @shared_task
 def check_expression_search_pages():
-    for page in lin_models.ExpressionSearch.objects.all():
+    pages = lin_models.ExpressionSearch.objects.filter(enable=True)
+    for page in pages:
+        time = timezone.localtime()
+        print(f"{time} start crawling linkedin page {page.name}")
         get_expression_search_posts(page.pk)
+        page.last_crawl_at = time
+        page.save()
