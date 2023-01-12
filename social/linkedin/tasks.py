@@ -507,7 +507,6 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     driver = initialize_linkedin_driver()
     driver.get(page.url)
     time.sleep(5)
-    driver = sort_by_most_recent(driver)
     counter = 0
     time.sleep(5)
     print(f"found {counter} post in page {page_id}")
