@@ -24,8 +24,8 @@ services:
     env_file:
       - .env
 
-  social_celery:
-    container_name: social_celery
+  social_worker:
+    container_name: social_worker
     build: .
     working_dir: /app/social
     command: ["celery", "-A", "social", "worker", "-l", "info"]
