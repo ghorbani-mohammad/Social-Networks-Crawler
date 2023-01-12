@@ -532,7 +532,8 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
-        except Exception:
+        except Exception as e:
+            print(e)
             logger.error(traceback.format_exc())
     print(f"found {counter} post in page {page_id}")
     driver_exit(driver)
