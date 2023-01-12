@@ -511,10 +511,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     time.sleep(5)
     scroll(driver, 5)
     time.sleep(5)
-    articles = driver.find_elements(
-        By.XPATH,
-        './/div[starts-with(@data-id, "urn:li:activity:")]',
-    )
+    articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
     counter = len(articles)
     for article in articles:
         try:
@@ -524,13 +521,14 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
             ).text
-            if DUPLICATE_CHECKER.exists(id):
-                continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            # if DUPLICATE_CHECKER.exists(id):
+            #     continue
+            # DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             link = f"https://www.linkedin.com/feed/update/{id}/"
-            body = telegram_text_purify(body)
-            message = f"{body}\n\n{link}"
-            not_tasks.send_telegram_message(strip_tags(message))
+            print(link)
+            # body = telegram_text_purify(body)
+            # message = f"{body}\n\n{link}"
+            # not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
         except Exception as e:
             print(e)
