@@ -517,19 +517,18 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
             id = article.get_attribute("data-urn")
+            if ignore_repetitive and DUPLICATE_CHECKER.exists(id):
+                continue
+            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
             ).text
-            # if DUPLICATE_CHECKER.exists(id):
-            #     continue
-            # DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             link = f"https://www.linkedin.com/feed/update/{id}/"
-            print(link)
-            print(body)
-            print()
-            # body = telegram_text_purify(body)
-            # message = f"{body}\n\n{link}"
-            # not_tasks.send_telegram_message(strip_tags(message))
+            body = telegram_text_purify(body)
+            message = f"{body}\n\n{link}"
+            not_tasks.send_message_to_telegram_channel(
+                strip_tags(message), page.output_channel.pk
+            )
             time.sleep(3)
         except Exception as e:
             print(e)
