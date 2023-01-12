@@ -503,7 +503,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True):
 
 @shared_task
 def update_last_crawl_at(page_id):
-    lin_models.ExpressionSearch.objects.get(pk=page_id).update(
+    lin_models.ExpressionSearch.objects.filter(pk=page_id).update(
         last_crawl_at=timezone.localtime()
     )
 
