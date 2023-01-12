@@ -522,9 +522,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
             id = article.get_attribute("data-urn")
-            if not id:
-                continue
-            if ignore_repetitive and DUPLICATE_CHECKER.exists(id):
+            if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             body = article.find_element(
