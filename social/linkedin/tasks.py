@@ -514,7 +514,6 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     driver = initialize_linkedin_driver()
     driver.get(page.url)
     time.sleep(5)
-    counter = 0
     articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
     counter = 0
     for article in articles:
