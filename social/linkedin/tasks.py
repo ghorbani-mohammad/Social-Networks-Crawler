@@ -508,8 +508,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     driver.get(page.url)
     time.sleep(5)
     counter = 0
-    time.sleep(5)
-    scroll(driver, 5)
+    scroll(driver, 2)
     time.sleep(5)
     articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
     counter = len(articles)
@@ -517,7 +516,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
-            id = article.get_attribute("data-id")
+            id = article.get_attribute("data-urn")
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
             ).text
@@ -526,6 +525,8 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             # DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             link = f"https://www.linkedin.com/feed/update/{id}/"
             print(link)
+            print(body)
+            print()
             # body = telegram_text_purify(body)
             # message = f"{body}\n\n{link}"
             # not_tasks.send_telegram_message(strip_tags(message))
