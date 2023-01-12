@@ -1,3 +1,12 @@
+# [1.16.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.15.0...v1.16.0) (2023-01-12)
+
+
+### Features
+
+* Add crawling search pages in LinkedIn ([6808ea3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6808ea38ee0b531a49901b4fb99a6cb1c639d293))
+
+
+
 # [1.15.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.14.1...v1.15.0) (2023-01-06)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add Keyword model to linkedIn ([2f9852b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2f9852b7ed72a7a5c101b1603e93d6e777f8b671))
-
-
-
-## [1.12.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.12.1...v1.12.2) (2022-12-27)
-
-
-### Bug Fixes
-
-* minor change ([624393e](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/624393e0113d8cb3e9357a64f624a5bf64af1072))
 
 
 
