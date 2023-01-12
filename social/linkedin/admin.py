@@ -64,6 +64,7 @@ class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
 @admin.register(models.ExpressionSearch)
 class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    readonly_fields = ("last_crawl_at",)
     list_display = ("pk", "name", "page_link", "enable", "last_crawl_at", "created_at")
 
     def page_link(self, obj):
