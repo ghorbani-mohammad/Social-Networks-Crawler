@@ -535,3 +535,9 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             logger.error(traceback.format_exc())
     print(f"found {counter} post in page {page_id}")
     driver_exit(driver)
+
+
+@shared_task
+def check_expression_search_pages():
+    for page in lin_models.ExpressionSearch.objects.all():
+        get_expression_search_posts(page.pk)
