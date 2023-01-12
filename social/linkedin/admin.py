@@ -64,4 +64,7 @@ class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
 @admin.register(models.ExpressionSearch)
 class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
-    list_display = ("pk", "name", "url", "enable", "created_at")
+    list_display = ("pk", "name", "page_link", "enable", "created_at")
+
+    def page_link(self, obj):
+        return format_html("<a href='{url}'>Link</a>", url=obj.url)

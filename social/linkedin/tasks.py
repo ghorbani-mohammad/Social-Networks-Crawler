@@ -499,3 +499,16 @@ def get_job_page_posts(page_id, ignore_repetitive=True):
             logger.error(traceback.format_exc())
     print(f"found {counter} job in page {page_id}")
     driver_exit(driver)
+
+
+@shared_task()
+def get_expression_search_posts(page_id, ignore_repetitive=True):
+    page = lin_models.ExpressionSearch.objects.get(pk=page_id)
+    driver = initialize_linkedin_driver()
+    driver.get(page.url)
+    time.sleep(5)
+    driver = sort_by_most_recent(driver)
+    counter = 0
+    time.sleep(5)
+    print(f"found {counter} job in page {page_id}")
+    driver_exit(driver)
