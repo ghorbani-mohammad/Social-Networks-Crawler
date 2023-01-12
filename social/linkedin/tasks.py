@@ -497,7 +497,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True):
             break
         except Exception:
             logger.error(traceback.format_exc())
-    print(f"found {counter} post in page {page_id}")
+    print(f"found {counter} job in page {page_id}")
     driver_exit(driver)
 
 
@@ -510,5 +510,5 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     driver = sort_by_most_recent(driver)
     counter = 0
     time.sleep(5)
-    print(f"found {counter} job in page {page_id}")
+    print(f"found {counter} post in page {page_id}")
     driver_exit(driver)
