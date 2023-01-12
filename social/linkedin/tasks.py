@@ -515,8 +515,6 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
     driver.get(page.url)
     time.sleep(5)
     counter = 0
-    scroll(driver, 2)
-    time.sleep(5)
     articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
     counter = 0
     for article in articles:
