@@ -138,6 +138,11 @@ TELEGRAM_API_ID = env.str("TELEGRAM_API_ID")
 TELEGRAM_API_HASH = env.str("TELEGRAM_API_HASH")
 
 
+# Twitter account auth
+TWITTER_USERNAME = env.str("TWITTER_USERNAME")
+TWITTER_PASSWORD = env.str("TWITTER_PASSWORD")
+
+
 CACHES = {
     "default": {
         "LOCATION": "redis://social_redis:6379/15",  # Some db numbers already used

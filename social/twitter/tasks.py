@@ -10,6 +10,7 @@ from celery import shared_task
 from django.utils import timezone
 from django.utils.html import strip_tags
 from celery.utils.log import get_task_logger
+from django.conf import settings
 from django.core.cache import caches
 
 from . import models
@@ -59,9 +60,15 @@ def login():
     driver = get_driver()
     driver.get("https://twitter.com/i/flow/login")
     time.sleep(5)
-    email_elem = driver.find_element("xpath", "//input[@autocomplete='username']")
-    email_elem.send_keys("my-email@email.com")
-    email_elem.send_keys(Keys.ENTER)
+    username_elem = driver.find_element("xpath", "//input[@autocomplete='username']")
+    username_elem.send_keys(settings.TWITTER_USERNAME)
+    username_elem.send_keys(Keys.ENTER)
+    time.sleep(5)
+    password_elem = driver.find_element(
+        "xpath", "//input[@autocomplete='current-password']"
+    )
+    password_elem.send_keys(settings.TWITTER_PASSWORD)
+    password_elem.send_keys(Keys.ENTER)
     time.sleep(5)
     driver_exit(driver)
 
