@@ -54,6 +54,16 @@ def driver_exit(driver):
     driver.quit()
 
 
+def login(driver):
+    driver = get_driver()
+    driver.get("https://twitter.com/i/flow/login")
+    time.sleep(5)
+    email_elem = driver.find_element("autocomplete", "username")
+    email_elem.send_keys("my-email@email.com")
+    time.sleep(5)
+    driver_exit(driver)
+
+
 def scroll(driver, counter):
     """Scroll browser for counter times
 

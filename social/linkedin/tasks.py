@@ -71,7 +71,7 @@ def driver_exit(driver):
     driver.quit()
 
 
-@shared_task()
+@shared_task
 def login():
     """This function login into LinkedIn and store credential info into /app/social/cookies.pkl .
     It read username and password from environment variables as follow:
@@ -99,7 +99,7 @@ def login():
         driver_exit(driver)
 
 
-@shared_task()
+@shared_task
 def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_count):
     """This function store a post into database. It will create or update a post.
     If a post with post-id exists, It will update it. Otherwise it will create a new post.
@@ -221,7 +221,7 @@ def sort_by_recent(driver):
     return driver
 
 
-@shared_task()
+@shared_task
 def get_linkedin_feed():
     config = net_models.Config.objects.last()
     if config is None or not config.crawl_linkedin_feed:
@@ -259,7 +259,7 @@ def get_linkedin_feed():
     driver_exit(driver)
 
 
-@shared_task()
+@shared_task
 def check_job_pages():
     pages = lin_models.JobSearch.objects.filter(enable=True)
     for page in pages:
