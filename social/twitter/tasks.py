@@ -370,9 +370,9 @@ def driver_head_to_page(driver, url):
         driver.get(url)
         return driver
     except TimeoutException as e:
-        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
+        logger.error(f"{e}\n\n{traceback.format_exc()}")
     except Exception as e:
-        logger.error(f"{e}\n\n\n{traceback.format_exc()}")
+        logger.error(f"{e}\n\n{traceback.format_exc()}")
     return None
 
 
@@ -419,6 +419,6 @@ def crawl_search_page(page_id):
             except Exception:
                 logger.error(traceback.format_exc())
         scroll(driver, 1)
-        time.sleep(10)
+        time.sleep(5)
         scroll_counter += 1
     driver_exit(driver)
