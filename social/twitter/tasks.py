@@ -3,6 +3,7 @@ import time, traceback
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from urllib3.exceptions import MaxRetryError
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import SessionNotCreatedException, TimeoutException
 from celery import shared_task
@@ -60,7 +61,7 @@ def login():
     time.sleep(5)
     email_elem = driver.find_element("xpath", "//input[@autocomplete='username']")
     email_elem.send_keys("my-email@email.com")
-    email_elem.submit()
+    email_elem.send_keys(Keys.ENTER)
     time.sleep(5)
     driver_exit(driver)
 
