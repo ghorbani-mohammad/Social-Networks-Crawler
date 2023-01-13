@@ -54,6 +54,16 @@ def driver_exit(driver):
     driver.quit()
 
 
+def login(driver):
+    driver = get_driver()
+    driver.get("https://twitter.com/i/flow/login")
+    time.sleep(5)
+    email_elem = driver.find_element("autocomplete", "username")
+    email_elem.send_keys("my-email@email.com")
+    time.sleep(5)
+    driver_exit(driver)
+
+
 def scroll(driver, counter):
     """Scroll browser for counter times
 
@@ -142,7 +152,7 @@ def get_comment_detail(article):
     return detail
 
 
-@shared_task()
+@shared_task
 def store_twitter_posts(
     channel_id, post_id, body, replies_counter, retweets_counter, likes_counter
 ):
@@ -218,7 +228,7 @@ def get_twitter_posts(channel_id):
     channel.save()
 
 
-@shared_task()
+@shared_task
 def get_twitter_post_comments(post_id):
     """Get comments of a post
 
@@ -248,7 +258,7 @@ def get_twitter_post_comments(post_id):
     driver_exit(driver)
 
 
-@shared_task()
+@shared_task
 def check_twitter_pages():
     """Check which page or channel we should craw
     This is a period task.
@@ -308,7 +318,7 @@ def get_post_detail_v2(article):
     return detail
 
 
-@shared_task()
+@shared_task
 def update_last_crawl(page_id):
     page = models.SearchPage.objects.get(pk=page_id)
     page.last_crawl_at = timezone.localtime()
@@ -340,7 +350,7 @@ def driver_head_to_page(driver, url):
     return None
 
 
-@shared_task()
+@shared_task
 def crawl_search_page(page_id):
     """Crawl a search page of twitter.
 
