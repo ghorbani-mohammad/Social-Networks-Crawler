@@ -1,4 +1,6 @@
-import time, traceback
+import time
+import pickle
+import traceback
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -45,6 +47,20 @@ def get_driver():
         logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
 
 
+def initialize_twitter_driver():
+    """This function head the browser to the twitter website.
+
+    Returns:
+        Webdriver: webdriver browser
+    """
+    driver = get_driver()
+    cookies = pickle.load(open("/app/social/twitter_cookies.pkl", "rb"))
+    driver.get("https://www.twitter.com/")
+    for cookie in cookies:
+        driver.add_cookie(cookie)
+    return driver
+
+
 def driver_exit(driver):
     """This function properly exit a web driver.
     It ensures that we wait for some seconds before exiting the browser.
@@ -70,6 +86,7 @@ def login():
     password_elem.send_keys(settings.TWITTER_PASSWORD)
     password_elem.send_keys(Keys.ENTER)
     time.sleep(5)
+    pickle.dump(driver.get_cookies(), open("/app/social/twitter_cookies.pkl", "wb"))
     driver_exit(driver)
 
 
@@ -214,7 +231,7 @@ def get_twitter_posts(channel_id):
     channel = net_models.Channel.objects.get(pk=channel_id)
     print(f"****** Twitter crawling {channel} started")
     channel_url = f"{channel.network.url}/{channel.username}"
-    driver = get_driver()
+    driver = initialize_twitter_driver()
     driver.get(channel_url)
     scroll(driver, 5)
     time.sleep(5)
@@ -368,7 +385,7 @@ def crawl_search_page(page_id):
     """
     update_last_crawl.delay(page_id)
     page = models.SearchPage.objects.get(pk=page_id)
-    driver = get_driver()
+    driver = initialize_twitter_driver()
     if driver is None:
         return
     driver = driver_head_to_page(driver, page.url)
