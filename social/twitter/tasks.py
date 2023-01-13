@@ -391,7 +391,7 @@ def crawl_search_page(page_id):
     driver = driver_head_to_page(driver, page.url)
     if driver is None:
         return
-    time.sleep(2)
+    time.sleep(1)
     scroll_counter = 0
     while scroll_counter < 1:
         tweets = driver.find_elements(By.TAG_NAME, "article")
