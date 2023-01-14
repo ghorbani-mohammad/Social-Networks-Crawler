@@ -468,10 +468,11 @@ def get_job_detail(driver, element):
 
 
 @shared_task
-def get_job_page_posts(page_id, ignore_repetitive=True):
+def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
     page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
+    url = url if not starting_job else f"{url}&start={starting_job}"
     driver.get(url)
     time.sleep(5)
     driver = sort_by_most_recent(driver)
@@ -498,6 +499,9 @@ def get_job_page_posts(page_id, ignore_repetitive=True):
         except Exception:
             logger.error(traceback.format_exc())
     print(f"found {counter} job in page {page_id}")
+    if not starting_job:
+        # get next page jobs
+        get_job_page_posts(page_id, ignore_repetitive, starting_job=25)
     driver_exit(driver)
 
 
