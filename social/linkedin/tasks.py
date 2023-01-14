@@ -501,7 +501,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
     print(f"found {counter} job in page {page_id}")
     if not starting_job:
         # get next page jobs
-        get_job_page_posts(page_id, ignore_repetitive, starting_job=25)
+        get_job_page_posts.delay(page_id, ignore_repetitive, starting_job=25)
     driver_exit(driver)
 
 
