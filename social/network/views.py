@@ -27,31 +27,18 @@ class NetworkViewSet(ModelViewSet):
         DjangoFilterBackend,
         rf_filters.OrderingFilter,
     ]
-    filterset_fields = [
-        "status",
-    ]
-    search_fields = [
-        "name",
-    ]
-    ordering_fields = [
-        "name",
-    ]
+    search_fields = ["name"]
+    ordering_fields = ["name"]
+    filterset_fields = ["status"]
 
 
 class TagViewSet(ModelViewSet):
     queryset = models.Tag.objects.order_by("-id")
     serializer_class = serializers.TagSerializer
     pagination_class = ListPagination
-    filter_backends = [
-        rf_filters.SearchFilter,
-        rf_filters.OrderingFilter,
-    ]
-    search_fields = [
-        "name",
-    ]
-    ordering_fields = [
-        "name",
-    ]
+    search_fields = ["name"]
+    ordering_fields = ["name"]
+    filter_backends = [rf_filters.SearchFilter, rf_filters.OrderingFilter]
 
 
 class ChannelViewSet(ModelViewSet):
@@ -59,17 +46,13 @@ class ChannelViewSet(ModelViewSet):
     serializer_class = serializers.ChannelSerializer
     pagination_class = ListPagination
     filter_backends = [
-        rf_filters.SearchFilter,
         DjangoFilterBackend,
+        rf_filters.SearchFilter,
         rf_filters.OrderingFilter,
     ]
+    search_fields = ["username"]
+    ordering_fields = ["username"]
     filterset_class = filters.ChannelFilter
-    search_fields = [
-        "username",
-    ]
-    ordering_fields = [
-        "username",
-    ]
 
 
 class PostViewSet(ModelViewSet):
@@ -77,29 +60,21 @@ class PostViewSet(ModelViewSet):
     serializer_class = serializers.PostSerializer
     pagination_class = ListPagination
     filter_backends = [
-        rf_filters.SearchFilter,
         DjangoFilterBackend,
+        rf_filters.SearchFilter,
         rf_filters.OrderingFilter,
     ]
-    filterset_fields = [
-        "channel",
-        "channel__network",
-    ]
-    search_fields = [
-        "body",
-    ]
-    ordering_fields = [
-        "views_count",
-        "share_count",
-    ]
+    search_fields = ["body"]
+    ordering_fields = ["views_count", "share_count"]
+    filterset_fields = ["channel", "channel__network"]
 
 
 class PostCountAPIView(ListAPIView):
     queryset = models.Post.objects.order_by("-id")
     serializer_class = serializers.PostSerializer
     pagination_class = ListPagination
-    filter_backends = [DjangoFilterBackend]
     filterset_class = filters.PostFilter
+    filter_backends = [DjangoFilterBackend]
 
     def list(self, request):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
@@ -141,9 +116,7 @@ class SearchCountAPIView(ListAPIView):
     pagination_class = ListPagination
     filter_backends = [rf_filters.SearchFilter, DjangoFilterBackend]
     filterset_class = filters.PostFilter
-    search_fields = [
-        "body",
-    ]
+    search_fields = ["body"]
 
     def filter_queryset(self, qs):
         operator = self.request.GET["operator"]

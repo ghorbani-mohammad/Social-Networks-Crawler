@@ -6,24 +6,13 @@ from . import models
 class NetworkShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Network
-        fields = (
-            "id",
-            "name",
-            "url",
-            "status",
-        )
+        fields = ("id", "name", "url", "status")
 
 
 class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Network
-        fields = (
-            "id",
-            "name",
-            "url",
-            "status",
-            "today_posts_count",
-        )
+        fields = ("id", "name", "url", "status", "today_posts_count")
 
 
 class ChannelShortSerializer(serializers.ModelSerializer):
@@ -68,11 +57,7 @@ class ChannelSerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Tag
-        fields = (
-            "id",
-            "name",
-            "created_at",
-        )
+        fields = ("id", "name", "created_at")
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -111,11 +96,7 @@ class PostCountInputSerializer(serializers.Serializer):
 class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Keyword
-        fields = (
-            "id",
-            "keyword",
-            "created_at",
-        )
+        fields = ("id", "keyword", "created_at")
 
 
 class BackupSerializer(serializers.ModelSerializer):
