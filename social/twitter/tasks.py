@@ -1,5 +1,6 @@
 import time
 import pickle
+import random
 import traceback
 
 from selenium import webdriver
@@ -7,7 +8,11 @@ from selenium.webdriver.common.by import By
 from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import SessionNotCreatedException, TimeoutException
+from selenium.common.exceptions import (
+    SessionNotCreatedException,
+    TimeoutException,
+    NoSuchElementException,
+)
 from celery import shared_task
 from django.utils import timezone
 from django.utils.html import strip_tags
@@ -296,14 +301,17 @@ def check_twitter_pages():
 
 
 def get_tweet_id(article):
-    return int(
-        article.find_element(
-            By.XPATH,
-            ".//a[@role='link' and @dir and @aria-label and not(@tabindex)]",
+    try:
+        return int(
+            article.find_element(
+                By.XPATH,
+                ".//a[@role='link' and @dir and @aria-label and not(@tabindex)]",
+            )
+            .get_attribute("href")
+            .split("/")[-1]
         )
-        .get_attribute("href")
-        .split("/")[-1]
-    )
+    except NoSuchElementException:
+        return random.randint(0, 10**20)
 
 
 def get_tweet_body(article):
