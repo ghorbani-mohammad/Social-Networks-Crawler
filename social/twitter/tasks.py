@@ -391,13 +391,13 @@ def crawl_search_page(page_id):
     driver = driver_head_to_page(driver, page.url)
     if driver is None:
         return
-    time.sleep(1)
+    time.sleep(3)
     scroll_counter = 0
     while scroll_counter < 1:
         tweets = driver.find_elements(By.TAG_NAME, "article")
+        print(f"found {len(tweets)} tweets")
         terms1 = page.terms_level_1.split("+") if page.terms_level_1 else []
         terms2 = page.terms_level_2.split("+") if page.terms_level_2 else []
-        print(f"found {len(tweets)} tweets")
         for tweet in tweets:
             body = None
             try:
