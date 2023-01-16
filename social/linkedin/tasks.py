@@ -2,20 +2,20 @@ import time
 import redis
 import pickle
 import traceback
-from langdetect import detect
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from urllib3.exceptions import MaxRetryError
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import StaleElementReferenceException
 
 from django.conf import settings
 from django.utils import timezone
 from django.utils.html import strip_tags
 from celery import shared_task
 from celery.utils.log import get_task_logger
+from langdetect import detect
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from urllib3.exceptions import MaxRetryError
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from network import models as net_models
 from linkedin import models as lin_models
