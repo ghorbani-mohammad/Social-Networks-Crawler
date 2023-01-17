@@ -494,7 +494,8 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             id = item.get_attribute("data-occludable-job-id")
-            if ignore_repetitive and DUPLICATE_CHECKER.exists(id):
+            # if id is none or is repetitive
+            if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             item.click()
