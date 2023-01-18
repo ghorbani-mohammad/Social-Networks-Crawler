@@ -50,6 +50,7 @@ def get_driver():
         logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
     except MaxRetryError as e:
         logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
+    return None
 
 
 def initialize_twitter_driver():
@@ -59,6 +60,8 @@ def initialize_twitter_driver():
         Webdriver: webdriver browser
     """
     driver = get_driver()
+    if driver is None:
+        return None
     cookies = pickle.load(open("/app/social/twitter_cookies.pkl", "rb"))
     driver.get("https://www.twitter.com/")
     for cookie in cookies:
@@ -79,6 +82,8 @@ def driver_exit(driver):
 
 def login():
     driver = get_driver()
+    if driver is None:
+        return
     driver.get("https://twitter.com/i/flow/login")
     time.sleep(5)
     username_elem = driver.find_element("xpath", "//input[@autocomplete='username']")
@@ -237,6 +242,8 @@ def get_twitter_posts(channel_id):
     print(f"****** Twitter crawling {channel} started")
     channel_url = f"{channel.network.url}/{channel.username}"
     driver = initialize_twitter_driver()
+    if driver is None:
+        return
     driver.get(channel_url)
     scroll(driver, 5)
     time.sleep(5)
@@ -267,7 +274,9 @@ def get_twitter_post_comments(post_id):
         post_id (int): id of the post
     """
     post = net_models.Post.objects.get(pk=post_id)
-    driver = get_driver()
+    driver = initialize_twitter_driver()
+    if driver is None:
+        return
     driver.get(f"{post.channel.username}/status/{post.network_id}")
     scroll(driver, 2)
     time.sleep(10)
