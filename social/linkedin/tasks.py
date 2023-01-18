@@ -56,7 +56,7 @@ def initialize_linkedin_driver():
         Webdriver: webdriver browser
     """
     driver = get_driver()
-    cookies = pickle.load(open("/app/social/cookies.pkl", "rb"))
+    cookies = pickle.load(open("/app/social/linkedin_cookies.pkl", "rb"))
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
@@ -95,7 +95,9 @@ def login():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "global-nav-search"))
         )
-        pickle.dump(driver.get_cookies(), open("/app/social/cookies.pkl", "wb"))
+        pickle.dump(
+            driver.get_cookies(), open("/app/social/linkedin_cookies.pkl", "wb")
+        )
     except Exception:
         logger.error(traceback.format_exc())
     finally:
@@ -487,7 +489,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
     url = url if not starting_job else f"{url}&start={starting_job}"
     driver.get(url)
     time.sleep(5)
-    # driver = sort_by_most_recent(driver) # It seems that we don't need this anymore
+    driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
     counter = 0
     for item in items:
