@@ -487,7 +487,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
     url = url if not starting_job else f"{url}&start={starting_job}"
     driver.get(url)
     time.sleep(5)
-    driver = sort_by_most_recent(driver)
+    # driver = sort_by_most_recent(driver) # It seems that we don't need this anymore
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
     counter = 0
     for item in items:
