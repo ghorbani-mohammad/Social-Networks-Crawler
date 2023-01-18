@@ -381,7 +381,10 @@ def get_job_title(element):
     Returns:
         str: job title
     """
-    return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title").text
+    try:
+        return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title").text
+    except NoSuchElementException:
+        return "Cannot-extract-title"
 
 
 def get_job_location(element):
