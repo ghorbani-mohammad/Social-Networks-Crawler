@@ -570,5 +570,5 @@ def check_expression_search_pages():
     pages = lin_models.ExpressionSearch.objects.filter(enable=True)
     for page in pages:
         time = timezone.localtime()
-        print(f"{time} start crawling linkedin page {page.name}")
+        print(f"{time} Start crawling linkedin page {page.name}")
         get_expression_search_posts(page.pk)
