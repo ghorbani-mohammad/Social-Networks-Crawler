@@ -15,8 +15,8 @@ from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
-    StaleElementReferenceException,
     NoSuchElementException,
+    StaleElementReferenceException,
 )
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
