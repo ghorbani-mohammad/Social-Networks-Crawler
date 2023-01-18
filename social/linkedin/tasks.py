@@ -10,14 +10,14 @@ from celery import shared_task
 from celery.utils.log import get_task_logger
 from langdetect import detect
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from urllib3.exceptions import MaxRetryError
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import (
     NoSuchElementException,
     StaleElementReferenceException,
 )
+from selenium.webdriver.common.by import By
+from urllib3.exceptions import MaxRetryError
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from network import models as net_models
