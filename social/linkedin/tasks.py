@@ -400,9 +400,9 @@ def get_job_location(element):
         location = element.find_element(
             By.CLASS_NAME, "artdeco-entity-lockup__caption"
         ).text
-        return location.replace("\n", " | ")
     except NoSuchElementException:
         return "Cannot-extract-job-location"
+    return location.replace("\n", " | ")
 
 
 def get_job_company(element):
