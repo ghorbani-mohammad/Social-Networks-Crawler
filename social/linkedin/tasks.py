@@ -553,9 +553,13 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            body = article.find_element(
-                By.CLASS_NAME, "feed-shared-update-v2__commentary"
-            ).text
+            body = ""
+            try:
+                body = article.find_element(
+                    By.CLASS_NAME, "feed-shared-update-v2__commentary"
+                ).text
+            except NoSuchElementException:
+                body = "Cannot-extract-body"
             link = f"https://www.linkedin.com/feed/update/{id}/"
             body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
