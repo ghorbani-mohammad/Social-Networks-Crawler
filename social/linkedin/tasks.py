@@ -396,9 +396,12 @@ def get_job_location(element):
     Returns:
         str: job location
     """
-    location = element.find_element(
-        By.CLASS_NAME, "artdeco-entity-lockup__caption"
-    ).text
+    try:
+        location = element.find_element(
+            By.CLASS_NAME, "artdeco-entity-lockup__caption"
+        ).text
+    except NoSuchElementException:
+        return "Cannot-extract-job-location"
     return location.replace("\n", " | ")
 
 
