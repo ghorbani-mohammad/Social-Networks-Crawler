@@ -423,7 +423,10 @@ def get_job_description(driver):
     Returns:
         str: job description
     """
-    return driver.find_element(By.ID, "job-details").text
+    try:
+        return driver.find_element(By.ID, "job-details").text
+    except NoSuchElementException:
+        return "Cannot-extract-description"
 
 
 def check_keywords(body, keywords):
