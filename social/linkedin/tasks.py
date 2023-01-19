@@ -347,11 +347,6 @@ def is_eligible(ig_filters, job_detail):
     return True
 
 
-@shared_task
-def store_ignored_content(job_detail):
-    lin_models.IgnoredJob.objects.create(**job_detail)
-
-
 def get_job_url(element):
     """Extract selected job url from driver
 
@@ -583,3 +578,8 @@ def check_expression_search_pages():
         time = timezone.localtime()
         print(f"{time} Start crawling linkedin page {page.name}")
         get_expression_search_posts(page.pk)
+
+
+@shared_task
+def store_ignored_content(job_detail):
+    lin_models.IgnoredJob.objects.create(**job_detail)
