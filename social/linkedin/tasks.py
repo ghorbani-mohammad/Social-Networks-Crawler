@@ -401,7 +401,7 @@ def get_job_location(element):
             By.CLASS_NAME, "artdeco-entity-lockup__caption"
         ).text
     except NoSuchElementException:
-        return "Cannot-extract-job-location"
+        return "Cannot-extract-location"
     return location.replace("\n", " | ")
 
 
@@ -414,7 +414,12 @@ def get_job_company(element):
     Returns:
         str: job company
     """
-    return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__subtitle").text
+    try:
+        return element.find_element(
+            By.CLASS_NAME, "artdeco-entity-lockup__subtitle"
+        ).text
+    except NoSuchElementException:
+        return "Cannot-extract-company"
 
 
 def get_job_description(driver):
