@@ -366,9 +366,9 @@ def get_job_url(element):
         url = element.find_element(
             By.CLASS_NAME, "job-card-container__link"
         ).get_attribute("href")
-        url = url.split("?")[0]  # remove query params
     except NoSuchElementException:
         url = "Cannot-extract-url"
+    url = url.split("?")[0]  # remove query params
     return url
 
 
