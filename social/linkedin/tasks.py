@@ -518,7 +518,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
             send_notification(message, job_detail, keywords, output_channel)
             counter += 1
         except StaleElementReferenceException:
-            logger.error("stale element exception")
+            logger.warning("stale element exception")
             break
         except Exception:
             logger.error(traceback.format_exc())
