@@ -324,10 +324,13 @@ def get_tweet_id(article):
 
 
 def get_tweet_body(article):
-    return article.find_element(
-        By.XPATH,
-        ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
-    ).text
+    try:
+        return article.find_element(
+            By.XPATH,
+            ".//div[@dir='auto' and starts-with(@id,'id__') and @data-testid='tweetText']",
+        ).text
+    except NoSuchElementException:
+        return "Cannot-extract-body"
 
 
 def get_tweet_username(article):
