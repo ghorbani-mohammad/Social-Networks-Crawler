@@ -9,13 +9,12 @@ from django.utils.html import strip_tags
 from celery import shared_task
 from celery.utils.log import get_task_logger
 from langdetect import detect
-from selenium import webdriver
-from selenium.common.exceptions import (
-    NoSuchElementException,
-    StaleElementReferenceException,
-)
-from selenium.webdriver.common.by import By
+from langdetect.lang_detect_exception import LangDetectException
 from urllib3.exceptions import MaxRetryError
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -432,6 +431,13 @@ def get_job_description(driver):
         return "Cannot-extract-description"
 
 
+def get_language(description):
+    try:
+        return detect(description)
+    except LangDetectException:
+        return "Cannot-detect-language"
+
+
 def check_keywords(body, keywords):
     result = ""
     body = body.lower()
@@ -476,7 +482,7 @@ def get_job_detail(driver, element):
     result = {}
     result["url"] = get_job_url(element)
     result["description"] = get_job_description(driver)
-    result["language"] = detect(result["description"])
+    result["language"] = get_language(result["description"])
     result["title"] = telegram_text_purify(get_job_title(element))
     result["location"] = telegram_text_purify(get_job_location(element))
     result["company"] = telegram_text_purify(get_job_company(element))
