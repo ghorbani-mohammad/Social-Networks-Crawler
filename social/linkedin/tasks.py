@@ -265,7 +265,7 @@ def get_linkedin_feed():
 
 @shared_task
 def check_job_pages():
-    pages = lin_models.JobSearch.objects.filter(enable=True)
+    pages = lin_models.JobSearch.objects.filter(enable=True).order_by("-priority")
     for page in pages:
         time = timezone.localtime()
         print(f"{time} start crawling linkedin page {page.name}")
