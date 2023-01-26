@@ -42,7 +42,7 @@ class JobSearch(BaseModel):
     keywords = models.ManyToManyField(Keyword, blank=True)
     ignore_filters = models.ManyToManyField(IgnoringFilter, blank=True)
     page_count = models.PositiveSmallIntegerField(
-        help_text="how many pages should be crawled", default=1
+        help_text="how many pages should be crawled", default=1, blank=True
     )
 
     @property
