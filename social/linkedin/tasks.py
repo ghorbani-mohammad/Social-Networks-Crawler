@@ -537,8 +537,8 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
             break
         except Exception:
             logger.error(traceback.format_exc())
-    print(f"found {counter} job in page {page_id}")
-    check_page_count.delay(page_id, ignore_repetitive, starting_job=starting_job)
+    print(f"found {counter} job in page: {page_id} with starting-job: {starting_job}")
+    check_page_count.delay(page_id, ignore_repetitive, starting_job)
     update_job_search_last_crawl_at.delay(page_id)
     driver_exit(driver)
 
