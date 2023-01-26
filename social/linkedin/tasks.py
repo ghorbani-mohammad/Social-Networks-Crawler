@@ -494,7 +494,7 @@ def check_page_count(page_id, ignore_repetitive, starting_job):
     page = lin_models.JobSearch.objects.get(pk=page_id)
     if page.page_count == 1:
         return
-    if starting_job != (page.page_count * 25):
+    if starting_job != ((page.page_count - 1) * 25):
         get_job_page_posts.delay(page_id, ignore_repetitive, starting_job + 25)
 
 
