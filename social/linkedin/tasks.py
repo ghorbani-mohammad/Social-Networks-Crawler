@@ -490,6 +490,15 @@ def get_job_detail(driver, element):
 
 
 @shared_task
+def check_page_count(page_id, ignore_repetitive, starting_job):
+    page = lin_models.JobSearch.objects.get(pk=page_id)
+    if page.page_count == 1:
+        return
+    if starting_job != (page.page_count * 25):
+        get_job_page_posts.delay(page_id, ignore_repetitive, starting_job + 25)
+
+
+@shared_task
 def update_job_search_last_crawl_at(page_id):
     lin_models.JobSearch.objects.filter(pk=page_id).update(
         last_crawl_at=timezone.localtime()
@@ -497,11 +506,11 @@ def update_job_search_last_crawl_at(page_id):
 
 
 @shared_task
-def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
+def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
     page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
-    url = url if not starting_job else f"{url}&start={starting_job}"
+    url = f"{url}&start={starting_job}"
     driver.get(url)
     time.sleep(5)
     driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
@@ -529,9 +538,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=None):
         except Exception:
             logger.error(traceback.format_exc())
     print(f"found {counter} job in page {page_id}")
-    if not starting_job:
-        # get next page jobs
-        get_job_page_posts.delay(page_id, ignore_repetitive, starting_job=25)
+    check_page_count.delay(page_id, ignore_repetitive, starting_job=starting_job)
     update_job_search_last_crawl_at.delay(page_id)
     driver_exit(driver)
 
