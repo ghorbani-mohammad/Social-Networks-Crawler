@@ -10,7 +10,7 @@ After retrieving data, we can send them into defined channels.
    ```shell
    ./mng-api admin_user ADMIN_USERNAME ADMIN_PASSWORD
    ```
-4. Login into Django admin panel and define some pages for crawl.
+4. Login into Django admin panel and define some pages for crawl. Notice that the admin page address is ``/secret-admin/``
 
 ---
 ### Django Admin Panel:
