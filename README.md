@@ -8,7 +8,7 @@ After retrieving data, we can send them into defined channels.
 2. Fill out credentials related to your ``Twitter/LinkedIn/Telegram`` account. (checkout the **.env.example**)
 3. Create a super admin account. You can use provided bash command. 
 ```shell
-./mng-api admin_user ADMIN_USERNAME ADMIN_PASSWORD
+bash ./mng-api admin_user ADMIN_USERNAME ADMIN_PASSWORD
 ```
 4. Login into Django admin panel and define some pages for crawl.
 
