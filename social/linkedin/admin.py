@@ -12,6 +12,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "name",
         "page_link",
         "enable",
+        "page_count",
         "output_channel",
         "last_crawl_at",
     )
