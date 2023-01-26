@@ -47,7 +47,7 @@ class JobSearch(BaseModel):
     priority = models.PositiveSmallIntegerField(
         help_text="pages with higher priority, will be at the first of crawl queue",
         blank=True,
-        null=True,
+        default=0,
     )
 
     @property
