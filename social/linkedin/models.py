@@ -44,6 +44,11 @@ class JobSearch(BaseModel):
     page_count = models.PositiveSmallIntegerField(
         help_text="how many pages should be crawled", default=1, blank=True
     )
+    priority = models.PositiveSmallIntegerField(
+        help_text="pages with higher priority, will be at the first of crawl queue",
+        blank=True,
+        null=True,
+    )
 
     @property
     def keywords_in_array(self):
