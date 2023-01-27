@@ -30,6 +30,7 @@ logger = get_task_logger(__name__)
 MINUTE = 60
 HOUR = 60 * MINUTE
 DAY = 24 * HOUR
+MONTH = 30 * DAY
 TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = caches["twitter"]
 
@@ -428,7 +429,7 @@ def crawl_search_page(page_id):
                     print(f"{post_detail['id']} exists")
                     continue
                 print(f"{post_detail['id']} NOT exists")
-                DUPLICATE_CHECKER.set(post_detail["id"], 1, DAY * 30)
+                DUPLICATE_CHECKER.set(post_detail["id"], 1, MONTH * 3)
                 send = determine_to_send(body, terms1, terms2)
                 if send:
                     body = notification_message_prepare(body, post_detail["link"])
