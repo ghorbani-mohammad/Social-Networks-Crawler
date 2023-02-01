@@ -431,6 +431,23 @@ def get_job_description(driver):
         return "Cannot-extract-description"
 
 
+def get_job_company_size(driver):
+    """Extract selected job's company size
+
+    Args:
+        driver (WebDriver): browser driver
+
+    Returns:
+        str: job's company size
+    """
+    try:
+        return driver.find_elements(
+            By.CLASS_NAME, "jobs-unified-top-card__job-insight"
+        )[1].text
+    except NoSuchElementException:
+        return "Cannot-extract-company-size"
+
+
 def get_language(description):
     try:
         return detect(description)
@@ -482,6 +499,7 @@ def get_job_detail(driver, element):
     result = {}
     result["url"] = get_job_url(element)
     result["description"] = get_job_description(driver)
+    result["company_size"] = get_job_company_size(driver)
     result["language"] = get_language(result["description"])
     result["title"] = telegram_text_purify(get_job_title(element))
     result["location"] = telegram_text_purify(get_job_location(element))
