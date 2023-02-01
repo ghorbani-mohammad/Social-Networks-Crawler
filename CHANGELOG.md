@@ -1,3 +1,12 @@
+## [1.17.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.17.0...v1.17.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* Solve getting card id ([be91216](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/be912161ea3ec6b904010658049a46a2f134b900))
+
+
+
 # [1.17.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.16.1...v1.17.0) (2023-01-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add checking eligibility ([7d0aa91](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7d0aa91d8144947f9fd44c20016c1c3dba8b2cc1))
-
-
-
-## [1.14.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.14.0...v1.14.1) (2022-12-30)
-
-
-### Bug Fixes
-
-* minor change ([08bd944](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/08bd94411eda9f5630c99e2ad6fc75d96ec20798))
 
 
 
