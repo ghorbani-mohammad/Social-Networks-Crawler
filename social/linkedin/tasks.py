@@ -479,7 +479,7 @@ def send_notification(message, data, keywords, output_channel_pk):
         .replace("title", data["title"])
         .replace("location", data["location"])
         .replace("company", data["company"])
-        .replace("company_size", data["company_size"])
+        .replace("size", data["company_size"])
         .replace("keywords", check_keywords(data["description"], keywords)),
         output_channel_pk,
     )
