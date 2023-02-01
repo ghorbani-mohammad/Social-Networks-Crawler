@@ -630,4 +630,5 @@ def check_expression_search_pages():
 
 @shared_task
 def store_ignored_content(job_detail):
+    job_detail.pop("company_size", None)  # Remove extra key
     lin_models.IgnoredJob.objects.create(**job_detail)
