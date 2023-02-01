@@ -441,9 +441,10 @@ def get_job_company_size(driver):
         str: job's company size
     """
     try:
-        return driver.find_elements(
+        company_size = driver.find_elements(
             By.CLASS_NAME, "jobs-unified-top-card__job-insight"
         )[1].text
+        return company_size.split("·")[0]
     except NoSuchElementException:
         return "Cannot-extract-company-size"
 
