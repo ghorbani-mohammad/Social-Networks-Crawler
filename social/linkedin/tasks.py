@@ -564,6 +564,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             time.sleep(2)
             id = article.get_attribute("data-urn")
             if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
+                print(f"id is none or duplicate, id: {id}")
                 continue
             DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
             body = ""
@@ -572,6 +573,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
                     By.CLASS_NAME, "feed-shared-update-v2__commentary"
                 ).text
             except NoSuchElementException:
+                print("No such element exception")
                 body = "Cannot-extract-body"
             link = f"https://www.linkedin.com/feed/update/{id}/"
             body = telegram_text_purify(body)
