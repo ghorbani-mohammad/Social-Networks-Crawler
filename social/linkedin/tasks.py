@@ -489,6 +489,16 @@ def get_job_detail(driver, element):
     return result
 
 
+def get_card_id(element):
+    try:
+        return element.find_element(
+            By.XPATH,
+            './/div[starts-with(@data-urn, "urn:li:activity:")]',
+        ).get_attribute("data-urn")
+    except:
+        return "Cannot-extract-card-id"
+
+
 @shared_task
 def check_page_count(page_id, ignore_repetitive, starting_job):
     page = lin_models.JobSearch.objects.get(pk=page_id)
@@ -562,7 +572,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
-            id = article.get_attribute("data-urn")
+            id = get_card_id(article)
             if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
                 print(f"id is none or duplicate, id: {id}")
                 continue
