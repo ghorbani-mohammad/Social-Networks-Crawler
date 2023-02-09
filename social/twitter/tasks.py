@@ -46,9 +46,9 @@ def get_driver():
             DesiredCapabilities.FIREFOX,
         )
     except SessionNotCreatedException as e:
-        logger.warning(f"Error: {e}\n\n{traceback.format_exc()}")
+        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
     except MaxRetryError as e:
-        logger.warning(f"Error: {e}\n\n{traceback.format_exc()}")
+        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
     return None
 
 
