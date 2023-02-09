@@ -13,6 +13,7 @@ from langdetect.lang_detect_exception import LangDetectException
 from urllib3.exceptions import MaxRetryError
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import SessionNotCreatedException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -42,8 +43,10 @@ def get_driver():
             "http://social_firefox:4444/wd/hub",
             DesiredCapabilities.FIREFOX,
         )
+    except SessionNotCreatedException as e:
+        logger.warning(f"Error: {e}\n\n{traceback.format_exc()}")
     except MaxRetryError as e:
-        logger.error("Couldn't create browser session.")
+        logger.warning(f"Error: {e}\n\n{traceback.format_exc()}")
     # Should do appropriate action instead of exit (for example restarting docker)
     exit()
 
