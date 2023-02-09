@@ -8,11 +8,9 @@ from selenium.webdriver.common.by import By
 from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import (
-    SessionNotCreatedException,
-    TimeoutException,
-    NoSuchElementException,
-)
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import SessionNotCreatedException
 from celery import shared_task
 from django.utils import timezone
 from django.utils.html import strip_tags
@@ -48,9 +46,9 @@ def get_driver():
             DesiredCapabilities.FIREFOX,
         )
     except SessionNotCreatedException as e:
-        logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
+        logger.warning(f"Error: {e}\n\n{traceback.format_exc()}")
     except MaxRetryError as e:
-        logger.error(f"Error: {e}\n\n{traceback.format_exc()}")
+        logger.warning(f"Error: {e}\n\n{traceback.format_exc()}")
     return None
 
 
