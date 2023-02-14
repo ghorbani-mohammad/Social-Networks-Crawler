@@ -77,7 +77,7 @@ class IgnoredJob(BaseModel):
     title = models.CharField(max_length=150, null=True)
     company = models.CharField(max_length=100, null=True)
     location = models.CharField(max_length=200, null=True)
-    language = models.CharField(max_length=20, null=True)
+    language = models.CharField(max_length=40, null=True)
 
 
 class ExpressionSearch(BaseModel):
