@@ -1,3 +1,12 @@
+# [1.19.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.18.1...v1.19.0) (2023-03-01)
+
+
+### Features
+
+* increase time interval for crawling ([ac7809b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ac7809b0f11a05d9fd4153da312a040e4594e666))
+
+
+
 ## [1.18.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.18.0...v1.18.1) (2023-02-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Add twitter login ([e2894c5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e2894c56232cae9f32aaef95ca35ccfc7a876f9b))
-
-
-
-## [1.16.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.16.0...v1.16.1) (2023-01-12)
-
-
-### Bug Fixes
-
-* update last-crawl-at of ExpressionSearch ([aa297d4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/aa297d4a14dc3d862b17442e9225cf89f68f672b))
 
 
 
