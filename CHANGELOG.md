@@ -1,3 +1,12 @@
+# [1.20.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.19.0...v1.20.0) (2023-03-04)
+
+
+### Features
+
+* add easy-apply checker ([4be849f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4be849f7dff1748e0be4de2eae9e056665ca2f98))
+
+
+
 # [1.19.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.18.1...v1.19.0) (2023-03-01)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * Solve getting card id ([be91216](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/be912161ea3ec6b904010658049a46a2f134b900))
-
-
-
-# [1.17.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.16.1...v1.17.0) (2023-01-13)
-
-
-### Features
-
-* Add twitter login ([e2894c5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e2894c56232cae9f32aaef95ca35ccfc7a876f9b))
 
 
 
