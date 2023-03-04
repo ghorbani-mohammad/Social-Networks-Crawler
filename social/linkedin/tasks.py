@@ -391,14 +391,13 @@ def check_easy_apply(element):
         driver (WebDriver): browser driver
 
     Returns:
-        str: easy apply
+        str: check-mark emoji
     """
     try:
-        return element.find_element(
-            By.CLASS_NAME, "job-card-container__apply-method"
-        ).text
+        element.find_element(By.CLASS_NAME, "job-card-container__apply-method")
+        return "✅"
     except NoSuchElementException:
-        return "Cannot-extract-easy-apply"
+        return ""
 
 
 def get_job_location(element):
