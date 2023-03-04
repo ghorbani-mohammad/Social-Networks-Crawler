@@ -384,6 +384,23 @@ def get_job_title(element):
         return "Cannot-extract-title"
 
 
+def check_easy_apply(element):
+    """Check if job has easy apply option
+
+    Args:
+        driver (WebDriver): browser driver
+
+    Returns:
+        str: easy apply
+    """
+    try:
+        return element.find_element(
+            By.CLASS_NAME, "job-card-container__apply-method"
+        ).text
+    except NoSuchElementException:
+        return "Cannot-extract-easy-apply"
+
+
 def get_job_location(element):
     """Extract selected job location from driver
 
@@ -484,6 +501,7 @@ def send_notification(message, data, keywords, output_channel_pk):
         .replace("location", data["location"])
         .replace("company", data["company"])
         .replace("size", data["company_size"])
+        .replace("easy_apply", data["easy_apply"])
         .replace("keywords", check_keywords(data["description"], keywords)),
         output_channel_pk,
     )
@@ -503,6 +521,7 @@ def get_job_detail(driver, element):
     """
     result = {}
     result["url"] = get_job_url(element)
+    result["easy_apply"] = check_easy_apply(element)
     result["description"] = get_job_description(driver)
     result["company_size"] = get_job_company_size(driver)
     result["language"] = get_language(result["description"])
