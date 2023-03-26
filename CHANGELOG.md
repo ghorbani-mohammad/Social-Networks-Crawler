@@ -1,3 +1,12 @@
+## [1.21.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.21.0...v1.21.1) (2023-03-26)
+
+
+### Bug Fixes
+
+* **linkedin:** add index-error to get-company-size ([b7e1f09](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/b7e1f09f58949575343a8c43fd9d9372506358de))
+
+
+
 # [1.21.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.20.1...v1.21.0) (2023-03-25)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * increase time interval for crawling ([ac7809b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ac7809b0f11a05d9fd4153da312a040e4594e666))
-
-
-
-## [1.18.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.18.0...v1.18.1) (2023-02-01)
-
-
-### Bug Fixes
-
-* Fix same name issue in replacement ([02c792b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/02c792b66f435e58d408b0cf56c6948ca3483343))
 
 
 
