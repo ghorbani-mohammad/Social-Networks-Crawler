@@ -465,7 +465,9 @@ def get_job_company_size(driver):
         )[1].text
         return company_size.split("·")[0].replace("employees", "")
     except NoSuchElementException:
-        return "Cannot-extract-company-size"
+        return "Cannot-extract-company-size (no such element)"
+    except IndexError:
+        return "Cannot-extract-company-size (index error)"
 
 
 def get_language(description):
