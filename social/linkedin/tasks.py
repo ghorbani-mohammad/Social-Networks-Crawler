@@ -397,7 +397,7 @@ def check_easy_apply(element):
         element.find_element(By.CLASS_NAME, "job-card-container__apply-method")
         return "✅"
     except NoSuchElementException:
-        return ""
+        return "❌"
 
 
 def get_job_location(element):
