@@ -4,6 +4,7 @@ from reusable.models import BaseModel
 
 
 class TelegramBot(BaseModel):
+    """Bots which we use to send messages to specified channels"""
     name = models.CharField(max_length=50)
     telegram_token = models.CharField(max_length=100)
 
