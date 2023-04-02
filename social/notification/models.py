@@ -13,6 +13,10 @@ class TelegramBot(BaseModel):
 
 
 class TelegramAccount(BaseModel):
+    """
+    Telegram accounts which we send mainly monitoring messages.
+    For example how many new links we have seen today.
+    """
     name = models.CharField(max_length=50)
     chat_id = models.CharField(max_length=100)
 
@@ -26,7 +30,6 @@ class Channel(BaseModel):
     Args:
         BaseModel (Model): base model with created_at, updated_at and deleted_at fields
     """
-
     name = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     network = models.ForeignKey(
