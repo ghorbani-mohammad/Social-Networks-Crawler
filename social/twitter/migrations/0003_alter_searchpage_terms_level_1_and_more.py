@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('twitter', '0002_searchpage_terms_level_1_searchpage_terms_level_2'),
+        ("twitter", "0002_searchpage_terms_level_1_searchpage_terms_level_2"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='searchpage',
-            name='terms_level_1',
+            model_name="searchpage",
+            name="terms_level_1",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='searchpage',
-            name='terms_level_2',
+            model_name="searchpage",
+            name="terms_level_2",
             field=models.TextField(blank=True, null=True),
         ),
     ]

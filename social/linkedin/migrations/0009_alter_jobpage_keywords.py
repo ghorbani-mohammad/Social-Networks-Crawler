@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0008_keyword_jobpage_keywords'),
+        ("linkedin", "0008_keyword_jobpage_keywords"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='jobpage',
-            name='keywords',
-            field=models.ManyToManyField(blank=True, to='linkedin.keyword'),
+            model_name="jobpage",
+            name="keywords",
+            field=models.ManyToManyField(blank=True, to="linkedin.keyword"),
         ),
     ]

@@ -4,20 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0018_alter_ignoredjob_company_alter_ignoredjob_location_and_more'),
+        (
+            "linkedin",
+            "0018_alter_ignoredjob_company_alter_ignoredjob_location_and_more",
+        ),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ignoredjob',
-            name='location',
+            model_name="ignoredjob",
+            name="location",
             field=models.CharField(max_length=200, null=True),
         ),
         migrations.AlterField(
-            model_name='ignoredjob',
-            name='title',
+            model_name="ignoredjob",
+            name="title",
             field=models.CharField(max_length=150, null=True),
         ),
     ]

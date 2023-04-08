@@ -5,16 +5,20 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('notification', '0003_channel'),
-        ('twitter', '0003_alter_searchpage_terms_level_1_and_more'),
+        ("notification", "0003_channel"),
+        ("twitter", "0003_alter_searchpage_terms_level_1_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='searchpage',
-            name='output_channel',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='twitter_pages', to='notification.channel'),
+            model_name="searchpage",
+            name="output_channel",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="twitter_pages",
+                to="notification.channel",
+            ),
         ),
     ]

@@ -5,20 +5,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0021_alter_post_category_alter_post_ner_and_more'),
+        ("network", "0021_alter_post_category_alter_post_ner_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='channel',
-            name='crawl_interval',
-            field=models.PositiveSmallIntegerField(default=1, validators=[django.core.validators.MinValueValidator(1)]),
+            model_name="channel",
+            name="crawl_interval",
+            field=models.PositiveSmallIntegerField(
+                default=1, validators=[django.core.validators.MinValueValidator(1)]
+            ),
         ),
         migrations.AddField(
-            model_name='channel',
-            name='last_crawl',
+            model_name="channel",
+            name="last_crawl",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

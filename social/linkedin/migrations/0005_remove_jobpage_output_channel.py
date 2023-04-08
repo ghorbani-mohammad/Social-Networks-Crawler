@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0004_jobpage_output_channel'),
+        ("linkedin", "0004_jobpage_output_channel"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='jobpage',
-            name='output_channel',
+            model_name="jobpage",
+            name="output_channel",
         ),
     ]

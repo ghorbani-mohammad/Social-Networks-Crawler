@@ -5,23 +5,33 @@ import network.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0029_config'),
+        ("network", "0029_config"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ChannelListExport',
+            name="ChannelListExport",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('deleted_at', models.DateTimeField(blank=True, null=True)),
-                ('file', models.FileField(upload_to=network.models.channel_list_export_path)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("deleted_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "file",
+                    models.FileField(upload_to=network.models.channel_list_export_path),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

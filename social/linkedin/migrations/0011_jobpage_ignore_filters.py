@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0010_ignoringfilter'),
+        ("linkedin", "0010_ignoringfilter"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='jobpage',
-            name='ignore_filters',
-            field=models.ManyToManyField(blank=True, to='linkedin.ignoringfilter'),
+            model_name="jobpage",
+            name="ignore_filters",
+            field=models.ManyToManyField(blank=True, to="linkedin.ignoringfilter"),
         ),
     ]

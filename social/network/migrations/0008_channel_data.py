@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0007_post_data'),
+        ("network", "0007_post_data"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='channel',
-            name='data',
+            model_name="channel",
+            name="data",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

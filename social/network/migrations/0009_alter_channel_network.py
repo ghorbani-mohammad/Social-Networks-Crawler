@@ -5,15 +5,18 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0008_channel_data'),
+        ("network", "0008_channel_data"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='channel',
-            name='network',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='channels', to='network.network'),
+            model_name="channel",
+            name="network",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="channels",
+                to="network.network",
+            ),
         ),
     ]

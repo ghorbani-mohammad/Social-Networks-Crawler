@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0023_jobsearch_page_count'),
+        ("linkedin", "0023_jobsearch_page_count"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='jobsearch',
-            name='page_count',
-            field=models.PositiveSmallIntegerField(blank=True, default=1, help_text='how many pages should be crawled'),
+            model_name="jobsearch",
+            name="page_count",
+            field=models.PositiveSmallIntegerField(
+                blank=True, default=1, help_text="how many pages should be crawled"
+            ),
         ),
     ]

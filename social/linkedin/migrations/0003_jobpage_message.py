@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0002_jobpage_last_crawl_at'),
+        ("linkedin", "0002_jobpage_last_crawl_at"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='jobpage',
-            name='message',
+            model_name="jobpage",
+            name="message",
             field=models.TextField(blank=True, null=True),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0016_ignoredjob_company_ignoredjob_language_and_more'),
+        ("linkedin", "0016_ignoredjob_company_ignoredjob_language_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ignoredjob',
-            name='location',
+            model_name="ignoredjob",
+            name="location",
             field=models.CharField(max_length=50, null=True),
         ),
     ]

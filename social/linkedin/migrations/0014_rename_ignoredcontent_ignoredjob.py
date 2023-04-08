@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0013_rename_content_ignoredcontent_description'),
+        ("linkedin", "0013_rename_content_ignoredcontent_description"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='IgnoredContent',
-            new_name='IgnoredJob',
+            old_name="IgnoredContent",
+            new_name="IgnoredJob",
         ),
     ]

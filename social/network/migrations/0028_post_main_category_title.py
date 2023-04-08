@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0027_alter_backup_link'),
+        ("network", "0027_alter_backup_link"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='main_category_title',
+            model_name="post",
+            name="main_category_title",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
     ]

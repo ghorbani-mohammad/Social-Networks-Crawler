@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0018_tag'),
+        ("network", "0018_tag"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='channel',
-            name='tags',
-            field=models.ManyToManyField(blank=True, related_name='channels', to='network.Tag'),
+            model_name="channel",
+            name="tags",
+            field=models.ManyToManyField(
+                blank=True, related_name="channels", to="network.Tag"
+            ),
         ),
     ]

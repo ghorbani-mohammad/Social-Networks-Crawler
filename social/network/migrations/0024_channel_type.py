@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0023_alter_keyword_keyword'),
+        ("network", "0023_alter_keyword_keyword"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='channel',
-            name='type',
-            field=models.CharField(blank=True, choices=[('persian', 'persian'), ('english', 'english')], default='persian', max_length=15),
+            model_name="channel",
+            name="type",
+            field=models.CharField(
+                blank=True,
+                choices=[("persian", "persian"), ("english", "english")],
+                default="persian",
+                max_length=15,
+            ),
         ),
     ]

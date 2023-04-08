@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0005_alter_post_body'),
+        ("network", "0005_alter_post_body"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='channel',
-            unique_together={('network', 'username')},
+            name="channel",
+            unique_together={("network", "username")},
         ),
     ]
