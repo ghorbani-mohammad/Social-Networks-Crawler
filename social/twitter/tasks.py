@@ -3,9 +3,9 @@ import pickle
 import random
 import traceback
 
+from urllib3.exceptions import MaxRetryError
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import TimeoutException
