@@ -3,9 +3,9 @@ import pickle
 import random
 import traceback
 
+from urllib3.exceptions import MaxRetryError
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from urllib3.exceptions import MaxRetryError
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import TimeoutException
@@ -139,7 +139,8 @@ def get_post_detail(article):
     )
     detail["body"] = article.find_element(
         By.XPATH,
-        ".//div[@dir='auto' and starts-with(@id,'id__') and not(contains(@data-testid, 'socialContext'))]",
+        ".//div[@dir='auto' and starts-with(@id,'id__') and \
+            not(contains(@data-testid, 'socialContext'))]",
     ).text
     for item in ["reply", "retweet", "like"]:
         detail[f"{item}_count"] = int(
@@ -343,7 +344,10 @@ def get_tweet_username(article):
 
 
 def get_tweet_link(tweet_detail):
-    return f"https://twitter.com/{tweet_detail['username'].replace('@','')}/status/{tweet_detail['id']}"
+    return (
+        f"https://twitter.com/{tweet_detail['username'].replace('@','')}"
+        f"/status/{tweet_detail['id']}"
+    )
 
 
 def get_post_detail_v2(article):
