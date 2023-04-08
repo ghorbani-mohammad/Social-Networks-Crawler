@@ -45,10 +45,10 @@ def get_driver():
             "http://social_firefox:4444/wd/hub",
             DesiredCapabilities.FIREFOX,
         )
-    except SessionNotCreatedException as e:
-        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
-    except MaxRetryError as e:
-        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
+    except SessionNotCreatedException as err:
+        logger.info(f"Error: {err}\n\n{traceback.format_exc()}")
+    except MaxRetryError as err:
+        logger.info(f"Error: {err}\n\n{traceback.format_exc()}")
     return None
 
 
@@ -388,10 +388,10 @@ def driver_head_to_page(driver, url):
     try:
         driver.get(url)
         return driver
-    except TimeoutException as e:
-        logger.error(f"{e}\n\n{traceback.format_exc()}")
-    except Exception as e:
-        logger.error(f"{e}\n\n{traceback.format_exc()}")
+    except TimeoutException as err:
+        logger.error(f"{err}\n\n{traceback.format_exc()}")
+    except Exception as err:
+        logger.error(f"{err}\n\n{traceback.format_exc()}")
     return None
 
 
