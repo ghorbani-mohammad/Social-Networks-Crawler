@@ -1,3 +1,12 @@
+# [1.22.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.21.1...v1.22.0) (2023-04-08)
+
+
+### Features
+
+* increase interval of get-linkedin-feed ([74c446a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/74c446a26db0e89c6520db148feb8ac212a8f6d9))
+
+
+
 ## [1.21.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.21.0...v1.21.1) (2023-03-26)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add easy-apply checker ([4be849f](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4be849f7dff1748e0be4de2eae9e056665ca2f98))
-
-
-
-# [1.19.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.18.1...v1.19.0) (2023-03-01)
-
-
-### Features
-
-* increase time interval for crawling ([ac7809b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ac7809b0f11a05d9fd4153da312a040e4594e666))
 
 
 
