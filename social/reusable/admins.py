@@ -3,8 +3,9 @@ from django.conf import settings
 
 
 def url_to_edit_object(obj):
+    meta = getattr(obj, "_meta")
     obj_url = reverse(
-        f"admin:{obj._meta.app_label}_{obj._meta.model_name}_change",
+        f"admin:{meta.app_label}_{meta.model_name}_change",
         args=[obj.id],
     )
     return f"{settings.BACKEND_URL[:-1]}{obj_url}"
