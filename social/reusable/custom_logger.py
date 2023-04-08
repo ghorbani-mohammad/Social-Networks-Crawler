@@ -18,5 +18,5 @@ class DBHandler(Handler):
         try:
             log = Log(level=record.levelname, message=self.format(record))
             log.save()
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             pass

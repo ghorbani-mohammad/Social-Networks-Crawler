@@ -115,7 +115,7 @@ class Post(BaseModel):
     @property
     def admin_link(self):
         url = url_to_edit_object(self)
-        return format_html("<a href='{url}'>{stream}</a>", url=url, stream=self)
+        return format_html("<a href='{url}'>{post}</a>", url=url, post=self)
 
     @property
     def short_body(self):
