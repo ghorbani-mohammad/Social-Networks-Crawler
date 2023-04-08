@@ -1,3 +1,12 @@
+# [1.24.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.23.0...v1.24.0) (2023-04-08)
+
+
+### Features
+
+* **linkedin:** add get-config func ([2e92ebe](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2e92ebe398e00952980e961db96aa1ed68fce11b))
+
+
+
 # [1.23.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.22.0...v1.23.0) (2023-04-08)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * minor change ([6e40ed2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/6e40ed245d7fc2a29b30cf449a6bd336bfa03e2e))
-
-
-
-## [1.20.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.20.0...v1.20.1) (2023-03-04)
-
-
-### Bug Fixes
-
-* ignore easy-apply in storing ignored content ([5450b82](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/5450b82fc9bc8d7121de1819dee3693075f9506c))
 
 
 
