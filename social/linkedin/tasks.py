@@ -32,6 +32,13 @@ TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
 
+def get_config():
+    config = lin_models.Config.objects.last()
+    if config is None:
+        config = lin_models.Config()
+    return config
+
+
 def get_driver():
     """This function creates a browser driver and returns it
 
