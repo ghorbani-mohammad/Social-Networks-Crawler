@@ -3,6 +3,7 @@ __pycache__/
 .env
 .idea
 .vscode
+.venv
 *.csv
 *.log
 *.pkl
