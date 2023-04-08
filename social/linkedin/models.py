@@ -91,8 +91,3 @@ class ExpressionSearch(BaseModel):
         null=True,
         related_name="linkedin_expression_searches",
     )
-
-class Config(BaseModel):
-    enable_job_crawls = models.BooleanField(default=False)
-    enable_feed_crawls = models.BooleanField(default=False)
-    enable_search_crawls = models.BooleanField(default=False)
