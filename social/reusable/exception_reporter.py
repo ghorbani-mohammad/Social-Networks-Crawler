@@ -22,8 +22,8 @@ Installed Middleware:
 
 class CustomExceptionReporter(debug.ExceptionReporter):
     def get_traceback_text(self):
-        t = debug.DEBUG_ENGINE.from_string(TECHNICAL_500_TEXT_TEMPLATE)
-        c = template.Context(
+        template = debug.DEBUG_ENGINE.from_string(TECHNICAL_500_TEXT_TEMPLATE)
+        context = template.Context(
             self.get_traceback_data(), autoescape=False, use_l10n=False
         )
-        return t.render(c)
+        return template.render(context)
