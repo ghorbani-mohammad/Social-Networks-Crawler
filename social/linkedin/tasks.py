@@ -35,7 +35,7 @@ DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 def get_config():
     config = lin_models.Config.objects.last()
     if config is None:
-        config = lin_models.Config()
+        config = lin_models.Config(enable_job_crawls=False, enable_feed_crawls=False, enable_search_crawls=False)
     return config
 
 
