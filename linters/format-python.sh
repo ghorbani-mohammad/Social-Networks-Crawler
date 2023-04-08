@@ -2,4 +2,4 @@
 
 set -e
 
-linters/find-python.sh black -t py37
+linters/find-python.sh black -t py311
