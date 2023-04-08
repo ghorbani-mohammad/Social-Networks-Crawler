@@ -4,15 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0025_jobsearch_priority'),
+        ("linkedin", "0025_jobsearch_priority"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='jobsearch',
-            name='priority',
-            field=models.PositiveSmallIntegerField(blank=True, default=0, help_text='pages with higher priority, will be at the first of crawl queue'),
+            model_name="jobsearch",
+            name="priority",
+            field=models.PositiveSmallIntegerField(
+                blank=True,
+                default=0,
+                help_text="pages with higher priority, will be at the first of crawl queue",
+            ),
         ),
     ]

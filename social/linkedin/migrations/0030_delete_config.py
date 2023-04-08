@@ -4,13 +4,12 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0029_config'),
+        ("linkedin", "0029_config"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Config',
+            name="Config",
         ),
     ]

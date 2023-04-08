@@ -5,15 +5,19 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0014_keyword'),
+        ("network", "0014_keyword"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='keyword',
-            name='post',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='keywords', related_query_name='keyword', to='network.post'),
+            model_name="keyword",
+            name="post",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="keywords",
+                related_query_name="keyword",
+                to="network.post",
+            ),
         ),
     ]

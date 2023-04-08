@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0026_alter_jobsearch_priority'),
+        ("linkedin", "0026_alter_jobsearch_priority"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ignoredjob',
-            name='language',
+            model_name="ignoredjob",
+            name="language",
             field=models.CharField(max_length=40, null=True),
         ),
     ]

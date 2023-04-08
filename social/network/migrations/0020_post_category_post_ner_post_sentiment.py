@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0019_channel_tags'),
+        ("network", "0019_channel_tags"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='category',
+            model_name="post",
+            name="category",
             field=models.JSONField(null=True),
         ),
         migrations.AddField(
-            model_name='post',
-            name='ner',
+            model_name="post",
+            name="ner",
             field=models.JSONField(null=True),
         ),
         migrations.AddField(
-            model_name='post',
-            name='sentiment',
+            model_name="post",
+            name="sentiment",
             field=models.JSONField(null=True),
         ),
     ]

@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0020_post_category_post_ner_post_sentiment'),
+        ("network", "0020_post_category_post_ner_post_sentiment"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='category',
+            model_name="post",
+            name="category",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='ner',
+            model_name="post",
+            name="ner",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='sentiment',
+            model_name="post",
+            name="sentiment",
             field=models.JSONField(blank=True, null=True),
         ),
     ]

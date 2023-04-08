@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('twitter', '0001_initial'),
+        ("twitter", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='searchpage',
-            name='terms_level_1',
+            model_name="searchpage",
+            name="terms_level_1",
             field=models.TextField(null=True),
         ),
         migrations.AddField(
-            model_name='searchpage',
-            name='terms_level_2',
+            model_name="searchpage",
+            name="terms_level_2",
             field=models.TextField(null=True),
         ),
     ]

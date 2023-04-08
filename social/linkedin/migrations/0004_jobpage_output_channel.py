@@ -5,16 +5,20 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0036_outputchannel'),
-        ('linkedin', '0003_jobpage_message'),
+        ("network", "0036_outputchannel"),
+        ("linkedin", "0003_jobpage_message"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='jobpage',
-            name='output_channel',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='linkedin_pages', to='network.outputchannel'),
+            model_name="jobpage",
+            name="output_channel",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="linkedin_pages",
+                to="network.outputchannel",
+            ),
         ),
     ]

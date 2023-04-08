@@ -4,19 +4,18 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0002_publisher_description'),
+        ("network", "0002_publisher_description"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='Publisher',
-            new_name='Channel',
+            old_name="Publisher",
+            new_name="Channel",
         ),
         migrations.RenameField(
-            model_name='post',
-            old_name='publisher',
-            new_name='channel',
+            model_name="post",
+            old_name="publisher",
+            new_name="channel",
         ),
     ]

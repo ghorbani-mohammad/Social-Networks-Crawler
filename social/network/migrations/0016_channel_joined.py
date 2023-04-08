@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0015_alter_keyword_post'),
+        ("network", "0015_alter_keyword_post"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='channel',
-            name='joined',
+            model_name="channel",
+            name="joined",
             field=models.BooleanField(blank=True, null=True),
         ),
     ]

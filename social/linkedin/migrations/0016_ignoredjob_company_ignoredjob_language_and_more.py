@@ -4,25 +4,24 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0015_rename_jobpage_jobsearch'),
+        ("linkedin", "0015_rename_jobpage_jobsearch"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='ignoredjob',
-            name='company',
+            model_name="ignoredjob",
+            name="company",
             field=models.CharField(max_length=50, null=True),
         ),
         migrations.AddField(
-            model_name='ignoredjob',
-            name='language',
+            model_name="ignoredjob",
+            name="language",
             field=models.CharField(max_length=20, null=True),
         ),
         migrations.AddField(
-            model_name='ignoredjob',
-            name='title',
+            model_name="ignoredjob",
+            name="title",
             field=models.CharField(max_length=50, null=True),
         ),
     ]

@@ -4,13 +4,12 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('network', '0036_outputchannel'),
+        ("network", "0036_outputchannel"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='OutputChannel',
+            name="OutputChannel",
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0012_alter_ignoringfilter_place'),
+        ("linkedin", "0012_alter_ignoringfilter_place"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='ignoredcontent',
-            old_name='content',
-            new_name='description',
+            model_name="ignoredcontent",
+            old_name="content",
+            new_name="description",
         ),
     ]

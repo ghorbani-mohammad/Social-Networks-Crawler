@@ -4,15 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0011_jobpage_ignore_filters'),
+        ("linkedin", "0011_jobpage_ignore_filters"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ignoringfilter',
-            name='place',
-            field=models.CharField(choices=[('location', 'location'), ('title', 'title'), ('company', 'company')], max_length=15),
+            model_name="ignoringfilter",
+            name="place",
+            field=models.CharField(
+                choices=[
+                    ("location", "location"),
+                    ("title", "title"),
+                    ("company", "company"),
+                ],
+                max_length=15,
+            ),
         ),
     ]

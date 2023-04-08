@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('linkedin', '0021_expressionsearch_output_channel'),
+        ("linkedin", "0021_expressionsearch_output_channel"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='expressionsearch',
-            name='last_crawl_at',
+            model_name="expressionsearch",
+            name="last_crawl_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]
