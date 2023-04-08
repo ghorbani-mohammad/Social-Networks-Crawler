@@ -82,3 +82,8 @@ class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
             tasks.get_expression_search_posts.delay(page.pk, ignore_repetitive=False)
 
     actions = (crawl_page_action, crawl_page_repetitive_action)
+
+
+@admin.register(models.Config)
+class ConfigAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    list_display = ("pk", "enable_job_crawls", "enable_feed_crawls", "enable_search_crawls", "updated_at")
