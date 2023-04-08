@@ -9,8 +9,8 @@ lint: lint-python
 
 .PHONY: format-python
 format-python:
-	linter/format-python.sh
+	linters/format-python.sh
 
 .PHONY: lint-python
 lint-python:
-	@MYPYPATH=social linter/lint-python.sh
+	@MYPYPATH=social linters/lint-python.sh

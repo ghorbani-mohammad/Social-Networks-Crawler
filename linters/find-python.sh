@@ -2,6 +2,6 @@
 
 set -e
 
-find . -type f \
+find social -type f \
 	-name "*.py" \
 	-exec "$@" {} +
