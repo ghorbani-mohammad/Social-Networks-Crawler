@@ -3,7 +3,7 @@ from logging import Handler
 from network.models import Log
 
 
-class DBHandler(Handler, object):
+class DBHandler(Handler):
     """This is an error handler that stores error into db
 
     Args:
@@ -12,11 +12,11 @@ class DBHandler(Handler, object):
     """
 
     def __init__(self):
-        super(DBHandler, self).__init__()
+        super().__init__()
 
     def emit(self, record):
         try:
             log = Log(level=record.levelname, message=self.format(record))
             log.save()
-        except:
+        except Exception:
             pass

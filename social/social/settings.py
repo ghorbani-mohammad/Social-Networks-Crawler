@@ -188,7 +188,7 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
                 "class": "logging.StreamHandler",
             },
             "log_db": {
-                "class": "reusable.logging.DBHandler",
+                "class": "reusable.custom_logger.DBHandler",
             },
         },
         "loggers": {
