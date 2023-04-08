@@ -2,6 +2,7 @@
 
 set -e
 
-find social -type f \
-	-name "*.py" \
+find social \
+	-type d -name migrations -prune -o \
+	-type f -name "*.py" \
 	-exec "$@" {} +
