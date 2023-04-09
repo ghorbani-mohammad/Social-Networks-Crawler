@@ -114,7 +114,7 @@ class BackupAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 class ConfigAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "crawl_linkedin_feed")
 
-    def flush_views_cache(self, request, queryset):
+    def flush_views_cache(self, _request, _queryset):
         redis_db = redis.StrictRedis(host="social_redis", port=6379, db=15)
         redis_db.flushdb()
 
@@ -142,7 +142,7 @@ class LogAdmin(admin.ModelAdmin):
     readonly_fields = ("time", "level", "message")
     list_display = ("pk", "level", "short_message", "time")
 
-    def delete_all_logs(modeladmin, request, queryset):
+    def delete_all_logs(modeladmin, _request, _queryset):
         models.Log.objects.all().delete()
 
     actions = (delete_all_logs,)
