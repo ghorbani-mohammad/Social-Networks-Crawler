@@ -154,7 +154,7 @@ def sign_in(account_id, code):
 
     async def main():
         await client.connect()
-        myself = await client.sign_in(
+        _myself = await client.sign_in(
             account.phone_number,
             code,
             phone_code_hash=account.phone_code_hash,

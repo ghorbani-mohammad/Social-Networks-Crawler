@@ -187,16 +187,16 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
     return result
 
 
-def get_keyword_statics(qs, type, start=None, end=None):
+def get_keyword_statics(queryset, type, start=None, end=None):
     result = []
     if type == "hourly":
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(hours=12))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end).annotate(
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end).annotate(
             hour=TruncHour("created_at")
         )
         for hour in hourly_iterate(start, end):
-            temp = qs.filter(hour__hour=hour.hour, hour__day=hour.day)
+            temp = queryset.filter(hour__hour=hour.hour, hour__day=hour.day)
             temp = (
                 temp.values("keyword")
                 .annotate(count=Count("keyword"))
@@ -216,11 +216,11 @@ def get_keyword_statics(qs, type, start=None, end=None):
     elif type == "daily":
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(days=7))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end).annotate(
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end).annotate(
             day=TruncDate("created_at")
         )
         for day in daily_iterate(start, end):
-            temp = qs.filter(day__month=day.month, day__day=day.day)
+            temp = queryset.filter(day__month=day.month, day__day=day.day)
             temp = (
                 temp.values("keyword")
                 .annotate(count=Count("keyword"))
@@ -240,11 +240,11 @@ def get_keyword_statics(qs, type, start=None, end=None):
     elif type == "monthly":
         start = start or timezone.localtime()
         end = end or (start - relativedelta(months=7))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end).annotate(
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end).annotate(
             month=TruncMonth("created_at")
         )
         for month in monthly_iterate(start, end):
-            temp = qs.filter(month__year=month.year, month__month=month.month)
+            temp = queryset.filter(month__year=month.year, month__month=month.month)
             temp = (
                 temp.values("keyword")
                 .annotate(count=Count("keyword"))
