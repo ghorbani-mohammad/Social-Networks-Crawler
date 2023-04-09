@@ -1,6 +1,6 @@
-import requests
-import subprocess
 from io import BytesIO
+import subprocess
+import requests
 
 from django.conf import settings
 from django.db import transaction
@@ -55,7 +55,8 @@ class BaseTaskWithRetry(Task):
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
-    """We extract keywords for a post by using external service. We call an external api by post body
+    """We extract keywords for a post by using external service.
+    We call an external api by post body
     We also consider ignored and blocked words
     We will delete blocked words
     We will ignore ignored words (we still save those into db)
@@ -185,7 +186,8 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                f"docker exec -t postgres pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
+                f"docker exec -t postgres pg_dumpall -c -U postgres \
+                    | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
             ]
         )
         backup.link = (
@@ -214,7 +216,8 @@ def export_channel_list(export_id):
     User can download that file.
 
     Args:
-        export_id (int): This is the id of the report. (Admin first create report row. then we run this task.)
+        export_id (int): This is the id of the report.
+        (Admin first create report row. then we run this task.)
     """
     channels = models.Channel.objects.all()
     workbook = Workbook()
