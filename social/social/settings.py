@@ -182,7 +182,7 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
                 "level": "ERROR",
                 "class": "django.utils.log.AdminEmailHandler",
                 "formatter": "simple",
-                #"reporter_class": "reusable.exception_reporter.CustomExceptionReporter",
+                # "reporter_class": "reusable.exception_reporter.CustomExceptionReporter",
             },
             "console": {
                 "class": "logging.StreamHandler",

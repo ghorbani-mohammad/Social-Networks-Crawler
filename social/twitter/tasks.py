@@ -46,9 +46,9 @@ def get_driver():
             DesiredCapabilities.FIREFOX,
         )
     except SessionNotCreatedException as err:
-        logger.info(f"Error: {err}\n\n{traceback.format_exc()}")
+        logger.info("Error: %s\n\n%s", err, traceback.format_exc())
     except MaxRetryError as err:
-        logger.info(f"Error: {err}\n\n{traceback.format_exc()}")
+        logger.info("Error: %s\n\n%s", err, traceback.format_exc())
     return None
 
 
@@ -61,7 +61,11 @@ def initialize_twitter_driver():
     driver = get_driver()
     if driver is None:
         return None
-    cookies = pickle.load(open("/app/social/twitter_cookies.pkl", "rb"))
+
+    cookies = None
+    with open("/app/social/twitter_cookies.pkl", "rb") as twitter_cookie:
+        cookies = pickle.load(twitter_cookie)
+
     driver.get("https://www.twitter.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
@@ -95,7 +99,10 @@ def login():
     password_elem.send_keys(settings.TWITTER_PASSWORD)
     password_elem.send_keys(Keys.ENTER)
     time.sleep(5)
-    pickle.dump(driver.get_cookies(), open("/app/social/twitter_cookies.pkl", "wb"))
+
+    with open("/app/social/twitter_cookies.pkl", "wb") as twitter_cookie:
+        pickle.dump(driver.get_cookies(), twitter_cookie)
+
     driver_exit(driver)
 
 
