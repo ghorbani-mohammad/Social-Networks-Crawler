@@ -178,7 +178,7 @@ def get_linkedin_posts(channel_id):
         articles = driver.find_elements(By.CLASS_NAME, "feed-shared-update-v2")
         for article in articles:
             try:
-                id = article.get_attribute("data-urn")
+                post_id = article.get_attribute("data-urn")
                 body = article.find_element(By.CLASS_NAME, "break-words").text
                 reaction = article.find_elements(
                     By.XPATH,
@@ -201,7 +201,7 @@ def get_linkedin_posts(channel_id):
                         share_counter = value
                 store_posts.delay(
                     channel_id,
-                    id,
+                    post_id,
                     body,
                     reaction_counter,
                     comment_counter,
@@ -229,7 +229,8 @@ def sort_by_recent(driver):
         sort_by_recent = driver.find_element(
             "xpath",
             "//button[@class='display-flex \
-                full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']/following-sibling::div",
+                full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom \
+                    ember-view']/following-sibling::div",
         )
         sort_by_recent = sort_by_recent.find_elements("tag name", "li")[1]
         sort_by_recent.click()
@@ -258,14 +259,14 @@ def get_linkedin_feed():
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
-            id = article.get_attribute("data-id")
+            feed_id = article.get_attribute("data-id")
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
             ).text
-            if DUPLICATE_CHECKER.exists(id):
+            if DUPLICATE_CHECKER.exists(feed_id):
                 continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            link = f"https://www.linkedin.com/feed/update/{id}/"
+            DUPLICATE_CHECKER.set(feed_id, "", ex=86400 * 30)
+            link = f"https://www.linkedin.com/feed/update/{feed_id}/"
             body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
@@ -581,11 +582,11 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
     for item in items:
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
-            id = item.get_attribute("data-occludable-job-id")
+            job_id = item.get_attribute("data-occludable-job-id")
             # if id is none or is repetitive
-            if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
+            if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
                 continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
             job_detail = get_job_detail(driver, item)
@@ -624,11 +625,11 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
-            id = get_card_id(article)
-            if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
-                print(f"id is none or duplicate, id: {id}")
+            post_id = get_card_id(article)
+            if not post_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(post_id)):
+                print(f"id is none or duplicate, id: {post_id}")
                 continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            DUPLICATE_CHECKER.set(post_id, "", ex=86400 * 30)
             body = ""
             try:
                 body = article.find_element(
@@ -637,7 +638,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             except NoSuchElementException:
                 print("No such element exception")
                 body = "Cannot-extract-body"
-            link = f"https://www.linkedin.com/feed/update/{id}/"
+            link = f"https://www.linkedin.com/feed/update/{post_id}/"
             body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
             not_tasks.send_message_to_telegram_channel(

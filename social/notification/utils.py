@@ -15,5 +15,5 @@ def telegram_bot_send_text(token, chat_id, message):
         + message
         + "&parse_mode=html"
     )
-    response = requests.get(send_text)
+    response = requests.get(send_text, timeout=10)
     return response.json()
