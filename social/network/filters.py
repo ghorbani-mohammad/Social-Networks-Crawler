@@ -95,7 +95,7 @@ def keyword_filter_by_network_ids(queryset, name, value):
     return queryset.filter(post__channel__network_id__in=values)
 
 
-def keyword_filter_by_tag_ids(queryset, name, value):
+def keyword_filter_by_tag_ids(queryset, _name, value):
     """filter keywords by tag ids
 
     Args:
@@ -126,7 +126,7 @@ class KeywordFilter(FilterSet):
         )
 
 
-def channel_filter_by_network_ids(queryset, name, value):
+def channel_filter_by_network_ids(queryset, _name, value):
     """filter channels by network ids
 
     Args:
