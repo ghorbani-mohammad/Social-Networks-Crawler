@@ -11,7 +11,7 @@ def url_to_edit_object(obj):
     return f"{settings.BACKEND_URL[:-1]}{obj_url}"
 
 
-class ReadOnlyAdminDateFieldsMIXIN(object):
+class ReadOnlyAdminDateFieldsMIXIN:
     def __init__(self) -> None:
         self.readonly_fields = None
 
