@@ -1,5 +1,6 @@
 from django.urls import reverse
 from django.conf import settings
+from django.contrib import admin
 
 
 def url_to_edit_object(obj):
@@ -11,7 +12,7 @@ def url_to_edit_object(obj):
     return f"{settings.BACKEND_URL[:-1]}{obj_url}"
 
 
-class ReadOnlyAdminDateFieldsMIXIN:
+class ReadOnlyAdminDateFieldsMIXIN(admin.ModelAdmin):
     base_readonly_fields = ("created_at", "updated_at", "deleted_at")
 
     def get_readonly_fields(self, _request, _obj=None):
