@@ -1,7 +1,7 @@
 import time
-import redis
 import pickle
 import traceback
+import redis
 
 from django.conf import settings
 from django.utils import timezone
@@ -22,8 +22,8 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from network import models as net_models
 from linkedin import models as lin_models
-from notification import tasks as not_tasks
 from reusable.other import only_one_concurrency
+from notification import tasks as not_tasks
 from notification.utils import telegram_text_purify
 
 logger = get_task_logger(__name__)
@@ -220,7 +220,8 @@ def get_linkedin_posts(channel_id):
 def sort_by_recent(driver):
     sort = driver.find_element(
         "xpath",
-        "//button[@class='display-flex full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']",
+        "//button[@class='display-flex full-width \
+            artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']",
     )
     if "recent" not in sort.text:
         sort.click()

@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from . import models, tasks
 from django.utils.html import format_html
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
+from . import models, tasks
 
 
 @admin.register(models.JobSearch)
@@ -48,7 +48,7 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         field.name for field in models.IgnoredJob._meta.get_fields()
     )
 
-    def remove_all_objects(modeladmin, request, queryset):
+    def remove_all_objects(modeladmin, _request, _queryset):
         models.IgnoredJob.objects.all().delete()
 
     actions = (remove_all_objects,)
