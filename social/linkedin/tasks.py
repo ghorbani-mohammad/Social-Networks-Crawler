@@ -28,6 +28,7 @@ from notification.utils import telegram_text_purify
 
 logger = get_task_logger(__name__)
 MINUTE = 60
+SCROLL_PAUSE_TIME = 0.5
 TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
@@ -50,10 +51,10 @@ def get_driver():
             "http://social_firefox:4444/wd/hub",
             DesiredCapabilities.FIREFOX,
         )
-    except SessionNotCreatedException as e:
-        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
-    except MaxRetryError as e:
-        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
+    except SessionNotCreatedException as error:
+        logger.info(f"Error: {error}\n\n{traceback.format_exc()}")
+    except MaxRetryError as error:
+        logger.info(f"Error: {error}\n\n{traceback.format_exc()}")
     # Should do appropriate action instead of exit (for example restarting docker)
     exit()
 
@@ -152,7 +153,6 @@ def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_
 
 
 def scroll(driver, counter):
-    SCROLL_PAUSE_TIME = 0.5
     last_height = driver.execute_script("return document.body.scrollHeight")
     scroll_counter = 0
     while True:

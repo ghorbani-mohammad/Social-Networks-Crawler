@@ -625,4 +625,7 @@ init-import=no
 redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
 
 
+
+# My custom configurations
 load-plugins=pylint_django
+max-parents=15
