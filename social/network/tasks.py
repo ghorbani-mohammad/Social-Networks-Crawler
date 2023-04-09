@@ -177,7 +177,8 @@ def take_backup(backup_id):
     be saved in the filesystem.
 
     Args:
-        backup_id (int): id of backup row in the administration panel. (Admin create a row and then we run this task)
+        backup_id (int): id of backup row in the administration panel.
+        (Admin create a row and then we run this task)
     """
     backup = models.Backup.objects.get(pk=backup_id)
     date_time = backup.created_at.strftime("%d-%m-%Y-%H_%M_%S")
@@ -206,7 +207,8 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                f"docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
+                f"docker exec -t social_db pg_dumpall -c -U postgres | \
+                    gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
             ]
         )
         backup.link = f"http://{settings.SERVER_IP}/backup/social_db_{date_time}.sql.gz"
