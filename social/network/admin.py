@@ -43,7 +43,7 @@ class ChannelAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         if instance.last_crawl:
             return instance.last_crawl.strftime(TIME_FORMAT)
 
-    def crawl(self, request, queryset):
+    def crawl(self, _request, queryset):
         for channel in queryset:
             if channel.network.name == "Twitter":
                 twi_tasks.get_twitter_posts.delay(channel.pk)
