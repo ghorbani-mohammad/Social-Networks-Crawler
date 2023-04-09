@@ -216,9 +216,9 @@ def run_telegram(account_id):
             await client(JoinChannelRequest(channel))
             print(f"join to {channel_username}")
             channel_joined.delay(channel_username)
-        except errors.FloodWaitError as e:
-            logger.error(f"Flood wait for {e.seconds}")
-            await asyncio.sleep(e.seconds)
+        except errors.FloodWaitError as error:
+            logger.error(f"Flood wait for {error.seconds}")
+            await asyncio.sleep(error.seconds)
         except Exception:
             logger.error(traceback.format_exc())
 
