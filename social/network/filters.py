@@ -23,7 +23,7 @@ def filter_by_channel_ids(queryset, _name, value):
     return queryset.filter(channel_id__in=values)
 
 
-def filter_by_network_ids(queryset, name, value):
+def filter_by_network_ids(queryset, _name, value):
     """filter networks by id
 
     Args:
@@ -38,7 +38,7 @@ def filter_by_network_ids(queryset, name, value):
     return queryset.filter(channel__network_id__in=values)
 
 
-def filter_by_tag_ids(queryset, name, value):
+def filter_by_tag_ids(queryset, _name, value):
     """filter tags by id
 
     Args:
@@ -80,7 +80,7 @@ def keyword_filter_by_channel_ids(queryset, name, value):
     return queryset.filter(post__channel_id__in=values)
 
 
-def keyword_filter_by_network_ids(queryset, name, value):
+def keyword_filter_by_network_ids(queryset, _name, value):
     """filter keywords by network ids
 
     Args:
