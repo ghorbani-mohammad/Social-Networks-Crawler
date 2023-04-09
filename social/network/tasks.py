@@ -12,9 +12,10 @@ from celery.utils.log import get_task_logger
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, Border, Side
 
-from . import models
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
+from . import models
+
 
 logger = get_task_logger(__name__)
 
