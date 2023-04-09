@@ -11,18 +11,18 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import SessionNotCreatedException
-from celery import shared_task
 from django.utils import timezone
 from django.utils.html import strip_tags
-from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.core.cache import caches
+from celery import shared_task
+from celery.utils.log import get_task_logger
 
-from . import models
 from notification import tasks as not_tasks
 from notification import utils as not_utils
 from network import models as net_models
 from reusable.other import only_one_concurrency
+from . import models
 
 logger = get_task_logger(__name__)
 MINUTE = 60

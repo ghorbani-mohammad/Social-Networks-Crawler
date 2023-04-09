@@ -1,7 +1,7 @@
 import os
 import sys
-import django
 import logging
+import django
 from django.utils import timezone
 
 

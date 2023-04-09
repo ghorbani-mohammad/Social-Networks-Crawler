@@ -1,7 +1,7 @@
 import os
 import sys
-import django
 from time import sleep
+import django
 
 
 from network.models import Channel, Post
