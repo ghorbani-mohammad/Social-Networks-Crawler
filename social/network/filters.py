@@ -65,7 +65,7 @@ class PostFilter(FilterSet):
         fields = ("channels", "networks", "date", "tags")
 
 
-def keyword_filter_by_channel_ids(queryset, name, value):
+def keyword_filter_by_channel_ids(queryset, _name, value):
     """filter keywords by channel ids
 
     Args:
