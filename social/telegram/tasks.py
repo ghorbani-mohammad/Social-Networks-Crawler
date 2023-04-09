@@ -17,8 +17,8 @@ from django.core.cache import cache
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
-from . import models
 from network import models as net_models
+from . import models
 
 logger = get_task_logger(__name__)
 MINUTE = 60
