@@ -25,7 +25,7 @@ def send_telegram_message(message):
             bot.telegram_token, account.chat_id, message
         )
         if not resp["ok"]:
-            logger.error(f"{traceback.format_exc()} \n\n{resp['description']}")
+            logger.error("%s\n\n%s", traceback.format_exc(), resp["description"])
 
 
 @shared_task()
@@ -48,5 +48,8 @@ def send_message_to_telegram_channel(message, channel_pk):
     )
     if not resp["ok"]:
         logger.error(
-            f"{traceback.format_exc()}\n\nmessage was: {message} \n\n{resp['description']}"
+            "%s\n\nmessage was: %s\n\n%s",
+            traceback.format_exc(),
+            message,
+            resp["description"],
         )
