@@ -6,6 +6,8 @@ from django.utils.timezone import make_aware
 
 import django
 
+from network.models import Channel, Post
+
 
 def initial():
     sys.path.append("../..")
@@ -15,7 +17,6 @@ def initial():
 
 initial()
 
-from network.models import Channel, Post
 
 channel_ids = list(
     Channel.objects.filter(network__name="Telegram").values_list("id", flat=True)
