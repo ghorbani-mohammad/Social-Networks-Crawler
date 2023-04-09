@@ -8,7 +8,7 @@ from django_filters import (
 from . import models
 
 
-def filter_by_channel_ids(queryset, name, value):
+def filter_by_channel_ids(queryset, _name, value):
     """filter channels by id
 
     Args:
