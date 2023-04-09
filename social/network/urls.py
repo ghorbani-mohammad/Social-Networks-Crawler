@@ -1,6 +1,6 @@
 from django.urls import path
-from rest_framework.routers import SimpleRouter
 from django.views.decorators.cache import cache_page
+from rest_framework.routers import SimpleRouter
 
 from . import views
 
