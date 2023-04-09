@@ -1,11 +1,11 @@
 from __future__ import absolute_import
 
 import os
-from celery import Celery
 from django.conf import settings
-from celery.schedules import crontab
 from logging.config import dictConfig
+from celery import Celery
 from celery.signals import setup_logging
+from celery.schedules import crontab
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "social.settings")
@@ -18,7 +18,7 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
 
 @setup_logging.connect
-def config_loggers(*args, **kwags):
+def config_loggers(*_args, **_kwags):
     dictConfig(settings.LOGGING)
 
 

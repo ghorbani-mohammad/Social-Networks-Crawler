@@ -13,7 +13,7 @@ from linkedin import tasks as lin_tasks
 from . import tasks
 
 
-def channel_list_export_path(instance, filename):
+def channel_list_export_path(_instance, filename):
     ext = filename.split(".")[-1].lower()
     return path.join(
         ".",
