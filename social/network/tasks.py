@@ -124,7 +124,9 @@ def extract_sentiment(post_id):
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         resp = requests.post(
-            "http://persian_analyzer_api/v1/app/sentiment/", {"text": post.body}
+            "http://persian_analyzer_api/v1/app/sentiment/",
+            {"text": post.body},
+            timeout=5,
         ).json()
         post.sentiment = resp
         post.save()
@@ -141,7 +143,9 @@ def extract_categories(post_id):
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         resp = requests.post(
-            "http://persian_analyzer_api/v1/app/classification/", {"text": post.body}
+            "http://persian_analyzer_api/v1/app/classification/",
+            {"text": post.body},
+            timeout=5,
         ).json()
         sorted_result = sorted(resp, key=lambda k: k["score"], reverse=True)
         post.category = sorted_result
