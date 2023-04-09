@@ -1,8 +1,8 @@
 from __future__ import absolute_import
 
 import os
-from django.conf import settings
 from logging.config import dictConfig
+from django.conf import settings
 from celery import Celery
 from celery.signals import setup_logging
 from celery.schedules import crontab

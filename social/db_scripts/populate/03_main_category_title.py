@@ -5,6 +5,10 @@ import logging
 from django.utils import timezone
 
 
+from network.models import Post
+from network.tasks import extract_categories
+
+
 def initial():
     sys.path.append("../..")
     os.environ["DJANGO_SETTINGS_MODULE"] = "social.settings"
@@ -15,8 +19,6 @@ initial()
 
 logger = logging.getLogger(__name__)
 
-from network.models import Post
-from network.tasks import extract_categories
 
 two_month_ago = timezone.now() - timezone.timedelta(days=60)
 target_posts = Post.objects.filter(
