@@ -87,9 +87,9 @@ def category_statics(cat_query):
     return categories_posts, categories
 
 
-def get_count_statics(queryset, search_excluded_qs, type, start=None, end=None):
+def get_count_statics(queryset, search_excluded_qs, interval, start=None, end=None):
     result = []
-    if type == "hourly":
+    if interval == "hourly":
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(hours=12))
         queryset = queryset.filter(created_at__gte=start, created_at__lte=end)
@@ -126,7 +126,7 @@ def get_count_statics(queryset, search_excluded_qs, type, start=None, end=None):
                 ).count()
             temp_result["channels"] = channels
             result.append(temp_result)
-    elif type == "daily":
+    elif interval == "daily":
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(days=7))
         queryset = queryset.filter(created_at__gte=start, created_at__lte=end)
@@ -153,7 +153,7 @@ def get_count_statics(queryset, search_excluded_qs, type, start=None, end=None):
                     day__month=day.month, day__day=day.day, channel__network=network
                 ).count()
             result.append(temp_result)
-    elif type == "monthly":
+    elif interval == "monthly":
         start = start or timezone.localtime()
         end = end or (start - relativedelta(months=7))
         queryset = queryset.filter(created_at__gte=start, created_at__lte=end)

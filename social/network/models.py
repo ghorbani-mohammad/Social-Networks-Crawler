@@ -6,11 +6,11 @@ from django.db import models, transaction
 from django.core.validators import MinValueValidator
 from django.template.defaultfilters import truncatechars
 
-from . import tasks
 from reusable.models import BaseModel
+from reusable.admins import url_to_edit_object
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
-from reusable.admins import url_to_edit_object
+from . import tasks
 
 
 def channel_list_export_path(instance, filename):
