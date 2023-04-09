@@ -11,7 +11,10 @@ def url_to_edit_object(obj):
     return f"{settings.BACKEND_URL[:-1]}{obj_url}"
 
 
-class ReadOnlyAdminDateFieldsMIXIN:
+class ReadOnlyAdminDateFieldsMIXIN(object):
+    def __init__(self) -> None:
+        self.readonly_fields = None
+
     base_readonly_fields = ("created_at", "updated_at", "deleted_at")
 
     def get_readonly_fields(self, _request, _obj=None):
