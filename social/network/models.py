@@ -128,6 +128,7 @@ class Post(BaseModel):
                 k: v
                 for k, v in sorted(self.sentiment.items(), key=lambda item: item[1])
             }
+        return None
 
     def __str__(self):
         return f"({self.pk} - {self.channel})"
