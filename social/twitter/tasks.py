@@ -31,6 +31,7 @@ DAY = 24 * HOUR
 MONTH = 30 * DAY
 TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = caches["twitter"]
+SCROLL_PAUSE_TIME = 2
 
 
 def get_driver():
@@ -113,7 +114,7 @@ def scroll(driver, counter):
         driver (webdriver): webdriver object
         counter (int): specify number of scrolls
     """
-    SCROLL_PAUSE_TIME = 2
+
     last_height = driver.execute_script("return document.body.scrollHeight")
     scroll_counter = 0
     while True:
