@@ -124,10 +124,7 @@ class Post(BaseModel):
     @property
     def sorted_sentiment(self):
         if self.sentiment:
-            return {
-                k: v
-                for k, v in sorted(self.sentiment.items(), key=lambda item: item[1])
-            }
+            return dict(sorted(self.sentiment.items(), key=lambda item: item[1]))
         return None
 
     def __str__(self):
