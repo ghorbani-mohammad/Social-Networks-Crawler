@@ -19,7 +19,7 @@ class SearchPageAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def page_link(self, obj):
         return format_html("<a href='{url}'>Link</a>", url=obj.url)
 
-    def crawl_page_action(modeladmin, _request, queryset):
+    def crawl_page_action(self, _modeladmin, _request, queryset):
         for page in queryset:
             tasks.crawl_search_page.delay(page.id)
 
