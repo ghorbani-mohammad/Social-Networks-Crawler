@@ -298,21 +298,6 @@ def get_channel_info(account_id, channel_username):
 
 
 @shared_task()
-def join_channel(account_id, channel_username):
-    _, client = get_account_client(account_id)
-
-    async def main():
-        await client.connect()
-        channel = await client.get_entity(channel_username)
-        await client(JoinChannelRequest(channel))
-
-    loop = asyncio.get_event_loop()
-    task = loop.create_task(main())
-    loop.run_until_complete(task)
-    client.disconnect()
-
-
-@shared_task()
 def leave_channel(account_id, channel_username):
     _, client = get_account_client(account_id)
 
