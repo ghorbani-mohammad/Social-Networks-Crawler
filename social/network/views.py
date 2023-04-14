@@ -76,7 +76,7 @@ class PostCountAPIView(ListAPIView):
     filterset_class = filters.PostFilter
     filter_backends = [DjangoFilterBackend]
 
-    def list(self, request):
+    def list(self, request, *_args, **_kwargs):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -125,7 +125,7 @@ class SearchCountAPIView(ListAPIView):
     def get_queryset(self):
         return models.Post.objects.order_by("-id")
 
-    def list(self, request):
+    def list(self, request, *_args, **_kwargs):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -164,7 +164,7 @@ class KeywordAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = filters.KeywordFilter
 
-    def list(self, request):
+    def list(self, request, *_args, **_kwargs):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
