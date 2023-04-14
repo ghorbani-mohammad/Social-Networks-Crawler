@@ -110,9 +110,10 @@ def login():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "global-nav-search"))
         )
-        pickle.dump(
-            driver.get_cookies(), open("/app/social/linkedin_cookies.pkl", "wb")
-        )
+
+        with open("/app/social/linkedin_cookies.pkl", "wb") as linkedin_cookie:
+            pickle.dump(driver.get_cookies(), linkedin_cookie)
+
     except Exception:
         logger.error(traceback.format_exc())
     finally:
@@ -218,14 +219,14 @@ def sort_by_recent(driver):
     if "recent" not in sort.text:
         sort.click()
         time.sleep(5)
-        sort_by_recent = driver.find_element(
+        sort_button = driver.find_element(
             "xpath",
             "//button[@class='display-flex \
                 full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom \
                     ember-view']/following-sibling::div",
         )
-        sort_by_recent = sort_by_recent.find_elements("tag name", "li")[1]
-        sort_by_recent.click()
+        sort_button = sort_button.find_elements("tag name", "li")[1]
+        sort_button.click()
         time.sleep(5)
     return driver
 
@@ -272,8 +273,8 @@ def get_linkedin_feed():
 def check_job_pages():
     pages = lin_models.JobSearch.objects.filter(enable=True).order_by("-priority")
     for page in pages:
-        time = timezone.localtime()
-        print(f"{time} start crawling linkedin page {page.name}")
+        now = timezone.localtime()
+        print(f"{now} start crawling linkedin page {page.name}")
         get_job_page_posts(page.pk)
 
 
