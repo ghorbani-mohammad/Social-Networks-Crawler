@@ -22,6 +22,7 @@ from notification import tasks as not_tasks
 from notification import utils as not_utils
 from network import models as net_models
 from reusable.other import only_one_concurrency
+from reusable.browser import scroll
 from . import models
 
 logger = get_task_logger(__name__)
@@ -31,7 +32,6 @@ DAY = 24 * HOUR
 MONTH = 30 * DAY
 TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = caches["twitter"]
-SCROLL_PAUSE_TIME = 2
 
 
 def get_driver():
@@ -105,26 +105,6 @@ def login():
         pickle.dump(driver.get_cookies(), twitter_cookie)
 
     driver_exit(driver)
-
-
-def scroll(driver, counter):
-    """Scroll browser for counter times
-
-    Args:
-        driver (webdriver): webdriver object
-        counter (int): specify number of scrolls
-    """
-
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_counter = 0
-    while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(SCROLL_PAUSE_TIME)
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        scroll_counter += 1
-        if new_height == last_height or scroll_counter > counter:
-            break
-        last_height = new_height
 
 
 def get_post_detail(article):
