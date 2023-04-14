@@ -1,3 +1,12 @@
+# [1.26.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.25.0...v1.26.0) (2023-04-14)
+
+
+### Features
+
+* **linkedin:** solve linter issue ([ddefdf2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ddefdf2cb6c731fa1d278decc30a1a3c731a7184))
+
+
+
 # [1.25.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.24.0...v1.25.0) (2023-04-08)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * increase interval of get-linkedin-feed ([74c446a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/74c446a26db0e89c6520db148feb8ac212a8f6d9))
-
-
-
-## [1.21.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.21.0...v1.21.1) (2023-03-26)
-
-
-### Bug Fixes
-
-* **linkedin:** add index-error to get-company-size ([b7e1f09](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/b7e1f09f58949575343a8c43fd9d9372506358de))
 
 
 
