@@ -106,7 +106,7 @@ def extract_ner(post_id):
             endpoint = "http://analyzer_api/api/v1/ner/"
         resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
         temp = {}
-        for key in NER_KEY_MAPPING.keys():
+        for key, _ in NER_KEY_MAPPING.items():
             if key in resp:
                 temp[NER_KEY_MAPPING[key]] = list(set(resp.pop(key)))
         post.ner = temp
