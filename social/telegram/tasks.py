@@ -1,7 +1,6 @@
 import json
 import asyncio
 import datetime
-import traceback
 
 from telethon import TelegramClient, events, functions, errors
 from telethon.tl.functions.channels import (
@@ -92,7 +91,6 @@ def insert_to_db(channel_username, event):
         channel_username (str): username of the channel
         event (json): event is the received message
     """
-    # todo: use cache for getting channel
     network = net_models.Network.objects.get(name="Telegram")
     channel = net_models.Channel.objects.get(network=network, username=channel_username)
     if not channel.status:
@@ -219,8 +217,6 @@ def run_telegram(account_id):
         except errors.FloodWaitError as error:
             logger.error(f"Flood wait for {error.seconds}")
             await asyncio.sleep(error.seconds)
-        except Exception:
-            logger.error(traceback.format_exc())
 
     async def check_channels_must_joined():
         while True:

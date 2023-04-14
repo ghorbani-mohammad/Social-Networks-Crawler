@@ -247,7 +247,7 @@ def get_twitter_posts(channel_id):
                 post_detail["retweet_count"],
                 post_detail["like_count"],
             )
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     driver_exit(driver)
     channel.last_crawl = timezone.localtime()
@@ -281,7 +281,7 @@ def get_twitter_post_comments(post_id):
                 post_detail["retweet_count"],
                 post_detail["like_count"],
             )
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     driver_exit(driver)
 
@@ -382,8 +382,6 @@ def driver_head_to_page(driver, url):
         return driver
     except TimeoutException as err:
         logger.error(f"{err}\n\n{traceback.format_exc()}")
-    except Exception as err:
-        logger.error(f"{err}\n\n{traceback.format_exc()}")
     return None
 
 
@@ -427,7 +425,7 @@ def crawl_search_page(page_id):
                         body, page.output_channel.pk
                     )
                     time.sleep(1)
-            except Exception:
+            except NoSuchElementException:
                 logger.error(traceback.format_exc())
         scroll(driver, 1)
         time.sleep(5)

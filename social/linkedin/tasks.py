@@ -114,7 +114,7 @@ def login():
         with open("/app/social/linkedin_cookies.pkl", "wb") as linkedin_cookie:
             pickle.dump(driver.get_cookies(), linkedin_cookie)
 
-    except Exception:
+    except NoSuchElementException:
         logger.error(traceback.format_exc())
     finally:
         driver_exit(driver)
@@ -200,9 +200,9 @@ def get_linkedin_posts(channel_id):
                     comment_counter,
                     share_counter,
                 )
-            except Exception:
+            except NoSuchElementException:
                 logger.error(traceback.format_exc())
-    except Exception:
+    except NoSuchElementException:
         logger.error(traceback.format_exc())
     finally:
         driver_exit(driver)
@@ -264,7 +264,7 @@ def get_linkedin_feed():
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     driver_exit(driver)
 
@@ -541,7 +541,7 @@ def get_card_id(element):
             By.XPATH,
             './/div[starts-with(@data-urn, "urn:li:activity:")]',
         ).get_attribute("data-urn")
-    except:
+    except NoSuchElementException:
         return "Cannot-extract-card-id"
 
 
@@ -591,7 +591,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
         except StaleElementReferenceException:
             logger.warning("stale element exception")
             break
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     print(f"found {counter} job in page: {page_id} with starting-job: {starting_job}")
     check_page_count.delay(page_id, ignore_repetitive, starting_job)
@@ -639,7 +639,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             )
             counter += 1
             time.sleep(3)
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     print(f"found {counter} post in page {page_id}")
     update_expression_search_last_crawl_at.delay(page.pk)
