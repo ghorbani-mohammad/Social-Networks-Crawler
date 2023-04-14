@@ -76,7 +76,7 @@ def extract_keywords(post_id):
         endpoint = "http://persian_analyzer_api/v1/app/keyword/"
     if post.channel.language == models.Channel.ENGLISH:
         endpoint = "http://analyzer_api/api/v1/keyword/"
-    resp = requests.post(endpoint, {"text": post.body}).json()
+    resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
     objs = []
     words = resp["keywords"]
     if "keyphrases" in resp:
@@ -104,7 +104,7 @@ def extract_ner(post_id):
             endpoint = "http://persian_analyzer_api/v1/app/ner/"
         if post.channel.language == models.Channel.ENGLISH:
             endpoint = "http://analyzer_api/api/v1/ner/"
-        resp = requests.post(endpoint, {"text": post.body}).json()
+        resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
         temp = {}
         for key in NER_KEY_MAPPING.keys():
             if key in resp:
@@ -193,7 +193,8 @@ def take_backup(backup_id):
                 f"root@{settings.SERVER_IP}",
                 f"docker exec -t postgres pg_dumpall -c -U postgres \
                     | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
-            ]
+            ],
+            check=False,
         )
         backup.link = (
             f"http://{settings.SERVER_IP}/backup/postgres_db_{date_time}.sql.gz"
@@ -209,7 +210,8 @@ def take_backup(backup_id):
                 f"root@{settings.SERVER_IP}",
                 f"docker exec -t social_db pg_dumpall -c -U postgres | \
                     gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
-            ]
+            ],
+            check=False,
         )
         backup.link = f"http://{settings.SERVER_IP}/backup/social_db_{date_time}.sql.gz"
     backup.status = models.Backup.COMPLETED
