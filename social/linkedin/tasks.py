@@ -23,12 +23,12 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from network import models as net_models
 from linkedin import models as lin_models
 from reusable.other import only_one_concurrency
+from reusable.browser import scroll
 from notification import tasks as not_tasks
 from notification.utils import telegram_text_purify
 
 logger = get_task_logger(__name__)
 MINUTE = 60
-SCROLL_PAUSE_TIME = 0.5
 TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
@@ -150,19 +150,6 @@ def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_
         post.views_count = reaction_count + comment_count + share_count
         post.data = data
         post.save()
-
-
-def scroll(driver, counter):
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_counter = 0
-    while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(SCROLL_PAUSE_TIME)
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        scroll_counter += 1
-        if new_height == last_height or scroll_counter > counter:
-            break
-        last_height = new_height
 
 
 @shared_task(name="get_linkedin_posts")
