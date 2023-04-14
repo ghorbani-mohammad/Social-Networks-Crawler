@@ -1,4 +1,5 @@
 import time
+import sys
 import pickle
 import traceback
 import redis
@@ -56,7 +57,7 @@ def get_driver():
     except MaxRetryError as error:
         logger.info("Error: %s\n\n%s", error, traceback.format_exc())
     # Should do appropriate action instead of exit (for example restarting docker)
-    exit()
+    sys.exit()
 
 
 def initialize_linkedin_driver():
@@ -66,7 +67,11 @@ def initialize_linkedin_driver():
         Webdriver: webdriver browser
     """
     driver = get_driver()
-    cookies = pickle.load(open("/app/social/linkedin_cookies.pkl", "rb"))
+
+    cookies = None
+    with open("/app/social/linkedin_cookies.pkl", "rb") as linkedin_cookie:
+        cookies = pickle.load(linkedin_cookie)
+
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
@@ -333,15 +338,15 @@ def is_eligible(ig_filters, job_detail):
     """
     if not is_english(job_detail["language"]):
         return False
-    for filter in ig_filters:
+    for ig_filter in ig_filters:
         detail = ""
-        if filter.place == lin_models.IgnoringFilter.TITLE:
+        if ig_filter.place == lin_models.IgnoringFilter.TITLE:
             detail = job_detail["title"]
-        elif filter.place == lin_models.IgnoringFilter.COMPANY:
+        elif ig_filter.place == lin_models.IgnoringFilter.COMPANY:
             detail = job_detail["company"]
-        elif filter.place == lin_models.IgnoringFilter.LOCATION:
+        elif ig_filter.place == lin_models.IgnoringFilter.LOCATION:
             detail = job_detail["location"]
-        if not check_eligible(filter.keyword, detail):
+        if not check_eligible(ig_filter.keyword, detail):
             return False
     return True
 
