@@ -52,6 +52,9 @@ class BaseTaskWithRetry(Task):
     default_retry_delay = 60
     retry_jitter = True
 
+    def run(self, *_args, **_kwargs):
+        pass
+
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
