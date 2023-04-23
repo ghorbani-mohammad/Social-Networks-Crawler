@@ -19,7 +19,7 @@ services:
       - .:/app
       - ./static:/app/social/static
     ports:
-      - "127.0.0.1:8030:80"
+      - 127.0.0.1:8030:80
     command: ["python", "/app/social/manage.py", "runserver", "0:80"]
     env_file:
       - .env
