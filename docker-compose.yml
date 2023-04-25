@@ -4,7 +4,7 @@ services:
     image: postgres:13.4-alpine
     restart: unless-stopped
     volumes:
-      - social_db:/var/lib/postgresql/data
+      - ./social_db_volume/:/var/lib/postgresql/data
     env_file:
       - .env
     shm_size: 1gb
@@ -68,6 +68,3 @@ services:
       - 7900:7900
     shm_size: 2g
     restart: unless-stopped
-
-volumes:
-  social_db:
