@@ -1,3 +1,12 @@
+## [1.26.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.26.0...v1.26.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* **django-admin:** solve issues related to actions ([2dfa0ce](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2dfa0ce09162b0100fb86c8fc9d823ddebd8cbc6))
+
+
+
 # [1.26.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.25.0...v1.26.0) (2023-04-14)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** add config to Linkedin ([b7d400a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/b7d400ab75573313c01433d08add647dd6c6d0b4))
-
-
-
-# [1.22.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.21.1...v1.22.0) (2023-04-08)
-
-
-### Features
-
-* increase interval of get-linkedin-feed ([74c446a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/74c446a26db0e89c6520db148feb8ac212a8f6d9))
 
 
 
