@@ -8,6 +8,8 @@ services:
     env_file:
       - .env
     shm_size: 1gb
+    networks:
+      - social_network
   
   social_api:
     container_name: social_api
@@ -23,6 +25,8 @@ services:
     command: ["python", "/app/social/manage.py", "runserver", "0:80"]
     env_file:
       - .env
+    networks:
+      - social_network
 
   social_worker:
     container_name: social_worker
@@ -39,6 +43,8 @@ services:
       - social_firefox
     env_file:
       - .env
+    networks:
+      - social_network
 
   social_beat:
     container_name: social_beat
@@ -54,11 +60,15 @@ services:
       - social_firefox
     env_file:
       - .env
+    networks:
+      - social_network
 
   social_redis:
     container_name : social_redis
     image: redis:6.2-alpine
     restart: unless-stopped
+    networks:
+      - social_network
 
   social_firefox:
     container_name : social_firefox
@@ -68,3 +78,8 @@ services:
       - 7900:7900
     shm_size: 2g
     restart: unless-stopped
+    networks:
+      - social_network
+
+networks:
+  social_network:
