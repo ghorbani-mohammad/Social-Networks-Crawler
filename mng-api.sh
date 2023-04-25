@@ -13,7 +13,7 @@ REDIS_CONTAINER_NAME=${PROJECT_NAME}'_redis'
 COMPOSE_FILE='docker-compose.yml'
 
 function log() {
-    docker-compose -f ${COMPOSE_FILE} logs -f
+    docker compose -f ${COMPOSE_FILE} logs -f
 }
 
 function make_migrations() {
@@ -64,12 +64,12 @@ function dump_db() {
 
 function pull() {
     echo -e "\n ... pull images ... \n"
-    docker-compose -f ${COMPOSE_FILE} pull ${API_CONTAINER_NAME} ${CELERY_CONTAINER_NAME} ${CELERY_BEAT_CONTAINER_NAME}
+    docker compose -f ${COMPOSE_FILE} pull ${API_CONTAINER_NAME} ${CELERY_CONTAINER_NAME} ${CELERY_BEAT_CONTAINER_NAME}
 }
 
 function up() {
     echo -e "\n ... up containers ... \n"
-    docker-compose -f ${COMPOSE_FILE} up -d
+    docker compose -f ${COMPOSE_FILE} up -d
 }
 
 function remove_unused_image() {
