@@ -1,8 +1,10 @@
+# pylint: skip-file
 import os
 import sys
 import datetime
 
 import django
+from network.models import Keyword
 
 
 def initial():
@@ -12,8 +14,6 @@ def initial():
 
 
 initial()
-
-from network.models import Keyword
 
 
 today = datetime.date.today()

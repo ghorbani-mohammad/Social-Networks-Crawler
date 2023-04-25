@@ -14,31 +14,31 @@ CATEGORY_NUMBER = 5
 CHANNEL_NUMBER = 5
 
 
-def get_search_modified_qs(apiview, qs, operator):
+def get_search_modified_qs(apiview, queryset, operator):
     for backend in list(apiview.filter_backends):
         if backend.__name__ != "SearchFilter":
-            qs = backend().filter_queryset(apiview.request, qs, apiview)
+            queryset = backend().filter_queryset(apiview.request, queryset, apiview)
         else:
             if "search" in apiview.request.GET:
                 words = apiview.request.GET["search"].split(",")
                 words = [word for word in words if len(word) > 1]
                 if operator == "and":
-                    qs = qs.filter(
+                    queryset = queryset.filter(
                         reduce(and_, [Q(body__contains=word) for word in words])
                     )
                 elif operator == "or":
-                    qs = qs.filter(
+                    queryset = queryset.filter(
                         reduce(or_, [Q(body__contains=word) for word in words])
                     )
-    return qs
+    return queryset
 
 
 def get_search_excluded_qs(apiview):
-    qs = apiview.get_queryset()
+    queryset = apiview.get_queryset()
     for backend in list(apiview.filter_backends):
         if backend.__name__ != "SearchFilter":
-            qs = backend().filter_queryset(apiview.request, qs, apiview)
-    return qs
+            queryset = backend().filter_queryset(apiview.request, queryset, apiview)
+    return queryset
 
 
 def hourly_iterate(start, finish):
@@ -87,28 +87,28 @@ def category_statics(cat_query):
     return categories_posts, categories
 
 
-def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
+def get_count_statics(queryset, search_excluded_qs, interval, start=None, end=None):
     result = []
-    if type == "hourly":
-        start = start or timezone.localtime()
+    start = start or timezone.localtime()
+    if interval == "hourly":
         end = end or (start - timezone.timedelta(hours=12))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end)
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end)
         s_e_qs = search_excluded_qs.filter(created_at__gte=start, created_at__lte=end)
-        qs = (
-            qs.annotate(hour=TruncHour("created_at"))
+        queryset = (
+            queryset.annotate(hour=TruncHour("created_at"))
             .values("hour")
             .annotate(count=Count("id"))
             .order_by("hour")
         )
         s_e_qs = s_e_qs.annotate(hour=TruncHour("created_at"))
         for hour in hourly_iterate(start, end):
-            count = qs.filter(hour__hour=hour.hour, hour__day=hour.day).first()
+            count = queryset.filter(hour__hour=hour.hour, hour__day=hour.day).first()
             count = count["count"] if count else 0
             total_count = s_e_qs.filter(
                 hour__hour=hour.hour, hour__day=hour.day
             ).count()
             temp_result = {"hour": hour, "count": count, "total_count": total_count}
-            cat_query = qs.filter(hour__hour=hour.hour, hour__day=hour.day)
+            cat_query = queryset.filter(hour__hour=hour.hour, hour__day=hour.day)
             (
                 temp_result["categories_posts"],
                 temp_result["categories"],
@@ -126,24 +126,23 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
                 ).count()
             temp_result["channels"] = channels
             result.append(temp_result)
-    elif type == "daily":
-        start = start or timezone.localtime()
+    elif interval == "daily":
         end = end or (start - timezone.timedelta(days=7))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end)
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end)
         s_e_qs = search_excluded_qs.filter(created_at__gte=start, created_at__lte=end)
-        qs = (
-            qs.annotate(day=TruncDate("created_at"))
+        queryset = (
+            queryset.annotate(day=TruncDate("created_at"))
             .values("day")
             .annotate(count=Count("id"))
             .order_by("day")
         )
         s_e_qs = s_e_qs.annotate(day=TruncDate("created_at"))
         for day in daily_iterate(start, end):
-            count = qs.filter(day__month=day.month, day__day=day.day).first()
+            count = queryset.filter(day__month=day.month, day__day=day.day).first()
             count = count["count"] if count else 0
             total_count = s_e_qs.filter(day__month=day.month, day__day=day.day).count()
             temp_result = {"day": day, "count": count, "total_count": total_count}
-            cat_query = qs.filter(day__month=day.month, day__day=day.day)
+            cat_query = queryset.filter(day__month=day.month, day__day=day.day)
             (
                 temp_result["categories_posts"],
                 temp_result["categories"],
@@ -153,26 +152,29 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
                     day__month=day.month, day__day=day.day, channel__network=network
                 ).count()
             result.append(temp_result)
-    elif type == "monthly":
-        start = start or timezone.localtime()
+    elif interval == "monthly":
         end = end or (start - relativedelta(months=7))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end)
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end)
         s_e_qs = search_excluded_qs.filter(created_at__gte=start, created_at__lte=end)
-        qs = (
-            qs.annotate(month=TruncMonth("created_at"))
+        queryset = (
+            queryset.annotate(month=TruncMonth("created_at"))
             .values("month")
             .annotate(count=Count("id"))
             .order_by("month")
         )
         s_e_qs = s_e_qs.annotate(month=TruncMonth("created_at"))
         for month in monthly_iterate(start, end):
-            count = qs.filter(month__year=month.year, month__month=month.month).first()
+            count = queryset.filter(
+                month__year=month.year, month__month=month.month
+            ).first()
             count = count["count"] if count else 0
             total_count = s_e_qs.filter(
                 month__year=month.year, month__month=month.month
             ).count()
             temp_result = {"month": month, "count": count, "total_count": total_count}
-            cat_query = qs.filter(month__year=month.year, month__month=month.month)
+            cat_query = queryset.filter(
+                month__year=month.year, month__month=month.month
+            )
             (
                 temp_result["categories_posts"],
                 temp_result["categories"],
@@ -187,16 +189,16 @@ def get_count_statics(qs, search_excluded_qs, type, start=None, end=None):
     return result
 
 
-def get_keyword_statics(qs, type, start=None, end=None):
+def get_keyword_statics(queryset, interval, start=None, end=None):
     result = []
-    if type == "hourly":
+    if interval == "hourly":
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(hours=12))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end).annotate(
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end).annotate(
             hour=TruncHour("created_at")
         )
         for hour in hourly_iterate(start, end):
-            temp = qs.filter(hour__hour=hour.hour, hour__day=hour.day)
+            temp = queryset.filter(hour__hour=hour.hour, hour__day=hour.day)
             temp = (
                 temp.values("keyword")
                 .annotate(count=Count("keyword"))
@@ -213,14 +215,14 @@ def get_keyword_statics(qs, type, start=None, end=None):
                     "keywords": keywords,
                 }
             )
-    elif type == "daily":
+    elif interval == "daily":
         start = start or timezone.localtime()
         end = end or (start - timezone.timedelta(days=7))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end).annotate(
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end).annotate(
             day=TruncDate("created_at")
         )
         for day in daily_iterate(start, end):
-            temp = qs.filter(day__month=day.month, day__day=day.day)
+            temp = queryset.filter(day__month=day.month, day__day=day.day)
             temp = (
                 temp.values("keyword")
                 .annotate(count=Count("keyword"))
@@ -237,14 +239,14 @@ def get_keyword_statics(qs, type, start=None, end=None):
                     "keywords": keywords,
                 }
             )
-    elif type == "monthly":
+    elif interval == "monthly":
         start = start or timezone.localtime()
         end = end or (start - relativedelta(months=7))
-        qs = qs.filter(created_at__gte=start, created_at__lte=end).annotate(
+        queryset = queryset.filter(created_at__gte=start, created_at__lte=end).annotate(
             month=TruncMonth("created_at")
         )
         for month in monthly_iterate(start, end):
-            temp = qs.filter(month__year=month.year, month__month=month.month)
+            temp = queryset.filter(month__year=month.year, month__month=month.month)
             temp = (
                 temp.values("keyword")
                 .annotate(count=Count("keyword"))

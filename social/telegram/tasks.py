@@ -1,7 +1,6 @@
 import json
 import asyncio
 import datetime
-import traceback
 
 from telethon import TelegramClient, events, functions, errors
 from telethon.tl.functions.channels import (
@@ -17,8 +16,8 @@ from django.core.cache import cache
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
-from . import models
 from network import models as net_models
+from . import models
 
 logger = get_task_logger(__name__)
 MINUTE = 60
@@ -92,7 +91,6 @@ def insert_to_db(channel_username, event):
         channel_username (str): username of the channel
         event (json): event is the received message
     """
-    # todo: use cache for getting channel
     network = net_models.Network.objects.get(name="Telegram")
     channel = net_models.Channel.objects.get(network=network, username=channel_username)
     if not channel.status:
@@ -154,7 +152,7 @@ def sign_in(account_id, code):
 
     async def main():
         await client.connect()
-        myself = await client.sign_in(
+        _myself = await client.sign_in(
             account.phone_number,
             code,
             phone_code_hash=account.phone_code_hash,
@@ -216,11 +214,9 @@ def run_telegram(account_id):
             await client(JoinChannelRequest(channel))
             print(f"join to {channel_username}")
             channel_joined.delay(channel_username)
-        except errors.FloodWaitError as e:
-            logger.error(f"Flood wait for {e.seconds}")
-            await asyncio.sleep(e.seconds)
-        except Exception:
-            logger.error(traceback.format_exc())
+        except errors.FloodWaitError as error:
+            logger.error(f"Flood wait for {error.seconds}")
+            await asyncio.sleep(error.seconds)
 
     async def check_channels_must_joined():
         while True:
@@ -290,21 +286,6 @@ def get_channel_info(account_id, channel_username):
         channel = await client.get_entity(channel_username)
         info = await client(GetFullChannelRequest(channel=channel))
         await update_channel_info(channel_username, info)
-
-    loop = asyncio.get_event_loop()
-    task = loop.create_task(main())
-    loop.run_until_complete(task)
-    client.disconnect()
-
-
-@shared_task()
-def join_channel(account_id, channel_username):
-    _, client = get_account_client(account_id)
-
-    async def main():
-        await client.connect()
-        channel = await client.get_entity(channel_username)
-        await client(JoinChannelRequest(channel))
 
     loop = asyncio.get_event_loop()
     task = loop.create_task(main())

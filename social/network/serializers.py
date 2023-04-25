@@ -92,6 +92,12 @@ class PostCountInputSerializer(serializers.Serializer):
     date_before = serializers.DateTimeField(required=False, default=None)
     operator = serializers.CharField(required=False, default="or")
 
+    def update(self, _instance, _validated_data):
+        pass
+
+    def create(self, _validated_data):
+        pass
+
 
 class KeywordSerializer(serializers.ModelSerializer):
     class Meta:

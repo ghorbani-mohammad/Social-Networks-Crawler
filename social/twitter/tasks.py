@@ -11,18 +11,19 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import SessionNotCreatedException
-from celery import shared_task
 from django.utils import timezone
 from django.utils.html import strip_tags
-from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.core.cache import caches
+from celery import shared_task
+from celery.utils.log import get_task_logger
 
-from . import models
 from notification import tasks as not_tasks
 from notification import utils as not_utils
 from network import models as net_models
 from reusable.other import only_one_concurrency
+from reusable.browser import scroll
+from . import models
 
 logger = get_task_logger(__name__)
 MINUTE = 60
@@ -46,9 +47,9 @@ def get_driver():
             DesiredCapabilities.FIREFOX,
         )
     except SessionNotCreatedException as err:
-        logger.info(f"Error: {err}\n\n{traceback.format_exc()}")
+        logger.info("Error: %s\n\n%s", err, traceback.format_exc())
     except MaxRetryError as err:
-        logger.info(f"Error: {err}\n\n{traceback.format_exc()}")
+        logger.info("Error: %s\n\n%s", err, traceback.format_exc())
     return None
 
 
@@ -61,7 +62,11 @@ def initialize_twitter_driver():
     driver = get_driver()
     if driver is None:
         return None
-    cookies = pickle.load(open("/app/social/twitter_cookies.pkl", "rb"))
+
+    cookies = None
+    with open("/app/social/twitter_cookies.pkl", "rb") as twitter_cookie:
+        cookies = pickle.load(twitter_cookie)
+
     driver.get("https://www.twitter.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
@@ -95,28 +100,11 @@ def login():
     password_elem.send_keys(settings.TWITTER_PASSWORD)
     password_elem.send_keys(Keys.ENTER)
     time.sleep(5)
-    pickle.dump(driver.get_cookies(), open("/app/social/twitter_cookies.pkl", "wb"))
+
+    with open("/app/social/twitter_cookies.pkl", "wb") as twitter_cookie:
+        pickle.dump(driver.get_cookies(), twitter_cookie)
+
     driver_exit(driver)
-
-
-def scroll(driver, counter):
-    """Scroll browser for counter times
-
-    Args:
-        driver (webdriver): webdriver object
-        counter (int): specify number of scrolls
-    """
-    SCROLL_PAUSE_TIME = 2
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_counter = 0
-    while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(SCROLL_PAUSE_TIME)
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        scroll_counter += 1
-        if new_height == last_height or scroll_counter > counter:
-            break
-        last_height = new_height
 
 
 def get_post_detail(article):
@@ -259,7 +247,7 @@ def get_twitter_posts(channel_id):
                 post_detail["retweet_count"],
                 post_detail["like_count"],
             )
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     driver_exit(driver)
     channel.last_crawl = timezone.localtime()
@@ -293,7 +281,7 @@ def get_twitter_post_comments(post_id):
                 post_detail["retweet_count"],
                 post_detail["like_count"],
             )
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     driver_exit(driver)
 
@@ -394,8 +382,6 @@ def driver_head_to_page(driver, url):
         return driver
     except TimeoutException as err:
         logger.error(f"{err}\n\n{traceback.format_exc()}")
-    except Exception as err:
-        logger.error(f"{err}\n\n{traceback.format_exc()}")
     return None
 
 
@@ -439,7 +425,7 @@ def crawl_search_page(page_id):
                         body, page.output_channel.pk
                     )
                     time.sleep(1)
-            except Exception:
+            except NoSuchElementException:
                 logger.error(traceback.format_exc())
         scroll(driver, 1)
         time.sleep(5)

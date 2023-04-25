@@ -76,7 +76,7 @@ class PostCountAPIView(ListAPIView):
     filterset_class = filters.PostFilter
     filter_backends = [DjangoFilterBackend]
 
-    def list(self, request):
+    def list(self, request, *_args, **_kwargs):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -118,14 +118,14 @@ class SearchCountAPIView(ListAPIView):
     filterset_class = filters.PostFilter
     search_fields = ["body"]
 
-    def filter_queryset(self, qs):
+    def filter_queryset(self, queryset):
         operator = self.request.GET["operator"]
-        return utils.get_search_modified_qs(self, qs, operator)
+        return utils.get_search_modified_qs(self, queryset, operator)
 
     def get_queryset(self):
         return models.Post.objects.order_by("-id")
 
-    def list(self, request):
+    def list(self, request, *_args, **_kwargs):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -164,14 +164,14 @@ class KeywordAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = filters.KeywordFilter
 
-    def list(self, request):
+    def list(self, request, *_args, **_kwargs):
         serializer = serializers.PostCountInputSerializer(data=request.GET)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
         response = super().list(request)
-        qs = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(self.get_queryset())
         response.data["statics"] = utils.get_keyword_statics(
-            qs, data["type"], data["date_after"], data["date_before"]
+            queryset, data["type"], data["date_after"], data["date_before"]
         )
         return response
 
@@ -185,6 +185,6 @@ class BackupViewSet(ModelViewSet):
 
 
 class TestErrorView(APIView):
-    def get(self, request):
+    def get(self, _request):
         logger.error("Logger error executed for test purposes!")
         raise Exception("Exception executed for test purposes!")

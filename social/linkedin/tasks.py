@@ -1,7 +1,8 @@
 import time
-import redis
+import sys
 import pickle
 import traceback
+import redis
 
 from django.conf import settings
 from django.utils import timezone
@@ -22,8 +23,9 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from network import models as net_models
 from linkedin import models as lin_models
-from notification import tasks as not_tasks
 from reusable.other import only_one_concurrency
+from reusable.browser import scroll
+from notification import tasks as not_tasks
 from notification.utils import telegram_text_purify
 
 logger = get_task_logger(__name__)
@@ -50,12 +52,12 @@ def get_driver():
             "http://social_firefox:4444/wd/hub",
             DesiredCapabilities.FIREFOX,
         )
-    except SessionNotCreatedException as e:
-        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
-    except MaxRetryError as e:
-        logger.info(f"Error: {e}\n\n{traceback.format_exc()}")
+    except SessionNotCreatedException as error:
+        logger.info("Error: %s\n\n%s", error, traceback.format_exc())
+    except MaxRetryError as error:
+        logger.info("Error: %s\n\n%s", error, traceback.format_exc())
     # Should do appropriate action instead of exit (for example restarting docker)
-    exit()
+    sys.exit()
 
 
 def initialize_linkedin_driver():
@@ -65,7 +67,11 @@ def initialize_linkedin_driver():
         Webdriver: webdriver browser
     """
     driver = get_driver()
-    cookies = pickle.load(open("/app/social/linkedin_cookies.pkl", "rb"))
+
+    cookies = None
+    with open("/app/social/linkedin_cookies.pkl", "rb") as linkedin_cookie:
+        cookies = pickle.load(linkedin_cookie)
+
     driver.get("https://www.linkedin.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
@@ -104,10 +110,11 @@ def login():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "global-nav-search"))
         )
-        pickle.dump(
-            driver.get_cookies(), open("/app/social/linkedin_cookies.pkl", "wb")
-        )
-    except Exception:
+
+        with open("/app/social/linkedin_cookies.pkl", "wb") as linkedin_cookie:
+            pickle.dump(driver.get_cookies(), linkedin_cookie)
+
+    except NoSuchElementException:
         logger.error(traceback.format_exc())
     finally:
         driver_exit(driver)
@@ -151,20 +158,6 @@ def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_
         post.save()
 
 
-def scroll(driver, counter):
-    SCROLL_PAUSE_TIME = 0.5
-    last_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_counter = 0
-    while True:
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(SCROLL_PAUSE_TIME)
-        new_height = driver.execute_script("return document.body.scrollHeight")
-        scroll_counter += 1
-        if new_height == last_height or scroll_counter > counter:
-            break
-        last_height = new_height
-
-
 @shared_task(name="get_linkedin_posts")
 @only_one_concurrency(key="browser1", timeout=TASKS_TIMEOUT)
 def get_linkedin_posts(channel_id):
@@ -178,7 +171,7 @@ def get_linkedin_posts(channel_id):
         articles = driver.find_elements(By.CLASS_NAME, "feed-shared-update-v2")
         for article in articles:
             try:
-                id = article.get_attribute("data-urn")
+                post_id = article.get_attribute("data-urn")
                 body = article.find_element(By.CLASS_NAME, "break-words").text
                 reaction = article.find_elements(
                     By.XPATH,
@@ -201,15 +194,15 @@ def get_linkedin_posts(channel_id):
                         share_counter = value
                 store_posts.delay(
                     channel_id,
-                    id,
+                    post_id,
                     body,
                     reaction_counter,
                     comment_counter,
                     share_counter,
                 )
-            except Exception:
+            except NoSuchElementException:
                 logger.error(traceback.format_exc())
-    except Exception:
+    except NoSuchElementException:
         logger.error(traceback.format_exc())
     finally:
         driver_exit(driver)
@@ -220,17 +213,20 @@ def get_linkedin_posts(channel_id):
 def sort_by_recent(driver):
     sort = driver.find_element(
         "xpath",
-        "//button[@class='display-flex full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']",
+        "//button[@class='display-flex full-width \
+            artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']",
     )
     if "recent" not in sort.text:
         sort.click()
         time.sleep(5)
-        sort_by_recent = driver.find_element(
+        sort_button = driver.find_element(
             "xpath",
-            "//button[@class='display-flex full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom ember-view']/following-sibling::div",
+            "//button[@class='display-flex \
+                full-width artdeco-dropdown__trigger artdeco-dropdown__trigger--placement-bottom \
+                    ember-view']/following-sibling::div",
         )
-        sort_by_recent = sort_by_recent.find_elements("tag name", "li")[1]
-        sort_by_recent.click()
+        sort_button = sort_button.find_elements("tag name", "li")[1]
+        sort_button.click()
         time.sleep(5)
     return driver
 
@@ -256,19 +252,19 @@ def get_linkedin_feed():
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
-            id = article.get_attribute("data-id")
+            feed_id = article.get_attribute("data-id")
             body = article.find_element(
                 By.CLASS_NAME, "feed-shared-update-v2__commentary"
             ).text
-            if DUPLICATE_CHECKER.exists(id):
+            if DUPLICATE_CHECKER.exists(feed_id):
                 continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
-            link = f"https://www.linkedin.com/feed/update/{id}/"
+            DUPLICATE_CHECKER.set(feed_id, "", ex=86400 * 30)
+            link = f"https://www.linkedin.com/feed/update/{feed_id}/"
             body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
             time.sleep(3)
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     driver_exit(driver)
 
@@ -277,8 +273,8 @@ def get_linkedin_feed():
 def check_job_pages():
     pages = lin_models.JobSearch.objects.filter(enable=True).order_by("-priority")
     for page in pages:
-        time = timezone.localtime()
-        print(f"{time} start crawling linkedin page {page.name}")
+        now = timezone.localtime()
+        print(f"{now} start crawling linkedin page {page.name}")
         get_job_page_posts(page.pk)
 
 
@@ -343,15 +339,15 @@ def is_eligible(ig_filters, job_detail):
     """
     if not is_english(job_detail["language"]):
         return False
-    for filter in ig_filters:
+    for ig_filter in ig_filters:
         detail = ""
-        if filter.place == lin_models.IgnoringFilter.TITLE:
+        if ig_filter.place == lin_models.IgnoringFilter.TITLE:
             detail = job_detail["title"]
-        elif filter.place == lin_models.IgnoringFilter.COMPANY:
+        elif ig_filter.place == lin_models.IgnoringFilter.COMPANY:
             detail = job_detail["company"]
-        elif filter.place == lin_models.IgnoringFilter.LOCATION:
+        elif ig_filter.place == lin_models.IgnoringFilter.LOCATION:
             detail = job_detail["location"]
-        if not check_eligible(filter.keyword, detail):
+        if not check_eligible(ig_filter.keyword, detail):
             return False
     return True
 
@@ -545,7 +541,7 @@ def get_card_id(element):
             By.XPATH,
             './/div[starts-with(@data-urn, "urn:li:activity:")]',
         ).get_attribute("data-urn")
-    except:
+    except NoSuchElementException:
         return "Cannot-extract-card-id"
 
 
@@ -579,11 +575,11 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
     for item in items:
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
-            id = item.get_attribute("data-occludable-job-id")
+            job_id = item.get_attribute("data-occludable-job-id")
             # if id is none or is repetitive
-            if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
+            if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
                 continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
             item.click()
             time.sleep(2)
             job_detail = get_job_detail(driver, item)
@@ -595,7 +591,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
         except StaleElementReferenceException:
             logger.warning("stale element exception")
             break
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     print(f"found {counter} job in page: {page_id} with starting-job: {starting_job}")
     check_page_count.delay(page_id, ignore_repetitive, starting_job)
@@ -622,11 +618,11 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", article)
             time.sleep(2)
-            id = get_card_id(article)
-            if not id or (ignore_repetitive and DUPLICATE_CHECKER.exists(id)):
-                print(f"id is none or duplicate, id: {id}")
+            post_id = get_card_id(article)
+            if not post_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(post_id)):
+                print(f"id is none or duplicate, id: {post_id}")
                 continue
-            DUPLICATE_CHECKER.set(id, "", ex=86400 * 30)
+            DUPLICATE_CHECKER.set(post_id, "", ex=86400 * 30)
             body = ""
             try:
                 body = article.find_element(
@@ -635,7 +631,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             except NoSuchElementException:
                 print("No such element exception")
                 body = "Cannot-extract-body"
-            link = f"https://www.linkedin.com/feed/update/{id}/"
+            link = f"https://www.linkedin.com/feed/update/{post_id}/"
             body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
             not_tasks.send_message_to_telegram_channel(
@@ -643,7 +639,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             )
             counter += 1
             time.sleep(3)
-        except Exception:
+        except NoSuchElementException:
             logger.error(traceback.format_exc())
     print(f"found {counter} post in page {page_id}")
     update_expression_search_last_crawl_at.delay(page.pk)
@@ -654,8 +650,8 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
 def check_expression_search_pages():
     pages = lin_models.ExpressionSearch.objects.filter(enable=True)
     for page in pages:
-        time = timezone.localtime()
-        print(f"{time} Start crawling linkedin page {page.name}")
+        start_time = timezone.localtime()
+        print(f"{start_time} Start crawling linkedin page {page.name}")
         get_expression_search_posts(page.pk)
 
 

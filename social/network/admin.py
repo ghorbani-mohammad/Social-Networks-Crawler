@@ -4,9 +4,9 @@ from django.contrib import admin
 from reusable.other import TIME_FORMAT
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
-from . import models
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
+from . import models
 
 
 @admin.register(models.Network)
@@ -42,8 +42,9 @@ class ChannelAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def get_last_crawl(self, instance):
         if instance.last_crawl:
             return instance.last_crawl.strftime(TIME_FORMAT)
+        return None
 
-    def crawl(self, request, queryset):
+    def crawl(self, _request, queryset):
         for channel in queryset:
             if channel.network.name == "Twitter":
                 twi_tasks.get_twitter_posts.delay(channel.pk)
@@ -114,7 +115,7 @@ class BackupAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 class ConfigAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "crawl_linkedin_feed")
 
-    def flush_views_cache(self, request, queryset):
+    def flush_views_cache(self, _request, _queryset):
         redis_db = redis.StrictRedis(host="social_redis", port=6379, db=15)
         redis_db.flushdb()
 

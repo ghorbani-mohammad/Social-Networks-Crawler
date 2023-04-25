@@ -1,6 +1,6 @@
-import requests
-import subprocess
 from io import BytesIO
+import subprocess
+import requests
 
 from django.conf import settings
 from django.db import transaction
@@ -12,9 +12,10 @@ from celery.utils.log import get_task_logger
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, Border, Side
 
-from . import models
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
+from . import models
+
 
 logger = get_task_logger(__name__)
 
@@ -51,10 +52,14 @@ class BaseTaskWithRetry(Task):
     default_retry_delay = 60
     retry_jitter = True
 
+    def run(self, *_args, **_kwargs):
+        pass
+
 
 @shared_task(base=BaseTaskWithRetry)
 def extract_keywords(post_id):
-    """We extract keywords for a post by using external service. We call an external api by post body
+    """We extract keywords for a post by using external service.
+    We call an external api by post body
     We also consider ignored and blocked words
     We will delete blocked words
     We will ignore ignored words (we still save those into db)
@@ -74,7 +79,7 @@ def extract_keywords(post_id):
         endpoint = "http://persian_analyzer_api/v1/app/keyword/"
     if post.channel.language == models.Channel.ENGLISH:
         endpoint = "http://analyzer_api/api/v1/keyword/"
-    resp = requests.post(endpoint, {"text": post.body}).json()
+    resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
     objs = []
     words = resp["keywords"]
     if "keyphrases" in resp:
@@ -102,9 +107,9 @@ def extract_ner(post_id):
             endpoint = "http://persian_analyzer_api/v1/app/ner/"
         if post.channel.language == models.Channel.ENGLISH:
             endpoint = "http://analyzer_api/api/v1/ner/"
-        resp = requests.post(endpoint, {"text": post.body}).json()
+        resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
         temp = {}
-        for key in NER_KEY_MAPPING.keys():
+        for key, _ in NER_KEY_MAPPING.items():
             if key in resp:
                 temp[NER_KEY_MAPPING[key]] = list(set(resp.pop(key)))
         post.ner = temp
@@ -122,7 +127,9 @@ def extract_sentiment(post_id):
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         resp = requests.post(
-            "http://persian_analyzer_api/v1/app/sentiment/", {"text": post.body}
+            "http://persian_analyzer_api/v1/app/sentiment/",
+            {"text": post.body},
+            timeout=5,
         ).json()
         post.sentiment = resp
         post.save()
@@ -139,7 +146,9 @@ def extract_categories(post_id):
     with transaction.atomic():
         post = models.Post.objects.select_for_update().get(id=post_id)
         resp = requests.post(
-            "http://persian_analyzer_api/v1/app/classification/", {"text": post.body}
+            "http://persian_analyzer_api/v1/app/classification/",
+            {"text": post.body},
+            timeout=5,
         ).json()
         sorted_result = sorted(resp, key=lambda k: k["score"], reverse=True)
         post.category = sorted_result
@@ -171,7 +180,8 @@ def take_backup(backup_id):
     be saved in the filesystem.
 
     Args:
-        backup_id (int): id of backup row in the administration panel. (Admin create a row and then we run this task)
+        backup_id (int): id of backup row in the administration panel.
+        (Admin create a row and then we run this task)
     """
     backup = models.Backup.objects.get(pk=backup_id)
     date_time = backup.created_at.strftime("%d-%m-%Y-%H_%M_%S")
@@ -184,8 +194,10 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                f"docker exec -t postgres pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
-            ]
+                f"docker exec -t postgres pg_dumpall -c -U postgres \
+                    | gzip > /root/army/frontend/dist/backup/postgres_db_{date_time}.sql.gz",
+            ],
+            check=False,
         )
         backup.link = (
             f"http://{settings.SERVER_IP}/backup/postgres_db_{date_time}.sql.gz"
@@ -199,8 +211,10 @@ def take_backup(backup_id):
                 "-o",
                 "StrictHostKeyChecking=no",
                 f"root@{settings.SERVER_IP}",
-                f"docker exec -t social_db pg_dumpall -c -U postgres | gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
-            ]
+                f"docker exec -t social_db pg_dumpall -c -U postgres | \
+                    gzip > /root/army/frontend/dist/backup/social_db_{date_time}.sql.gz",
+            ],
+            check=False,
         )
         backup.link = f"http://{settings.SERVER_IP}/backup/social_db_{date_time}.sql.gz"
     backup.status = models.Backup.COMPLETED
@@ -213,7 +227,8 @@ def export_channel_list(export_id):
     User can download that file.
 
     Args:
-        export_id (int): This is the id of the report. (Admin first create report row. then we run this task.)
+        export_id (int): This is the id of the report.
+        (Admin first create report row. then we run this task.)
     """
     channels = models.Channel.objects.all()
     workbook = Workbook()

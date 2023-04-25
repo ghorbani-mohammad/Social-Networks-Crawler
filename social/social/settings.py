@@ -1,7 +1,7 @@
 import os
+from pathlib import Path
 import django
 import sentry_sdk
-from pathlib import Path
 from envparse import env
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -182,7 +182,7 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
                 "level": "ERROR",
                 "class": "django.utils.log.AdminEmailHandler",
                 "formatter": "simple",
-                "reporter_class": "reusable.exception_reporter.CustomExceptionReporter",
+                # "reporter_class": "reusable.exception_reporter.CustomExceptionReporter",
             },
             "console": {
                 "class": "logging.StreamHandler",

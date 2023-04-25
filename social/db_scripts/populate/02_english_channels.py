@@ -1,7 +1,12 @@
+# pylint: skip-file
 import os
 import sys
-import django
 from time import sleep
+import django
+
+
+from network.models import Channel, Post
+from network.tasks import extract_ner, extract_keywords
 
 
 def initial():
@@ -12,8 +17,6 @@ def initial():
 
 initial()
 
-from network.models import Channel, Post
-from network.tasks import extract_ner, extract_keywords
 
 english_posts = Post.objects.filter(channel__language=Channel.ENGLISH)
 for post in english_posts:

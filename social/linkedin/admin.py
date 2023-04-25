@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from . import models, tasks
 from django.utils.html import format_html
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
+from . import models, tasks
 
 
 @admin.register(models.JobSearch)
@@ -20,6 +20,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
     def page_link(self, obj):
         return format_html("<a href='{url}'>Link</a>", url=obj.url)
+
 
     def crawl_page_action(self, request, queryset):
         for page in queryset:
@@ -76,7 +77,7 @@ class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def crawl_page_action(self, request, queryset):
         for page in queryset:
             tasks.get_expression_search_posts.delay(page.pk)
-
+    
     def crawl_page_repetitive_action(self, request, queryset):
         for page in queryset:
             tasks.get_expression_search_posts.delay(page.pk, ignore_repetitive=False)

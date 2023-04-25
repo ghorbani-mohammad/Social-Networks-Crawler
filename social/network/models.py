@@ -6,14 +6,14 @@ from django.db import models, transaction
 from django.core.validators import MinValueValidator
 from django.template.defaultfilters import truncatechars
 
-from . import tasks
 from reusable.models import BaseModel
+from reusable.admins import url_to_edit_object
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
-from reusable.admins import url_to_edit_object
+from . import tasks
 
 
-def channel_list_export_path(instance, filename):
+def channel_list_export_path(_instance, filename):
     ext = filename.split(".")[-1].lower()
     return path.join(
         ".",
@@ -124,10 +124,8 @@ class Post(BaseModel):
     @property
     def sorted_sentiment(self):
         if self.sentiment:
-            return {
-                k: v
-                for k, v in sorted(self.sentiment.items(), key=lambda item: item[1])
-            }
+            return dict(sorted(self.sentiment.items(), key=lambda item: item[1]))
+        return None
 
     def __str__(self):
         return f"({self.pk} - {self.channel})"
