@@ -142,7 +142,7 @@ class LogAdmin(admin.ModelAdmin):
     readonly_fields = ("time", "level", "message")
     list_display = ("pk", "level", "short_message", "time")
 
-    def delete_all_logs(modeladmin, request, queryset):
+    def delete_all_logs(self, request, queryset):
         models.Log.objects.all().delete()
 
     actions = (delete_all_logs,)
