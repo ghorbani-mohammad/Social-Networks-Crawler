@@ -21,11 +21,12 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def page_link(self, obj):
         return format_html("<a href='{url}'>Link</a>", url=obj.url)
 
-    def crawl_page_action(self, _modeladmin, request, queryset):
+
+    def crawl_page_action(self, request, queryset):
         for page in queryset:
             tasks.get_job_page_posts.delay(page.pk)
 
-    def crawl_page_repetitive_action(self, _modeladmin, request, queryset):
+    def crawl_page_repetitive_action(self, request, queryset):
         for page in queryset:
             tasks.get_job_page_posts.delay(page.pk, ignore_repetitive=False)
 
@@ -48,7 +49,7 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         field.name for field in models.IgnoredJob._meta.get_fields()
     )
 
-    def remove_all_objects(self, _modeladmin, _request, _queryset):
+    def remove_all_objects(self, request, queryset):
         models.IgnoredJob.objects.all().delete()
 
     actions = (remove_all_objects,)
@@ -73,11 +74,11 @@ class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def page_link(self, obj):
         return format_html("<a href='{url}'>Link</a>", url=obj.url)
 
-    def crawl_page_action(self, _modeladmin, _request, queryset):
+    def crawl_page_action(self, request, queryset):
         for page in queryset:
             tasks.get_expression_search_posts.delay(page.pk)
-
-    def crawl_page_repetitive_action(self, _modeladmin, _request, queryset):
+    
+    def crawl_page_repetitive_action(self, request, queryset):
         for page in queryset:
             tasks.get_expression_search_posts.delay(page.pk, ignore_repetitive=False)
 
