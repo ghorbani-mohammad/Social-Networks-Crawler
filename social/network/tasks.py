@@ -248,10 +248,7 @@ def export_channel_list(export_id):
         export_id (int): This is the id of the report.
         (Admin first create report row. then we run this task.)
     """
-    channel_model = get_network_model("Channel")
-    channel_list_export_model = get_network_model("ChannelListExport")
-
-    channels = channel_model.objects.all()
+    channels = get_network_model("Channel").objects.all()
     workbook = Workbook()
     worksheet = workbook.active
     worksheet.freeze_panes = worksheet["B2"]
@@ -280,7 +277,7 @@ def export_channel_list(export_id):
 
     virtual_workbook = BytesIO()
     workbook.save(virtual_workbook)
-    export = channel_list_export_model.objects.get(pk=export_id)
+    export = get_network_model("ChannelListExport").objects.get(pk=export_id)
     export.file.save("excel.xlsx", File(virtual_workbook))
     export.save()
 
