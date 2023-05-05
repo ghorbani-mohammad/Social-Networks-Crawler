@@ -121,7 +121,7 @@ def login():
 
 
 @shared_task
-def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_count):
+def store_posts(channel_id, post_id, body, meta_data):
     """This function store a post into database. It will create or update a post.
     If a post with post-id exists, It will update it. Otherwise it will create a new post.
 
@@ -136,17 +136,15 @@ def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_
     exists = net_models.Post.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
-    data = {
-        "reaction_count": reaction_count,
-        "comment_count": comment_count,
-        "share_count": share_count,
-    }
+    share_count = meta_data.get("share_count", 0)
+    comment_count = meta_data.get("comment_count", 0)
+    reaction_count = meta_data.get("reaction_count", 0)
     if not exists:
         net_models.Post.objects.create(
             channel_id=channel_id,
             network_id=post_id,
             body=body,
-            data=data,
+            data=meta_data,
             share_count=share_count,
             views_count=reaction_count + comment_count + share_count,
         )
@@ -154,7 +152,7 @@ def store_posts(channel_id, post_id, body, reaction_count, comment_count, share_
         post = net_models.Post.objects.get(network_id=post_id)
         post.share_count = share_count
         post.views_count = reaction_count + comment_count + share_count
-        post.data = data
+        post.data = meta_data
         post.save()
 
 
@@ -177,7 +175,11 @@ def get_linkedin_posts(channel_id):
                     By.XPATH,
                     './/ul[contains(@class, "social-details-social-counts")]',
                 )[0]
-                reaction_counter, comment_counter, share_counter = 0, 0, 0
+                meta_data = {
+                    "reaction_count": 0,
+                    "comment_count": 0,
+                    "share_counter": 0,
+                }
                 socials = reaction.find_elements(By.XPATH, ".//li")
                 for social in socials:
                     temp = social.get_attribute("aria-label")
@@ -187,19 +189,13 @@ def get_linkedin_posts(channel_id):
                     temp = temp.split()[:2]
                     value, elem = int(temp[0].replace(",", "")), temp[1]
                     if elem == "reactions":
-                        reaction_counter = value
+                        meta_data["reaction_count"] = value
                     elif elem == "comments":
-                        comment_counter = value
+                        meta_data["comment_count"] = value
                     elif elem == "shares":
-                        share_counter = value
-                store_posts.delay(
-                    channel_id,
-                    post_id,
-                    body,
-                    reaction_counter,
-                    comment_counter,
-                    share_counter,
-                )
+                        meta_data["share_count"] = value
+
+                store_posts.delay(channel_id, post_id, body, meta_data)
             except NoSuchElementException:
                 logger.error(traceback.format_exc())
     except NoSuchElementException:
