@@ -14,7 +14,7 @@ from openpyxl.styles import Font, Alignment, Border, Side
 
 from twitter import tasks as twi_tasks
 from linkedin import tasks as lin_tasks
-from . import models
+from reusable.models import get_network_model
 
 
 logger = get_task_logger(__name__)
@@ -67,18 +67,22 @@ def extract_keywords(post_id):
     Args:
         post_id (int): id of the post
     """
-    post = models.Post.objects.get(id=post_id)
-    ignored_keywords = list(
-        models.IgnoredKeyword.objects.values_list("keyword", flat=True)
-    )
-    blocked_keywords = list(
-        models.BlockedKeyword.objects.values_list("keyword", flat=True)
-    )
+    post_model = get_network_model("Post")
+    channel_model = get_network_model("Channel")
+    ignored_model = get_network_model("IgnoredKeyword")
+    blocked_model = get_network_model("BlockedKeyword")
+    keyword_model = get_network_model("Keyword")
+
+    post = post_model.objects.get(id=post_id)
+    ignored_keywords = list(ignored_model.objects.values_list("keyword", flat=True))
+    blocked_keywords = list(blocked_model.objects.values_list("keyword", flat=True))
+
     endpoint = None
-    if post.channel.language == models.Channel.PERSIAN:
+    if post.channel.language == channel_model.PERSIAN:
         endpoint = "http://persian_analyzer_api/v1/app/keyword/"
-    if post.channel.language == models.Channel.ENGLISH:
+    if post.channel.language == channel_model.ENGLISH:
         endpoint = "http://analyzer_api/api/v1/keyword/"
+
     resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
     objs = []
     words = resp["keywords"]
@@ -87,8 +91,9 @@ def extract_keywords(post_id):
     for keyword in words:
         if keyword not in blocked_keywords:
             ignored = keyword in ignored_keywords
-            objs.append(models.Keyword(post=post, keyword=keyword, ignored=ignored))
-    models.Keyword.objects.bulk_create(objs)
+            objs.append(keyword_model(post=post, keyword=keyword, ignored=ignored))
+
+    keyword_model.objects.bulk_create(objs)
 
 
 @shared_task(base=BaseTaskWithRetry)
@@ -100,12 +105,15 @@ def extract_ner(post_id):
     Args:
         post_id (int): id of the post
     """
+    post_model = get_network_model("Post")
+    channel_model = get_network_model("Channel")
+
     with transaction.atomic():
-        post = models.Post.objects.select_for_update().get(id=post_id)
+        post = post_model.objects.select_for_update().get(id=post_id)
         endpoint = None
-        if post.channel.language == models.Channel.PERSIAN:
+        if post.channel.language == channel_model.PERSIAN:
             endpoint = "http://persian_analyzer_api/v1/app/ner/"
-        if post.channel.language == models.Channel.ENGLISH:
+        if post.channel.language == channel_model.ENGLISH:
             endpoint = "http://analyzer_api/api/v1/ner/"
         resp = requests.post(endpoint, {"text": post.body}, timeout=5).json()
         temp = {}
@@ -124,8 +132,10 @@ def extract_sentiment(post_id):
     Args:
         post_id (int): id of the post
     """
+    post_model = get_network_model("Post")
+
     with transaction.atomic():
-        post = models.Post.objects.select_for_update().get(id=post_id)
+        post = post_model.objects.select_for_update().get(id=post_id)
         resp = requests.post(
             "http://persian_analyzer_api/v1/app/sentiment/",
             {"text": post.body},
@@ -143,8 +153,10 @@ def extract_categories(post_id):
     Args:
         post_id (int): id of the post
     """
+    post_model = get_network_model("Post")
+
     with transaction.atomic():
-        post = models.Post.objects.select_for_update().get(id=post_id)
+        post = post_model.objects.select_for_update().get(id=post_id)
         resp = requests.post(
             "http://persian_analyzer_api/v1/app/classification/",
             {"text": post.body},
@@ -161,7 +173,9 @@ def check_channels_crawl():
     """In this task we check which channels we should crawl at time of running the task
     This is a periodic task.
     """
-    channels = models.Channel.objects.filter(last_crawl__isnull=False)
+    channel_model = get_network_model("Channel")
+
+    channels = channel_model.objects.filter(last_crawl__isnull=False)
     for channel in channels:
         interval = timezone.localtime() - channel.last_crawl
         hours = interval.total_seconds() / 3600
@@ -183,9 +197,12 @@ def take_backup(backup_id):
         backup_id (int): id of backup row in the administration panel.
         (Admin create a row and then we run this task)
     """
-    backup = models.Backup.objects.get(pk=backup_id)
+    backup_model = get_network_model("Backup")
+
+    backup = backup_model.objects.get(pk=backup_id)
     date_time = backup.created_at.strftime("%d-%m-%Y-%H_%M_%S")
-    if backup.type == models.Backup.RASAD_1:
+
+    if backup.type == backup_model.RASAD_1:
         subprocess.run(
             [
                 "ssh",
@@ -202,7 +219,7 @@ def take_backup(backup_id):
         backup.link = (
             f"http://{settings.SERVER_IP}/backup/postgres_db_{date_time}.sql.gz"
         )
-    elif backup.type == models.Backup.RASAD_2:
+    elif backup.type == backup_model.RASAD_2:
         subprocess.run(
             [
                 "ssh",
@@ -217,7 +234,8 @@ def take_backup(backup_id):
             check=False,
         )
         backup.link = f"http://{settings.SERVER_IP}/backup/social_db_{date_time}.sql.gz"
-    backup.status = models.Backup.COMPLETED
+
+    backup.status = backup_model.COMPLETED
     backup.save()
 
 
@@ -230,18 +248,23 @@ def export_channel_list(export_id):
         export_id (int): This is the id of the report.
         (Admin first create report row. then we run this task.)
     """
-    channels = models.Channel.objects.all()
+    channel_model = get_network_model("Channel")
+    channel_list_export_model = get_network_model("ChannelListExport")
+
+    channels = channel_model.objects.all()
     workbook = Workbook()
     worksheet = workbook.active
     worksheet.freeze_panes = worksheet["B2"]
     worksheet.title = "Channel List Report"
     fields_name = ["Number", "Name", "Network", "Status"]
+
     for col_num, column_title in enumerate(fields_name, start=1):
         cell = worksheet.cell(row=1, column=col_num)
         cell.font = Font(bold=True)
         cell.alignment = Alignment(horizontal="center")
         cell.border = Border(bottom=Side(border_style="medium", color="FF000000"))
         cell.value = column_title
+
     for row_index, channel in enumerate(channels, start=2):
         guest_fields = [
             row_index - 1,
@@ -254,9 +277,10 @@ def export_channel_list(export_id):
             cell.font = Font(bold=True)
             cell.alignment = Alignment(horizontal="center")
             cell.value = column
+
     virtual_workbook = BytesIO()
     workbook.save(virtual_workbook)
-    export = models.ChannelListExport.objects.get(pk=export_id)
+    export = channel_list_export_model.objects.get(pk=export_id)
     export.file.save("excel.xlsx", File(virtual_workbook))
     export.save()
 
@@ -266,16 +290,19 @@ def remove_blocked_keywords():
     """This function retrieve list of block words then
     by using them, delete blocked keywords.
     """
-    blocked_keywords = list(
-        models.BlockedKeyword.objects.values_list("keyword", flat=True)
-    )
+    blocked_model = get_network_model("BlockedKeyword")
+    keyword_model = get_network_model("Keyword")
+
+    blocked_keywords = list(blocked_model.objects.values_list("keyword", flat=True))
+
     # for performance consideration, we loop over them in batch mode
-    first_id = models.Keyword.objects.first().id
-    last_id = models.Keyword.objects.last().id
+    first_id = keyword_model.objects.first().id
+    last_id = keyword_model.objects.last().id
     batch_size = 10000
     current_counter = first_id
+
     while current_counter < last_id:
-        for item in models.Keyword.objects.filter(
+        for item in keyword_model.objects.filter(
             id__gte=current_counter, id__lte=current_counter + batch_size
         ):
             if item.keyword in blocked_keywords:
