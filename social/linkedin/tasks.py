@@ -21,8 +21,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-from network import models as net_models
 from linkedin import models as lin_models
+from reusable.models import get_network_model
 from reusable.other import only_one_concurrency
 from reusable.browser import scroll
 from notification import tasks as not_tasks
@@ -35,9 +35,10 @@ DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
 
 
 def get_config():
-    config = net_models.Config.objects.last()
+    config_model = get_network_model("Config")
+    config = config_model.objects.last()
     if config is None:
-        config = net_models.Config(crawl_linkedin_feed=False)
+        config = config_model(crawl_linkedin_feed=False)
     return config
 
 
@@ -133,14 +134,15 @@ def store_posts(channel_id, post_id, body, meta_data):
         comment_count (int): comments count
         share_count (int): shares count
     """
-    exists = net_models.Post.objects.filter(
+    post_model = get_network_model("Post")
+    exists = post_model.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
     share_count = meta_data.get("share_count", 0)
     comment_count = meta_data.get("comment_count", 0)
     reaction_count = meta_data.get("reaction_count", 0)
     if not exists:
-        net_models.Post.objects.create(
+        post_model.objects.create(
             channel_id=channel_id,
             network_id=post_id,
             body=body,
@@ -149,7 +151,7 @@ def store_posts(channel_id, post_id, body, meta_data):
             views_count=reaction_count + comment_count + share_count,
         )
     else:
-        post = net_models.Post.objects.get(network_id=post_id)
+        post = post_model.objects.get(network_id=post_id)
         post.share_count = share_count
         post.views_count = reaction_count + comment_count + share_count
         post.data = meta_data
@@ -182,7 +184,8 @@ def get_post_statistics(reaction_element):
 @shared_task(name="get_linkedin_posts")
 @only_one_concurrency(key="browser1", timeout=TASKS_TIMEOUT)
 def get_linkedin_posts(channel_id):
-    channel = net_models.Channel.objects.get(pk=channel_id)
+    channel_model = get_network_model("Channel")
+    channel = channel_model.objects.get(pk=channel_id)
     channel_url = channel.username
     driver = initialize_linkedin_driver()
     driver.get(channel_url)
@@ -233,7 +236,8 @@ def sort_by_recent(driver):
 
 @shared_task
 def get_linkedin_feed():
-    config = net_models.Config.objects.last()
+    config_model = get_network_model("Config")
+    config = config_model.objects.last()
     if config is None or not config.crawl_linkedin_feed:
         return
     driver = initialize_linkedin_driver()
