@@ -20,9 +20,9 @@ from celery.utils.log import get_task_logger
 
 from notification import tasks as not_tasks
 from notification import utils as not_utils
-from network import models as net_models
-from reusable.other import only_one_concurrency
 from reusable.browser import scroll
+from reusable.models import get_network_model
+from reusable.other import only_one_concurrency
 from . import models
 
 logger = get_task_logger(__name__)
@@ -186,7 +186,8 @@ def store_twitter_posts(channel_id, post_id, body, meta_data):
         body (str): text of the post
         meta_data (dict): meta data of the post
     """
-    exists = net_models.Post.objects.filter(
+    post_model = get_network_model("Post")
+    exists = post_model.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
     views_count = (
@@ -195,7 +196,7 @@ def store_twitter_posts(channel_id, post_id, body, meta_data):
         + meta_data.get("like_count", 0)
     )
     if not exists:
-        net_models.Post.objects.create(
+        post_model.objects.create(
             channel_id=channel_id,
             network_id=post_id,
             body=body,
@@ -204,7 +205,7 @@ def store_twitter_posts(channel_id, post_id, body, meta_data):
             views_count=views_count,
         )
     else:
-        post = net_models.Post.objects.filter(body=body, channel_id=channel_id).first()
+        post = post_model.objects.filter(body=body, channel_id=channel_id).first()
         post.data = meta_data
         post.share_count = meta_data["retweets_count"]
         post.views_count = views_count
@@ -221,7 +222,8 @@ def get_twitter_posts(channel_id):
     Args:
         channel_id (int): id of the channel
     """
-    channel = net_models.Channel.objects.get(pk=channel_id)
+    channel_model = get_network_model("Channel")
+    channel = channel_model.objects.get(pk=channel_id)
     print(f"****** Twitter crawling {channel} started")
     channel_url = f"{channel.network.url}/{channel.username}"
     driver = initialize_twitter_driver()
@@ -259,7 +261,8 @@ def get_twitter_post_comments(post_id):
     Args:
         post_id (int): id of the post
     """
-    post = net_models.Post.objects.get(pk=post_id)
+    post_model = get_network_model("Post")
+    post = post_model.objects.get(pk=post_id)
     driver = initialize_twitter_driver()
     if driver is None:
         return
