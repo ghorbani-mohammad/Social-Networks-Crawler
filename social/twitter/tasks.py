@@ -177,41 +177,36 @@ def get_comment_detail(article):
 
 
 @shared_task
-def store_twitter_posts(
-    channel_id, post_id, body, replies_counter, retweets_counter, likes_counter
-):
+def store_twitter_posts(channel_id, post_id, body, meta_data):
     """Store or update a twitter post
 
     Args:
         channel_id (int): id of the channel
         post_id (int): id of the post (twitter id)
         body (str): text of the post
-        replies_counter (int): number of replies
-        retweets_counter (int): number of retweets
-        likes_counter (int): number of likes
+        meta_data (dict): meta data of the post
     """
     exists = net_models.Post.objects.filter(
         network_id=post_id, channel_id=channel_id
     ).exists()
-    data = {
-        "replies_count": replies_counter,
-        "retweets_count": retweets_counter,
-        "likes_count": likes_counter,
-    }
-    views_count = replies_counter + retweets_counter + likes_counter
+    views_count = (
+        meta_data.get("reply_count", 0)
+        + meta_data.get("retweet_count", 0)
+        + meta_data.get("like_count", 0)
+    )
     if not exists:
         net_models.Post.objects.create(
             channel_id=channel_id,
             network_id=post_id,
             body=body,
-            data=data,
-            share_count=data["retweets_count"],
+            data=meta_data,
+            share_count=meta_data["retweets_count"],
             views_count=views_count,
         )
     else:
         post = net_models.Post.objects.filter(body=body, channel_id=channel_id).first()
-        post.data = data
-        post.share_count = data["retweets_count"]
+        post.data = meta_data
+        post.share_count = meta_data["retweets_count"]
         post.views_count = views_count
         post.save()
 
@@ -239,13 +234,16 @@ def get_twitter_posts(channel_id):
     for article in articles:
         try:
             post_detail = get_post_detail(article)
+            post_meta_data = {
+                "reply_count": post_detail["reply_count"],
+                "retweet_count": post_detail["retweet_count"],
+                "like_count": post_detail["like_count"],
+            }
             store_twitter_posts.delay(
                 channel_id,
                 post_detail["id"],
                 post_detail["body"],
-                post_detail["reply_count"],
-                post_detail["retweet_count"],
-                post_detail["like_count"],
+                post_meta_data,
             )
         except NoSuchElementException:
             logger.error(traceback.format_exc())
@@ -273,13 +271,16 @@ def get_twitter_post_comments(post_id):
         try:
             post_detail = get_comment_detail(article)
             # store on different tables?
+            post_meta_data = {
+                "reply_count": post_detail["reply_count"],
+                "retweet_count": post_detail["retweet_count"],
+                "like_count": post_detail["like_count"],
+            }
             store_twitter_posts.delay(
                 post.channel_id,
                 post_detail["id"],
                 post_detail["body"],
-                post_detail["reply_count"],
-                post_detail["retweet_count"],
-                post_detail["like_count"],
+                post_meta_data,
             )
         except NoSuchElementException:
             logger.error(traceback.format_exc())
