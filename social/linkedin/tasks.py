@@ -156,6 +156,29 @@ def store_posts(channel_id, post_id, body, meta_data):
         post.save()
 
 
+def get_post_statistics(reaction_element):
+    statistics = {
+        "reaction_count": 0,
+        "comment_count": 0,
+        "share_counter": 0,
+    }
+    socials = reaction_element.find_elements(By.XPATH, ".//li")
+    for social in socials:
+        temp = social.get_attribute("aria-label")
+        if not temp:
+            temp = social.find_elements(By.XPATH, ".//button")
+            temp = temp[0].get_attribute("aria-label")
+        temp = temp.split()[:2]
+        value, elem = int(temp[0].replace(",", "")), temp[1]
+        if elem == "reactions":
+            statistics["reaction_count"] = value
+        elif elem == "comments":
+            statistics["comment_count"] = value
+        elif elem == "shares":
+            statistics["share_count"] = value
+    return statistics
+
+
 @shared_task(name="get_linkedin_posts")
 @only_one_concurrency(key="browser1", timeout=TASKS_TIMEOUT)
 def get_linkedin_posts(channel_id):
@@ -175,27 +198,8 @@ def get_linkedin_posts(channel_id):
                     By.XPATH,
                     './/ul[contains(@class, "social-details-social-counts")]',
                 )[0]
-                meta_data = {
-                    "reaction_count": 0,
-                    "comment_count": 0,
-                    "share_counter": 0,
-                }
-                socials = reaction.find_elements(By.XPATH, ".//li")
-                for social in socials:
-                    temp = social.get_attribute("aria-label")
-                    if not temp:
-                        temp = social.find_elements(By.XPATH, ".//button")
-                        temp = temp[0].get_attribute("aria-label")
-                    temp = temp.split()[:2]
-                    value, elem = int(temp[0].replace(",", "")), temp[1]
-                    if elem == "reactions":
-                        meta_data["reaction_count"] = value
-                    elif elem == "comments":
-                        meta_data["comment_count"] = value
-                    elif elem == "shares":
-                        meta_data["share_count"] = value
-
-                store_posts.delay(channel_id, post_id, body, meta_data)
+                statistics = get_post_statistics(reaction)
+                store_posts.delay(channel_id, post_id, body, statistics)
             except NoSuchElementException:
                 logger.error(traceback.format_exc())
     except NoSuchElementException:
