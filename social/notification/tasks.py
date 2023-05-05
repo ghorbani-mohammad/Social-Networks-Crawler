@@ -1,4 +1,5 @@
 import traceback
+import importlib
 
 from celery import shared_task
 from celery.utils.log import get_task_logger
@@ -39,10 +40,11 @@ def send_message_to_telegram_channel(message, channel_pk):
     Raises:
         Exception: if sending message was not successful.
     """
-    from notification.models import Channel
+    channel_model_module = importlib.import_module("notification.models")
+    channel_class = channel_model_module.Channel
 
     bot = models.TelegramBot.objects.last()
-    channel_output = Channel.objects.get(pk=channel_pk)
+    channel_output = channel_class.objects.get(pk=channel_pk)
     resp = utils.telegram_bot_send_text(
         bot.telegram_token, channel_output.username, message
     )
