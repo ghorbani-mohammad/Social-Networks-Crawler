@@ -21,7 +21,6 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def page_link(self, obj):
         return format_html("<a href='{url}'>Link</a>", url=obj.url)
 
-
     def crawl_page_action(self, request, queryset):
         for page in queryset:
             tasks.get_job_page_posts.delay(page.pk)
