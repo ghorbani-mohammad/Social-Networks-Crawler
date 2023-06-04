@@ -7,6 +7,7 @@ from . import models, tasks
 
 @admin.register(models.JobSearch)
 class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+    readonly_fields = ("last_crawl_at",)
     list_display = (
         "pk",
         "name",
@@ -30,7 +31,6 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
             tasks.get_job_page_posts.delay(page.pk, ignore_repetitive=False)
 
     actions = (crawl_page_action, crawl_page_repetitive_action)
-    readonly_fields = ("last_crawl_at",)
 
 
 @admin.register(models.IgnoredJob)
