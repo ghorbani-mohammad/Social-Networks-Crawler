@@ -1,3 +1,12 @@
+## [1.27.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.27.0...v1.27.1) (2023-06-30)
+
+
+### Bug Fixes
+
+* **linkedin:** adds driver options ([7d28432](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7d28432bff2ec2d57d13a321afcfeb3d0b0d8c87))
+
+
+
 # [1.27.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.26.1...v1.27.0) (2023-04-25)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add linters ([2f930d1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2f930d1f941145b62ad1177db35af4a4badd2866))
-
-
-
-# [1.24.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.23.0...v1.24.0) (2023-04-08)
-
-
-### Features
-
-* **linkedin:** add get-config func ([2e92ebe](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2e92ebe398e00952980e961db96aa1ed68fce11b))
 
 
 
