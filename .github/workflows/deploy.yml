@@ -20,4 +20,4 @@ jobs:
           script: >
             cd ${{secrets.PROJECT_PATH}} 
             && git pull 
-            && docker compose up -d --build
+            && docker-compose up -d --build
