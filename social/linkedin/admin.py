@@ -76,7 +76,7 @@ class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     def crawl_page_action(self, request, queryset):
         for page in queryset:
             tasks.get_expression_search_posts.delay(page.pk)
-    
+
     def crawl_page_repetitive_action(self, request, queryset):
         for page in queryset:
             tasks.get_expression_search_posts.delay(page.pk, ignore_repetitive=False)
