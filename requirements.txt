@@ -8,6 +8,8 @@ amqp==5.1.1
     # via kombu
 asgiref==3.7.2
     # via django
+astroid==2.15.6
+    # via pylint
 asttokens==2.3.0
     # via stack-data
 attrs==23.1.0
@@ -44,6 +46,8 @@ click-repl==0.3.0
     # via celery
 decorator==5.1.1
     # via ipython
+dill==0.3.7
+    # via pylint
 django==4.2.4
     # via
     #   -r requirements.in
@@ -79,18 +83,24 @@ iniconfig==2.0.0
     # via pytest
 ipython==8.15.0
     # via -r requirements.in
+isort==5.12.0
+    # via pylint
 jedi==0.19.0
     # via ipython
 kombu==5.3.2
     # via celery
 langdetect==1.0.9
     # via -r requirements.in
+lazy-object-proxy==1.9.0
+    # via astroid
 linkedin-scraper==2.9.0
     # via -r requirements.in
 lxml==4.9.3
     # via linkedin-scraper
 matplotlib-inline==0.1.6
     # via ipython
+mccabe==0.7.0
+    # via pylint
 openpyxl==3.1.2
     # via -r requirements.in
 outcome==1.2.0
@@ -108,6 +118,8 @@ pickleshare==0.7.5
     # via ipython
 pip-tools==7.3.0
     # via -r requirements.in
+platformdirs==3.10.0
+    # via pylint
 pluggy==1.3.0
     # via pytest
 prompt-toolkit==3.0.39
@@ -126,6 +138,14 @@ pyasn1==0.5.0
     # via rsa
 pygments==2.16.1
     # via ipython
+pylint==2.17.5
+    # via
+    #   pylint-django
+    #   pylint-plugin-utils
+pylint-django==2.5.3
+    # via -r requirements.in
+pylint-plugin-utils==0.8.2
+    # via pylint-django
 pyproject-hooks==1.0.0
     # via build
 pysocks==1.7.1
@@ -171,6 +191,8 @@ stack-data==0.6.2
     # via ipython
 telethon==1.29.3
     # via -r requirements.in
+tomlkit==0.12.1
+    # via pylint
 traitlets==5.9.0
     # via
     #   ipython
@@ -199,6 +221,8 @@ wcwidth==0.2.6
     # via prompt-toolkit
 wheel==0.41.2
     # via pip-tools
+wrapt==1.15.0
+    # via astroid
 wsproto==1.2.0
     # via trio-websocket
 
