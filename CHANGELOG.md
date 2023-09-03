@@ -1,3 +1,12 @@
+# [1.28.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.27.1...v1.28.0) (2023-09-03)
+
+
+### Features
+
+* adds requirements.txt file ([2fa4a43](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2fa4a43b64bdc38acac6374714a7c4567b42cd32))
+
+
+
 ## [1.27.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.27.0...v1.27.1) (2023-06-30)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** solve linter issue ([ddefdf2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ddefdf2cb6c731fa1d278decc30a1a3c731a7184))
-
-
-
-# [1.25.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.24.0...v1.25.0) (2023-04-08)
-
-
-### Features
-
-* add linters ([2f930d1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2f930d1f941145b62ad1177db35af4a4badd2866))
 
 
 
