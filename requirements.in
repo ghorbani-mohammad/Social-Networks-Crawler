@@ -14,6 +14,7 @@ pip-tools
 psycopg2-binary
 pytest-django>=4.5.2
 python-dateutil
+pylint_django
 redis
 requests
 selenium
