@@ -14,4 +14,7 @@ COPY . .
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-CMD ["gunicorn", "--reload", "--workers=2", "--worker-tmp-dir", "/dev/shm", "--bind=0.0.0.0:80", "--chdir", "/app/social", "social.wsgi"]
+CMD [
+    "gunicorn", "--reload", "--workers=2", "--worker-tmp-dir", "/dev/shm",
+    "--bind=0.0.0.0:80", "--chdir", "/app/social", "social.wsgi"
+    ]
