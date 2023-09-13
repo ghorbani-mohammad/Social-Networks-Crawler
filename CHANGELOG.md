@@ -1,3 +1,12 @@
+## [1.28.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.0...v1.28.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* minor change ([74915c3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/74915c3e7a96936f5143e7a1e2c3bbacf75f840d))
+
+
+
 # [1.28.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.27.1...v1.28.0) (2023-09-03)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **django-admin:** solve issues related to actions ([2dfa0ce](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2dfa0ce09162b0100fb86c8fc9d823ddebd8cbc6))
-
-
-
-# [1.26.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.25.0...v1.26.0) (2023-04-14)
-
-
-### Features
-
-* **linkedin:** solve linter issue ([ddefdf2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/ddefdf2cb6c731fa1d278decc30a1a3c731a7184))
 
 
 
