@@ -596,9 +596,11 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
             send_notification(message, job_detail, keywords, output_channel)
             counter += 1
         except StaleElementReferenceException:
+            print("stale element exception")
             logger.warning("stale element exception")
             break
         except NoSuchElementException:
+            print("no such element exception")
             logger.error(traceback.format_exc())
     print(f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}")
     check_page_count.delay(page_id, ignore_repetitive, starting_job)
