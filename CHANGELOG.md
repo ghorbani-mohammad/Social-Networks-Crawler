@@ -1,3 +1,12 @@
+## [1.28.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.1...v1.28.2) (2023-09-25)
+
+
+### Bug Fixes
+
+* **linkedin:** adds more exception handler ([d099d6a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d099d6af6680a16344b41d4a1b43242a2ea24296))
+
+
+
 ## [1.28.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.0...v1.28.1) (2023-09-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **security:** improve security by removing port mappings ([e41bdf8](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e41bdf8d8f6a0ae5405918fdbfd6be2890484f1a))
-
-
-
-## [1.26.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.26.0...v1.26.1) (2023-04-25)
-
-
-### Bug Fixes
-
-* **django-admin:** solve issues related to actions ([2dfa0ce](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2dfa0ce09162b0100fb86c8fc9d823ddebd8cbc6))
 
 
 
