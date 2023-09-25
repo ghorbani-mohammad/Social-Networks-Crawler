@@ -576,6 +576,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
     time.sleep(5)
     driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
+    print(f"*** found {len(items)} items in page: {page_id}")
     counter = 0
     for item in items:
         try:
