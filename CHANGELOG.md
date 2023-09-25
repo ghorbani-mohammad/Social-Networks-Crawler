@@ -1,3 +1,12 @@
+# [1.29.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.2...v1.29.0) (2023-09-25)
+
+
+### Features
+
+* **linkedin:** adds reason of not-eligible ([17fb559](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/17fb55901d50295720648f27704a8e86a922f19d))
+
+
+
 ## [1.28.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.1...v1.28.2) (2023-09-25)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** adds driver options ([7d28432](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7d28432bff2ec2d57d13a321afcfeb3d0b0d8c87))
-
-
-
-# [1.27.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.26.1...v1.27.0) (2023-04-25)
-
-
-### Features
-
-* **security:** improve security by removing port mappings ([e41bdf8](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e41bdf8d8f6a0ae5405918fdbfd6be2890484f1a))
 
 
 
