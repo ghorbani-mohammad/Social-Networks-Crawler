@@ -576,7 +576,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
     time.sleep(5)
     driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
-    print(f"*** found {len(items)} items in page: {page_id}")
+    print(f"*** found {len(items)} items in page: {page_id} with starting-job: {starting_job}")
     counter = 0
     for item in items:
         try:
@@ -601,6 +601,9 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
             break
         except NoSuchElementException:
             print("no such element exception")
+            logger.error(traceback.format_exc())
+        except Exception:
+            print("other exception")
             logger.error(traceback.format_exc())
     print(f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}")
     check_page_count.delay(page_id, ignore_repetitive, starting_job)
