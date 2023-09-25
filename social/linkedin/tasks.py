@@ -591,6 +591,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
             time.sleep(2)
             job_detail = get_job_detail(driver, item)
             if not is_eligible(ig_filters, job_detail):
+                print("job is not eligible")
                 store_ignored_content.delay(job_detail)
                 continue
             send_notification(message, job_detail, keywords, output_channel)
