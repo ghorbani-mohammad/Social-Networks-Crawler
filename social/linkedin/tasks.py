@@ -3,6 +3,7 @@ import sys
 import pickle
 import traceback
 import redis
+from typing import Tuple, Optional
 
 from django.conf import settings
 from django.utils import timezone
@@ -331,7 +332,7 @@ def check_eligible(keyword, job_detail):
     return True
 
 
-def is_eligible(ig_filters, job_detail):
+def is_eligible(ig_filters, job_detail) -> Tuple[bool, Optional[str]]:
     """Checks if job is eligible or not based on job_detail and ignoring filters
     Details are job's title, job's company, job's location
 
@@ -343,18 +344,18 @@ def is_eligible(ig_filters, job_detail):
         bool: True if is eligible otherwise is False
     """
     if not is_english(job_detail["language"]):
-        return False
+        return False, "language"
     for ig_filter in ig_filters:
-        detail = ""
+        detail, reason = "", ""
         if ig_filter.place == lin_models.IgnoringFilter.TITLE:
-            detail = job_detail["title"]
+            detail, reason = job_detail["title"], "title"
         elif ig_filter.place == lin_models.IgnoringFilter.COMPANY:
-            detail = job_detail["company"]
+            detail, reason = job_detail["company"], "company"
         elif ig_filter.place == lin_models.IgnoringFilter.LOCATION:
-            detail = job_detail["location"]
+            detail, reason = job_detail["location"], "location"
         if not check_eligible(ig_filter.keyword, detail):
-            return False
-    return True
+            return False, reason
+    return True, None
 
 
 def get_job_url(element):
@@ -590,8 +591,9 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
             item.click()
             time.sleep(2)
             job_detail = get_job_detail(driver, item)
-            if not is_eligible(ig_filters, job_detail):
-                print("job is not eligible")
+            eligible, reason = is_eligible(ig_filters, job_detail)
+            if not eligible:
+                print(f"job is not eligible, reason: {reason}")
                 store_ignored_content.delay(job_detail)
                 continue
             send_notification(message, job_detail, keywords, output_channel)
