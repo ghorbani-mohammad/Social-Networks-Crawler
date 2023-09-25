@@ -582,6 +582,7 @@ def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
         try:
             driver.execute_script("arguments[0].scrollIntoView();", item)
             job_id = item.get_attribute("data-occludable-job-id")
+            print(f"job_id: {job_id}")
             # if id is none or is repetitive
             if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
                 continue
