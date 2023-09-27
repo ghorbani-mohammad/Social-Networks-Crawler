@@ -564,7 +564,7 @@ def check_page_count(page_id: int, ignore_repetitive: bool, starting_job: int):
     """Check if we should crawl next page or not.
 
     Args:
-        page_id (int): the primary key of JobSearch.
+        page_id (int): the primary key of JobSearch obj.
         ignore_repetitive (bool): ignore repetitive jobs or not.
         starting_job (int): the starting job of current page.
     """
@@ -576,7 +576,14 @@ def check_page_count(page_id: int, ignore_repetitive: bool, starting_job: int):
 
 
 @shared_task
-def update_job_search_last_crawl_at(page_id):
+def update_job_search_last_crawl_at(page_id: int):
+    """Update last_crawl_at field of JobSearch object.
+        Will be updated after crawling each page.
+        To current time.
+
+    Args:
+        page_id (int): the primary key of JobSearch obj.
+    """
     lin_models.JobSearch.objects.filter(pk=page_id).update(
         last_crawl_at=timezone.localtime()
     )
