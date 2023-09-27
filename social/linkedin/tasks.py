@@ -590,7 +590,14 @@ def update_job_search_last_crawl_at(page_id: int):
 
 
 @shared_task
-def get_job_page_posts(page_id, ignore_repetitive=True, starting_job=0):
+def get_job_page_posts(page_id: int, ignore_repetitive: bool=True, starting_job: int=0):
+    """This function gets a page id and crawl it's jobs.
+
+    Args:
+        page_id (int): the primary key of JobSearch obj.
+        ignore_repetitive (bool, optional): ignore repetitive jobs or not. Defaults to True.
+        starting_job (int, optional): the starting job-id. Defaults to 0.
+    """
     page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
     driver = initialize_linkedin_driver()
