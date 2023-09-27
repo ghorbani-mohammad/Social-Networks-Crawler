@@ -541,7 +541,15 @@ def get_job_detail(driver, element):
     return result
 
 
-def get_card_id(element):
+def get_card_id(element) -> str:
+    """Tries to extract card id from element.
+
+    Args:
+        element (HTMLElement): job card element
+
+    Returns:
+        str: id of card
+    """
     try:
         return element.find_element(
             By.XPATH,
@@ -552,7 +560,14 @@ def get_card_id(element):
 
 
 @shared_task
-def check_page_count(page_id, ignore_repetitive, starting_job):
+def check_page_count(page_id: int, ignore_repetitive: bool, starting_job: int):
+    """Check if we should crawl next page or not.
+
+    Args:
+        page_id (int): the primary key of JobSearch.
+        ignore_repetitive (bool): ignore repetitive jobs or not.
+        starting_job (int): the starting job of current page.
+    """
     page = lin_models.JobSearch.objects.get(pk=page_id)
     if page.page_count == 1:
         return
