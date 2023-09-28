@@ -1,3 +1,12 @@
+## [1.29.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.2...v1.29.3) (2023-09-28)
+
+
+### Bug Fixes
+
+* **linkedin:** solves the company-size issue ([124498c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/124498cda69343d6dcd712ab57b2667b61fdf44d))
+
+
+
 ## [1.29.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.1...v1.29.2) (2023-09-28)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** adds more exception handler ([d099d6a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d099d6af6680a16344b41d4a1b43242a2ea24296))
-
-
-
-## [1.28.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.0...v1.28.1) (2023-09-13)
-
-
-### Bug Fixes
-
-* minor change ([74915c3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/74915c3e7a96936f5143e7a1e2c3bbacf75f840d))
 
 
 
