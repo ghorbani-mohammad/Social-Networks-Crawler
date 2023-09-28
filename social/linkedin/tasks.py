@@ -476,6 +476,7 @@ def get_job_company_size(driver):
     except NoSuchElementException:
         return "Cannot-extract-company-size (no such element)"
     except IndexError:
+        print(company_size)
         return "Cannot-extract-company-size (index error)"
 
 
