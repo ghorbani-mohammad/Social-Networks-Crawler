@@ -1,3 +1,12 @@
+## [1.29.4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.3...v1.29.4) (2023-09-28)
+
+
+### Bug Fixes
+
+* **linkedin:** solves the body of post issues ([733bee5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/733bee5dc5d24c903ce6c6a32cd8b9d9461d4398))
+
+
+
 ## [1.29.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.2...v1.29.3) (2023-09-28)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** adds reason of not-eligible ([17fb559](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/17fb55901d50295720648f27704a8e86a922f19d))
-
-
-
-## [1.28.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.1...v1.28.2) (2023-09-25)
-
-
-### Bug Fixes
-
-* **linkedin:** adds more exception handler ([d099d6a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d099d6af6680a16344b41d4a1b43242a2ea24296))
 
 
 
