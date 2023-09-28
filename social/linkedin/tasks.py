@@ -470,7 +470,7 @@ def get_job_company_size(driver):
     """
     try:
         company_size_el = driver.find_elements(
-            By.CLASS_NAME, "jobs-details-unified-top-card__job-insight"
+            By.CLASS_NAME, "job-details-jobs-unified-top-card__job-insight"
         )
         if not company_size_el:
             return "Cannot-extract-company-size (empty element)"
