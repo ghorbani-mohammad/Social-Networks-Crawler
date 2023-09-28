@@ -1,3 +1,12 @@
+## [1.29.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.0...v1.29.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* **linkedin:** solves the issue of employees counter ([fc52299](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/fc5229921934851ae6657f534e51fcf6cc5a8bf6))
+
+
+
 # [1.29.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.2...v1.29.0) (2023-09-25)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * adds requirements.txt file ([2fa4a43](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2fa4a43b64bdc38acac6374714a7c4567b42cd32))
-
-
-
-## [1.27.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.27.0...v1.27.1) (2023-06-30)
-
-
-### Bug Fixes
-
-* **linkedin:** adds driver options ([7d28432](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7d28432bff2ec2d57d13a321afcfeb3d0b0d8c87))
 
 
 
