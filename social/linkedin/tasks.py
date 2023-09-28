@@ -674,7 +674,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             body = ""
             try:
                 body = article.find_element(
-                    By.CLASS_NAME, "feed-shared-update-v2__commentary"
+                    By.CLASS_NAME, "feed-shared-update-v2__description"
                 ).text
             except NoSuchElementException:
                 print("No such element exception")
