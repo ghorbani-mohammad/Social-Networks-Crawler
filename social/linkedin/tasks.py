@@ -594,7 +594,9 @@ def update_job_search_last_crawl_at(page_id: int):
 
 
 @shared_task
-def get_job_page_posts(page_id: int, ignore_repetitive: bool=True, starting_job: int=0):
+def get_job_page_posts(
+    page_id: int, ignore_repetitive: bool = True, starting_job: int = 0
+):
     """This function gets a page id and crawl it's jobs.
 
     Args:
@@ -610,7 +612,9 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool=True, starting_job:
     time.sleep(5)
     driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
-    print(f"*** found {len(items)} items in page: {page_id} with starting-job: {starting_job}")
+    print(
+        f"*** found {len(items)} items in page: {page_id} with starting-job: {starting_job}"
+    )
     counter = 0
     for item in items:
         try:
@@ -641,7 +645,9 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool=True, starting_job:
         except Exception:
             print("other exception")
             logger.error(traceback.format_exc())
-    print(f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}")
+    print(
+        f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}"
+    )
     check_page_count.delay(page_id, ignore_repetitive, starting_job)
     update_job_search_last_crawl_at.delay(page_id)
     driver_exit(driver)
