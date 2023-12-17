@@ -709,7 +709,8 @@ def process_job_item(driver, item, ignore_repetitive, message, keywords, output_
     DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
 
     item.click()
-    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "job-detail")))
+    time.sleep(2)
+    # WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "job-detail")))
     job_detail = get_job_detail(driver, item)
 
     eligible, reason = is_eligible(ig_filters, job_detail)
