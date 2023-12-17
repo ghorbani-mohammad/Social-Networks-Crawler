@@ -14,9 +14,12 @@ from langdetect import detect
 from langdetect.lang_detect_exception import LangDetectException
 from urllib3.exceptions import MaxRetryError
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import SessionNotCreatedException
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    TimeoutException,
+    SessionNotCreatedException,
+    StaleElementReferenceException,
+)
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -660,44 +663,100 @@ def update_expression_search_last_crawl_at(page_id):
     )
 
 
+# @shared_task
+# def get_expression_search_posts(page_id, ignore_repetitive=True):
+#     page = lin_models.ExpressionSearch.objects.get(pk=page_id)
+#     driver = initialize_linkedin_driver()
+#     driver.get(page.url)
+#     time.sleep(5)
+#     articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
+#     counter = 0
+#     for article in articles:
+#         try:
+#             driver.execute_script("arguments[0].scrollIntoView();", article)
+#             time.sleep(2)
+#             post_id = get_card_id(article)
+#             if not post_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(post_id)):
+#                 print(f"id is none or duplicate, id: {post_id}")
+#                 continue
+#             DUPLICATE_CHECKER.set(post_id, "", ex=86400 * 30)
+#             body = ""
+#             try:
+#                 body = article.find_element(
+#                     By.CLASS_NAME, "feed-shared-update-v2__description"
+#                 ).text
+#             except NoSuchElementException:
+#                 print("No such element exception")
+#                 body = "Cannot-extract-body"
+#             link = f"https://www.linkedin.com/feed/update/{post_id}/"
+#             body = telegram_text_purify(body)
+#             message = f"{body}\n\n{link}"
+#             not_tasks.send_message_to_telegram_channel(
+#                 strip_tags(message), page.output_channel.pk
+#             )
+#             counter += 1
+#             time.sleep(3)
+#         except NoSuchElementException:
+#             logger.error(traceback.format_exc())
+#     print(f"found {counter} post in page {page_id}")
+#     update_expression_search_last_crawl_at.delay(page.pk)
+#     driver_exit(driver)
+
+
 @shared_task
 def get_expression_search_posts(page_id, ignore_repetitive=True):
-    page = lin_models.ExpressionSearch.objects.get(pk=page_id)
-    driver = initialize_linkedin_driver()
-    driver.get(page.url)
-    time.sleep(5)
-    articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
+    try:
+        page = lin_models.ExpressionSearch.objects.get(pk=page_id)
+        with initialize_linkedin_driver() as driver:
+            driver.get(page.url)
+            wait = WebDriverWait(driver, 10)
+            articles = wait.until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "artdeco-card"))
+            )
+            counter = process_articles(driver, articles, ignore_repetitive, page)
+
+        print(f"found {counter} post in page {page_id}")
+        update_expression_search_last_crawl_at.delay(page.pk)
+    except Exception as e:
+        logger.error(f"Error in get_expression_search_posts: {e}")
+
+
+def process_articles(driver, articles, ignore_repetitive, page):
     counter = 0
     for article in articles:
         try:
-            driver.execute_script("arguments[0].scrollIntoView();", article)
-            time.sleep(2)
-            post_id = get_card_id(article)
-            if not post_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(post_id)):
-                print(f"id is none or duplicate, id: {post_id}")
-                continue
-            DUPLICATE_CHECKER.set(post_id, "", ex=86400 * 30)
-            body = ""
-            try:
-                body = article.find_element(
-                    By.CLASS_NAME, "feed-shared-update-v2__description"
-                ).text
-            except NoSuchElementException:
-                print("No such element exception")
-                body = "Cannot-extract-body"
-            link = f"https://www.linkedin.com/feed/update/{post_id}/"
-            body = telegram_text_purify(body)
-            message = f"{body}\n\n{link}"
-            not_tasks.send_message_to_telegram_channel(
-                strip_tags(message), page.output_channel.pk
-            )
+            process_article(driver, article, ignore_repetitive, page)
             counter += 1
-            time.sleep(3)
         except NoSuchElementException:
-            logger.error(traceback.format_exc())
-    print(f"found {counter} post in page {page_id}")
-    update_expression_search_last_crawl_at.delay(page.pk)
-    driver_exit(driver)
+            logger.error("Element not found", exc_info=True)
+        except TimeoutException:
+            logger.error("Timeout waiting for element", exc_info=True)
+    return counter
+
+
+def process_article(driver, article, ignore_repetitive, page):
+    driver.execute_script("arguments[0].scrollIntoView();", article)
+    post_id = get_card_id(article)
+    if not post_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(post_id)):
+        logger.info(f"id is none or duplicate, id: {post_id}")
+        return
+    DUPLICATE_CHECKER.set(post_id, "", ex=86400 * 30)
+    body = extract_body(article)
+    link = f"https://www.linkedin.com/feed/update/{post_id}/"
+    message = f"{telegram_text_purify(body)}\n\n{link}"
+    not_tasks.send_message_to_telegram_channel(
+        strip_tags(message), page.output_channel.pk
+    )
+
+
+def extract_body(article):
+    try:
+        return article.find_element(
+            By.CLASS_NAME, "feed-shared-update-v2__description"
+        ).text
+    except NoSuchElementException:
+        logger.info("No such element exception")
+        return "Cannot-extract-body"
 
 
 @shared_task
