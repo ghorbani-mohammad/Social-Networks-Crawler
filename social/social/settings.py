@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "twitter",
     "notification",
     "ai",
+    "user",
     "corsheaders",
 ]
 
