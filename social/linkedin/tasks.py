@@ -36,6 +36,7 @@ logger = get_task_logger(__name__)
 MINUTE = 60
 TASKS_TIMEOUT = 1 * MINUTE
 DUPLICATE_CHECKER = redis.StrictRedis(host="social_redis", port=6379, db=5)
+LINKEDIN_URL = "https://www.linkedin.com/"
 
 
 def get_config():
@@ -78,7 +79,7 @@ def initialize_linkedin_driver():
     with open("/app/social/linkedin_cookies.pkl", "rb") as linkedin_cookie:
         cookies = pickle.load(linkedin_cookie)
 
-    driver.get("https://www.linkedin.com/")
+    driver.get(LINKEDIN_URL)
     for cookie in cookies:
         driver.add_cookie(cookie)
     return driver
@@ -103,7 +104,7 @@ def login():
     LINKEDIN_PASSWORD -> password
     """
     driver = get_driver()
-    driver.get("https://www.linkedin.com/login")
+    driver.get(f"{LINKEDIN_URL}login")
     try:
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "username"))
@@ -246,7 +247,7 @@ def get_linkedin_feed():
     if config is None or not config.crawl_linkedin_feed:
         return
     driver = initialize_linkedin_driver()
-    driver.get("https://www.linkedin.com/feed/")
+    driver.get(f"{LINKEDIN_URL}feed/")
     WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.ID, "global-nav-search"))
     )
@@ -268,7 +269,7 @@ def get_linkedin_feed():
             if DUPLICATE_CHECKER.exists(feed_id):
                 continue
             DUPLICATE_CHECKER.set(feed_id, "", ex=86400 * 30)
-            link = f"https://www.linkedin.com/feed/update/{feed_id}/"
+            link = f"{LINKEDIN_URL}feed/update/{feed_id}/"
             body = telegram_text_purify(body)
             message = f"{body}\n\n{link}"
             not_tasks.send_telegram_message(strip_tags(message))
@@ -663,46 +664,6 @@ def update_expression_search_last_crawl_at(page_id):
     )
 
 
-# @shared_task
-# def get_expression_search_posts(page_id, ignore_repetitive=True):
-#     page = lin_models.ExpressionSearch.objects.get(pk=page_id)
-#     driver = initialize_linkedin_driver()
-#     driver.get(page.url)
-#     time.sleep(5)
-#     articles = driver.find_elements(By.CLASS_NAME, "artdeco-card")
-#     counter = 0
-#     for article in articles:
-#         try:
-#             driver.execute_script("arguments[0].scrollIntoView();", article)
-#             time.sleep(2)
-#             post_id = get_card_id(article)
-#             if not post_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(post_id)):
-#                 print(f"id is none or duplicate, id: {post_id}")
-#                 continue
-#             DUPLICATE_CHECKER.set(post_id, "", ex=86400 * 30)
-#             body = ""
-#             try:
-#                 body = article.find_element(
-#                     By.CLASS_NAME, "feed-shared-update-v2__description"
-#                 ).text
-#             except NoSuchElementException:
-#                 print("No such element exception")
-#                 body = "Cannot-extract-body"
-#             link = f"https://www.linkedin.com/feed/update/{post_id}/"
-#             body = telegram_text_purify(body)
-#             message = f"{body}\n\n{link}"
-#             not_tasks.send_message_to_telegram_channel(
-#                 strip_tags(message), page.output_channel.pk
-#             )
-#             counter += 1
-#             time.sleep(3)
-#         except NoSuchElementException:
-#             logger.error(traceback.format_exc())
-#     print(f"found {counter} post in page {page_id}")
-#     update_expression_search_last_crawl_at.delay(page.pk)
-#     driver_exit(driver)
-
-
 @shared_task
 def get_expression_search_posts(page_id, ignore_repetitive=True):
     try:
@@ -715,7 +676,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             )
             counter = process_articles(driver, articles, ignore_repetitive, page)
 
-        print(f"found {counter} post in page {page_id}")
+        logger.info(f"found {counter} post in page {page_id}")
         update_expression_search_last_crawl_at.delay(page.pk)
     except Exception as e:
         logger.error(f"Error in get_expression_search_posts: {e}")
@@ -744,6 +705,7 @@ def process_article(driver, article, ignore_repetitive, page):
     body = extract_body(article)
     link = f"https://www.linkedin.com/feed/update/{post_id}/"
     message = f"{telegram_text_purify(body)}\n\n{link}"
+    time.sleep(2)  # Delay between sending each message
     not_tasks.send_message_to_telegram_channel(
         strip_tags(message), page.output_channel.pk
     )
