@@ -498,8 +498,9 @@ def check_keywords(body, keywords):
     result = ""
     body = body.lower()
     for keyword in keywords:
-        if keyword.lower() in body:
-            result += f"\n{keyword}: ✅"
+        if keyword.lower() not in body:
+            continue
+        result += f"\n{keyword}: ✅"
     return result
 
 
@@ -597,64 +598,129 @@ def update_job_search_last_crawl_at(page_id: int):
     )
 
 
-@shared_task
-def get_job_page_posts(
-    page_id: int, ignore_repetitive: bool = True, starting_job: int = 0
-):
-    """This function gets a page id and crawl it's jobs.
+# @shared_task
+# def get_job_page_posts(
+#     page_id: int, ignore_repetitive: bool = True, starting_job: int = 0
+# ):
+#     """This function gets a page id and crawl it's jobs.
 
-    Args:
-        page_id (int): the primary key of JobSearch obj.
-        ignore_repetitive (bool, optional): ignore repetitive jobs or not. Defaults to True.
-        starting_job (int, optional): the starting job-id. Defaults to 0.
+#     Args:
+#         page_id (int): the primary key of JobSearch obj.
+#         ignore_repetitive (bool, optional): ignore repetitive jobs or not. Defaults to True.
+#         starting_job (int, optional): the starting job-id. Defaults to 0.
+#     """
+#     page = lin_models.JobSearch.objects.get(pk=page_id)
+#     message, url, output_channel, keywords, ig_filters = page.page_data
+#     driver = initialize_linkedin_driver()
+#     url = f"{url}&start={starting_job}"
+#     driver.get(url)
+#     time.sleep(5)
+#     driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
+#     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
+#     print(
+#         f"*** found {len(items)} items in page: {page_id} with starting-job: {starting_job}"
+#     )
+#     counter = 0
+#     for item in items:
+#         try:
+#             driver.execute_script("arguments[0].scrollIntoView();", item)
+#             job_id = item.get_attribute("data-occludable-job-id")
+#             print(f"job_id: {job_id}")
+#             # if id is none or is repetitive
+#             if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
+#                 continue
+#             DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
+#             item.click()
+#             time.sleep(2)
+#             job_detail = get_job_detail(driver, item)
+#             eligible, reason = is_eligible(ig_filters, job_detail)
+#             if not eligible:
+#                 print(f"job is not eligible, reason: {reason}")
+#                 store_ignored_content.delay(job_detail)
+#                 continue
+#             send_notification(message, job_detail, keywords, output_channel)
+#             counter += 1
+#         except StaleElementReferenceException:
+#             print("stale element exception")
+#             logger.warning("stale element exception")
+#             break
+#         except NoSuchElementException:
+#             print("no such element exception")
+#             logger.error(traceback.format_exc())
+#         except Exception:
+#             print("other exception")
+#             logger.error(traceback.format_exc())
+#     print(
+#         f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}"
+#     )
+#     check_page_count.delay(page_id, ignore_repetitive, starting_job)
+#     update_job_search_last_crawl_at.delay(page_id)
+#     driver_exit(driver)
+
+@shared_task
+def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_job: int = 0):
+    """
+    This function gets a page id and crawl its jobs.
     """
     page = lin_models.JobSearch.objects.get(pk=page_id)
     message, url, output_channel, keywords, ig_filters = page.page_data
-    driver = initialize_linkedin_driver()
-    url = f"{url}&start={starting_job}"
-    driver.get(url)
-    time.sleep(5)
-    driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
-    items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
-    print(
-        f"*** found {len(items)} items in page: {page_id} with starting-job: {starting_job}"
-    )
+    try:
+        with initialize_linkedin_driver() as driver:
+            prepare_driver(driver, url, starting_job)
+            items = WebDriverWait(driver, 10).until(
+                EC.presence_of_all_elements_located((By.CLASS_NAME, "jobs-search-results__list-item"))
+            )
+            counter = process_items(driver, items, ignore_repetitive, page, message, keywords, output_channel, ig_filters)
+        
+        logger.info(f"found {counter} jobs in page: {page_id} with starting-job: {starting_job}")
+        update_job_search_last_crawl_at.delay(page_id)
+        check_page_count.delay(page_id, ignore_repetitive, starting_job)
+    except Exception as e:
+        logger.error(f"Error in get_job_page_posts: {e}")
+
+def prepare_driver(driver, url, starting_job):
+    full_url = f"{url}&start={starting_job}"
+    driver.get(full_url)
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))  # Wait for page load
+
+def process_items(driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters):
     counter = 0
     for item in items:
         try:
-            driver.execute_script("arguments[0].scrollIntoView();", item)
-            job_id = item.get_attribute("data-occludable-job-id")
-            print(f"job_id: {job_id}")
-            # if id is none or is repetitive
-            if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
-                continue
-            DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
-            item.click()
-            time.sleep(2)
-            job_detail = get_job_detail(driver, item)
-            eligible, reason = is_eligible(ig_filters, job_detail)
-            if not eligible:
-                print(f"job is not eligible, reason: {reason}")
-                store_ignored_content.delay(job_detail)
-                continue
-            send_notification(message, job_detail, keywords, output_channel)
-            counter += 1
+            job_id = process_job_item(driver, item, ignore_repetitive, message, keywords, output_channel, ig_filters)
+            if job_id:
+                counter += 1
         except StaleElementReferenceException:
-            print("stale element exception")
-            logger.warning("stale element exception")
+            logger.warning("Stale element reference exception")
             break
         except NoSuchElementException:
-            print("no such element exception")
-            logger.error(traceback.format_exc())
+            logger.error("No such element exception", exc_info=True)
         except Exception:
-            print("other exception")
-            logger.error(traceback.format_exc())
-    print(
-        f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}"
-    )
-    check_page_count.delay(page_id, ignore_repetitive, starting_job)
-    update_job_search_last_crawl_at.delay(page_id)
-    driver_exit(driver)
+            logger.error("Unhandled exception in process_items", exc_info=True)
+    return counter
+
+def process_job_item(driver, item, ignore_repetitive, message, keywords, output_channel, ig_filters):
+    driver.execute_script("arguments[0].scrollIntoView();", item)
+    job_id = item.get_attribute("data-occludable-job-id")
+    logger.info(f"Processing job_id: {job_id}")
+
+    if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
+        return None
+    DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
+
+    item.click()
+    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "job-detail")))
+    job_detail = get_job_detail(driver, item)
+
+    eligible, reason = is_eligible(ig_filters, job_detail)
+    if not eligible:
+        logger.info(f"Job is not eligible, reason: {reason}")
+        store_ignored_content.delay(job_detail)
+        return None
+
+    time.sleep(2)  # Delay between sending each message
+    send_notification(message, job_detail, keywords, output_channel)
+    return job_id
 
 
 @shared_task
