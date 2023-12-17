@@ -1,5 +1,5 @@
 celery
-django
+django==4.2
 django-cors-headers
 django-filter
 django-redis
@@ -9,15 +9,14 @@ gunicorn
 ipython
 langdetect
 linkedin-scraper==2.9.0
-openai
+openai==1.5
 openpyxl
-pip-tools
 psycopg2-binary
 pytest-django>=4.5.2
 python-dateutil
 redis
 requests
-selenium
+selenium==4.12
 sentry-sdk
-telethon
+telethon==1.29
 unidecode
