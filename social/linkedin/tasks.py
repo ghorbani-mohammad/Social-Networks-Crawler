@@ -670,7 +670,7 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_jo
             items = WebDriverWait(driver, 10).until(
                 EC.presence_of_all_elements_located((By.CLASS_NAME, "jobs-search-results__list-item"))
             )
-            counter = process_items(driver, items, ignore_repetitive, page, message, keywords, output_channel, ig_filters)
+            counter = process_items(driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters)
         
         logger.info(f"found {counter} jobs in page: {page_id} with starting-job: {starting_job}")
         update_job_search_last_crawl_at.delay(page_id)
