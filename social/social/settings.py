@@ -168,6 +168,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # Email Logging Configs
 SERVER_EMAIL = EMAIL_HOST_USER
 ADMIN_EMAIL_LOG = env("ADMIN_EMAIL_LOG", default=None)
+LOG_LEVEL = env("LOG_LEVEL", default="ERROR")
 ADMINS = (("Log Admin", ADMIN_EMAIL_LOG),)
 
 django.setup()  # we need setup django to have access to apps
@@ -197,12 +198,12 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
             # all modules
             "": {
                 "handlers": ["mail_admins", "console", "log_db"],
-                "level": "ERROR",
+                "level": f"{LOG_LEVEL}",
                 "propagate": False,
             },
             "celery": {
                 "handlers": ["mail_admins", "console", "log_db"],
-                "level": "ERROR",
+                "level": f"{LOG_LEVEL}",
                 "propagate": False,
             },
         },
