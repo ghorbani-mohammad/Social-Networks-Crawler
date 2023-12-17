@@ -9,6 +9,7 @@ gunicorn
 ipython
 langdetect
 linkedin-scraper==2.9.0
+openai
 openpyxl
 pip-tools
 psycopg2-binary
