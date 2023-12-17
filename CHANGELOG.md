@@ -1,3 +1,12 @@
+# [1.30.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.4...v1.30.0) (2023-12-17)
+
+
+### Features
+
+* **linkedin:** adds profile field to job-search ([d2e82ab](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d2e82aba20531fa41d8a93ced783ca8da30cc852))
+
+
+
 ## [1.29.4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.3...v1.29.4) (2023-09-28)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** solves the issue of employees counter ([fc52299](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/fc5229921934851ae6657f534e51fcf6cc5a8bf6))
-
-
-
-# [1.29.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.28.2...v1.29.0) (2023-09-25)
-
-
-### Features
-
-* **linkedin:** adds reason of not-eligible ([17fb559](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/17fb55901d50295720648f27704a8e86a922f19d))
 
 
 
