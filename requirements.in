@@ -18,5 +18,5 @@ redis
 requests
 selenium==4.12
 sentry-sdk
-telethon==1.29
+telethon==1.29.3
 unidecode
