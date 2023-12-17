@@ -1,6 +1,7 @@
 from django.db import models
 
 from reusable.models import BaseModel
+from user.models import Profile
 
 
 class Keyword(BaseModel):
@@ -48,6 +49,13 @@ class JobSearch(BaseModel):
         help_text="pages with higher priority, will be at the first of crawl queue",
         blank=True,
         default=0,
+    )
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name="job_search",
+        null=True,
+        blank=True,
     )
 
     @property

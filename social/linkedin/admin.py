@@ -10,6 +10,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     readonly_fields = ("last_crawl_at",)
     list_display = (
         "pk",
+        "profile",
         "name",
         "page_link",
         "enable",
