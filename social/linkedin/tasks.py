@@ -667,9 +667,8 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_jo
     try:
         with initialize_linkedin_driver() as driver:
             prepare_driver(driver, url, starting_job)
-            items = WebDriverWait(driver, 10).until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "jobs-search-results__list-item"))
-            )
+            time.sleep(5)
+            items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
             counter = process_items(driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters)
         
         logger.info(f"found {counter} jobs in page: {page_id} with starting-job: {starting_job}")
