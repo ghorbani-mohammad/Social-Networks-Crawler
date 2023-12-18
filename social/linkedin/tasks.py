@@ -679,6 +679,7 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_jo
         msg = f"Error in get_job_page_posts: {e}"
         msg += f"\npage_id: {page_id}, starting_job: {starting_job}"
         msg += f"\nignore_repetitive: {ignore_repetitive}"
+        msg = f"\n{traceback.format_exc()}"
         logger.error(msg)
 
 def prepare_driver(driver, url, starting_job):
