@@ -1,3 +1,12 @@
+# [1.31.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.30.0...v1.31.0) (2023-12-18)
+
+
+### Features
+
+* **settings:** adds advanced logs settings ([f6ef8b1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f6ef8b1cc0805ac398cbdf2d9eb6efa0dec510cd))
+
+
+
 # [1.30.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.4...v1.30.0) (2023-12-17)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** solves the issue of company size element ([395746c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/395746ca35de68354ad4549227afddb722c32bf8))
-
-
-
-## [1.29.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.0...v1.29.1) (2023-09-28)
-
-
-### Bug Fixes
-
-* **linkedin:** solves the issue of employees counter ([fc52299](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/fc5229921934851ae6657f534e51fcf6cc5a8bf6))
 
 
 
