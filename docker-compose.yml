@@ -20,6 +20,7 @@ services:
     volumes:
       - .:/app
       - ./static:/app/social/static
+      - ./logs:/app/social/logs
     ports:
       - 127.0.0.1:8030:80
     command: ["python", "/app/social/manage.py", "runserver", "0:80"]
@@ -37,6 +38,7 @@ services:
     volumes:
       - .:/app
       - ./static:/app/social/static
+      - ./logs:/app/social/logs
     depends_on:
       - social_db
       - social_redis

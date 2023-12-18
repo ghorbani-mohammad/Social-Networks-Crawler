@@ -193,18 +193,55 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
             "log_db": {
                 "class": "reusable.custom_logger.DBHandler",
             },
+            "log_all_info": {
+                "class": "logging.FileHandler",
+                "filename": "/app/social/logs/log_all_info.log",
+                "mode": "a",
+                "level": "INFO",
+            },
+            "log_all_error": {
+                "class": "logging.FileHandler",
+                "filename": "/app/social/logs/log_all_error.log",
+                "mode": "a",
+                "level": "ERROR",
+            },
+            "log_celery_info": {
+                "class": "logging.FileHandler",
+                "filename": "/app/social/logs/log_celery_info.log",
+                "mode": "a",
+                "level": "INFO",
+            },
+            "log_celery_error": {
+                "class": "logging.FileHandler",
+                "filename": "/app/social/logs/log_celery_error.log",
+                "mode": "a",
+                "level": "ERROR",
+            },
         },
         "loggers": {
             # all modules
             "": {
-                "handlers": ["mail_admins", "console", "log_db"],
+                "handlers": [
+                    "mail_admins",
+                    "console",
+                    "log_db",
+                    "log_all_info",
+                    "log_all_error",
+                ],
                 "level": f"{LOG_LEVEL}",
                 "propagate": False,
             },
+            # celery modules
             "celery": {
-                "handlers": ["mail_admins", "console", "log_db"],
+                "handlers": [
+                    "mail_admins",
+                    "console",
+                    "log_db",
+                    "log_celery_info",
+                    "log_celery_error",
+                ],
                 "level": f"{LOG_LEVEL}",
-                "propagate": False,
+                "propagate": False,  # if True, will propagate to root logger
             },
         },
     }
