@@ -676,7 +676,10 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_jo
         update_job_search_last_crawl_at.delay(page_id)
         check_page_count.delay(page_id, ignore_repetitive, starting_job)
     except Exception as e:
-        logger.error(f"Error in get_job_page_posts: {e}")
+        msg = f"Error in get_job_page_posts: {e}"
+        msg += f"\npage_id: {page_id}, starting_job: {starting_job}"
+        msg += f"\nignore_repetitive: {ignore_repetitive}"
+        logger.error(msg)
 
 def prepare_driver(driver, url, starting_job):
     full_url = f"{url}&start={starting_job}"
