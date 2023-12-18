@@ -182,16 +182,14 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
         },
         "handlers": {
             "mail_admins": {
-                "level": "ERROR",
                 "class": "django.utils.log.AdminEmailHandler",
                 "formatter": "simple",
+                "level": "ERROR",
                 # "reporter_class": "reusable.exception_reporter.CustomExceptionReporter",
-            },
-            "console": {
-                "class": "logging.StreamHandler",
             },
             "log_db": {
                 "class": "reusable.custom_logger.DBHandler",
+                "level": "ERROR",
             },
             "log_all_info": {
                 "class": "logging.FileHandler",
@@ -223,7 +221,6 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
             "": {
                 "handlers": [
                     "mail_admins",
-                    "console",
                     "log_db",
                     "log_all_info",
                     "log_all_error",
@@ -235,7 +232,6 @@ if EMAIL_HOST_USER and ADMIN_EMAIL_LOG:
             "celery": {
                 "handlers": [
                     "mail_admins",
-                    "console",
                     "log_db",
                     "log_celery_info",
                     "log_celery_error",
