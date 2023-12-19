@@ -1,3 +1,12 @@
+# [1.32.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.31.0...v1.32.0) (2023-12-19)
+
+
+### Features
+
+* **ai:** adds get-cover-letter function ([5482ae3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/5482ae339aab63df43935297000bee4bea3e2483))
+
+
+
 # [1.31.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.30.0...v1.31.0) (2023-12-18)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** solves the company-size issue ([124498c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/124498cda69343d6dcd712ab57b2667b61fdf44d))
-
-
-
-## [1.29.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.1...v1.29.2) (2023-09-28)
-
-
-### Bug Fixes
-
-* **linkedin:** solves the issue of company size element ([395746c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/395746ca35de68354ad4549227afddb722c32bf8))
 
 
 
