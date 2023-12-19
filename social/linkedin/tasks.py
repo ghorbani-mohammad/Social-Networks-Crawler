@@ -603,66 +603,6 @@ def update_job_search_last_crawl_at(page_id: int):
     )
 
 
-# @shared_task
-# def get_job_page_posts(
-#     page_id: int, ignore_repetitive: bool = True, starting_job: int = 0
-# ):
-#     """This function gets a page id and crawl it's jobs.
-
-#     Args:
-#         page_id (int): the primary key of JobSearch obj.
-#         ignore_repetitive (bool, optional): ignore repetitive jobs or not. Defaults to True.
-#         starting_job (int, optional): the starting job-id. Defaults to 0.
-#     """
-#     page = lin_models.JobSearch.objects.get(pk=page_id)
-#     message, url, output_channel, keywords, ig_filters = page.page_data
-#     driver = initialize_linkedin_driver()
-#     url = f"{url}&start={starting_job}"
-#     driver.get(url)
-#     time.sleep(5)
-#     driver = sort_by_most_recent(driver)  # It seems that we don't need this anymore
-#     items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
-#     print(
-#         f"*** found {len(items)} items in page: {page_id} with starting-job: {starting_job}"
-#     )
-#     counter = 0
-#     for item in items:
-#         try:
-#             driver.execute_script("arguments[0].scrollIntoView();", item)
-#             job_id = item.get_attribute("data-occludable-job-id")
-#             print(f"job_id: {job_id}")
-#             # if id is none or is repetitive
-#             if not job_id or (ignore_repetitive and DUPLICATE_CHECKER.exists(job_id)):
-#                 continue
-#             DUPLICATE_CHECKER.set(job_id, "", ex=86400 * 30)
-#             item.click()
-#             time.sleep(2)
-#             job_detail = get_job_detail(driver, item)
-#             eligible, reason = is_eligible(ig_filters, job_detail)
-#             if not eligible:
-#                 print(f"job is not eligible, reason: {reason}")
-#                 store_ignored_content.delay(job_detail)
-#                 continue
-#             send_notification(message, job_detail, keywords, output_channel)
-#             counter += 1
-#         except StaleElementReferenceException:
-#             print("stale element exception")
-#             logger.warning("stale element exception")
-#             break
-#         except NoSuchElementException:
-#             print("no such element exception")
-#             logger.error(traceback.format_exc())
-#         except Exception:
-#             print("other exception")
-#             logger.error(traceback.format_exc())
-#     print(
-#         f"*** found {counter} job in page: {page_id} with starting-job: {starting_job}"
-#     )
-#     check_page_count.delay(page_id, ignore_repetitive, starting_job)
-#     update_job_search_last_crawl_at.delay(page_id)
-#     driver_exit(driver)
-
-
 @shared_task
 def get_job_page_posts(
     page_id: int, ignore_repetitive: bool = True, starting_job: int = 0
@@ -770,6 +710,7 @@ def process_job_item(
     job_detail = get_job_detail(driver, item)
 
     cover_letter = get_cover_letter(about_profile, job_detail["description"])
+    logger.info(f"cover_letter: {cover_letter}")
 
     eligible, reason = is_eligible(ig_filters, job_detail)
     if not eligible:
