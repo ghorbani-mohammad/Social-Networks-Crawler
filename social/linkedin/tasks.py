@@ -31,6 +31,7 @@ from reusable.other import only_one_concurrency
 from reusable.browser import scroll
 from notification import tasks as not_tasks
 from notification.utils import telegram_text_purify
+from ai.chatgpt.main import get_cover_letter
 
 logger = get_task_logger(__name__)
 MINUTE = 60
@@ -504,7 +505,7 @@ def check_keywords(body, keywords):
     return result
 
 
-def send_notification(message, data, keywords, output_channel_pk):
+def send_notification(message, data, keywords, output_channel_pk, cover_letter: str):
     """This function gets a message template and places the retrieved data into that.
     Then sends it to specified output channel
 
@@ -513,7 +514,7 @@ def send_notification(message, data, keywords, output_channel_pk):
         data (dict): dictionary that includes retrieved data
         output_channel_pk (int): primary key of output channel
     """
-    not_tasks.send_message_to_telegram_channel(
+    message = (
         message.replace("url", strip_tags(data["url"]))
         .replace("lang", data["language"].upper())
         .replace("title", data["title"])
@@ -521,7 +522,11 @@ def send_notification(message, data, keywords, output_channel_pk):
         .replace("company", data["company"])
         .replace("size", data["company_size"])
         .replace("easy_apply", data["easy_apply"])
-        .replace("keywords", check_keywords(data["description"], keywords)),
+        .replace("keywords", check_keywords(data["description"], keywords))
+    )
+    message += f"\n\n\n{cover_letter}"
+    not_tasks.send_message_to_telegram_channel(
+        message,
         output_channel_pk,
     )
 
@@ -682,6 +687,7 @@ def get_job_page_posts(
                 keywords,
                 output_channel,
                 ig_filters,
+                page.profile.about_me,
             )
 
         logger.info(
@@ -706,7 +712,14 @@ def prepare_driver(driver, url, starting_job):
 
 
 def process_items(
-    driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters
+    driver,
+    items,
+    ignore_repetitive,
+    message,
+    keywords,
+    output_channel,
+    ig_filters,
+    about_profile: str,
 ):
     counter = 0
     for item in items:
@@ -719,6 +732,7 @@ def process_items(
                 keywords,
                 output_channel,
                 ig_filters,
+                about_profile,
             )
             if job_id:
                 counter += 1
@@ -733,7 +747,14 @@ def process_items(
 
 
 def process_job_item(
-    driver, item, ignore_repetitive, message, keywords, output_channel, ig_filters
+    driver,
+    item,
+    ignore_repetitive,
+    message,
+    keywords,
+    output_channel,
+    ig_filters,
+    about_profile: str,
 ):
     driver.execute_script("arguments[0].scrollIntoView();", item)
     job_id = item.get_attribute("data-occludable-job-id")
@@ -748,6 +769,8 @@ def process_job_item(
     # WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "job-detail")))
     job_detail = get_job_detail(driver, item)
 
+    cover_letter = get_cover_letter(about_profile, job_detail["description"])
+
     eligible, reason = is_eligible(ig_filters, job_detail)
     if not eligible:
         logger.info(f"Job is not eligible, reason: {reason}")
@@ -755,7 +778,7 @@ def process_job_item(
         return None
 
     time.sleep(2)  # Delay between sending each message
-    send_notification(message, job_detail, keywords, output_channel)
+    send_notification(message, job_detail, keywords, output_channel, cover_letter)
     return job_id
 
 
