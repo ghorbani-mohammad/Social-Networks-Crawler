@@ -1,3 +1,12 @@
+# [1.33.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.1...v1.33.0) (2023-12-19)
+
+
+### Features
+
+* **linkedin:** adds cover letter to jobs ([d3130b6](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d3130b63b3bd3e99062f9ed0ca186583a77045d7))
+
+
+
 ## [1.32.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.0...v1.32.1) (2023-12-19)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** adds profile field to job-search ([d2e82ab](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d2e82aba20531fa41d8a93ced783ca8da30cc852))
-
-
-
-## [1.29.4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.3...v1.29.4) (2023-09-28)
-
-
-### Bug Fixes
-
-* **linkedin:** solves the body of post issues ([733bee5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/733bee5dc5d24c903ce6c6a32cd8b9d9461d4398))
 
 
 
