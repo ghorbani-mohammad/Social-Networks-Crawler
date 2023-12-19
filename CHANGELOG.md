@@ -1,3 +1,12 @@
+# [1.34.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.33.0...v1.34.0) (2023-12-19)
+
+
+### Features
+
+* **ai:** improves chatgpt query ([e92c0e8](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e92c0e813e40acc3b392545c298a36243660f63a))
+
+
+
 # [1.33.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.1...v1.33.0) (2023-12-19)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **settings:** adds advanced logs settings ([f6ef8b1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f6ef8b1cc0805ac398cbdf2d9eb6efa0dec510cd))
-
-
-
-# [1.30.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.4...v1.30.0) (2023-12-17)
-
-
-### Features
-
-* **linkedin:** adds profile field to job-search ([d2e82ab](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d2e82aba20531fa41d8a93ced783ca8da30cc852))
 
 
 
