@@ -24,6 +24,6 @@ def query_openai(query: str, model: str = "gpt-3.5-turbo") -> Optional[str]:
 
 
 def get_cover_letter(profile_info: str, job_info: str) -> str:
-    question = "Hey, can you write a cover letter for me?"
+    question = "Hey, can you write a cover letter for me? Please at most, 150 words."
     query = f"{question}\n\n{profile_info}\n\n{job_info}"
     return query_openai(query)
