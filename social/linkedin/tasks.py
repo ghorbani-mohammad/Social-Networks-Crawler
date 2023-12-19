@@ -657,8 +657,11 @@ def update_job_search_last_crawl_at(page_id: int):
 #     update_job_search_last_crawl_at.delay(page_id)
 #     driver_exit(driver)
 
+
 @shared_task
-def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_job: int = 0):
+def get_job_page_posts(
+    page_id: int, ignore_repetitive: bool = True, starting_job: int = 0
+):
     """
     This function gets a page id and crawl its jobs.
     """
@@ -668,10 +671,22 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_jo
         with initialize_linkedin_driver() as driver:
             prepare_driver(driver, url, starting_job)
             time.sleep(5)
-            items = driver.find_elements(By.CLASS_NAME, "jobs-search-results__list-item")
-            counter = process_items(driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters)
-        
-        logger.info(f"found {counter} jobs in page: {page_id} with starting-job: {starting_job}")
+            items = driver.find_elements(
+                By.CLASS_NAME, "jobs-search-results__list-item"
+            )
+            counter = process_items(
+                driver,
+                items,
+                ignore_repetitive,
+                message,
+                keywords,
+                output_channel,
+                ig_filters,
+            )
+
+        logger.info(
+            f"found {counter} jobs in page: {page_id} with starting-job: {starting_job}"
+        )
         update_job_search_last_crawl_at.delay(page_id)
         check_page_count.delay(page_id, ignore_repetitive, starting_job)
     except Exception as e:
@@ -681,16 +696,30 @@ def get_job_page_posts(page_id: int, ignore_repetitive: bool = True, starting_jo
         msg = f"\n{traceback.format_exc()}"
         logger.error(msg)
 
+
 def prepare_driver(driver, url, starting_job):
     full_url = f"{url}&start={starting_job}"
     driver.get(full_url)
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, "body")))  # Wait for page load
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, "body"))
+    )  # Wait for page load
 
-def process_items(driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters):
+
+def process_items(
+    driver, items, ignore_repetitive, message, keywords, output_channel, ig_filters
+):
     counter = 0
     for item in items:
         try:
-            job_id = process_job_item(driver, item, ignore_repetitive, message, keywords, output_channel, ig_filters)
+            job_id = process_job_item(
+                driver,
+                item,
+                ignore_repetitive,
+                message,
+                keywords,
+                output_channel,
+                ig_filters,
+            )
             if job_id:
                 counter += 1
         except StaleElementReferenceException:
@@ -702,7 +731,10 @@ def process_items(driver, items, ignore_repetitive, message, keywords, output_ch
             logger.error("Unhandled exception in process_items", exc_info=True)
     return counter
 
-def process_job_item(driver, item, ignore_repetitive, message, keywords, output_channel, ig_filters):
+
+def process_job_item(
+    driver, item, ignore_repetitive, message, keywords, output_channel, ig_filters
+):
     driver.execute_script("arguments[0].scrollIntoView();", item)
     job_id = item.get_attribute("data-occludable-job-id")
     logger.info(f"Processing job_id: {job_id}")
