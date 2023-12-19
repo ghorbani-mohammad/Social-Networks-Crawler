@@ -709,8 +709,9 @@ def process_job_item(
     # WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "job-detail")))
     job_detail = get_job_detail(driver, item)
 
-    cover_letter = get_cover_letter(about_profile, job_detail["description"])
-    logger.info(f"cover_letter: {cover_letter}")
+    # cover_letter = get_cover_letter(about_profile, job_detail["description"])
+    # logger.info(f"cover_letter: {cover_letter}")
+    cover_letter = ""
 
     eligible, reason = is_eligible(ig_filters, job_detail)
     if not eligible:
