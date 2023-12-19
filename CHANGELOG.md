@@ -1,3 +1,12 @@
+## [1.32.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.0...v1.32.1) (2023-12-19)
+
+
+### Bug Fixes
+
+* **ai:** solves the initialization of openai ([a32bfaf](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a32bfaf5b202f75eb4f5e84ca1eb7b05091e7b74))
+
+
+
 # [1.32.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.31.0...v1.32.0) (2023-12-19)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** solves the body of post issues ([733bee5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/733bee5dc5d24c903ce6c6a32cd8b9d9461d4398))
-
-
-
-## [1.29.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.29.2...v1.29.3) (2023-09-28)
-
-
-### Bug Fixes
-
-* **linkedin:** solves the company-size issue ([124498c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/124498cda69343d6dcd712ab57b2667b61fdf44d))
 
 
 
