@@ -285,7 +285,7 @@ def check_job_pages():
     pages = lin_models.JobSearch.objects.filter(enable=True).order_by("-priority")
     for page in pages:
         now = timezone.localtime()
-        print(f"{now} start crawling linkedin page {page.name}")
+        logger.info(f"{now} start crawling linkedin page {page.name}")
         get_job_page_posts(page.pk)
 
 
@@ -792,7 +792,7 @@ def check_expression_search_pages():
     pages = lin_models.ExpressionSearch.objects.filter(enable=True)
     for page in pages:
         start_time = timezone.localtime()
-        print(f"{start_time} Start crawling linkedin page {page.name}")
+        logger.info(f"{start_time} Start crawling linkedin page {page.name}")
         get_expression_search_posts(page.pk)
 
 
