@@ -67,6 +67,8 @@ services:
     container_name : social_redis
     image: redis:6.2-alpine
     restart: unless-stopped
+    volumes:
+      - ./social_redis_volume:/data
     networks:
       - social_network
 
