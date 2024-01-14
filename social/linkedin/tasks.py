@@ -2,8 +2,8 @@ import time
 import sys
 import pickle
 import traceback
-import redis
 from typing import Tuple, Optional
+import redis
 
 from django.conf import settings
 from django.utils import timezone
@@ -285,7 +285,7 @@ def check_job_pages():
     pages = lin_models.JobSearch.objects.filter(enable=True).order_by("-priority")
     for page in pages:
         now = timezone.localtime()
-        logger.info(f"{now} start crawling linkedin page {page.name}")
+        logger.info("%s start crawling linkedin page %s", now, page.name)
         get_job_page_posts(page.pk)
 
 
@@ -634,8 +634,8 @@ def get_job_page_posts(
         )
         update_job_search_last_crawl_at.delay(page_id)
         check_page_count.delay(page_id, ignore_repetitive, starting_job)
-    except Exception as e:
-        msg = f"Error in get_job_page_posts: {e}"
+    except Exception as error:
+        msg = f"Error in get_job_page_posts: {error}"
         msg += f"\npage_id: {page_id}, starting_job: {starting_job}"
         msg += f"\nignore_repetitive: {ignore_repetitive}"
         msg = f"\n{traceback.format_exc()}"
@@ -742,7 +742,7 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
             )
             counter = process_articles(driver, articles, ignore_repetitive, page)
 
-        logger.info(f"found {counter} post in page {page_id}")
+        logger.info("found %s post in page %s", counter, page_id)
         update_expression_search_last_crawl_at.delay(page.pk)
     except Exception as e:
         logger.error(f"Error in get_expression_search_posts: {e}")

@@ -49,7 +49,7 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         field.name for field in models.IgnoredJob._meta.get_fields()
     )
 
-    def remove_all_objects(self, request, queryset):
+    def remove_all_objects(self, request, _queryset):
         models.IgnoredJob.objects.all().delete()
 
     actions = (remove_all_objects,)
