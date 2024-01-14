@@ -1,6 +1,6 @@
 import os
-from openai import OpenAI
 from typing import Optional
+from openai import OpenAI
 
 
 def query_openai(query: str, model: str = "gpt-3.5-turbo") -> Optional[str]:
