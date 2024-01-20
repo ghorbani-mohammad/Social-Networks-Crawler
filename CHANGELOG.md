@@ -1,3 +1,12 @@
+# [1.35.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.34.1...v1.35.0) (2024-01-20)
+
+
+### Features
+
+* **ai:** adds cover-letter model ([1ea0147](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/1ea0147cfa7acac84633924c34bb1d7fa957e7b7))
+
+
+
 ## [1.34.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.34.0...v1.34.1) (2023-12-30)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **ai:** solves the initialization of openai ([a32bfaf](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a32bfaf5b202f75eb4f5e84ca1eb7b05091e7b74))
-
-
-
-# [1.32.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.31.0...v1.32.0) (2023-12-19)
-
-
-### Features
-
-* **ai:** adds get-cover-letter function ([5482ae3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/5482ae339aab63df43935297000bee4bea3e2483))
 
 
 
