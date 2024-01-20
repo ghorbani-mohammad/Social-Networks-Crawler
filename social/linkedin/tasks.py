@@ -332,9 +332,7 @@ def is_english(language):
 
 
 def check_eligible(keyword, job_detail):
-    if keyword.lower() in job_detail.lower():
-        return False
-    return True
+    return keyword.lower() not in job_detail.lower()
 
 
 def is_eligible(ig_filters, job_detail) -> Tuple[bool, Optional[str]]:
