@@ -1,8 +1,12 @@
+import logging
+
 from django.db import models, transaction
 
 from user.models import Profile
 from reusable.models import BaseModel
 from . import tasks
+
+logger = logging.getLogger(__name__)
 
 
 class CoverLetter(BaseModel):
@@ -15,7 +19,7 @@ class CoverLetter(BaseModel):
     )
 
     def save(self, *args, **kwargs):
-        created = bool(self.pk)
+        created = self.pk is None
         with transaction.atomic():
             if created:
                 transaction.on_commit(lambda: tasks.create_cover_letter.delay(self.pk))
