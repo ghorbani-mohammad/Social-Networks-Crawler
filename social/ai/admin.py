@@ -7,3 +7,4 @@ from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 @admin.register(models.CoverLetter)
 class CoverLetterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "profile", "created_at")
+    readonly_fields = ("cover_letter",)
