@@ -11,6 +11,7 @@ __pycache__/
 *.pyc
 *.sql
 *.sql.gz
+*.rdb
 db.sqlite3
 local_settings.py
 social/celerybeat-schedule
