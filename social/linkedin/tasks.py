@@ -735,9 +735,15 @@ def get_expression_search_posts(page_id, ignore_repetitive=True):
         with initialize_linkedin_driver() as driver:
             driver.get(page.url)
             wait = WebDriverWait(driver, 10)
-            articles = wait.until(
-                EC.presence_of_all_elements_located((By.CLASS_NAME, "artdeco-card"))
-            )
+
+            try:
+                articles = wait.until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME, "artdeco-card"))
+                )
+            except StaleElementReferenceException:
+                logger.warning("Stale element reference exception")
+                return
+
             counter = process_articles(driver, articles, ignore_repetitive, page)
 
         logger.info("found %s post in page %s", counter, page_id)
