@@ -1,3 +1,12 @@
+# [1.36.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.35.0...v1.36.0) (2024-09-01)
+
+
+### Features
+
+* catching stale elements when fetching expression searches ([4bdb0be](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4bdb0be94ba4a128bf3b1ecef094a162af67b4af))
+
+
+
 # [1.35.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.34.1...v1.35.0) (2024-01-20)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** adds cover letter to jobs ([d3130b6](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d3130b63b3bd3e99062f9ed0ca186583a77045d7))
-
-
-
-## [1.32.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.0...v1.32.1) (2023-12-19)
-
-
-### Bug Fixes
-
-* **ai:** solves the initialization of openai ([a32bfaf](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a32bfaf5b202f75eb4f5e84ca1eb7b05091e7b74))
 
 
 
