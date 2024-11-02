@@ -395,8 +395,9 @@ def get_job_title(element):
         title_element = element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title")
         if title_element.find_element(By.TAG_NAME, "strong"):
             title = title_element.find_element(By.TAG_NAME, "strong").text
+            logger.info(f"Strong Title: {title}")
         title = title_element.text
-        logger.info(f"Title: {title}")
+        logger.info(f"Usual Title: {title}")
         return title
     except NoSuchElementException:
         return "Cannot-extract-title"
