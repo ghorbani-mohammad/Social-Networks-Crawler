@@ -391,7 +391,10 @@ def get_job_title(element):
         str: job title
     """
     try:
-        return element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title").text
+        title_element = element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title")
+        if title_element.find_element(By.TAG_NAME, "strong"):
+            return title_element.find_element(By.TAG_NAME, "strong").text
+        return title_element.text
     except NoSuchElementException:
         return "Cannot-extract-title"
 
