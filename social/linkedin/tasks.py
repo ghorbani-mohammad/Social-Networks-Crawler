@@ -807,8 +807,8 @@ def check_expression_search_pages():
 def store_ignored_content(job_detail):
     job_detail.pop("company_size", None)  # Remove extra key
     job_detail.pop("easy_apply", None)  # Remove extra key
-    job_detail['title'] = job_detail['title'][:300]
-    job_detail['location'] = job_detail['location'][:200]
-    job_detail['company'] = job_detail['company'][:100]
-    job_detail['language'] = job_detail['language'][:40]
+    job_detail['title'] = job_detail['title'][:max(300, len(job_detail['title']))]
+    job_detail['location'] = job_detail['location'][:max(200, len(job_detail['location']))]
+    job_detail['company'] = job_detail['company'][:max(100, len(job_detail['company']))]
+    job_detail['language'] = job_detail['language'][:max(40, len(job_detail['language']))]
     lin_models.IgnoredJob.objects.create(**job_detail)
