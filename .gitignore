@@ -19,6 +19,7 @@ social/celerybeat.pid
 social/static
 static
 telegram_sessions/
+logs/
 todo
 venv
 social_db_volume
