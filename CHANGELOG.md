@@ -1,3 +1,12 @@
+# [1.37.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.36.0...v1.37.0) (2024-11-02)
+
+
+### Features
+
+* improves jobs' title extractor ([2232894](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2232894a9ed7d27c9f13ba90ac2847ac9cfbefb2))
+
+
+
 # [1.36.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.35.0...v1.36.0) (2024-09-01)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **ai:** improves chatgpt query ([e92c0e8](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e92c0e813e40acc3b392545c298a36243660f63a))
-
-
-
-# [1.33.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.1...v1.33.0) (2023-12-19)
-
-
-### Features
-
-* **linkedin:** adds cover letter to jobs ([d3130b6](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d3130b63b3bd3e99062f9ed0ca186583a77045d7))
 
 
 
