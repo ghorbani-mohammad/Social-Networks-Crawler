@@ -75,6 +75,10 @@ class JobSearch(BaseModel):
             self.ignore_filters.all(),
         )
 
+    @property
+    def ignoring_filters_count(self):
+        return self.ignore_filters.count()
+
     def __str__(self):
         return f"({self.pk} - {self.name})"
 

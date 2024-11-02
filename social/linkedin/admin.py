@@ -1,8 +1,8 @@
 from django.contrib import admin
 
+from . import models, tasks
 from django.utils.html import format_html
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
-from . import models, tasks
 
 
 @admin.register(models.JobSearch)
@@ -16,6 +16,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "enable",
         "priority",
         "page_count",
+        "ignoring_filters_count",
         "output_channel",
         "last_crawl_at",
     )
