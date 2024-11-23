@@ -335,7 +335,9 @@ def check_eligible(keyword, job_detail):
     return keyword.lower() not in job_detail.lower()
 
 
-def is_eligible(ig_filters, job_detail) -> Tuple[bool, Optional[str]]:
+def is_eligible(
+    ig_filters, just_easily_apply: bool, job_detail: dict
+) -> Tuple[bool, Optional[str]]:
     """Checks if job is eligible or not based on job_detail and ignoring filters
     Details are job's title, job's company, job's location
 
@@ -346,6 +348,8 @@ def is_eligible(ig_filters, job_detail) -> Tuple[bool, Optional[str]]:
     Returns:
         bool: True if is eligible otherwise is False
     """
+    if just_easily_apply and job_detail["easy_apply"] == "❌":
+        return False, "easy_apply"
     if not is_english(job_detail["language"]):
         return False, "language"
     for ig_filter in ig_filters:
@@ -391,7 +395,9 @@ def get_job_title(element):
         str: job title
     """
     try:
-        title_element = element.find_element(By.CLASS_NAME, "artdeco-entity-lockup__title")
+        title_element = element.find_element(
+            By.CLASS_NAME, "artdeco-entity-lockup__title"
+        )
         if title_element.find_element(By.TAG_NAME, "strong"):
             return title_element.find_element(By.TAG_NAME, "strong").text
         return title_element.text
@@ -531,7 +537,7 @@ def send_notification(message, data, keywords, output_channel_pk, cover_letter: 
     )
 
 
-def get_job_detail(driver, element):
+def get_job_detail(driver, element) -> dict:
     """This function gets browser driver and job html content and returns some
     information like job-link, job-desc and job-language.
 
@@ -611,7 +617,14 @@ def get_job_page_posts(
     This function gets a page id and crawl its jobs.
     """
     page = lin_models.JobSearch.objects.get(pk=page_id)
-    message, url, output_channel, keywords, ig_filters = page.page_data
+    (
+        message,
+        url,
+        output_channel,
+        keywords,
+        ig_filters,
+        just_easily_apply,
+    ) = page.page_data
     try:
         with initialize_linkedin_driver() as driver:
             prepare_driver(driver, url, starting_job)
@@ -627,6 +640,7 @@ def get_job_page_posts(
                 keywords,
                 output_channel,
                 ig_filters,
+                just_easily_apply,
                 page.profile.about_me,
             )
 
@@ -659,6 +673,7 @@ def process_items(
     keywords,
     output_channel,
     ig_filters,
+    just_easily_apply: bool,
     about_profile: str,
 ):
     counter = 0
@@ -672,6 +687,7 @@ def process_items(
                 keywords,
                 output_channel,
                 ig_filters,
+                just_easily_apply,
                 about_profile,
             )
             if job_id:
@@ -694,6 +710,7 @@ def process_job_item(
     keywords,
     output_channel,
     ig_filters,
+    just_easily_apply: bool,
     about_profile: str,
 ):
     driver.execute_script("arguments[0].scrollIntoView();", item)
@@ -713,7 +730,7 @@ def process_job_item(
     # logger.info(f"cover_letter: {cover_letter}")
     cover_letter = ""
 
-    eligible, reason = is_eligible(ig_filters, job_detail)
+    eligible, reason = is_eligible(ig_filters, just_easily_apply, job_detail)
     if not eligible:
         logger.info(f"Job is not eligible, reason: {reason}")
         store_ignored_content.delay(job_detail)
@@ -807,8 +824,14 @@ def check_expression_search_pages():
 def store_ignored_content(job_detail):
     job_detail.pop("company_size", None)  # Remove extra key
     job_detail.pop("easy_apply", None)  # Remove extra key
-    job_detail['title'] = job_detail['title'][:max(300, len(job_detail['title']))]
-    job_detail['location'] = job_detail['location'][:max(200, len(job_detail['location']))]
-    job_detail['company'] = job_detail['company'][:max(100, len(job_detail['company']))]
-    job_detail['language'] = job_detail['language'][:max(40, len(job_detail['language']))]
+    job_detail["title"] = job_detail["title"][: max(300, len(job_detail["title"]))]
+    job_detail["location"] = job_detail["location"][
+        : max(200, len(job_detail["location"]))
+    ]
+    job_detail["company"] = job_detail["company"][
+        : max(100, len(job_detail["company"]))
+    ]
+    job_detail["language"] = job_detail["language"][
+        : max(40, len(job_detail["language"]))
+    ]
     lin_models.IgnoredJob.objects.create(**job_detail)

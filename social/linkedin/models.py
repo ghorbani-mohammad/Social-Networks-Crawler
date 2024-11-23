@@ -74,6 +74,7 @@ class JobSearch(BaseModel):
             self.output_channel.pk,
             self.keywords_in_array,
             self.ignore_filters.all(),
+            self.just_easily_apply,
         )
 
     @property
