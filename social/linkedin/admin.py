@@ -14,11 +14,11 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "name",
         "page_link",
         "enable",
+        "just_easily_apply",
         "priority",
         "page_count",
         "ignoring_filters_count",
         "output_channel",
-        "just_easily_apply",
         "last_crawl_at",
     )
 
