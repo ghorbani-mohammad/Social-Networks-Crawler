@@ -1,3 +1,13 @@
+# [1.38.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.37.0...v1.38.0) (2024-11-23)
+
+
+### Features
+
+* **linkedin:** add 'just_easily_apply' field to JobSearch model and admin ([dba9f3a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/dba9f3a2264803e6dd509193f0cff9d81453158f))
+* **linkedin:** integrate 'just_easily_apply' functionality into job eligibility checks ([285b3f4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/285b3f43576a03f85ca9ae58685db5a5d7ce8b90))
+
+
+
 # [1.37.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.36.0...v1.37.0) (2024-11-02)
 
 
@@ -31,15 +41,6 @@
 ### Bug Fixes
 
 * **linkedin:** solves the issue of company-size ([7f31e87](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7f31e87e1b087ae990d643574620b2c1ade4f18d))
-
-
-
-# [1.34.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.33.0...v1.34.0) (2023-12-19)
-
-
-### Features
-
-* **ai:** improves chatgpt query ([e92c0e8](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e92c0e813e40acc3b392545c298a36243660f63a))
 
 
 
