@@ -18,6 +18,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "page_count",
         "ignoring_filters_count",
         "output_channel",
+        "just_easily_apply",
         "last_crawl_at",
     )
 

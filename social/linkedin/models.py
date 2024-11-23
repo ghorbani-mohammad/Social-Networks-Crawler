@@ -34,14 +34,15 @@ class JobSearch(BaseModel):
     enable = models.BooleanField(default=True)
     message = models.TextField(null=True, blank=True)
     last_crawl_at = models.DateTimeField(null=True, blank=True)
+    keywords = models.ManyToManyField(Keyword, blank=True)
+    ignore_filters = models.ManyToManyField(IgnoringFilter, blank=True)
+    just_easily_apply = models.BooleanField(default=False)
     output_channel = models.ForeignKey(
         "notification.Channel",
         on_delete=models.SET_NULL,
         null=True,
         related_name="linkedin_pages",
     )
-    keywords = models.ManyToManyField(Keyword, blank=True)
-    ignore_filters = models.ManyToManyField(IgnoringFilter, blank=True)
     page_count = models.PositiveSmallIntegerField(
         help_text="how many pages should be crawled", default=1, blank=True
     )
