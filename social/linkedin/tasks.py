@@ -20,6 +20,7 @@ from selenium.common.exceptions import (
     SessionNotCreatedException,
     StaleElementReferenceException,
 )
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -365,7 +366,7 @@ def is_eligible(
     return True, None
 
 
-def get_job_url(element):
+def get_job_url(element: WebElement):
     """Extract selected job url from driver
 
     Args:
@@ -385,7 +386,7 @@ def get_job_url(element):
     return url
 
 
-def get_job_title(element):
+def get_job_title(element: WebElement):
     """Extract selected job title from driver
 
     Args:
@@ -405,19 +406,20 @@ def get_job_title(element):
         return "Cannot-extract-title"
 
 
-def check_easy_apply(element):
+def check_easy_apply(element: WebElement):
     """Check if job has easy apply option
 
     Args:
-        driver (WebDriver): browser driver
+        driver (element): job element
 
     Returns:
         str: check-mark emoji
     """
     try:
+        # if found then it has easy apply option
         element.find_element(
             By.XPATH,
-            './/svg[contains("@data-test-icon", "linkedin-bug-color-small")]',
+            './/*[local-name()="svg" and @data-test-icon="linkedin-bug-color-small"]',
         )
         return "✅"
     except NoSuchElementException:
