@@ -44,6 +44,7 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "location",
         "company",
         "language",
+        "reason",
         "url",
         "created_at",
     )
