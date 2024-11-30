@@ -52,7 +52,7 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         field.name for field in models.IgnoredJob._meta.get_fields()
     )
 
-    def job_url(self, obj:models.IgnoredJob):
+    def job_url(self, obj: models.IgnoredJob):
         return format_html("<a href='{url}'>Link</a>", url=obj.url)
 
     def remove_all_objects(self, request, _queryset):

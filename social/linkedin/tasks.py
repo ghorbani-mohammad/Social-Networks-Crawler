@@ -415,7 +415,10 @@ def check_easy_apply(element):
         str: check-mark emoji
     """
     try:
-        element.find_element(By.CLASS_NAME, "job-card-container__apply-method")
+        element.find_element(
+            By.XPATH,
+            './/svg[contains("@data-test-icon", "linkedin-bug-color-small")]',
+        )
         return "✅"
     except NoSuchElementException:
         return "❌"
