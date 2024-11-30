@@ -629,9 +629,7 @@ def get_job_page_posts(
         with initialize_linkedin_driver() as driver:
             prepare_driver(driver, url, starting_job)
             time.sleep(5)
-            items = driver.find_elements(
-                By.CLASS_NAME, "jobs-search-results__list-item"
-            )
+            items = driver.find_elements(By.CLASS_NAME, "scaffold-layout__list-item")
             counter = process_items(
                 driver,
                 items,
@@ -733,7 +731,7 @@ def process_job_item(
     eligible, reason = is_eligible(ig_filters, just_easily_apply, job_detail)
     if not eligible:
         logger.info(f"Job is not eligible, reason: {reason}")
-        store_ignored_content.delay(job_detail)
+        store_ignored_content.delay(job_detail, reason)
         return None
 
     time.sleep(2)  # Delay between sending each message
@@ -821,7 +819,7 @@ def check_expression_search_pages():
 
 
 @shared_task
-def store_ignored_content(job_detail):
+def store_ignored_content(job_detail, reason: str):
     job_detail.pop("company_size", None)  # Remove extra key
     job_detail.pop("easy_apply", None)  # Remove extra key
     job_detail["title"] = job_detail["title"][: max(300, len(job_detail["title"]))]
@@ -834,4 +832,5 @@ def store_ignored_content(job_detail):
     job_detail["language"] = job_detail["language"][
         : max(40, len(job_detail["language"]))
     ]
+    job_detail["reason"] = reason
     lin_models.IgnoredJob.objects.create(**job_detail)
