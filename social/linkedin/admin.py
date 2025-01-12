@@ -70,6 +70,7 @@ class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
     list_display = ("pk", "place", "keyword", "created_at")
     list_filter = ("place",)
+    search_fields = ("keyword",)
 
 
 @admin.register(models.ExpressionSearch)
