@@ -119,6 +119,7 @@ def login():
         WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.ID, "global-nav-search"))
         )
+        logger.info("Logged in to LinkedIn")
 
         with open("/app/social/linkedin_cookies.pkl", "wb") as linkedin_cookie:
             pickle.dump(driver.get_cookies(), linkedin_cookie)
