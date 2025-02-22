@@ -1,3 +1,12 @@
+# [1.41.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.40.0...v1.41.0) (2025-02-22)
+
+
+### Features
+
+* **linkedin:** add login confirmation logging ([90ade2d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/90ade2df3538099ba66bf5f0da84bcca9ac358ba))
+
+
+
 # [1.40.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.39.0...v1.40.0) (2025-01-12)
 
 
@@ -33,15 +42,6 @@
 ### Features
 
 * improves jobs' title extractor ([2232894](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2232894a9ed7d27c9f13ba90ac2847ac9cfbefb2))
-
-
-
-# [1.36.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.35.0...v1.36.0) (2024-09-01)
-
-
-### Features
-
-* catching stale elements when fetching expression searches ([4bdb0be](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/4bdb0be94ba4a128bf3b1ecef094a162af67b4af))
 
 
 
