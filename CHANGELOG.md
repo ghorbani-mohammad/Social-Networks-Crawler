@@ -1,3 +1,12 @@
+# [1.44.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.43.0...v1.44.0) (2025-02-23)
+
+
+### Features
+
+* **linkedin:** add last_crawl_count field to track job search results ([e6148bb](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e6148bb3d96858ea09c1b32b6f3b69d454d608b4))
+
+
+
 # [1.43.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.42.0...v1.43.0) (2025-02-23)
 
 
@@ -31,16 +40,6 @@
 ### Features
 
 * **linkedin:** add search functionality for IgnoringFilterAdmin using keyword field ([cab932c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/cab932c63aaa1c0933000a6416ccfcb8756bd3ae))
-
-
-
-# [1.39.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.38.0...v1.39.0) (2024-11-30)
-
-
-### Features
-
-* **linkedin:** add 'reason' field to IgnoredJob model and update related functionality ([fc5077a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/fc5077a22dd3c4964d22f43b1a6d4ba90fe710b4))
-* **linkedin:** add 'reason' field to IgnoredJobAdmin display ([b95e317](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/b95e3172a9f6c68f4fb6e747a79d52a944ea2e04))
 
 
 
