@@ -1,3 +1,12 @@
+# [1.42.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.41.0...v1.42.0) (2025-02-23)
+
+
+### Features
+
+* **docker:** expose VNC port for browser automation ([98ae509](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/98ae509941a6fa7fd35aca3859881428abcf1f45))
+
+
+
 # [1.41.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.40.0...v1.41.0) (2025-02-22)
 
 
@@ -33,15 +42,6 @@
 
 * **linkedin:** add 'just_easily_apply' field to JobSearch model and admin ([dba9f3a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/dba9f3a2264803e6dd509193f0cff9d81453158f))
 * **linkedin:** integrate 'just_easily_apply' functionality into job eligibility checks ([285b3f4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/285b3f43576a03f85ca9ae58685db5a5d7ce8b90))
-
-
-
-# [1.37.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.36.0...v1.37.0) (2024-11-02)
-
-
-### Features
-
-* improves jobs' title extractor ([2232894](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/2232894a9ed7d27c9f13ba90ac2847ac9cfbefb2))
 
 
 
