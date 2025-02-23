@@ -1,3 +1,12 @@
+# [1.43.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.42.0...v1.43.0) (2025-02-23)
+
+
+### Features
+
+* **docker:** configure VNC password and authentication ([f3a3e5b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f3a3e5bea171e715efe45b62512eb60038cc895f))
+
+
+
 # [1.42.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.41.0...v1.42.0) (2025-02-23)
 
 
@@ -32,16 +41,6 @@
 
 * **linkedin:** add 'reason' field to IgnoredJob model and update related functionality ([fc5077a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/fc5077a22dd3c4964d22f43b1a6d4ba90fe710b4))
 * **linkedin:** add 'reason' field to IgnoredJobAdmin display ([b95e317](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/b95e3172a9f6c68f4fb6e747a79d52a944ea2e04))
-
-
-
-# [1.38.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.37.0...v1.38.0) (2024-11-23)
-
-
-### Features
-
-* **linkedin:** add 'just_easily_apply' field to JobSearch model and admin ([dba9f3a](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/dba9f3a2264803e6dd509193f0cff9d81453158f))
-* **linkedin:** integrate 'just_easily_apply' functionality into job eligibility checks ([285b3f4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/285b3f43576a03f85ca9ae58685db5a5d7ce8b90))
 
 
 
