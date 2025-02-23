@@ -83,6 +83,11 @@ services:
       - social_network
     ports:
       - 7900:7900
+    env_file:
+    - .env
+    environment:
+      - VNC_PASSWORD=${VNC_PASSWORD}
+      - VNC_NO_PASSWORD=0
 
 networks:
   social_network:
