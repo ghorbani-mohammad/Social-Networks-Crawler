@@ -7,7 +7,7 @@ from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 @admin.register(models.JobSearch)
 class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
-    readonly_fields = ("last_crawl_at",)
+    readonly_fields = ("last_crawl_at", "last_crawl_count")
     list_display = (
         "pk",
         "profile",
@@ -20,6 +20,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
         "ignoring_filters_count",
         "output_channel",
         "last_crawl_at",
+        "last_crawl_count",
     )
 
     def page_link(self, obj):

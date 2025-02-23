@@ -602,7 +602,7 @@ def check_page_count(page_id: int, ignore_repetitive: bool, starting_job: int):
 
 
 @shared_task
-def update_job_search_last_crawl_at(page_id: int):
+def update_job_search_last_crawl_at(page_id: int, counter: int):
     """Update last_crawl_at field of JobSearch object.
         Will be updated after crawling each page.
         To current time.
@@ -611,7 +611,8 @@ def update_job_search_last_crawl_at(page_id: int):
         page_id (int): the primary key of JobSearch obj.
     """
     lin_models.JobSearch.objects.filter(pk=page_id).update(
-        last_crawl_at=timezone.localtime()
+        last_crawl_at=timezone.localtime(),
+        last_crawl_count=counter
     )
 
 
@@ -647,11 +648,10 @@ def get_job_page_posts(
                 just_easily_apply,
                 page.profile.about_me,
             )
-
         logger.info(
             f"found {counter} jobs in page: {page_id} with starting-job: {starting_job}"
         )
-        update_job_search_last_crawl_at.delay(page_id)
+        update_job_search_last_crawl_at.delay(page_id, counter)
         check_page_count.delay(page_id, ignore_repetitive, starting_job)
     except Exception as error:
         msg = f"Error in get_job_page_posts: {error}"
