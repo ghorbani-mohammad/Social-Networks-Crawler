@@ -1,3 +1,12 @@
+## [1.44.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.1...v1.44.2) (2025-03-08)
+
+
+### Bug Fixes
+
+* **linkedin:** enhance company size extraction error messages ([45bbd4d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/45bbd4dee30fd89dc9d37688462aa0fb728cd10c))
+
+
+
 ## [1.44.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.0...v1.44.1) (2025-03-08)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **docker:** expose VNC port for browser automation ([98ae509](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/98ae509941a6fa7fd35aca3859881428abcf1f45))
-
-
-
-# [1.41.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.40.0...v1.41.0) (2025-02-22)
-
-
-### Features
-
-* **linkedin:** add login confirmation logging ([90ade2d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/90ade2df3538099ba66bf5f0da84bcca9ac358ba))
 
 
 
