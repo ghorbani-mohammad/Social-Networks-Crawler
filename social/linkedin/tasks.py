@@ -609,7 +609,9 @@ def update_job_search_last_crawl_at(page_id: int, counter: int):
 
     Args:
         page_id (int): the primary key of JobSearch obj.
+        counter (int): number of jobs found in this crawl
     """
+    # Simply update with the most recent crawl count
     lin_models.JobSearch.objects.filter(pk=page_id).update(
         last_crawl_at=timezone.localtime(),
         last_crawl_count=counter
