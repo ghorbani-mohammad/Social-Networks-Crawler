@@ -1,3 +1,12 @@
+## [1.44.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.0...v1.44.1) (2025-03-08)
+
+
+### Bug Fixes
+
+* **linkedin:** improve company size extraction error handling ([9cf2c9d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/9cf2c9db3440b4114495bf9f2f59ed2a2ec45ebe))
+
+
+
 # [1.44.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.43.0...v1.44.0) (2025-02-23)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** add login confirmation logging ([90ade2d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/90ade2df3538099ba66bf5f0da84bcca9ac358ba))
-
-
-
-# [1.40.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.39.0...v1.40.0) (2025-01-12)
-
-
-### Features
-
-* **linkedin:** add search functionality for IgnoringFilterAdmin using keyword field ([cab932c](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/cab932c63aaa1c0933000a6416ccfcb8756bd3ae))
 
 
 
