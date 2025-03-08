@@ -491,13 +491,13 @@ def get_job_company_size(driver):
             By.CLASS_NAME, "job-details-jobs-unified-top-card__job-insight"
         )
         if not company_size_el:
-            return "N/A"
+            return "Cannot-extract-company-size (empty element)"
         company_size = company_size_el[1].text
         return company_size.split("·")[0].replace("employees", "")
     except NoSuchElementException:
-        return "N/A"
+        return "Cannot-extract-company-size (no such element)"
     except IndexError:
-        return "N/A"
+        return "Cannot-extract-company-size (index error)"
 
 
 def get_language(description):
