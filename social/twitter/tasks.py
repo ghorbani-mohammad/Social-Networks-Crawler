@@ -42,9 +42,12 @@ def get_driver():
         webdriver: webdriver object
     """
     try:
+        # Create Firefox options
+        
         return webdriver.Remote(
             "http://social_firefox:4444/wd/hub",
             DesiredCapabilities.FIREFOX,
+            options=webdriver.FirefoxOptions(),
         )
     except SessionNotCreatedException as err:
         logger.info("Error: %s\n\n%s", err, traceback.format_exc())
