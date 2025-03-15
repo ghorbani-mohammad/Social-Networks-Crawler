@@ -61,6 +61,9 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
     actions = (remove_all_objects,)
 
+    def has_add_permission(self, request):
+        return False
+
 
 @admin.register(models.Keyword)
 class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
