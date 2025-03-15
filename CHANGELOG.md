@@ -1,3 +1,12 @@
+## [1.44.6](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.5...v1.44.6) (2025-03-15)
+
+
+### Bug Fixes
+
+* **twitter:** update Twitter references to X and change cookie file names ([8b89056](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8b89056e8072ec9284790b5fe71b835f1773e5d3))
+
+
+
 ## [1.44.5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.4...v1.44.5) (2025-03-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** enhance company size extraction error messages ([45bbd4d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/45bbd4dee30fd89dc9d37688462aa0fb728cd10c))
-
-
-
-## [1.44.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.0...v1.44.1) (2025-03-08)
-
-
-### Bug Fixes
-
-* **linkedin:** improve company size extraction error handling ([9cf2c9d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/9cf2c9db3440b4114495bf9f2f59ed2a2ec45ebe))
 
 
 
