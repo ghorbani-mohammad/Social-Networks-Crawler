@@ -67,10 +67,10 @@ def initialize_twitter_driver():
         return None
 
     cookies = None
-    with open("/app/social/twitter_cookies.pkl", "rb") as twitter_cookie:
+    with open("/app/social/x_cookies.pkl", "rb") as twitter_cookie:
         cookies = pickle.load(twitter_cookie)
 
-    driver.get("https://www.twitter.com/")
+    driver.get("https://www.x.com/")
     for cookie in cookies:
         driver.add_cookie(cookie)
     return driver
@@ -91,7 +91,7 @@ def login():
     driver = get_driver()
     if driver is None:
         return
-    driver.get("https://twitter.com/i/flow/login")
+    driver.get("https://x.com/i/flow/login")
     time.sleep(5)
     username_elem = driver.find_element("xpath", "//input[@autocomplete='username']")
     username_elem.send_keys(settings.TWITTER_USERNAME)
@@ -104,7 +104,7 @@ def login():
     password_elem.send_keys(Keys.ENTER)
     time.sleep(5)
 
-    with open("/app/social/twitter_cookies.pkl", "wb") as twitter_cookie:
+    with open("/app/social/x_cookies.pkl", "wb") as twitter_cookie:
         pickle.dump(driver.get_cookies(), twitter_cookie)
 
     driver_exit(driver)
