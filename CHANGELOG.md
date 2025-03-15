@@ -1,3 +1,12 @@
+## [1.44.5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.4...v1.44.5) (2025-03-15)
+
+
+### Bug Fixes
+
+* **twitter:** add Firefox options to remote webdriver initialization ([f0cf021](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f0cf0215ac29015e9d4b44f98f461aa091ffb9bd))
+
+
+
 ## [1.44.4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.3...v1.44.4) (2025-03-15)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * **linkedin:** improve company size extraction error handling ([9cf2c9d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/9cf2c9db3440b4114495bf9f2f59ed2a2ec45ebe))
-
-
-
-# [1.44.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.43.0...v1.44.0) (2025-02-23)
-
-
-### Features
-
-* **linkedin:** add last_crawl_count field to track job search results ([e6148bb](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e6148bb3d96858ea09c1b32b6f3b69d454d608b4))
 
 
 
