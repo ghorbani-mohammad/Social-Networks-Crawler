@@ -1,3 +1,12 @@
+## [1.44.4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.3...v1.44.4) (2025-03-15)
+
+
+### Bug Fixes
+
+* **linkedin:** disable add permission for IgnoredJobAdmin ([6416622](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/641662232f353fa938ac68bed6534df9a9baa51c))
+
+
+
 ## [1.44.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.2...v1.44.3) (2025-03-08)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **linkedin:** add last_crawl_count field to track job search results ([e6148bb](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e6148bb3d96858ea09c1b32b6f3b69d454d608b4))
-
-
-
-# [1.43.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.42.0...v1.43.0) (2025-02-23)
-
-
-### Features
-
-* **docker:** configure VNC password and authentication ([f3a3e5b](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f3a3e5bea171e715efe45b62512eb60038cc895f))
 
 
 
