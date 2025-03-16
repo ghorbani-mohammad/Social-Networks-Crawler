@@ -25,15 +25,15 @@ def config_loggers(*_args, **_kwags):
 app.conf.beat_schedule = {
     "check_channels_crawl": {
         "task": "network.tasks.check_channels_crawl",
-        "schedule": crontab(minute="*/30"),
+        "schedule": crontab(minute=0, hour="*/1"),
     },
     "get_linkedin_feed": {
         "task": "linkedin.tasks.get_linkedin_feed",
-        "schedule": crontab(minute="*/220"),
+        "schedule": crontab(minute=0, hour="*/5"),
     },
     "check_job_pages": {
         "task": "linkedin.tasks.check_job_pages",
-        "schedule": crontab(minute="*/180"),
+        "schedule": crontab(minute=0, hour="*/4"),
     },
     "check_linkedin_search_pages": {
         "task": "linkedin.tasks.check_expression_search_pages",
