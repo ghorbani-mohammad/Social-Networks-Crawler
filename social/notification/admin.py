@@ -10,7 +10,7 @@ class TelegramBotAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
 
 @admin.register(models.TelegramAccount)
-class TelegramAccountAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class TelegramAccountAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "chat_id", "created_at")
 
 
