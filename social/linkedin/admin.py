@@ -1,12 +1,12 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from . import models, tasks
-from django.utils.html import format_html
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 
 @admin.register(models.JobSearch)
-class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN):
     readonly_fields = ("last_crawl_at", "last_crawl_count")
     list_display = (
         "pk",
