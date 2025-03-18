@@ -5,7 +5,7 @@ from . import models
 
 
 @admin.register(models.TelegramBot)
-class TelegramBotAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class TelegramBotAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "created_at")
 
 
