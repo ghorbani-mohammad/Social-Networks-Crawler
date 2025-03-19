@@ -66,7 +66,7 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN):
 
 
 @admin.register(models.Keyword)
-class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "created_at")
 
 
