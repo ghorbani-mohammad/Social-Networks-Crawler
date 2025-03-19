@@ -71,7 +71,7 @@ class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN):
 
 
 @admin.register(models.IgnoringFilter)
-class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "place", "keyword", "created_at")
     list_filter = ("place",)
     search_fields = ("keyword",)
