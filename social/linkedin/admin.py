@@ -78,7 +78,7 @@ class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN):
 
 
 @admin.register(models.ExpressionSearch)
-class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "page_link", "enable", "last_crawl_at", "created_at")
     readonly_fields = ("last_crawl_at",)
 
