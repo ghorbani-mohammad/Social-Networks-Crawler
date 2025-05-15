@@ -5,15 +5,15 @@ from . import models
 
 
 @admin.register(models.TelegramBot)
-class TelegramBotAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class TelegramBotAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "created_at")
 
 
 @admin.register(models.TelegramAccount)
-class TelegramAccountAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class TelegramAccountAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "chat_id", "created_at")
 
 
 @admin.register(models.Channel)
-class ChannelAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class ChannelAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "username", "network", "created_at")

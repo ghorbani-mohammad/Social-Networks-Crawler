@@ -1,12 +1,12 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from . import models, tasks
-from django.utils.html import format_html
 from reusable.admins import ReadOnlyAdminDateFieldsMIXIN
 
 
 @admin.register(models.JobSearch)
-class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN):
     readonly_fields = ("last_crawl_at", "last_crawl_count")
     list_display = (
         "pk",
@@ -38,7 +38,7 @@ class JobSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
 
 @admin.register(models.IgnoredJob)
-class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = (
         "pk",
         "title",
@@ -66,19 +66,19 @@ class IgnoredJobAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
 
 
 @admin.register(models.Keyword)
-class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class KeywordAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "created_at")
 
 
 @admin.register(models.IgnoringFilter)
-class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class IgnoringFilterAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "place", "keyword", "created_at")
     list_filter = ("place",)
     search_fields = ("keyword",)
 
 
 @admin.register(models.ExpressionSearch)
-class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN, admin.ModelAdmin):
+class ExpressionSearchAdmin(ReadOnlyAdminDateFieldsMIXIN):
     list_display = ("pk", "name", "page_link", "enable", "last_crawl_at", "created_at")
     readonly_fields = ("last_crawl_at",)
 
