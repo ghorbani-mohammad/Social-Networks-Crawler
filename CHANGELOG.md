@@ -1,45 +1,45 @@
-# [1.35.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.34.1...v1.35.0) (2024-01-20)
-
-
-### Features
-
-* **ai:** adds cover-letter model ([1ea0147](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/1ea0147cfa7acac84633924c34bb1d7fa957e7b7))
-
-
-
-## [1.34.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.34.0...v1.34.1) (2023-12-30)
+## [1.44.6](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.5...v1.44.6) (2025-03-15)
 
 
 ### Bug Fixes
 
-* **linkedin:** solves the issue of company-size ([7f31e87](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/7f31e87e1b087ae990d643574620b2c1ade4f18d))
+* **twitter:** update Twitter references to X and change cookie file names ([8b89056](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/8b89056e8072ec9284790b5fe71b835f1773e5d3))
 
 
 
-# [1.34.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.33.0...v1.34.0) (2023-12-19)
-
-
-### Features
-
-* **ai:** improves chatgpt query ([e92c0e8](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/e92c0e813e40acc3b392545c298a36243660f63a))
-
-
-
-# [1.33.0](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.1...v1.33.0) (2023-12-19)
-
-
-### Features
-
-* **linkedin:** adds cover letter to jobs ([d3130b6](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/d3130b63b3bd3e99062f9ed0ca186583a77045d7))
-
-
-
-## [1.32.1](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.32.0...v1.32.1) (2023-12-19)
+## [1.44.5](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.4...v1.44.5) (2025-03-15)
 
 
 ### Bug Fixes
 
-* **ai:** solves the initialization of openai ([a32bfaf](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/a32bfaf5b202f75eb4f5e84ca1eb7b05091e7b74))
+* **twitter:** add Firefox options to remote webdriver initialization ([f0cf021](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/f0cf0215ac29015e9d4b44f98f461aa091ffb9bd))
+
+
+
+## [1.44.4](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.3...v1.44.4) (2025-03-15)
+
+
+### Bug Fixes
+
+* **linkedin:** disable add permission for IgnoredJobAdmin ([6416622](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/641662232f353fa938ac68bed6534df9a9baa51c))
+
+
+
+## [1.44.3](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.2...v1.44.3) (2025-03-08)
+
+
+### Bug Fixes
+
+* **linkedin:** simplify company size extraction error handling ([c833686](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/c833686d1df51a4e8d5290ff054f595a52c3ef79))
+
+
+
+## [1.44.2](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/compare/v1.44.1...v1.44.2) (2025-03-08)
+
+
+### Bug Fixes
+
+* **linkedin:** enhance company size extraction error messages ([45bbd4d](https://github.com/ghorbani-mohammad/Social-Networks-Crawler/commit/45bbd4dee30fd89dc9d37688462aa0fb728cd10c))
 
 
 
